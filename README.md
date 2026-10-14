@@ -66,7 +66,7 @@ Tempo estimado: cerca de 30 minutos.
    ```
    Ele copia o formulário de tarefa, o modelo de PR, o CI e os scripts de worktree, e cria `docs/DESENVOLVIMENTO.md` e `docs/memoria-do-projeto.md` carimbados com a versão do método. Nunca sobrescreve nada.
    Se um cenário escolhido ainda é `rascunho`, o script avisa (sem interromper) e o `DESENVOLVIMENTO.md` registra a maturidade de cada cenário: trate um rascunho como hipótese, não como regra.
-3. Dê o primeiro push da `main`, deixe o CI rodar uma vez e **depois** ative a proteção da `main` e crie as etiquetas (comandos em [05](nucleo/05-git-github-e-ci.md)).
+3. Dê o primeiro push da `main`, deixe o CI rodar uma vez e **depois** ative a proteção da `main` e crie as etiquetas (comandos em [05](nucleo/05-git-github-e-ci.md)). Em repositório privado, a proteção exige plano pago; o 05 diz o que fazer sem ela.
 4. Preencha os comandos do projeto no `docs/DESENVOLVIMENTO.md` e ajuste o CI para a sua stack.
 5. Defina o **alvo** da primeira entrega com [modelo-spec.md](modelos/modelo-spec.md) e [modelo-criterios-de-aceite.md](modelos/modelo-criterios-de-aceite.md).
 6. Abra a primeira issue com o formulário de tarefa e comece pela Fase 0 de [01](nucleo/01-fluxo-de-ponta-a-ponta.md).
