@@ -2,6 +2,11 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 2.1.0 (2026-10-14)
+
+- `scripts/novo-projeto.sh` avisa no stderr quando um cenário escolhido tem maturidade `rascunho` (sem interromper o script) e o `docs/DESENVOLVIMENTO.md` gerado marca a maturidade de cada cenário. Assim um rascunho não é tratado como regra comprovada ([decisão 004](decisoes/004-repositorio-do-metodo-em-camadas.md), caso do [portfólio pessoal](casos/2026-10-portfolio-pessoal.md)).
+- `scripts/verificar.mjs` cobre o aviso e a marcação de maturidade.
+
 ## 2.0.0 (2026-10-14)
 
 Reorganização em camadas, para o método crescer com novos cenários e casos de uso.
