@@ -5,6 +5,7 @@
 #   cenario             um ou mais nomes de arquivos em cenarios/ (sem .md), por exemplo: site-estatico api-backend
 # Copia: formulário de tarefa, modelo de PR, CI, scripts de worktree, e cria docs/DESENVOLVIMENTO.md e
 # docs/memoria-do-projeto.md carimbados com a versão do método. Nunca sobrescreve arquivos existentes.
+# Avisa no stderr (sem interromper) quando um cenário escolhido é rascunho.
 set -euo pipefail
 
 raiz="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -69,9 +70,20 @@ for item in "${copias[@]}"; do
 done
 chmod +x "$alvo/scripts/nova-tarefa.sh" "$alvo/scripts/remover-tarefa.sh"
 
+# Cada cenário leva a sua maturidade; rascunho gera aviso, mas não interrompe
 lista_cenarios="Nenhum cenário escolhido ainda (veja a pasta cenarios/ do repositório do método)."
 if [[ ${#cenarios[@]} -gt 0 ]]; then
-  lista_cenarios="$(printf -- '- %s\n' "${cenarios[@]}")"
+  linhas=()
+  for c in "${cenarios[@]}"; do
+    maturidade="$(sed -n 's/^\*\*Maturidade:\*\*[[:space:]]*//p' "$raiz/cenarios/$c.md" | head -n 1)"
+    if [[ "$maturidade" == "rascunho" ]]; then
+      echo "AVISO: o cenário $c é rascunho (nunca testado em projeto real); trate como hipótese, não como regra." >&2
+      linhas+=("- $c (rascunho: ainda não testado)")
+    else
+      linhas+=("- $c ($maturidade)")
+    fi
+  done
+  lista_cenarios="$(printf -- '%s\n' "${linhas[@]}")"
 fi
 
 mkdir -p "$alvo/docs"

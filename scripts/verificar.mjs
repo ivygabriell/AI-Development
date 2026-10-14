@@ -268,6 +268,16 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     const dev = existsSync(join(alvo, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
     checar('novo-projeto.sh carimba a versão do método', dev.includes(`Versão do método: ${versao}`));
     checar('novo-projeto.sh registra os cenários escolhidos', dev.includes('site-estatico') && dev.includes('api-backend'));
+    // Cenário rascunho gera aviso (sem travar); a maturidade de cada cenário vai para o DESENVOLVIMENTO.md
+    const maturidade = (nome) => (readFileSync(join(RAIZ, 'cenarios', `${nome}.md`), 'utf8').match(/^\*\*Maturidade:\*\*\s*(.+)$/m) || [])[1]?.trim();
+    checar('novo-projeto.sh avisa no stderr quando o cenário é rascunho (api-backend)', ok.stderr.includes('AVISO: o cenário api-backend é rascunho'), ok.stderr);
+    checar('novo-projeto.sh não avisa para cenário testado (site-estatico)', !ok.stderr.includes('o cenário site-estatico é'), ok.stderr);
+    checar('novo-projeto.sh marca a maturidade do cenário testado no DESENVOLVIMENTO.md', dev.includes(`- site-estatico (${maturidade('site-estatico')})`));
+    checar('novo-projeto.sh marca o cenário rascunho no DESENVOLVIMENTO.md', dev.includes('- api-backend (rascunho: ainda não testado)'));
+    const alvo_testado = join(base, 'projeto-testado');
+    mkdirSync(alvo_testado);
+    const so_testado = rodar(alvo_testado, 'site-estatico');
+    checar('novo-projeto.sh só com cenário testado conclui sem aviso', so_testado.status === 0 && !so_testado.stderr.includes('AVISO'), so_testado.stderr);
     try {
       accessSync(join(alvo, 'scripts/nova-tarefa.sh'), constants.X_OK);
       checar('novo-projeto.sh mantém os scripts executáveis', true);
