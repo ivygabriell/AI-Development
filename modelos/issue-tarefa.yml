@@ -1,0 +1,65 @@
+# Copie para .github/ISSUE_TEMPLATE/tarefa.yml (e crie ao lado um config.yml com `blank_issues_enabled: false`).
+name: Tarefa
+description: Uma tarefa para uma sessão trabalhadora (veja o documento de desenvolvimento do projeto)
+title: "[tarefa] "
+labels: ["tarefa"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A sessão **integradora** abre esta tarefa; uma sessão **trabalhadora** a executa e **não** integra na `main`.
+  - type: textarea
+    id: objetivo
+    attributes:
+      label: Objetivo
+      description: O que precisa ficar pronto, em poucas frases, e por quê.
+    validations:
+      required: true
+  - type: textarea
+    id: criterios
+    attributes:
+      label: Critérios de aceite
+      description: Como a integradora vai saber que está certo. Cite a referência (uma seção, um comportamento, um documento) quando houver.
+      placeholder: "- [ ] ...\n- [ ] ..."
+    validations:
+      required: true
+  - type: textarea
+    id: arquivos_permitidos
+    attributes:
+      label: Arquivos que a tarefa PODE tocar
+    validations:
+      required: true
+  - type: textarea
+    id: arquivos_proibidos
+    attributes:
+      label: Arquivos que a tarefa NÃO pode tocar
+      description: Os que outra tarefa está mexendo ou que são congelados.
+    validations:
+      required: true
+  - type: textarea
+    id: skills
+    attributes:
+      label: Skills obrigatórias
+      description: Valem para todas as sessões.
+      value: "superpowers:brainstorming (se for novo), superpowers:test-driven-development, superpowers:systematic-debugging (se houver bug), superpowers:verification-before-completion"
+    validations:
+      required: true
+  - type: textarea
+    id: testes_micro
+    attributes:
+      label: Testes micro esperados (TDD)
+      description: Os testes pequenos que devem ser escritos antes do código.
+    validations:
+      required: true
+  - type: textarea
+    id: testes_macro
+    attributes:
+      label: Testes macro esperados
+      description: Suíte completa, build, tipos, desempenho e as áreas que não podem regredir.
+    validations:
+      required: true
+  - type: input
+    id: sessao
+    attributes:
+      label: Sessão e worktree
+      description: Preencha ao começar (branch, pasta e porta que o script mostrou).

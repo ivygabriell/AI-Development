@@ -1,0 +1,29 @@
+name: Verificar o método
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verificar-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    name: Verificar o método
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Configurar identidade do Git para os testes dos scripts
+        run: |
+          git config --global user.name "ci"
+          git config --global user.email "ci@exemplo.com"
+      - name: Verificar documentação, links, lições, cenários e scripts
+        run: node scripts/verificar.mjs
