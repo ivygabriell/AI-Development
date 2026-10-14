@@ -53,6 +53,8 @@ Para outras stacks, troque os passos (o resto fica igual):
 
 Ative **depois** do primeiro CI verde (o check precisa existir para ser exigido). Exige PR, o check verde e a branch em dia; bloqueia push forçado e exclusão; deixa o administrador contornar numa emergência.
 
+**Disponibilidade:** a proteção depende do plano. Num repositório **privado** de uma conta gratuita, o GitHub recusa o comando abaixo com HTTP 403 (*"Upgrade to GitHub Pro or make this repository public to enable this feature."*). Confira a visibilidade antes (`gh repo view --json visibility`). Se a proteção não estiver disponível, a pessoa escolhe entre plano pago, repositório público ou seguir sem proteção; no último caso, registre no `CLAUDE.md` ou no `docs/DESENVOLVIMENTO.md` que a regra "nunca commit direto na `main`" vale só pela disciplina das sessões ([lição 019](../licoes/019-protecao-da-main-indisponivel-em-repositorio-privado.md)).
+
 ```bash
 cat > protecao.json <<'EOF'
 {

@@ -24,3 +24,4 @@ Cada lição é um arquivo `NNN-slug.md` com **o que aconteceu**, **a causa** e 
 | 016 | [Não reproduzir e mexer mesmo assim](016-nao-reproduzir-e-mexer-mesmo-assim.md) | (depuração sistemática) sem reproduzir, não há correção. |
 | 017 | [Apagar a branch remota por hábito](017-apagar-a-branch-remota-por-habito.md) | as branches integradas ficam no GitHub; integre com gh pr merge N --merge, sem --delete-branch. |
 | 018 | [Worktree removida, pasta que sobra](018-worktree-removida-pasta-que-sobra.md) | depois do worktree remove, confira git worktree list e olhe o que sobrou na pasta antes de apagá-la (só depois de a branch estar integrada e enviad... |
+| 019 | [Proteção da `main` indisponível em repositório privado](019-protecao-da-main-indisponivel-em-repositorio-privado.md) | antes de contar com a proteção da main, confira a visibilidade do repositório e o plano da conta. |
