@@ -21,6 +21,8 @@ O repositório do método é mantido por uma sessão dedicada do Claude Code (ve
 
 - **Começar um projeto exigia colar prompts.** Ao descrever o passo a passo de um projeto novo, ficou claro que o projeto gerado não tinha `CLAUDE.md` (cada sessão dependia de um prompt colado), que outro computador não tinha como achar o método e que o primeiro CI nasceria vermelho, porque o modelo roda `npm ci` sem `package.json`.
 
+- **O README não listava tudo o que o método usa.** Ao revisar a instalação para outro computador, faltavam os plugins engineering e design, o REA (engenharia reversa, com Node.js) e um jeito de conferir que tudo ficou instalado.
+
 ## Medidas
 
 | Medida | Valor |

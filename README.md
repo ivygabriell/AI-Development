@@ -61,9 +61,54 @@ Ideia ──► Alvo (Fase 0-2) ──► Plano (3) ──► Construir com TDD 
 
 O caminho principal é o plugin `metodo`: este repositório também é um plugin do Claude Code, e o agente de qualquer computador com acesso a ele baixa o método inteiro e começa um projeto com um comando ([decisão 005](decisoes/005-iniciar-projeto-com-uma-skill.md)).
 
-**O que o computador precisa ter:** Claude Code, `git`, o `gh` autenticado com acesso a este repositório privado (`gh auth login` e depois `gh auth setup-git`) e o plugin Superpowers (`/plugin install superpowers@claude-plugins-official`).
+### Antes de começar (uma vez por computador)
 
-**Uma vez por computador**, dentro do Claude Code:
+O método usa, além do plugin `metodo`, três plugins e uma ferramenta de engenharia reversa. Instale tudo nesta ordem:
+
+| O quê | Para que o método usa |
+|---|---|
+| Plugin **Superpowers** | O fluxo inteiro: brainstorming, TDD, depuração, planos, revisão e verificação antes de dizer "pronto" |
+| Plugin **engineering** | Documentação, arquitetura, desenho de sistemas, revisão de código, estratégia de testes, checklist de deploy, incidentes |
+| Plugin **design** | Revisão de acessibilidade, crítica de design, entrega para desenvolvimento e textos de interface |
+| **REA** (skill `reverse-engineer-anything` e servidor `rea`) | Engenharia reversa de artefatos fechados, quando uma referência não tem código-fonte ([04](nucleo/04-referencias-e-engenharia-reversa.md)) |
+| Plugin **metodo** | Este repositório: o comando `/metodo:novo-projeto` e a consulta ao método nas sessões do projeto |
+
+**1. Programas, no terminal.** Instale o Claude Code, o `git`, o Node.js (com o `npm`) e o GitHub CLI (`gh`), e confira:
+
+```bash
+claude --version
+git --version          # no macOS, se pedir a licença do Xcode: sudo xcodebuild -license
+node --version
+gh --version
+```
+
+**2. Acesso a este repositório privado, no terminal:**
+
+```bash
+gh auth login
+gh auth setup-git
+```
+
+**3. Plugins Superpowers, engineering e design, dentro do Claude Code:**
+
+```text
+/plugin install superpowers@claude-plugins-official
+/plugin marketplace add anthropics/knowledge-work-plugins
+/plugin install engineering@knowledge-work-plugins
+/plugin install design@knowledge-work-plugins
+```
+
+Se o Claude Code disser que o marketplace já está registrado, siga em frente. Se a sua conta do claude.ai já sincroniza o engineering e o design (eles aparecem em `/plugin` sem você ter instalado), não instale de novo.
+
+**4. REA, no terminal:**
+
+```bash
+npx rea-agents setup
+```
+
+Escolha o Claude Code, revise as mudanças propostas e aprove. Depois, feche e abra o Claude Code de novo. Para atualizar mais tarde: `npx rea-agents@latest setup`.
+
+**5. Plugin metodo, dentro do Claude Code:**
 
 ```text
 /plugin install metodo --marketplace ivygabriell/AI-Development
@@ -75,6 +120,16 @@ Em versões do Claude Code anteriores à 2.1.275, use os dois comandos:
 /plugin marketplace add ivygabriell/AI-Development
 /plugin install metodo@metodo-de-desenvolvimento
 ```
+
+**6. Conferir.** Dentro do Claude Code, `/plugin` lista `superpowers`, `engineering`, `design` e `metodo` ativos, e ao digitar `/metodo:` aparecem `novo-projeto` e `consultar`. No terminal:
+
+```bash
+claude mcp list        # deve mostrar "rea" com ✔ Connected
+```
+
+Os conectores que os plugins engineering e design trazem (Slack, Figma, Linear e outros) podem ficar sem autenticação; o método não depende deles.
+
+### Iniciar um projeto
 
 **A cada projeto**, abra o Claude Code numa pasta vazia e descreva o que quer:
 

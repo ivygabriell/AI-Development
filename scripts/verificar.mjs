@@ -356,6 +356,11 @@ const SKILLS_VALIDAS = new Set([
   ...['architecture', 'code-review', 'debug', 'deploy-checklist', 'documentation', 'incident-response', 'standup', 'system-design', 'tech-debt', 'testing-strategy'].map((n) => `engineering:${n}`),
   ...['accessibility-review', 'design-critique', 'design-handoff', 'design-system', 'research-synthesis', 'user-research', 'ux-copy'].map((n) => `design:${n}`),
 ]);
+// Todo plugin cujas skills o método cita, e o REA, precisam estar na instalação do README
+for (const prefixo of new Set([...SKILLS_VALIDAS].map((s) => s.split(':')[0])))
+  checar(`README: adoção instala o plugin ${prefixo}`, adocao.includes(`${prefixo}@`));
+checar('README: adoção instala o REA (reverse-engineer-anything)', adocao.includes('npx rea-agents setup'));
+checar('README: adoção ensina a conferir a instalação', adocao.includes('node --version') && adocao.includes('claude mcp list'));
 const arquivosTexto = [...todosMd(), ...['modelos/issue-tarefa.yml', 'modelos/ci-node.yml', '.github/workflows/verificar.yml'].map((a) => join(RAIZ, a))].filter(existsSync);
 for (const arquivo of arquivosTexto) {
   const texto = readFileSync(arquivo, 'utf8');
