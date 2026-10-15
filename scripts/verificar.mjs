@@ -64,6 +64,7 @@ const OBRIGATORIOS = [
   'modelos/modelo-criterios-de-aceite.md',
   'modelos/modelo-spec.md',
   'modelos/memoria-do-projeto.md',
+  'modelos/CLAUDE-projeto.md',
 ];
 for (const arquivo of OBRIGATORIOS) checar(`existe ${arquivo}`, existsSync(join(RAIZ, arquivo)));
 
@@ -268,7 +269,7 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     checar('novo-projeto.sh recusa cenário inexistente', rodar(alvo, 'cenario-que-nao-existe').status !== 0);
     const ok = rodar(alvo, 'site-estatico', 'api-backend');
     checar('novo-projeto.sh conclui com cenários válidos', ok.status === 0, ok.stderr);
-    for (const arq of ['.github/ISSUE_TEMPLATE/tarefa.yml', '.github/pull_request_template.md', '.github/workflows/ci.yml', 'scripts/nova-tarefa.sh', 'scripts/remover-tarefa.sh', 'docs/DESENVOLVIMENTO.md', 'docs/memoria-do-projeto.md'])
+    for (const arq of ['CLAUDE.md', '.github/ISSUE_TEMPLATE/tarefa.yml', '.github/pull_request_template.md', '.github/workflows/ci.yml', 'scripts/nova-tarefa.sh', 'scripts/remover-tarefa.sh', 'docs/DESENVOLVIMENTO.md', 'docs/memoria-do-projeto.md'])
       checar(`novo-projeto.sh cria ${arq}`, existsSync(join(alvo, arq)));
     const dev = existsSync(join(alvo, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
     checar('novo-projeto.sh carimba a versão do método', dev.includes(`Versão do método: ${versao}`));
@@ -279,6 +280,17 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     checar('novo-projeto.sh não avisa para cenário testado (site-estatico)', !ok.stderr.includes('o cenário site-estatico é'), ok.stderr);
     checar('novo-projeto.sh marca a maturidade do cenário testado no DESENVOLVIMENTO.md', dev.includes(`- site-estatico (${maturidade('site-estatico')})`));
     checar('novo-projeto.sh marca o cenário rascunho no DESENVOLVIMENTO.md', dev.includes('- api-backend (rascunho: ainda não testado)'));
+    // CLAUDE.md do projeto: toda sessão já nasce com o contexto; nunca sobrescreve um que já exista
+    const claudeProj = existsSync(join(alvo, 'CLAUDE.md')) ? readFileSync(join(alvo, 'CLAUDE.md'), 'utf8') : '';
+    checar('novo-projeto.sh: CLAUDE.md carimba a versão do método', claudeProj.includes(`Versão do método: ${versao}`));
+    checar('novo-projeto.sh: CLAUDE.md importa o DESENVOLVIMENTO.md e a memória', claudeProj.includes('@docs/DESENVOLVIMENTO.md') && claudeProj.includes('@docs/memoria-do-projeto.md'));
+    checar('novo-projeto.sh: CLAUDE.md manda consultar o método pela skill metodo:consultar', claudeProj.includes('metodo:consultar'));
+    checar('novo-projeto.sh: CLAUDE.md sem marcadores nem caminhos de pasta', claudeProj.length > 0 && !claudeProj.includes('{{') && !claudeProj.includes(RAIZ));
+    const alvo_com_claude = join(base, 'projeto-com-claude');
+    mkdirSync(alvo_com_claude);
+    writeFileSync(join(alvo_com_claude, 'CLAUDE.md'), 'meu claude\n');
+    const com_claude = rodar(alvo_com_claude, 'site-estatico');
+    checar('novo-projeto.sh com CLAUDE.md existente conclui, avisa e não o altera', com_claude.status === 0 && com_claude.stderr.includes('CLAUDE.md') && readFileSync(join(alvo_com_claude, 'CLAUDE.md'), 'utf8') === 'meu claude\n' && existsSync(join(alvo_com_claude, 'docs/DESENVOLVIMENTO.md')), com_claude.stderr);
     const alvo_testado = join(base, 'projeto-testado');
     mkdirSync(alvo_testado);
     const so_testado = rodar(alvo_testado, 'site-estatico');
