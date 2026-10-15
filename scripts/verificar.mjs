@@ -197,6 +197,11 @@ for (const id of ['objetivo', 'criterios', 'arquivos_permitidos', 'arquivos_proi
 const ci = ler('modelos/ci-node.yml');
 for (const termo of ['actions/checkout@v4', 'actions/setup-node@v4', 'npm ci', 'permissions:', 'concurrency:'])
   checar(`ci-node.yml: ${termo}`, ci.includes(termo));
+// Sem package.json (projeto recém-criado), o CI pula os passos de Node e avisa
+const passosCi = ci.split(/\n(?=      - )/).slice(1);
+const passosNode = passosCi.filter((p) => /setup-node|npm /.test(p));
+checar('ci-node.yml: confere se a stack já foi definida (package.json) e avisa', /id:\s*stack\b/.test(ci) && ci.includes('-f package.json') && ci.includes('::warning::'));
+checar('ci-node.yml: todos os passos de Node dependem da stack definida', passosNode.length >= 5 && passosNode.every((p) => p.includes("if: steps.stack.outputs.definida == 'sim'")), `passos de Node: ${passosNode.length}`);
 const prTemplate = ler('modelos/pull_request_template.md');
 for (const termo of ['## Testes macro executados', '## Validação da integradora'])
   checar(`modelo de PR: ${termo}`, prTemplate.includes(termo));

@@ -23,11 +23,26 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+      # Projeto recém-criado ainda não tem package.json: o CI passa com aviso até o primeiro PR da stack.
+      - name: Conferir se a stack já foi definida
+        id: stack
+        run: |
+          if [ -f package.json ]; then
+            echo "definida=sim" >> "$GITHUB_OUTPUT"
+          else
+            echo "definida=nao" >> "$GITHUB_OUTPUT"
+            echo "::warning::Stack ainda não definida (sem package.json): este CI ainda não roda testes. Ajuste este arquivo à stack no primeiro PR depois da spec."
+          fi
       - uses: actions/setup-node@v4
+        if: steps.stack.outputs.definida == 'sim'
         with:
           node-version: 24
           cache: npm
       - run: npm ci
+        if: steps.stack.outputs.definida == 'sim'
       - run: npm test
+        if: steps.stack.outputs.definida == 'sim'
       - run: npm run check
+        if: steps.stack.outputs.definida == 'sim'
       - run: npm run test:build
+        if: steps.stack.outputs.definida == 'sim'
