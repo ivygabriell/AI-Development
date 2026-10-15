@@ -1,0 +1,23 @@
+---
+name: consultar
+description: Use quando uma sessão de projeto precisar das regras do método de desenvolvimento (fases, portões, sessões, Skills, testes, Git e CI, cenários, lições ou modelos de spec, critérios de aceite, issue e PR), ou quando o CLAUDE.md do projeto mandar consultar o método.
+---
+
+# Consultar o método
+
+A cópia do método fica em `${CLAUDE_PLUGIN_ROOT}` e é **só leitura**: leia, nunca altere. A versão está em `${CLAUDE_PLUGIN_ROOT}/VERSION`; compare com a "Versão do método" do `CLAUDE.md` do projeto e, se forem diferentes, avise a pessoa antes de aplicar uma regra nova.
+
+| Preciso de | Leia |
+|---|---|
+| As fases, os portões e a classificação do pedido | `${CLAUDE_PLUGIN_ROOT}/nucleo/01-fluxo-de-ponta-a-ponta.md` |
+| Uma sessão ou várias (integradora e trabalhadoras) | `${CLAUDE_PLUGIN_ROOT}/nucleo/02-sessoes-e-papeis.md` |
+| Qual Skill usar; testes micro e macro; navegador | `${CLAUDE_PLUGIN_ROOT}/nucleo/03-skills-e-testes.md` |
+| Estudar uma referência externa | `${CLAUDE_PLUGIN_ROOT}/nucleo/04-referencias-e-engenharia-reversa.md` |
+| Branches, PR, CI, proteção da `main`, worktrees | `${CLAUDE_PLUGIN_ROOT}/nucleo/05-git-github-e-ci.md` |
+| O cenário do projeto (checklist e skills úteis) | `${CLAUDE_PLUGIN_ROOT}/cenarios/README.md` e o arquivo do cenário ao lado dele |
+| Erros já cometidos e a regra de cada um | `${CLAUDE_PLUGIN_ROOT}/licoes/_indice.md` |
+| Escrever a spec e os critérios de aceite | `${CLAUDE_PLUGIN_ROOT}/modelos/modelo-spec.md` e `${CLAUDE_PLUGIN_ROOT}/modelos/modelo-criterios-de-aceite.md` |
+| Abrir sessões paralelas | `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-sessao-integradora.md` e `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-sessao-trabalhadora.md` |
+| O que guardar na memória do projeto | `${CLAUDE_PLUGIN_ROOT}/modelos/memoria-do-projeto.md` |
+
+Leia só o arquivo que a situação pede. Uma lição nova do projeto não entra no método por esta sessão: anote em `docs/memoria-do-projeto.md` e ela vai para o método na Fase 9.

@@ -65,6 +65,9 @@ const OBRIGATORIOS = [
   'modelos/modelo-spec.md',
   'modelos/memoria-do-projeto.md',
   'modelos/CLAUDE-projeto.md',
+  '.claude-plugin/marketplace.json',
+  'skills/novo-projeto/SKILL.md',
+  'skills/consultar/SKILL.md',
 ];
 for (const arquivo of OBRIGATORIOS) checar(`existe ${arquivo}`, existsSync(join(RAIZ, arquivo)));
 
@@ -310,6 +313,35 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
   } finally {
     rmSync(base, { recursive: true, force: true });
   }
+}
+
+{
+  // Plugin metodo: catálogo e skills (o repositório inteiro é o plugin)
+  let catalogo = null;
+  try {
+    catalogo = JSON.parse(ler('.claude-plugin/marketplace.json'));
+  } catch {
+    catalogo = null;
+  }
+  checar('plugin: marketplace.json é JSON válido', catalogo !== null);
+  const entrada = catalogo?.plugins?.find((p) => p.name === 'metodo');
+  checar('plugin: marketplace metodo-de-desenvolvimento com dono', catalogo?.name === 'metodo-de-desenvolvimento' && Boolean(catalogo?.owner?.name));
+  checar('plugin: entrada metodo com source "./" e sem version', entrada?.source === './' && entrada?.version === undefined);
+  const pastasSkill = existsSync(join(RAIZ, 'skills')) ? readdirSync(join(RAIZ, 'skills')).filter((n) => existsSync(join(RAIZ, 'skills', n, 'SKILL.md'))) : [];
+  checar('plugin: skills novo-projeto e consultar', pastasSkill.includes('novo-projeto') && pastasSkill.includes('consultar'), pastasSkill.join(', '));
+  for (const pasta of pastasSkill) {
+    const texto = ler(`skills/${pasta}/SKILL.md`);
+    const cabecalho = (texto.match(/^---\n([\s\S]*?)\n---\n/) || [])[1] || '';
+    checar(`skills/${pasta}: name igual ao nome da pasta`, new RegExp(`^name:\\s*${pasta}\\s*$`, 'm').test(cabecalho));
+    checar(`skills/${pasta}: description no cabeçalho`, /^description:\s*\S.{20,}$/m.test(cabecalho));
+    const citados = [...texto.matchAll(/\$\{CLAUDE_PLUGIN_ROOT\}\/([^\s`"'<>)*]+)/g)].map((m) => m[1]);
+    checar(`skills/${pasta}: cita arquivos do método por \${CLAUDE_PLUGIN_ROOT}`, citados.length >= 2, `citados: ${citados.length}`);
+    for (const caminho of citados) checar(`skills/${pasta}: caminho citado existe (${caminho})`, existsSync(join(RAIZ, caminho)));
+  }
+  const inicio = ler('skills/novo-projeto/SKILL.md');
+  checar('skills/novo-projeto: maturidade rascunho', inicio.includes('**Maturidade:** rascunho'));
+  for (const termo of ['superpowers:brainstorming', 'gh repo create', '.DS_Store', 'Pode criar?', 'bash "${CLAUDE_PLUGIN_ROOT}/scripts/novo-projeto.sh"'])
+    checar(`skills/novo-projeto: ${termo}`, inicio.includes(termo));
 }
 
 // 4) Consistência geral
