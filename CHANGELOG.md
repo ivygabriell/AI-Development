@@ -2,6 +2,11 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 2.3.1 (2026-10-15)
+
+- README, "Adotar em um projeto novo": seção **Antes de começar** com tudo o que um computador precisa para usar o método, em ordem: programas (Claude Code, `git`, Node.js, `gh`), acesso ao repositório privado, plugins Superpowers, engineering e design, o REA (`npx rea-agents setup`), o plugin `metodo` e como conferir a instalação.
+- `scripts/verificar.mjs` confere que o README instala todo plugin cujas skills o método cita, o REA e a conferência final.
+
 ## 2.3.0 (2026-10-15)
 
 - **Plugin `metodo`:** este repositório passa a ser também um plugin do Claude Code (`.claude-plugin/marketplace.json`). Em qualquer computador com acesso a ele: `/plugin install metodo --marketplace ivygabriell/AI-Development` ([decisão 005](decisoes/005-iniciar-projeto-com-uma-skill.md)).
