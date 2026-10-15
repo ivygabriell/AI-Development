@@ -1,7 +1,7 @@
 # 005 · Iniciar um projeto novo com uma skill
 
 **Data:** 2026-10-15
-**Status:** proposta
+**Status:** aceita
 **Caso de origem:** [Repositório do método (2026-10)](../casos/2026-10-repositorio-do-metodo.md)
 
 ## Contexto
@@ -31,9 +31,10 @@ Este repositório passa a ser também um **plugin do Claude Code** (um *marketpl
 Requisitos: Claude Code, `git`, `gh` autenticado com acesso ao repositório (`gh auth login` e `gh auth setup-git`, porque o repositório é privado) e o plugin Superpowers. Dentro do Claude Code:
 
 ```text
-/plugin marketplace add ivygabriell/AI-Development
-/plugin install metodo@metodo-de-desenvolvimento
+/plugin install metodo --marketplace ivygabriell/AI-Development
 ```
+
+Em versões do Claude Code anteriores à 2.1.275, os dois comandos `/plugin marketplace add ivygabriell/AI-Development` e `/plugin install metodo@metodo-de-desenvolvimento`.
 
 Atualizar o método naquele computador: `/plugin marketplace update metodo-de-desenvolvimento` (ou ligar a atualização automática em `/plugin`, na aba de marketplaces).
 

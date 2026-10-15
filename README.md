@@ -42,7 +42,9 @@ O repositório tem três camadas, com ritmos diferentes:
 | [casos/](casos/_modelo-caso.md) | Uma retrospectiva por projeto realizado: o que funcionou, o que falhou, medidas |
 | [licoes/](licoes/_indice.md) | Uma lição por arquivo: o que aconteceu, a causa, a regra |
 | [decisoes/](decisoes/_modelo-decisao.md) | Por que uma regra do método mudou |
-| [modelos/](modelos/) | O que se copia para um projeto: formulário de tarefa, modelo de PR, CI, scripts de worktree, prompts e gabaritos |
+| [modelos/](modelos/) | O que se copia para um projeto: formulário de tarefa, modelo de PR, CI, `CLAUDE.md` do projeto, scripts de worktree, prompts e gabaritos |
+| `skills/` | As skills do plugin `metodo`: `novo-projeto` (inicia um projeto) e `consultar` (dá às sessões do projeto acesso ao método); o catálogo do plugin fica em `.claude-plugin/` |
+| `planos/` | Os planos de implementação das mudanças do método |
 | `scripts/` | `verificar.mjs` (confere o próprio método), `gerar-indice-licoes.mjs` e `novo-projeto.sh` |
 
 ## Visão em uma página
@@ -57,16 +59,49 @@ Ideia ──► Alvo (Fase 0-2) ──► Plano (3) ──► Construir com TDD 
 
 ## Adotar em um projeto novo
 
-Tempo estimado: cerca de 30 minutos.
+O caminho principal é o plugin `metodo`: este repositório também é um plugin do Claude Code, e o agente de qualquer computador com acesso a ele baixa o método inteiro e começa um projeto com um comando ([decisão 005](decisoes/005-iniciar-projeto-com-uma-skill.md)).
 
-1. Crie o repositório do projeto e a `main`; faça o primeiro commit com um `README` e o `.gitignore` (veja a higiene de dados em [05](nucleo/05-git-github-e-ci.md)).
-2. Rode o script que prepara tudo, escolhendo os cenários que se aplicam:
+**O que o computador precisa ter:** Claude Code, `git`, o `gh` autenticado com acesso a este repositório privado (`gh auth login` e depois `gh auth setup-git`) e o plugin Superpowers (`/plugin install superpowers@claude-plugins-official`).
+
+**Uma vez por computador**, dentro do Claude Code:
+
+```text
+/plugin install metodo --marketplace ivygabriell/AI-Development
+```
+
+Em versões do Claude Code anteriores à 2.1.275, use os dois comandos:
+
+```text
+/plugin marketplace add ivygabriell/AI-Development
+/plugin install metodo@metodo-de-desenvolvimento
+```
+
+**A cada projeto**, abra o Claude Code numa pasta vazia e descreva o que quer:
+
+```bash
+mkdir ~/Projetos/meu-site && cd ~/Projetos/meu-site && claude
+```
+
+```text
+/metodo:novo-projeto Quero um portfólio bilíngue para mostrar meus trabalhos de vídeo. site-estatico
+```
+
+A skill confere o ambiente, propõe o cenário (e avisa se ele é `rascunho`), pede **uma** confirmação antes de criar o repositório no GitHub, prepara tudo com o `novo-projeto.sh` (inclusive o `CLAUDE.md` do projeto, que dá o contexto a toda sessão futura), espera o primeiro CI e começa a Fase 0. Daí em diante, ela para em cada portão: spec, plano, cada merge e deploy. Qualquer sessão do projeto consulta o método pela skill `metodo:consultar`.
+
+**Para receber as melhorias do método** naquele computador: `/plugin marketplace update metodo-de-desenvolvimento`, ou ligue a atualização automática em `/plugin`, na aba de marketplaces.
+
+### Caminho manual
+
+Sem o plugin, com uma cópia local deste repositório:
+
+1. Crie o repositório do projeto e a `main`, com um `README` e o `.gitignore` (veja a higiene de dados em [05](nucleo/05-git-github-e-ci.md)).
+2. Rode o script, escolhendo os cenários que se aplicam:
    ```bash
    scripts/novo-projeto.sh <pasta-do-projeto> site-estatico
    ```
-   Ele copia o formulário de tarefa, o modelo de PR, o CI e os scripts de worktree, e cria `docs/DESENVOLVIMENTO.md` e `docs/memoria-do-projeto.md` carimbados com a versão do método. Nunca sobrescreve nada.
+   Ele copia o formulário de tarefa, o modelo de PR, o CI e os scripts de worktree, e cria o `CLAUDE.md`, o `docs/DESENVOLVIMENTO.md` e o `docs/memoria-do-projeto.md` carimbados com a versão do método. Nunca sobrescreve nada; se o projeto já tem um `CLAUDE.md`, só avisa para acrescentar as importações.
    Se um cenário escolhido ainda é `rascunho`, o script avisa (sem interromper) e o `DESENVOLVIMENTO.md` registra a maturidade de cada cenário: trate um rascunho como hipótese, não como regra.
-3. Dê o primeiro push da `main`, deixe o CI rodar uma vez e **depois** ative a proteção da `main` e crie as etiquetas (comandos em [05](nucleo/05-git-github-e-ci.md)). Em repositório privado, a proteção exige plano pago; o 05 diz o que fazer sem ela.
+3. Faça o primeiro commit com tudo e dê o primeiro push da `main`. O CI passa com o aviso "stack ainda não definida" até o primeiro PR da stack. **Depois** ative a proteção da `main` e crie as etiquetas (comandos em [05](nucleo/05-git-github-e-ci.md)). Em repositório privado, a proteção exige plano pago; o 05 diz o que fazer sem ela.
 4. Preencha os comandos do projeto no `docs/DESENVOLVIMENTO.md` e ajuste o CI para a sua stack.
 5. Defina o **alvo** da primeira entrega com [modelo-spec.md](modelos/modelo-spec.md) e [modelo-criterios-de-aceite.md](modelos/modelo-criterios-de-aceite.md).
 6. Abra a primeira issue com o formulário de tarefa e comece pela Fase 0 de [01](nucleo/01-fluxo-de-ponta-a-ponta.md).

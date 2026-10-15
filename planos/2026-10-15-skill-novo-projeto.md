@@ -122,7 +122,7 @@ checar('ci-node.yml: todos os passos de Node dependem da stack definida', passos
 
 ```js
 const adocao = readme.slice(readme.indexOf('## Adotar em um projeto novo')).split(/\n## (?!Adotar)/)[0];
-checar('README: adoção instala o plugin', adocao.includes('/plugin marketplace add') && adocao.includes('/plugin install metodo@metodo-de-desenvolvimento'));
+checar('README: adoção instala o plugin', adocao.includes('/plugin install metodo --marketplace ivygabriell/AI-Development') && adocao.includes('/plugin install metodo@metodo-de-desenvolvimento'));
 checar('README: adoção usa /metodo:novo-projeto', adocao.includes('/metodo:novo-projeto'));
 checar('README: adoção diz o que o repositório privado exige', adocao.includes('gh auth setup-git'));
 checar('README: adoção mantém o caminho manual', adocao.includes('scripts/novo-projeto.sh'));

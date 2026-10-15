@@ -78,9 +78,15 @@ const trechoPrincipios = readme.slice(readme.indexOf('## Os 7 princípios')).spl
 const principios = trechoPrincipios.split('\n').filter((l) => /^[1-7]\.\s+\*\*/.test(l));
 checar('README: 7 princípios numerados', principios.length === 7, `achei ${principios.length}`);
 checar('README: adoção em um projeto novo', readme.includes('## Adotar em um projeto novo'));
+// Seção inteira até o próximo título de nível 2 (os ### de dentro dela continuam incluídos)
+const adocao = readme.slice(readme.indexOf('## Adotar em um projeto novo')).split(/\n## (?!Adotar)/)[0];
+checar('README: adoção instala o plugin', adocao.includes('/plugin install metodo --marketplace ivygabriell/AI-Development') && adocao.includes('/plugin install metodo@metodo-de-desenvolvimento'));
+checar('README: adoção usa /metodo:novo-projeto', adocao.includes('/metodo:novo-projeto'));
+checar('README: adoção diz o que o repositório privado exige', adocao.includes('gh auth setup-git'));
+checar('README: adoção mantém o caminho manual', adocao.includes('scripts/novo-projeto.sh'));
 checar('README: como o repositório cresce', readme.includes('## Como este repositório cresce'));
 for (const arquivo of NUCLEO) checar(`README aponta para ${arquivo}`, readme.includes(arquivo));
-for (const pasta of ['nucleo/', 'cenarios/', 'casos/', 'licoes/', 'decisoes/', 'modelos/', 'scripts/']) checar(`README cita ${pasta}`, readme.includes(pasta));
+for (const pasta of ['nucleo/', 'cenarios/', 'casos/', 'licoes/', 'decisoes/', 'modelos/', 'scripts/', 'skills/', 'planos/']) checar(`README cita ${pasta}`, readme.includes(pasta));
 
 const fluxo = ler('nucleo/01-fluxo-de-ponta-a-ponta.md');
 for (let fase = 0; fase <= 9; fase += 1) checar(`fluxo: Fase ${fase}`, new RegExp(`^## Fase ${fase}\\b`, 'm').test(fluxo));
