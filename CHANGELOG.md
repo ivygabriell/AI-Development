@@ -2,6 +2,16 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 2.3.0 (2026-10-15)
+
+- **Plugin `metodo`:** este repositório passa a ser também um plugin do Claude Code (`.claude-plugin/marketplace.json`). Em qualquer computador com acesso a ele: `/plugin install metodo --marketplace ivygabriell/AI-Development` ([decisão 005](decisoes/005-iniciar-projeto-com-uma-skill.md)).
+- **Skill `/metodo:novo-projeto`** (`skills/novo-projeto/`, maturidade `rascunho`): inicia um projeto com um comando, com uma confirmação antes de criar o repositório no GitHub e parando nos portões das fases.
+- **Skill `metodo:consultar`** (`skills/consultar/`): diz às sessões do projeto onde está a cópia do método e o que ler em cada situação.
+- `scripts/novo-projeto.sh` gera o `CLAUDE.md` do projeto (`modelos/CLAUDE-projeto.md`), que importa o `DESENVOLVIMENTO.md` e a memória; se já existir um, só avisa.
+- `modelos/ci-node.yml` passa com o aviso "stack ainda não definida" enquanto não há `package.json`.
+- Pasta nova `planos/`, com o [plano desta mudança](planos/2026-10-15-skill-novo-projeto.md).
+- README: "Adotar em um projeto novo" passa a ter o caminho pelo plugin e o caminho manual.
+
 ## 2.2.0 (2026-10-14)
 
 - **Caso novo:** [Repositório do método (2026-10)](casos/2026-10-repositorio-do-metodo.md), marco da publicação no GitHub e do primeiro PR.

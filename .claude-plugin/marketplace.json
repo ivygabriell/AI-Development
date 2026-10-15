@@ -1,0 +1,14 @@
+{
+  "name": "metodo-de-desenvolvimento",
+  "description": "Método de desenvolvimento com Claude Code: fases, cenários, lições e modelos, com uma skill para iniciar projetos.",
+  "owner": {
+    "name": "ivygabriell"
+  },
+  "plugins": [
+    {
+      "name": "metodo",
+      "source": "./",
+      "description": "Inicia um projeto novo com o método (/metodo:novo-projeto) e dá às sessões do projeto acesso ao método (metodo:consultar)."
+    }
+  ]
+}

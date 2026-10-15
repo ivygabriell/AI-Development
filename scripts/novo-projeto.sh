@@ -3,9 +3,10 @@
 # Uso: scripts/novo-projeto.sh <pasta-do-projeto> [cenario ...]
 #   <pasta-do-projeto>  pasta que já existe (de preferência um repositório Git novo)
 #   cenario             um ou mais nomes de arquivos em cenarios/ (sem .md), por exemplo: site-estatico api-backend
-# Copia: formulário de tarefa, modelo de PR, CI, scripts de worktree, e cria docs/DESENVOLVIMENTO.md e
+# Copia: formulário de tarefa, modelo de PR, CI, scripts de worktree, e cria CLAUDE.md, docs/DESENVOLVIMENTO.md e
 # docs/memoria-do-projeto.md carimbados com a versão do método. Nunca sobrescreve arquivos existentes.
 # Avisa no stderr (sem interromper) quando um cenário escolhido é rascunho.
+# Se o projeto já tem CLAUDE.md, não o toca: só avisa para acrescentar as importações.
 set -euo pipefail
 
 raiz="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -69,6 +70,13 @@ for item in "${copias[@]}"; do
   cp "$raiz/$origem" "$alvo/$destino"
 done
 chmod +x "$alvo/scripts/nova-tarefa.sh" "$alvo/scripts/remover-tarefa.sh"
+
+# CLAUDE.md do projeto: toda sessão já nasce com o contexto
+if [[ -e "$alvo/CLAUDE.md" ]]; then
+  echo "AVISO: o CLAUDE.md já existe e não foi alterado; acrescente a ele as linhas @docs/DESENVOLVIMENTO.md e @docs/memoria-do-projeto.md." >&2
+else
+  sed -e "s|{{VERSAO}}|$versao|g" "$raiz/modelos/CLAUDE-projeto.md" > "$alvo/CLAUDE.md"
+fi
 
 # Cada cenário leva a sua maturidade; rascunho gera aviso, mas não interrompe
 lista_cenarios="Nenhum cenário escolhido ainda (veja a pasta cenarios/ do repositório do método)."

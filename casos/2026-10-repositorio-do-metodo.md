@@ -19,6 +19,8 @@ O repositório do método é mantido por uma sessão dedicada do Claude Code (ve
 
 - **A proteção da `main` não pôde ser ativada.** O passo do [05](../nucleo/05-git-github-e-ci.md) foi seguido depois do primeiro CI verde, e o GitHub respondeu HTTP 403: *"Upgrade to GitHub Pro or make this repository public to enable this feature."* O método mandava ativar a proteção, mas não avisava que um repositório privado numa conta gratuita não aceita (lição 019).
 
+- **Começar um projeto exigia colar prompts.** Ao descrever o passo a passo de um projeto novo, ficou claro que o projeto gerado não tinha `CLAUDE.md` (cada sessão dependia de um prompt colado), que outro computador não tinha como achar o método e que o primeiro CI nasceria vermelho, porque o modelo roda `npm ci` sem `package.json`.
+
 ## Medidas
 
 | Medida | Valor |
@@ -36,4 +38,5 @@ O repositório do método é mantido por uma sessão dedicada do Claude Code (ve
 
 - [05 · Git, GitHub e CI](../nucleo/05-git-github-e-ci.md): avisar que a proteção da `main` exige repositório público ou plano pago, e dizer o que fazer quando ela não está disponível.
 - [README](../README.md), passo 3 de "Adotar em um projeto novo": a mesma ressalva, com link para o 05.
+- Iniciar um projeto com o plugin `metodo` (`/metodo:novo-projeto`), em qualquer computador com acesso ao repositório, gerar o `CLAUDE.md` do projeto e deixar o CI do modelo passar com aviso enquanto a stack não existe: ver [decisão 005](../decisoes/005-iniciar-projeto-com-uma-skill.md).
 - Decisão da pessoa, **só para este repositório**: a `main` do método fica sem proteção no GitHub; a regra "nunca commit direto na `main`" vale pela sessão do método. Registrado no [CLAUDE.md](../CLAUDE.md).
