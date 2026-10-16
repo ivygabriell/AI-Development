@@ -2,6 +2,10 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 2.3.2 (2026-10-15)
+
+- README, "Antes de começar": cada ferramenta que o método usa aponta para o seu repositório oficial (Superpowers, engineering e design, REA), para consultar requisitos, uso e atualização. `scripts/verificar.mjs` confere os links.
+
 ## 2.3.1 (2026-10-15)
 
 - README, "Adotar em um projeto novo": seção **Antes de começar** com tudo o que um computador precisa para usar o método, em ordem: programas (Claude Code, `git`, Node.js, `gh`), acesso ao repositório privado, plugins Superpowers, engineering e design, o REA (`npx rea-agents setup`), o plugin `metodo` e como conferir a instalação.
