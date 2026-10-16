@@ -360,6 +360,8 @@ const SKILLS_VALIDAS = new Set([
 for (const prefixo of new Set([...SKILLS_VALIDAS].map((s) => s.split(':')[0])))
   checar(`README: adoção instala o plugin ${prefixo}`, adocao.includes(`${prefixo}@`));
 checar('README: adoção instala o REA (reverse-engineer-anything)', adocao.includes('npx rea-agents setup'));
+for (const repo of ['https://github.com/obra/superpowers', 'https://github.com/anthropics/knowledge-work-plugins', 'https://github.com/morluto/rea'])
+  checar(`README: adoção aponta para o repositório oficial ${repo}`, adocao.includes(repo));
 checar('README: adoção ensina a conferir a instalação', adocao.includes('node --version') && adocao.includes('claude mcp list'));
 const arquivosTexto = [...todosMd(), ...['modelos/issue-tarefa.yml', 'modelos/ci-node.yml', '.github/workflows/verificar.yml'].map((a) => join(RAIZ, a))].filter(existsSync);
 for (const arquivo of arquivosTexto) {

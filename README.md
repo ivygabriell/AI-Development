@@ -65,13 +65,15 @@ O caminho principal é o plugin `metodo`: este repositório também é um plugin
 
 O método usa, além do plugin `metodo`, três plugins e uma ferramenta de engenharia reversa. Instale tudo nesta ordem:
 
-| O quê | Para que o método usa |
-|---|---|
-| Plugin **Superpowers** | O fluxo inteiro: brainstorming, TDD, depuração, planos, revisão e verificação antes de dizer "pronto" |
-| Plugin **engineering** | Documentação, arquitetura, desenho de sistemas, revisão de código, estratégia de testes, checklist de deploy, incidentes |
-| Plugin **design** | Revisão de acessibilidade, crítica de design, entrega para desenvolvimento e textos de interface |
-| **REA** (skill `reverse-engineer-anything` e servidor `rea`) | Engenharia reversa de artefatos fechados, quando uma referência não tem código-fonte ([04](nucleo/04-referencias-e-engenharia-reversa.md)) |
-| Plugin **metodo** | Este repositório: o comando `/metodo:novo-projeto` e a consulta ao método nas sessões do projeto |
+| O quê | Para que o método usa | Repositório oficial (instalação, uso e atualização) |
+|---|---|---|
+| Plugin **Superpowers** | O fluxo inteiro: brainstorming, TDD, depuração, planos, revisão e verificação antes de dizer "pronto" | [obra/superpowers](https://github.com/obra/superpowers) |
+| Plugin **engineering** | Documentação, arquitetura, desenho de sistemas, revisão de código, estratégia de testes, checklist de deploy, incidentes | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins/tree/main/engineering) |
+| Plugin **design** | Revisão de acessibilidade, crítica de design, entrega para desenvolvimento e textos de interface | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins/tree/main/design) |
+| **REA** (skill `reverse-engineer-anything` e servidor `rea`) | Engenharia reversa de artefatos fechados, quando uma referência não tem código-fonte ([04](nucleo/04-referencias-e-engenharia-reversa.md)) | [morluto/rea](https://github.com/morluto/rea) |
+| Plugin **metodo** | Este repositório: o comando `/metodo:novo-projeto` e a consulta ao método nas sessões do projeto | este repositório |
+
+Os comandos abaixo são o caminho curto. Para requisitos, opções e problemas de instalação de cada ferramenta, consulte o repositório oficial dela.
 
 **1. Programas, no terminal.** Instale o Claude Code, o `git`, o Node.js (com o `npm`) e o GitHub CLI (`gh`), e confira:
 
@@ -106,7 +108,7 @@ Se o Claude Code disser que o marketplace já está registrado, siga em frente. 
 npx rea-agents setup
 ```
 
-Escolha o Claude Code, revise as mudanças propostas e aprove. Depois, feche e abra o Claude Code de novo. Para atualizar mais tarde: `npx rea-agents@latest setup`.
+Escolha o Claude Code, revise as mudanças propostas e aprove. Depois, feche e abra o Claude Code de novo. Para atualizar mais tarde: `npx rea-agents@latest setup`. Requisitos, uso e diagnóstico: [morluto/rea](https://github.com/morluto/rea).
 
 **5. Plugin metodo, dentro do Claude Code:**
 
