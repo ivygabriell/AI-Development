@@ -2,6 +2,17 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 2.4.0 (2026-10-21)
+
+Modo de execução com o Orca, aprovado pela pessoa **sem caso real** (exceção à regra de ouro; tudo em `rascunho` até o primeiro projeto com o Orca). Ver [decisão 006](decisoes/006-desenvolvimento-orquestrado-com-o-orca.md).
+
+- **Núcleo:** o `02` ganha a seção "Com o Orca": a coordenadora é a integradora e cada agente supervisionado é uma trabalhadora; dúvidas por `orca orchestration ask`; merge e deploy passam por um portão (`gate-create`) que só a pessoa resolve; limite inicial de 1 coordenadora e até 3 agentes. O `01` oferece o Orca no portão da Fase 3 e consulta as conversas com `orca search` na Fase 9; o `05` cria as worktrees pelo Orca.
+- **Modelo novo:** `modelos/prompt-coordenadora-orca.md`, com o prompt da coordenadora e a especificação padrão de cada tarefa.
+- **Skill nova `/metodo:atualizar-projeto`** (rascunho): traz um projeto que já existe para a versão atual do método, só acrescentando, com uma confirmação e um PR.
+- **Projetos gerados:** o `CLAUDE.md` e o `DESENVOLVIMENTO.md` explicam o modo Orca e a atualização; a skill `novo-projeto` oferece registrar o projeto no Orca e o modo Orca na Fase 3; a `consultar` aponta para os dois.
+- **README:** o Orca nos pré-requisitos e a seção "Atualizar um projeto que já usa o método".
+- Plano em [planos/2026-10-21-orquestracao-orca.md](planos/2026-10-21-orquestracao-orca.md).
+
 ## 2.3.2 (2026-10-15)
 
 - README, "Antes de começar": cada ferramenta que o método usa aponta para o seu repositório oficial (Superpowers, engineering e design, REA), para consultar requisitos, uso e atualização. `scripts/verificar.mjs` confere os links.

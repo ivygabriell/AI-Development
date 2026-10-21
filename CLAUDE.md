@@ -28,7 +28,7 @@ casos/       um arquivo por projeto realizado (a retrospectiva); a matéria-prim
 licoes/      uma lição por arquivo (NNN-slug.md); o índice é gerado
 decisoes/    por que uma regra do método mudou (NNN-slug.md)
 modelos/     o que se copia para um projeto: issue, PR, CI, CLAUDE.md do projeto, scripts de worktree, prompts, gabaritos
-skills/      as skills do plugin metodo (novo-projeto, consultar); o catálogo do plugin fica em .claude-plugin/
+skills/      as skills do plugin metodo (novo-projeto, atualizar-projeto, consultar); o catálogo do plugin fica em .claude-plugin/
 planos/      os planos de implementação das mudanças do método (AAAA-MM-DD-slug.md)
 scripts/     verificar.mjs, gerar-indice-licoes.mjs, novo-projeto.sh
 CHANGELOG.md e VERSION   versão do método (semver)
