@@ -112,6 +112,8 @@ checar('git/GitHub/CI: worktrees pelo Orca', ler('nucleo/05-git-github-e-ci.md')
 const promptCoord = ler('modelos/prompt-coordenadora-orca.md');
 for (const termo of ['orca skills get orchestration', 'gate-create', 'pode integrar', 'superpowers:verification-before-completion', 'critérios de aceite', 'arquivos permitidos'])
   checar(`prompt da coordenadora do Orca: ${termo}`, promptCoord.includes(termo));
+checar('prompt da coordenadora do Orca: agentes abertos como Claude Code (--agent claude)', promptCoord.includes('--agent claude'));
+checar('sessões: no Orca os agentes são Claude Code (--agent claude)', sessoes.includes('--agent claude'));
 
 const skills = ler('nucleo/03-skills-e-testes.md');
 for (const termo of ['## Mapa de skills', '## Testes: micro e macro', 'micro', 'macro', 'RED', 'verification-before-completion', '## Verificação no navegador'])
@@ -310,6 +312,7 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     checar('novo-projeto.sh: CLAUDE.md importa o DESENVOLVIMENTO.md e a memória', claudeProj.includes('@docs/DESENVOLVIMENTO.md') && claudeProj.includes('@docs/memoria-do-projeto.md'));
     checar('novo-projeto.sh: CLAUDE.md manda consultar o método pela skill metodo:consultar', claudeProj.includes('metodo:consultar'));
     checar('novo-projeto.sh: CLAUDE.md explica o modo Orca e a atualização do projeto', claudeProj.includes('Orca') && claudeProj.includes('/metodo:atualizar-projeto'));
+    checar('novo-projeto.sh: CLAUDE.md diz que no Orca os agentes são Claude Code (--agent claude)', claudeProj.includes('--agent claude'));
     checar('novo-projeto.sh: CLAUDE.md sem marcadores nem caminhos de pasta', claudeProj.length > 0 && !claudeProj.includes('{{') && !claudeProj.includes(RAIZ));
     const alvo_com_claude = join(base, 'projeto-com-claude');
     mkdirSync(alvo_com_claude);

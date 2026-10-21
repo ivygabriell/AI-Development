@@ -2,6 +2,11 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 2.4.1 (2026-10-21)
+
+- **Modo Orca:** a coordenadora e os agentes são sempre agentes Claude. O [prompt da coordenadora](modelos/prompt-coordenadora-orca.md) manda abrir cada agente com `worker-start --agent claude`, e o [02](nucleo/02-sessoes-e-papeis.md) e o `CLAUDE.md` dos projetos gerados explicam o motivo: os outros agentes que o Orca abre (Codex, Cursor e outros) não leem o `CLAUDE.md` do projeto nem os plugins `metodo` e Superpowers, e trabalhariam sem o método.
+- `scripts/verificar.mjs` confere o `--agent claude` nos três lugares.
+
 ## 2.4.0 (2026-10-21)
 
 Modo de execução com o Orca, aprovado pela pessoa **sem caso real** (exceção à regra de ouro; tudo em `rascunho` até o primeiro projeto com o Orca). Ver [decisão 006](decisoes/006-desenvolvimento-orquestrado-com-o-orca.md).

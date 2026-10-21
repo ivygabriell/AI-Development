@@ -85,7 +85,7 @@ O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, 
 
 | Sessões abertas à mão | Com o Orca |
 |---|---|
-| A pessoa abre uma sessão por tarefa e cola o [prompt da trabalhadora](../modelos/prompt-sessao-trabalhadora.md) | A coordenadora abre o agente na worktree com `orca orchestration worker-start`, passando a especificação da tarefa |
+| A pessoa abre uma sessão por tarefa e cola o [prompt da trabalhadora](../modelos/prompt-sessao-trabalhadora.md) | A coordenadora abre o agente na worktree com `orca orchestration worker-start --agent claude`, passando a especificação da tarefa |
 | `nova-tarefa.sh` cria a worktree | O Orca cria a worktree (`worker-start --worktree new-child`, ou `orca worktree create`) |
 | A trabalhadora comenta na issue e a pessoa avisa a integradora | O agente pergunta com `orca orchestration ask` e espera; a coordenadora responde com `orca orchestration reply` |
 | A pessoa acompanha cada terminal | A coordenadora espera com `orca orchestration check --wait` e o painel do Orca avisa quando um agente termina |
@@ -93,6 +93,8 @@ O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, 
 | `remover-tarefa.sh` remove a worktree | A coordenadora libera o agente (`worker-release`) e o Orca remove a worktree (`orca worktree rm`) |
 
 **O que não muda:** quem constrói não valida (a coordenadora refaz os testes e abre o navegador); os agentes **nunca** integram e terminam com o PR aberto e o CI verde; uma tarefa, uma branch, um PR; merge, deploy e o que é irreversível só com a aprovação da pessoa; a issue continua sendo o registro da tarefa. A coordenadora não escreve código, como a integradora.
+
+**A coordenadora e os agentes são Claude Code.** A coordenadora é aberta como um agente Claude no Orca e inicia cada agente com `--agent claude`. O Orca também abre outros agentes (Codex, Cursor e outros), mas eles não leem o `CLAUDE.md` do projeto nem os plugins do Claude Code (`metodo`, Superpowers) e trabalhariam sem o método.
 
 **Ciclo de uma tarefa:**
 
