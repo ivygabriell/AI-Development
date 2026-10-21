@@ -18,6 +18,8 @@ A cópia do método fica em `${CLAUDE_PLUGIN_ROOT}` e é **só leitura**: leia, 
 | Erros já cometidos e a regra de cada um | `${CLAUDE_PLUGIN_ROOT}/licoes/_indice.md` |
 | Escrever a spec e os critérios de aceite | `${CLAUDE_PLUGIN_ROOT}/modelos/modelo-spec.md` e `${CLAUDE_PLUGIN_ROOT}/modelos/modelo-criterios-de-aceite.md` |
 | Abrir sessões paralelas | `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-sessao-integradora.md` e `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-sessao-trabalhadora.md` |
+| Orquestrar com o Orca (coordenadora e agentes, modo em rascunho) | `${CLAUDE_PLUGIN_ROOT}/nucleo/02-sessoes-e-papeis.md` (seção "Com o Orca") e `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-coordenadora-orca.md` |
+| Trazer o projeto para a versão mais nova do método | `${CLAUDE_PLUGIN_ROOT}/CHANGELOG.md` e a skill `/metodo:atualizar-projeto` |
 | O que guardar na memória do projeto | `${CLAUDE_PLUGIN_ROOT}/modelos/memoria-do-projeto.md` |
 
 Leia só o arquivo que a situação pede. Uma lição nova do projeto não entra no método por esta sessão: anote em `docs/memoria-do-projeto.md` e ela vai para o método na Fase 9.

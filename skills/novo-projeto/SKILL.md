@@ -61,12 +61,15 @@ gh run watch <id> --exit-status
 
 O primeiro CI passa com o aviso "stack ainda não definida": é o esperado. Se o repositório for **público**, ative a proteção da `main` como em `${CLAUDE_PLUGIN_ROOT}/nucleo/05-git-github-e-ci.md` (o check se chama "Testes, tipos e build") e leia de volta para confirmar.
 
+Se o Orca estiver instalado (`orca status` responde), pergunte se a pessoa quer registrar o projeto nele e, com o "sim", rode `orca repo add --path .`.
+
 Qualquer falha: **pare**, mostre a saída e explique. Nunca apague, force ou contorne nada.
 
 ## Passo 5 · Fase 0 em diante
 
 - Invoque `superpowers:brainstorming` com a descrição da pessoa e siga as fases de `${CLAUDE_PLUGIN_ROOT}/nucleo/01-fluxo-de-ponta-a-ponta.md`.
 - Pare em cada portão: a spec (com `${CLAUDE_PLUGIN_ROOT}/modelos/modelo-spec.md` e `${CLAUDE_PLUGIN_ROOT}/modelos/modelo-criterios-de-aceite.md`), o plano e o modo de execução, cada merge e o deploy.
+- No portão do modo de execução, ofereça também a orquestração com o Orca (modo em rascunho): a coordenadora é a integradora e os agentes são as trabalhadoras, com o prompt `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-coordenadora-orca.md`.
 - O **primeiro PR depois da spec** ajusta `.github/workflows/ci.yml` à stack escolhida (exemplos no `05`), para o CI rodar testes de verdade.
 - A partir do primeiro commit, toda mudança vai numa branch, com PR e CI verde; integre só com a aprovação da pessoa, com `gh pr merge N --merge`, sem apagar a branch.
 - Ao fim de cada fase, registre em `docs/memoria-do-projeto.md` onde o trabalho parou e o que foi decidido.
