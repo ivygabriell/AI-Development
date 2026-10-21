@@ -1,6 +1,6 @@
 # Prompt da coordenadora no Orca (rascunho)
 
-Como usar: no [Orca](https://github.com/stablyai/orca), abra um agente na pasta principal do projeto e cole o texto abaixo no início. Ele substitui os prompts da integradora e da trabalhadora: a coordenadora faz o papel da integradora e cada agente que ela inicia é uma trabalhadora ([02](../nucleo/02-sessoes-e-papeis.md), seção "Com o Orca"). Modo aprovado pela pessoa sem caso real ([decisão 006](../decisoes/006-desenvolvimento-orquestrado-com-o-orca.md)): anote na memória do projeto o que funcionar e o que atrapalhar.
+Como usar: no [Orca](https://github.com/stablyai/orca), abra um agente **Claude** na pasta principal do projeto e cole o texto abaixo no início. Ele substitui os prompts da integradora e da trabalhadora: a coordenadora faz o papel da integradora e cada agente que ela inicia é uma trabalhadora ([02](../nucleo/02-sessoes-e-papeis.md), seção "Com o Orca"). Modo aprovado pela pessoa sem caso real ([decisão 006](../decisoes/006-desenvolvimento-orquestrado-com-o-orca.md)): anote na memória do projeto o que funcionar e o que atrapalhar.
 
 Antes, instale as skills do Orca uma vez por computador: `orca skills install --skill orca-cli --skill orchestration`.
 
@@ -28,8 +28,9 @@ Regras:
   e anote como lição para o método cada correção que a pessoa fizer.
 
 Ciclo:
-1. run-create com o objetivo da entrega; para cada tarefa, worker-start com a especificação e
-   --worktree new-child (uma worktree e uma branch por tarefa).
+1. run-create com o objetivo da entrega; para cada tarefa, worker-start com a especificação,
+   --agent claude e --worktree new-child (uma worktree e uma branch por tarefa). Sempre --agent claude:
+   outros agentes não leem o CLAUDE.md do projeto nem os plugins (metodo, Superpowers).
 2. Espere com check --wait (worker_done, escalation, question); responda às perguntas.
 3. Para cada PR entregue, valide com evidência: compare com os critérios de aceite; refaça os testes
    (suíte, tipos, build) na branch; releia os testes novos (falhariam sem o código?); abra o
