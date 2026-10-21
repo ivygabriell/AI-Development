@@ -43,7 +43,7 @@ O repositório tem três camadas, com ritmos diferentes:
 | [licoes/](licoes/_indice.md) | Uma lição por arquivo: o que aconteceu, a causa, a regra |
 | [decisoes/](decisoes/_modelo-decisao.md) | Por que uma regra do método mudou |
 | [modelos/](modelos/) | O que se copia para um projeto: formulário de tarefa, modelo de PR, CI, `CLAUDE.md` do projeto, scripts de worktree, prompts e gabaritos |
-| `skills/` | As skills do plugin `metodo`: `novo-projeto` (inicia um projeto) e `consultar` (dá às sessões do projeto acesso ao método); o catálogo do plugin fica em `.claude-plugin/` |
+| `skills/` | As skills do plugin `metodo`: `novo-projeto` (inicia um projeto), `atualizar-projeto` (traz um projeto existente para a versão atual) e `consultar` (dá às sessões do projeto acesso ao método); o catálogo do plugin fica em `.claude-plugin/` |
 | `planos/` | Os planos de implementação das mudanças do método |
 | `scripts/` | `verificar.mjs` (confere o próprio método), `gerar-indice-licoes.mjs` e `novo-projeto.sh` |
 
@@ -63,7 +63,7 @@ O caminho principal é o plugin `metodo`: este repositório também é um plugin
 
 ### Antes de começar (uma vez por computador)
 
-O método usa, além do plugin `metodo`, três plugins e uma ferramenta de engenharia reversa. Instale tudo nesta ordem:
+O método usa, além do plugin `metodo`, três plugins, uma ferramenta de engenharia reversa e o Orca, para orquestrar os agentes. Instale tudo nesta ordem:
 
 | O quê | Para que o método usa | Repositório oficial (instalação, uso e atualização) |
 |---|---|---|
@@ -71,7 +71,8 @@ O método usa, além do plugin `metodo`, três plugins e uma ferramenta de engen
 | Plugin **engineering** | Documentação, arquitetura, desenho de sistemas, revisão de código, estratégia de testes, checklist de deploy, incidentes | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins/tree/main/engineering) |
 | Plugin **design** | Revisão de acessibilidade, crítica de design, entrega para desenvolvimento e textos de interface | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins/tree/main/design) |
 | **REA** (skill `reverse-engineer-anything` e servidor `rea`) | Engenharia reversa de artefatos fechados, quando uma referência não tem código-fonte ([04](nucleo/04-referencias-e-engenharia-reversa.md)) | [morluto/rea](https://github.com/morluto/rea) |
-| Plugin **metodo** | Este repositório: o comando `/metodo:novo-projeto` e a consulta ao método nas sessões do projeto | este repositório |
+| **Orca** (aplicativo e as skills `orca-cli` e `orchestration`) | Orquestração dos agentes: a coordenadora faz o papel da integradora e os agentes, das trabalhadoras ([02](nucleo/02-sessoes-e-papeis.md), modo em rascunho) | [stablyai/orca](https://github.com/stablyai/orca) |
+| Plugin **metodo** | Este repositório: `/metodo:novo-projeto`, `/metodo:atualizar-projeto` e a consulta ao método nas sessões do projeto | este repositório |
 
 Os comandos abaixo são o caminho curto. Para requisitos, opções e problemas de instalação de cada ferramenta, consulte o repositório oficial dela.
 
@@ -123,10 +124,17 @@ Em versões do Claude Code anteriores à 2.1.275, use os dois comandos:
 /plugin install metodo@metodo-de-desenvolvimento
 ```
 
-**6. Conferir.** Dentro do Claude Code, `/plugin` lista `superpowers`, `engineering`, `design` e `metodo` ativos, e ao digitar `/metodo:` aparecem `novo-projeto` e `consultar`. No terminal:
+**6. Orca.** Instale o aplicativo pelo repositório oficial e, no terminal, as skills dele:
+
+```bash
+orca skills install --skill orca-cli --skill orchestration
+```
+
+**7. Conferir.** Dentro do Claude Code, `/plugin` lista `superpowers`, `engineering`, `design` e `metodo` ativos, e ao digitar `/metodo:` aparecem `novo-projeto`, `atualizar-projeto` e `consultar`. No terminal:
 
 ```bash
 claude mcp list        # deve mostrar "rea" com ✔ Connected
+orca status            # deve mostrar runtimeState: ready com o Orca aberto
 ```
 
 Os conectores que os plugins engineering e design trazem (Slack, Figma, Linear e outros) podem ficar sem autenticação; o método não depende deles.
@@ -144,6 +152,18 @@ mkdir ~/Projetos/meu-site && cd ~/Projetos/meu-site && claude
 ```
 
 A skill confere o ambiente, propõe o cenário (e avisa se ele é `rascunho`), pede **uma** confirmação antes de criar o repositório no GitHub, prepara tudo com o `novo-projeto.sh` (inclusive o `CLAUDE.md` do projeto, que dá o contexto a toda sessão futura), espera o primeiro CI e começa a Fase 0. Daí em diante, ela para em cada portão: spec, plano, cada merge e deploy. Qualquer sessão do projeto consulta o método pela skill `metodo:consultar`.
+
+**Para trabalhar com vários agentes no Orca**, abra o projeto no Orca e use o [prompt da coordenadora](modelos/prompt-coordenadora-orca.md) no agente principal: ela distribui as tarefas aos agentes, valida e só integra com a sua aprovação ([02](nucleo/02-sessoes-e-papeis.md), seção "Com o Orca").
+
+### Atualizar um projeto que já usa o método
+
+Quando o método muda, os projetos que você já tinha não mudam sozinhos. Primeiro atualize o plugin naquele computador (`/plugin marketplace update metodo-de-desenvolvimento`); depois, dentro de cada projeto, abra o Claude Code e digite:
+
+```text
+/metodo:atualizar-projeto
+```
+
+A skill mostra o que mudou desde a versão do projeto, monta um plano que **só acrescenta** (nada do projeto é apagado nem sobrescrito, e o CI que ele já tem fica como está), pede **uma** confirmação e entrega tudo num PR. Ela também serve para um projeto que nunca foi preparado pelo método, e oferece registrar o projeto no Orca.
 
 **Para receber as melhorias do método** naquele computador: `/plugin marketplace update metodo-de-desenvolvimento`, ou ligue a atualização automática em `/plugin`, na aba de marketplaces.
 
