@@ -79,6 +79,34 @@ Uma **worktree** é uma segunda pasta do mesmo repositório, em outra branch, se
 | Fase B começou sem o alvo aprovado | Faltou o ponto de controle | A issue manda parar ao fim da Fase A |
 | Sessão apagada com trabalho dentro | Limpeza sem listar antes | Listar, mostrar o que será apagado e só então confirmar |
 
+## Com o Orca (rascunho)
+
+O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, cada um na sua worktree, e faz por comando a orquestração que antes era manual. O mapa é direto: **a coordenadora do Orca é a integradora e cada agente supervisionado é uma trabalhadora** ([decisão 006](../decisoes/006-desenvolvimento-orquestrado-com-o-orca.md)). Este modo entrou aprovado pela pessoa, **sem caso real**; o primeiro projeto feito com ele confirma ou corrige esta seção.
+
+| Sessões abertas à mão | Com o Orca |
+|---|---|
+| A pessoa abre uma sessão por tarefa e cola o [prompt da trabalhadora](../modelos/prompt-sessao-trabalhadora.md) | A coordenadora abre o agente na worktree com `orca orchestration worker-start`, passando a especificação da tarefa |
+| `nova-tarefa.sh` cria a worktree | O Orca cria a worktree (`worker-start --worktree new-child`, ou `orca worktree create`) |
+| A trabalhadora comenta na issue e a pessoa avisa a integradora | O agente pergunta com `orca orchestration ask` e espera; a coordenadora responde com `orca orchestration reply` |
+| A pessoa acompanha cada terminal | A coordenadora espera com `orca orchestration check --wait` e o painel do Orca avisa quando um agente termina |
+| Portão humano: a sessão para e espera no chat | A coordenadora cria um portão (`orca orchestration gate-create`) e só o resolve (`gate-resolve`) com a resposta da pessoa |
+| `remover-tarefa.sh` remove a worktree | A coordenadora libera o agente (`worker-release`) e o Orca remove a worktree (`orca worktree rm`) |
+
+**O que não muda:** quem constrói não valida (a coordenadora refaz os testes e abre o navegador); os agentes **nunca** integram e terminam com o PR aberto e o CI verde; uma tarefa, uma branch, um PR; merge, deploy e o que é irreversível só com a aprovação da pessoa; a issue continua sendo o registro da tarefa. A coordenadora não escreve código, como a integradora.
+
+**Ciclo de uma tarefa:**
+
+1. A coordenadora abre a issue com o formulário de tarefa e cria a tarefa no Orca com a especificação padrão do [prompt da coordenadora](../modelos/prompt-coordenadora-orca.md) (objetivo, critérios de aceite, arquivos permitidos e proibidos, Skills, testes micro e macro, `Closes #N`).
+2. O agente constrói com TDD, traz a `main`, roda os testes macro, envia a branch, abre o PR e avisa o fim (`worker_done`). Dúvidas vão para a coordenadora com `ask`.
+3. A coordenadora valida o PR como a integradora (checklist do [03](03-skills-e-testes.md)), cria o portão do merge e pergunta à pessoa.
+4. Com o "pode integrar", resolve o portão, integra com `gh pr merge N --merge`, confere a `main` e o CI e libera o agente.
+
+**Limite inicial:** 1 coordenadora e até 3 agentes ao mesmo tempo. O painel e os avisos do Orca facilitam acompanhar; o número sobe ou desce com o caso.
+
+**Na Fase 9:** as conversas dos agentes ficam pesquisáveis com `orca search`; a sessão do método pode consultá-las (só leitura, com a autorização da pessoa) para recuperar correções feitas durante o trabalho.
+
+**O que observar no primeiro projeto:** se algum agente perguntou direto à pessoa em vez de usar `ask`; se os portões seguraram de fato o merge e o deploy; quantos agentes deu para acompanhar; se os scripts de worktree ainda fazem falta.
+
 ## Como iniciar
 
-Use o [prompt da sessão trabalhadora](../modelos/prompt-sessao-trabalhadora.md) e o [prompt da integradora](../modelos/prompt-sessao-integradora.md). Um bom primeiro passo é um **piloto pequeno**: 1 integradora e 1 trabalhadora numa tarefa quase só de estilo ou de conteúdo, enquanto a integradora não muda código.
+Use o [prompt da sessão trabalhadora](../modelos/prompt-sessao-trabalhadora.md) e o [prompt da integradora](../modelos/prompt-sessao-integradora.md). No Orca, use o [prompt da coordenadora](../modelos/prompt-coordenadora-orca.md): ele substitui os dois. Um bom primeiro passo é um **piloto pequeno**: 1 integradora e 1 trabalhadora numa tarefa quase só de estilo ou de conteúdo, enquanto a integradora não muda código.

@@ -42,7 +42,7 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 - **Passos:** quebre em tarefas pequenas (2 a 5 minutos por passo), cada uma com os arquivos exatos, o teste primeiro, o comando e o resultado esperado. Liste as restrições globais e o que a revisão final precisa olhar.
 - **Skill:** `superpowers:writing-plans`.
 - **Resultado:** plano versionado.
-- **Portão:** a pessoa aprova o plano e escolhe o modo de execução (inline, subagentes ou sessões divididas, veja [02](02-sessoes-e-papeis.md)).
+- **Portão:** a pessoa aprova o plano e escolhe o modo de execução (inline, subagentes, sessões divididas ou orquestração com o Orca, em rascunho; veja [02](02-sessoes-e-papeis.md)).
 
 ## Fase 4 · Construir com TDD
 
@@ -86,7 +86,7 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 Ao fim de um projeto, ou de um marco grande, o método aprende com ele. É o que mantém este repositório vivo.
 
 - **Passos:**
-  1. A integradora lê as issues, os PRs e as lições do projeto e preenche um [caso](../casos/_modelo-caso.md): contexto, o que funcionou, o que falhou, medidas.
+  1. A integradora lê as issues, os PRs e as lições do projeto e preenche um [caso](../casos/_modelo-caso.md): contexto, o que funcionou, o que falhou, medidas. Se o projeto rodou no Orca, consulte também as conversas dos agentes com `orca search` (só leitura, com a autorização da pessoa): elas guardam as correções que não viraram commit.
   2. Cada erro vira uma **lição** em [licoes](../licoes/_indice.md) (o que aconteceu, a causa, a regra) e, quando couber, um teste ou um passo do fluxo.
   3. Se o projeto é de um tipo que ainda não tem [cenário](../cenarios/README.md), crie um como `rascunho`; se já tem, ajuste-o e, com o caso registrado, suba o selo de maturidade.
   4. Se uma regra do método mudou, registre uma [decisão](../decisoes/_modelo-decisao.md).

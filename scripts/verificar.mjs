@@ -68,6 +68,9 @@ const OBRIGATORIOS = [
   '.claude-plugin/marketplace.json',
   'skills/novo-projeto/SKILL.md',
   'skills/consultar/SKILL.md',
+  'skills/atualizar-projeto/SKILL.md',
+  'modelos/prompt-coordenadora-orca.md',
+  'decisoes/006-desenvolvimento-orquestrado-com-o-orca.md',
 ];
 for (const arquivo of OBRIGATORIOS) checar(`existe ${arquivo}`, existsSync(join(RAIZ, arquivo)));
 
@@ -84,6 +87,9 @@ checar('README: adoção instala o plugin', adocao.includes('/plugin install met
 checar('README: adoção usa /metodo:novo-projeto', adocao.includes('/metodo:novo-projeto'));
 checar('README: adoção diz o que o repositório privado exige', adocao.includes('gh auth setup-git'));
 checar('README: adoção mantém o caminho manual', adocao.includes('scripts/novo-projeto.sh'));
+// Modo Orca (decisão 006, rascunho): instalação e atualização de projetos existentes
+checar('README: adoção instala o Orca e as skills dele', adocao.includes('https://github.com/stablyai/orca') && adocao.includes('orca skills install'));
+checar('README: adoção explica como atualizar um projeto existente', adocao.includes('/metodo:atualizar-projeto'));
 checar('README: como o repositório cresce', readme.includes('## Como este repositório cresce'));
 for (const arquivo of NUCLEO) checar(`README aponta para ${arquivo}`, readme.includes(arquivo));
 for (const pasta of ['nucleo/', 'cenarios/', 'casos/', 'licoes/', 'decisoes/', 'modelos/', 'scripts/', 'skills/', 'planos/']) checar(`README cita ${pasta}`, readme.includes(pasta));
@@ -98,6 +104,14 @@ const sessoes = ler('nucleo/02-sessoes-e-papeis.md');
 for (const termo of ['## Quando dividir', '## Quando NÃO dividir', 'integradora', 'trabalhadora', '## Modos de falha'])
   checar(`sessões: ${termo}`, sessoes.includes(termo));
 checar('sessões: limite de sessões em paralelo (no máximo 1 integradora e 2 trabalhadoras)', /no máximo\s+\*{0,2}1 integradora e 2 trabalhadoras/i.test(sessoes));
+for (const termo of ['## Com o Orca', 'coordenadora', 'orchestration worker-start', 'gate-create', 'orchestration ask'])
+  checar(`sessões: modo Orca (${termo})`, sessoes.includes(termo));
+checar('fluxo: Orca como modo de execução na Fase 3', (fluxo.split('## Fase 3')[1] || '').split('## Fase 4')[0].includes('Orca'));
+checar('fluxo: Fase 9 consulta as conversas do Orca', (fluxo.split('## Fase 9')[1] || '').includes('orca search'));
+checar('git/GitHub/CI: worktrees pelo Orca', ler('nucleo/05-git-github-e-ci.md').includes('orca worktree create'));
+const promptCoord = ler('modelos/prompt-coordenadora-orca.md');
+for (const termo of ['orca skills get orchestration', 'gate-create', 'pode integrar', 'superpowers:verification-before-completion', 'critérios de aceite', 'arquivos permitidos'])
+  checar(`prompt da coordenadora do Orca: ${termo}`, promptCoord.includes(termo));
 
 const skills = ler('nucleo/03-skills-e-testes.md');
 for (const termo of ['## Mapa de skills', '## Testes: micro e macro', 'micro', 'macro', 'RED', 'verification-before-completion', '## Verificação no navegador'])
@@ -283,6 +297,7 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     const dev = existsSync(join(alvo, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
     checar('novo-projeto.sh carimba a versão do método', dev.includes(`Versão do método: ${versao}`));
     checar('novo-projeto.sh registra os cenários escolhidos', dev.includes('site-estatico') && dev.includes('api-backend'));
+    checar('novo-projeto.sh: DESENVOLVIMENTO.md explica o modo Orca', dev.includes('Orca'));
     // Cenário rascunho gera aviso (sem travar); a maturidade de cada cenário vai para o DESENVOLVIMENTO.md
     const maturidade = (nome) => (readFileSync(join(RAIZ, 'cenarios', `${nome}.md`), 'utf8').match(/^\*\*Maturidade:\*\*\s*(.+)$/m) || [])[1]?.trim();
     checar('novo-projeto.sh avisa no stderr quando o cenário é rascunho (api-backend)', ok.stderr.includes('AVISO: o cenário api-backend é rascunho'), ok.stderr);
@@ -294,6 +309,7 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     checar('novo-projeto.sh: CLAUDE.md carimba a versão do método', claudeProj.includes(`Versão do método: ${versao}`));
     checar('novo-projeto.sh: CLAUDE.md importa o DESENVOLVIMENTO.md e a memória', claudeProj.includes('@docs/DESENVOLVIMENTO.md') && claudeProj.includes('@docs/memoria-do-projeto.md'));
     checar('novo-projeto.sh: CLAUDE.md manda consultar o método pela skill metodo:consultar', claudeProj.includes('metodo:consultar'));
+    checar('novo-projeto.sh: CLAUDE.md explica o modo Orca e a atualização do projeto', claudeProj.includes('Orca') && claudeProj.includes('/metodo:atualizar-projeto'));
     checar('novo-projeto.sh: CLAUDE.md sem marcadores nem caminhos de pasta', claudeProj.length > 0 && !claudeProj.includes('{{') && !claudeProj.includes(RAIZ));
     const alvo_com_claude = join(base, 'projeto-com-claude');
     mkdirSync(alvo_com_claude);
@@ -334,7 +350,7 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
   checar('plugin: marketplace metodo-de-desenvolvimento com dono', catalogo?.name === 'metodo-de-desenvolvimento' && Boolean(catalogo?.owner?.name));
   checar('plugin: entrada metodo com source "./" e sem version', entrada?.source === './' && entrada?.version === undefined);
   const pastasSkill = existsSync(join(RAIZ, 'skills')) ? readdirSync(join(RAIZ, 'skills')).filter((n) => existsSync(join(RAIZ, 'skills', n, 'SKILL.md'))) : [];
-  checar('plugin: skills novo-projeto e consultar', pastasSkill.includes('novo-projeto') && pastasSkill.includes('consultar'), pastasSkill.join(', '));
+  checar('plugin: skills novo-projeto, consultar e atualizar-projeto', ['novo-projeto', 'consultar', 'atualizar-projeto'].every((n) => pastasSkill.includes(n)), pastasSkill.join(', '));
   for (const pasta of pastasSkill) {
     const texto = ler(`skills/${pasta}/SKILL.md`);
     const cabecalho = (texto.match(/^---\n([\s\S]*?)\n---\n/) || [])[1] || '';
@@ -346,8 +362,12 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
   }
   const inicio = ler('skills/novo-projeto/SKILL.md');
   checar('skills/novo-projeto: maturidade rascunho', inicio.includes('**Maturidade:** rascunho'));
-  for (const termo of ['superpowers:brainstorming', 'gh repo create', '.DS_Store', 'Pode criar?', 'bash "${CLAUDE_PLUGIN_ROOT}/scripts/novo-projeto.sh"'])
+  for (const termo of ['superpowers:brainstorming', 'gh repo create', '.DS_Store', 'Pode criar?', 'bash "${CLAUDE_PLUGIN_ROOT}/scripts/novo-projeto.sh"', 'orca repo add'])
     checar(`skills/novo-projeto: ${termo}`, inicio.includes(termo));
+  const atualizar = ler('skills/atualizar-projeto/SKILL.md');
+  checar('skills/atualizar-projeto: maturidade rascunho', atualizar.includes('**Maturidade:** rascunho'));
+  for (const termo of ['${CLAUDE_PLUGIN_ROOT}/CHANGELOG.md', 'Versão do método', 'Pode atualizar?', 'orca repo add', 'bash "${CLAUDE_PLUGIN_ROOT}/scripts/novo-projeto.sh"', 'nunca apague'])
+    checar(`skills/atualizar-projeto: ${termo}`, atualizar.includes(termo));
 }
 
 // 4) Consistência geral

@@ -124,6 +124,8 @@ Os detalhes de cada fase, os cenários, os casos e as lições ficam no reposit�
 
 - Tarefas: issues com o formulário de tarefa (\`.github/ISSUE_TEMPLATE/tarefa.yml\`).
 - Worktrees: \`scripts/nova-tarefa.sh <tipo> <slug>\` e \`scripts/remover-tarefa.sh <tipo> <slug>\`.
+- Com o Orca (modo em rascunho): a coordenadora é a integradora e distribui as tarefas aos agentes (\`orca orchestration worker-start\`); o Orca cria e remove as worktrees, e os scripts acima ficam para quem trabalha sem ele. Prompt: \`modelos/prompt-coordenadora-orca.md\` do método.
+- Para trazer este projeto à versão mais nova do método: \`/metodo:atualizar-projeto\`.
 - Memória do projeto: \`docs/memoria-do-projeto.md\`.
 
 ## Antes do primeiro push para um repositório público

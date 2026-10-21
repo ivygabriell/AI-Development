@@ -14,4 +14,6 @@ Versão do método: {{VERSAO}}
 - **Siga as fases do método** e diga qual Skill está usando: `superpowers:brainstorming` antes de criar ou reestruturar, `superpowers:test-driven-development` para implementar, `superpowers:systematic-debugging` para bugs e `superpowers:verification-before-completion` antes de dizer "pronto".
 - **Comece lendo a memória** (`docs/memoria-do-projeto.md`) e atualize-a ao fim de cada fase, numa branch, junto com o trabalho da fase.
 - **O método é só leitura.** Nunca altere a cópia do método. Uma lição nova vira nota na memória e é levada ao método na Fase 9.
+- **Orquestração com o Orca** (modo em rascunho): se este projeto roda no Orca, a coordenadora é a integradora e cada agente supervisionado é uma trabalhadora. A coordenadora usa o prompt `modelos/prompt-coordenadora-orca.md` do método; os agentes nunca integram e perguntam à coordenadora com `orca orchestration ask`, nunca à pessoa; merge e deploy passam por um portão que só a pessoa resolve.
+- **Método mais novo:** se a versão do método instalada (skill `metodo:consultar`) for maior que a "Versão do método" acima, sugira à pessoa rodar `/metodo:atualizar-projeto`.
 - **Peça confirmação antes de ações externas ou irreversíveis:** push, abrir ou integrar PR, deploy, apagar algo, reescrever histórico. Nunca use `push --force`.
