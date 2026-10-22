@@ -3,10 +3,10 @@
 # Uso: scripts/novo-projeto.sh <pasta-do-projeto> [cenario ...]
 #   <pasta-do-projeto>  pasta que já existe (de preferência um repositório Git novo)
 #   cenario             um ou mais nomes de arquivos em cenarios/ (sem .md), por exemplo: site-estatico api-backend
-# Copia: formulário de tarefa, modelo de PR, CI, scripts de worktree, e cria CLAUDE.md, docs/DESENVOLVIMENTO.md e
-# docs/memoria-do-projeto.md carimbados com a versão do método. Nunca sobrescreve arquivos existentes.
+# Copia: formulário de tarefa, modelo de PR, CI, scripts de worktree, e cria CLAUDE.md, AGENTS.md (para o Codex),
+# docs/DESENVOLVIMENTO.md e docs/memoria-do-projeto.md carimbados com a versão do método. Nunca sobrescreve arquivos existentes.
 # Avisa no stderr (sem interromper) quando um cenário escolhido é rascunho.
-# Se o projeto já tem CLAUDE.md, não o toca: só avisa para acrescentar as importações.
+# Se o projeto já tem CLAUDE.md ou AGENTS.md, não os toca: só avisa.
 set -euo pipefail
 
 raiz="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -78,6 +78,13 @@ else
   sed -e "s|{{VERSAO}}|$versao|g" "$raiz/modelos/CLAUDE-projeto.md" > "$alvo/CLAUDE.md"
 fi
 
+# AGENTS.md do projeto: o Codex lê este arquivo, não o CLAUDE.md (decisão 007)
+if [[ -e "$alvo/AGENTS.md" ]]; then
+  echo "AVISO: o AGENTS.md já existe e não foi alterado; acrescente a ele a leitura do CLAUDE.md, do docs/DESENVOLVIMENTO.md e da memória (modelo: modelos/AGENTS-projeto.md do método)." >&2
+else
+  sed -e "s|{{VERSAO}}|$versao|g" "$raiz/modelos/AGENTS-projeto.md" > "$alvo/AGENTS.md"
+fi
+
 # Cada cenário leva a sua maturidade; rascunho gera aviso, mas não interrompe
 lista_cenarios="Nenhum cenário escolhido ainda (veja a pasta cenarios/ do repositório do método)."
 if [[ ${#cenarios[@]} -gt 0 ]]; then
@@ -125,6 +132,7 @@ Os detalhes de cada fase, os cenários, os casos e as lições ficam no reposit�
 - Tarefas: issues com o formulário de tarefa (\`.github/ISSUE_TEMPLATE/tarefa.yml\`).
 - Worktrees: \`scripts/nova-tarefa.sh <tipo> <slug>\` e \`scripts/remover-tarefa.sh <tipo> <slug>\`.
 - Com o Orca (modo em rascunho): a coordenadora é a integradora e distribui as tarefas aos agentes (\`orca orchestration worker-start\`); o Orca cria e remove as worktrees, e os scripts acima ficam para quem trabalha sem ele. Prompt: \`modelos/prompt-coordenadora-orca.md\` do método.
+- Back com o Codex e front com o Claude (modo em rascunho): a coordenadora Claude inicia os agentes do back com \`--agent codex\`; o Codex lê o \`AGENTS.md\`, com as mesmas regras do \`CLAUDE.md\`. O contrato da API é aprovado antes de qualquer tarefa de construção.
 - Para trazer este projeto à versão mais nova do método: \`/metodo:atualizar-projeto\`.
 - Memória do projeto: \`docs/memoria-do-projeto.md\`.
 

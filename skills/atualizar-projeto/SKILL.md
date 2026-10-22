@@ -7,7 +7,7 @@ description: Use quando a pessoa quer trazer um projeto que já existe (preparad
 
 **Maturidade:** rascunho (ainda não usada num projeto real; o primeiro uso vira caso no repositório do método)
 
-Responda em português. Pronomes não declarados: use o neutro. Diga qual Skill está usando a cada passo. A cópia do método fica em `${CLAUDE_PLUGIN_ROOT}` e é **só leitura**. No projeto, a regra é **só acrescentar**: nunca apague nem sobrescreva conteúdo do projeto (comandos, decisões, regras próprias, CI).
+Responda em português. Pronomes não declarados: use o neutro. Diga qual Skill está usando a cada passo. A cópia do método fica em `${CLAUDE_PLUGIN_ROOT}` e é **só leitura**. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`: use esse caminho no lugar dele. No projeto, a regra é **só acrescentar**: nunca apague nem sobrescreva conteúdo do projeto (comandos, decisões, regras próprias, CI).
 
 ## Passo 1 · Conferências (só leitura)
 
@@ -38,10 +38,11 @@ Compare cada arquivo da referência com o do projeto e monte o plano, arquivo po
 
 | Situação | O que fazer |
 |---|---|
-| O arquivo falta no projeto | Copiar da referência (`CLAUDE.md`, `docs/DESENVOLVIMENTO.md`, `docs/memoria-do-projeto.md`, `.github/ISSUE_TEMPLATE/tarefa.yml`, `.github/pull_request_template.md`, `scripts/nova-tarefa.sh`, `scripts/remover-tarefa.sh`) |
+| O arquivo falta no projeto | Copiar da referência (`CLAUDE.md`, `AGENTS.md`, `docs/DESENVOLVIMENTO.md`, `docs/memoria-do-projeto.md`, `.github/ISSUE_TEMPLATE/tarefa.yml`, `.github/pull_request_template.md`, `scripts/nova-tarefa.sh`, `scripts/remover-tarefa.sh`) |
 | O projeto não tem nenhum CI em `.github/workflows/` | Copiar o `ci.yml` da referência |
 | O projeto já tem CI | Não mexer |
 | `CLAUDE.md` existe | Atualizar só a linha `Versão do método:` (ou acrescentá-la); acrescentar `@docs/DESENVOLVIMENTO.md` e `@docs/memoria-do-projeto.md` se faltarem; acrescentar, numa seção `## Método de desenvolvimento`, as regras da referência que o arquivo ainda não tem |
+| `AGENTS.md` existe | Atualizar só a linha `Versão do método:` (ou acrescentá-la) e acrescentar, numa seção `## Método de desenvolvimento`, a leitura do `CLAUDE.md`, do `docs/DESENVOLVIMENTO.md` e da memória e as regras da referência que faltarem |
 | `docs/DESENVOLVIMENTO.md` existe | Atualizar a versão e acrescentar as regras e as linhas de "Tarefas e sessões" que faltarem, mantendo os comandos e as decisões do projeto |
 | `docs/memoria-do-projeto.md` existe | Acrescentar uma entrada: "Atualizado para o método `<versão>` em `<data>`: `<o que mudou>`" |
 | Uma regra da referência contradiz uma decisão do projeto | Não trocar: listar para a pessoa decidir |

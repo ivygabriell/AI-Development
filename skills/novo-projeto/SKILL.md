@@ -7,7 +7,7 @@ description: Use quando a pessoa quer começar um projeto novo do zero com o mé
 
 **Maturidade:** rascunho (ainda não usada num projeto real; o primeiro uso vira caso no repositório do método)
 
-Responda em português. Pronomes não declarados: use o neutro. Diga qual Skill está usando a cada passo. A cópia do método fica em `${CLAUDE_PLUGIN_ROOT}` e é **só leitura**: nunca altere nada nela.
+Responda em português. Pronomes não declarados: use o neutro. Diga qual Skill está usando a cada passo. A cópia do método fica em `${CLAUDE_PLUGIN_ROOT}` e é **só leitura**: nunca altere nada nela. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`: use esse caminho no lugar dele.
 
 ## Passo 1 · Conferências (só leitura)
 
@@ -69,7 +69,7 @@ Qualquer falha: **pare**, mostre a saída e explique. Nunca apague, force ou con
 
 - Invoque `superpowers:brainstorming` com a descrição da pessoa e siga as fases de `${CLAUDE_PLUGIN_ROOT}/nucleo/01-fluxo-de-ponta-a-ponta.md`.
 - Pare em cada portão: a spec (com `${CLAUDE_PLUGIN_ROOT}/modelos/modelo-spec.md` e `${CLAUDE_PLUGIN_ROOT}/modelos/modelo-criterios-de-aceite.md`), o plano e o modo de execução, cada merge e o deploy.
-- No portão do modo de execução, ofereça também a orquestração com o Orca (modo em rascunho): a coordenadora é a integradora e os agentes são as trabalhadoras, com o prompt `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-coordenadora-orca.md`.
+- No portão do modo de execução, ofereça também a orquestração com o Orca (modo em rascunho): a coordenadora é a integradora e os agentes são as trabalhadoras, com o prompt `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-coordenadora-orca.md`. Se o projeto tem back e front, ofereça o back com agentes Codex (`--agent codex`) e o front com agentes Claude, com o contrato da API aprovado antes (`${CLAUDE_PLUGIN_ROOT}/nucleo/02-sessoes-e-papeis.md`, "Back e front com agentes diferentes").
 - O **primeiro PR depois da spec** ajusta `.github/workflows/ci.yml` à stack escolhida (exemplos no `05`), para o CI rodar testes de verdade.
 - A partir do primeiro commit, toda mudança vai numa branch, com PR e CI verde; integre só com a aprovação da pessoa, com `gh pr merge N --merge`, sem apagar a branch.
 - Ao fim de cada fase, registre em `docs/memoria-do-projeto.md` onde o trabalho parou e o que foi decidido.

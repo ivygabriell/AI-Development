@@ -72,6 +72,7 @@ O método usa, além do plugin `metodo`, três plugins, uma ferramenta de engenh
 | Plugin **design** | Revisão de acessibilidade, crítica de design, entrega para desenvolvimento e textos de interface | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins/tree/main/design) |
 | **REA** (skill `reverse-engineer-anything` e servidor `rea`) | Engenharia reversa de artefatos fechados, quando uma referência não tem código-fonte ([04](nucleo/04-referencias-e-engenharia-reversa.md)) | [morluto/rea](https://github.com/morluto/rea) |
 | **Orca** (aplicativo e as skills `orca-cli` e `orchestration`) | Orquestração dos agentes: a coordenadora faz o papel da integradora e os agentes, das trabalhadoras ([02](nucleo/02-sessoes-e-papeis.md), modo em rascunho) | [stablyai/orca](https://github.com/stablyai/orca) |
+| **Codex** (opcional) | Agentes do back quando o projeto divide o back (Codex) e o front (Claude), com as mesmas regras e Skills ([02](nucleo/02-sessoes-e-papeis.md), modo em rascunho) | [openai/codex](https://github.com/openai/codex) |
 | Plugin **metodo** | Este repositório: `/metodo:novo-projeto`, `/metodo:atualizar-projeto` e a consulta ao método nas sessões do projeto | este repositório |
 
 Os comandos abaixo são o caminho curto. Para requisitos, opções e problemas de instalação de cada ferramenta, consulte o repositório oficial dela.
@@ -137,6 +138,27 @@ claude mcp list        # deve mostrar "rea" com ✔ Connected
 orca status            # deve mostrar runtimeState: ready com o Orca aberto
 ```
 
+**8. Codex (opcional, só para o back com agentes Codex).** O Codex segue as mesmas regras e Skills que o Claude, então precisa das mesmas ferramentas. No terminal:
+
+```bash
+codex plugin marketplace add anthropics/claude-plugins-official
+codex plugin marketplace add anthropics/knowledge-work-plugins
+codex plugin marketplace add ivygabriell/AI-Development
+codex plugin add superpowers@claude-plugins-official
+codex plugin add engineering@knowledge-work-plugins
+codex plugin add design@knowledge-work-plugins
+codex plugin add metodo@metodo-de-desenvolvimento
+```
+
+Se o Codex disser que um marketplace já está registrado ou que um plugin já está instalado, siga em frente. Para o REA, rode `npx rea-agents setup` de novo e escolha também o Codex. As skills do Orca (passo 6) já ficam na pasta que o Codex lê. Para conferir:
+
+```bash
+codex plugin list      # superpowers, engineering, design e metodo instalados e ativos
+codex mcp list         # deve mostrar "rea" ativo
+```
+
+Para receber as melhorias do método também no Codex: `codex plugin marketplace upgrade`. Nos projetos, o Codex lê o `AGENTS.md` (o `CLAUDE.md` é só do Claude); o `/metodo:novo-projeto` e o `/metodo:atualizar-projeto` criam esse arquivo.
+
 Os conectores que os plugins engineering e design trazem (Slack, Figma, Linear e outros) podem ficar sem autenticação; o método não depende deles.
 
 ### Iniciar um projeto
@@ -154,6 +176,8 @@ mkdir ~/Projetos/meu-site && cd ~/Projetos/meu-site && claude
 A skill confere o ambiente, propõe o cenário (e avisa se ele é `rascunho`), pede **uma** confirmação antes de criar o repositório no GitHub, prepara tudo com o `novo-projeto.sh` (inclusive o `CLAUDE.md` do projeto, que dá o contexto a toda sessão futura), espera o primeiro CI e começa a Fase 0. Daí em diante, ela para em cada portão: spec, plano, cada merge e deploy. Qualquer sessão do projeto consulta o método pela skill `metodo:consultar`.
 
 **Para trabalhar com vários agentes no Orca**, abra o projeto no Orca e use o [prompt da coordenadora](modelos/prompt-coordenadora-orca.md) no agente principal: ela distribui as tarefas aos agentes, valida e só integra com a sua aprovação ([02](nucleo/02-sessoes-e-papeis.md), seção "Com o Orca").
+
+**Para dividir o back (Codex) e o front (Claude)**, a coordenadora continua sendo um agente Claude e é a única que integra; ela inicia os agentes do back com `--agent codex` e os do front com `--agent claude`, e o contrato da API é aprovado por você antes de qualquer tarefa de construção ([02](nucleo/02-sessoes-e-papeis.md), "Back e front com agentes diferentes", modo em rascunho).
 
 ### Atualizar um projeto que já usa o método
 
@@ -176,7 +200,7 @@ Sem o plugin, com uma cópia local deste repositório:
    ```bash
    scripts/novo-projeto.sh <pasta-do-projeto> site-estatico
    ```
-   Ele copia o formulário de tarefa, o modelo de PR, o CI e os scripts de worktree, e cria o `CLAUDE.md`, o `docs/DESENVOLVIMENTO.md` e o `docs/memoria-do-projeto.md` carimbados com a versão do método. Nunca sobrescreve nada; se o projeto já tem um `CLAUDE.md`, só avisa para acrescentar as importações.
+   Ele copia o formulário de tarefa, o modelo de PR, o CI e os scripts de worktree, e cria o `CLAUDE.md`, o `AGENTS.md` (para o Codex), o `docs/DESENVOLVIMENTO.md` e o `docs/memoria-do-projeto.md` carimbados com a versão do método. Nunca sobrescreve nada; se o projeto já tem um `CLAUDE.md`, só avisa para acrescentar as importações.
    Se um cenário escolhido ainda é `rascunho`, o script avisa (sem interromper) e o `DESENVOLVIMENTO.md` registra a maturidade de cada cenário: trate um rascunho como hipótese, não como regra.
 3. Faça o primeiro commit com tudo e dê o primeiro push da `main`. O CI passa com o aviso "stack ainda não definida" até o primeiro PR da stack. **Depois** ative a proteção da `main` e crie as etiquetas (comandos em [05](nucleo/05-git-github-e-ci.md)). Em repositório privado, a proteção exige plano pago; o 05 diz o que fazer sem ela.
 4. Preencha os comandos do projeto no `docs/DESENVOLVIMENTO.md` e ajuste o CI para a sua stack.

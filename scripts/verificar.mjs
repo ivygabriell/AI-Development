@@ -71,6 +71,8 @@ const OBRIGATORIOS = [
   'skills/atualizar-projeto/SKILL.md',
   'modelos/prompt-coordenadora-orca.md',
   'decisoes/006-desenvolvimento-orquestrado-com-o-orca.md',
+  'modelos/AGENTS-projeto.md',
+  'decisoes/007-back-com-codex-e-front-com-claude.md',
 ];
 for (const arquivo of OBRIGATORIOS) checar(`existe ${arquivo}`, existsSync(join(RAIZ, arquivo)));
 
@@ -90,6 +92,9 @@ checar('README: adoção mantém o caminho manual', adocao.includes('scripts/nov
 // Modo Orca (decisão 006, rascunho): instalação e atualização de projetos existentes
 checar('README: adoção instala o Orca e as skills dele', adocao.includes('https://github.com/stablyai/orca') && adocao.includes('orca skills install'));
 checar('README: adoção explica como atualizar um projeto existente', adocao.includes('/metodo:atualizar-projeto'));
+// Back com o Codex e front com o Claude (decisão 007, rascunho): o Codex com as mesmas ferramentas
+for (const termo of ['codex plugin marketplace add', 'codex plugin add', 'codex plugin marketplace upgrade', 'codex mcp list', 'AGENTS.md'])
+  checar(`README: adoção prepara o Codex (${termo})`, adocao.includes(termo));
 checar('README: como o repositório cresce', readme.includes('## Como este repositório cresce'));
 for (const arquivo of NUCLEO) checar(`README aponta para ${arquivo}`, readme.includes(arquivo));
 for (const pasta of ['nucleo/', 'cenarios/', 'casos/', 'licoes/', 'decisoes/', 'modelos/', 'scripts/', 'skills/', 'planos/']) checar(`README cita ${pasta}`, readme.includes(pasta));
@@ -114,6 +119,10 @@ for (const termo of ['orca skills get orchestration', 'gate-create', 'pode integ
   checar(`prompt da coordenadora do Orca: ${termo}`, promptCoord.includes(termo));
 checar('prompt da coordenadora do Orca: agentes abertos como Claude Code (--agent claude)', promptCoord.includes('--agent claude'));
 checar('sessões: no Orca os agentes são Claude Code (--agent claude)', sessoes.includes('--agent claude'));
+for (const termo of ['### Back e front com agentes diferentes', '--agent codex', 'AGENTS.md', 'contrato da API'])
+  checar(`sessões: back com o Codex e front com o Claude (${termo})`, sessoes.includes(termo));
+for (const termo of ['--agent codex', 'contrato da API', 'AGENTS.md', 'retrabalho'])
+  checar(`prompt da coordenadora do Orca: back com o Codex (${termo})`, promptCoord.includes(termo));
 
 const skills = ler('nucleo/03-skills-e-testes.md');
 for (const termo of ['## Mapa de skills', '## Testes: micro e macro', 'micro', 'macro', 'RED', 'verification-before-completion', '## Verificação no navegador'])
@@ -294,12 +303,21 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     checar('novo-projeto.sh recusa cenário inexistente', rodar(alvo, 'cenario-que-nao-existe').status !== 0);
     const ok = rodar(alvo, 'site-estatico', 'api-backend');
     checar('novo-projeto.sh conclui com cenários válidos', ok.status === 0, ok.stderr);
-    for (const arq of ['CLAUDE.md', '.github/ISSUE_TEMPLATE/tarefa.yml', '.github/pull_request_template.md', '.github/workflows/ci.yml', 'scripts/nova-tarefa.sh', 'scripts/remover-tarefa.sh', 'docs/DESENVOLVIMENTO.md', 'docs/memoria-do-projeto.md'])
+    for (const arq of ['CLAUDE.md', 'AGENTS.md', '.github/ISSUE_TEMPLATE/tarefa.yml', '.github/pull_request_template.md', '.github/workflows/ci.yml', 'scripts/nova-tarefa.sh', 'scripts/remover-tarefa.sh', 'docs/DESENVOLVIMENTO.md', 'docs/memoria-do-projeto.md'])
       checar(`novo-projeto.sh cria ${arq}`, existsSync(join(alvo, arq)));
     const dev = existsSync(join(alvo, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
     checar('novo-projeto.sh carimba a versão do método', dev.includes(`Versão do método: ${versao}`));
     checar('novo-projeto.sh registra os cenários escolhidos', dev.includes('site-estatico') && dev.includes('api-backend'));
     checar('novo-projeto.sh: DESENVOLVIMENTO.md explica o modo Orca', dev.includes('Orca'));
+    checar('novo-projeto.sh: DESENVOLVIMENTO.md cita o AGENTS.md', dev.includes('AGENTS.md'));
+    const memProj = existsSync(join(alvo, 'docs/memoria-do-projeto.md')) ? readFileSync(join(alvo, 'docs/memoria-do-projeto.md'), 'utf8') : '';
+    checar('novo-projeto.sh: memória anota agente e retrabalho por tarefa', memProj.includes('retrabalho'));
+    // AGENTS.md do projeto: o Codex lê este arquivo, não o CLAUDE.md (decisão 007)
+    const agentsProj = existsSync(join(alvo, 'AGENTS.md')) ? readFileSync(join(alvo, 'AGENTS.md'), 'utf8') : '';
+    checar('novo-projeto.sh: AGENTS.md carimba a versão do método', agentsProj.includes(`Versão do método: ${versao}`));
+    for (const termo of ['CLAUDE.md', 'docs/DESENVOLVIMENTO.md', 'docs/memoria-do-projeto.md', 'superpowers:test-driven-development', 'superpowers:verification-before-completion', 'orca orchestration ask'])
+      checar(`novo-projeto.sh: AGENTS.md cita ${termo}`, agentsProj.includes(termo));
+    checar('novo-projeto.sh: AGENTS.md sem marcadores nem caminhos de pasta', agentsProj.length > 0 && !agentsProj.includes('{{') && !agentsProj.includes(RAIZ));
     // Cenário rascunho gera aviso (sem travar); a maturidade de cada cenário vai para o DESENVOLVIMENTO.md
     const maturidade = (nome) => (readFileSync(join(RAIZ, 'cenarios', `${nome}.md`), 'utf8').match(/^\*\*Maturidade:\*\*\s*(.+)$/m) || [])[1]?.trim();
     checar('novo-projeto.sh avisa no stderr quando o cenário é rascunho (api-backend)', ok.stderr.includes('AVISO: o cenário api-backend é rascunho'), ok.stderr);
@@ -313,12 +331,18 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     checar('novo-projeto.sh: CLAUDE.md manda consultar o método pela skill metodo:consultar', claudeProj.includes('metodo:consultar'));
     checar('novo-projeto.sh: CLAUDE.md explica o modo Orca e a atualização do projeto', claudeProj.includes('Orca') && claudeProj.includes('/metodo:atualizar-projeto'));
     checar('novo-projeto.sh: CLAUDE.md diz que no Orca os agentes são Claude Code (--agent claude)', claudeProj.includes('--agent claude'));
+    checar('novo-projeto.sh: CLAUDE.md diz quando o agente pode ser Codex (--agent codex e AGENTS.md)', claudeProj.includes('--agent codex') && claudeProj.includes('AGENTS.md'));
     checar('novo-projeto.sh: CLAUDE.md sem marcadores nem caminhos de pasta', claudeProj.length > 0 && !claudeProj.includes('{{') && !claudeProj.includes(RAIZ));
     const alvo_com_claude = join(base, 'projeto-com-claude');
     mkdirSync(alvo_com_claude);
     writeFileSync(join(alvo_com_claude, 'CLAUDE.md'), 'meu claude\n');
     const com_claude = rodar(alvo_com_claude, 'site-estatico');
     checar('novo-projeto.sh com CLAUDE.md existente conclui, avisa e não o altera', com_claude.status === 0 && com_claude.stderr.includes('CLAUDE.md') && readFileSync(join(alvo_com_claude, 'CLAUDE.md'), 'utf8') === 'meu claude\n' && existsSync(join(alvo_com_claude, 'docs/DESENVOLVIMENTO.md')), com_claude.stderr);
+    const alvo_com_agents = join(base, 'projeto-com-agents');
+    mkdirSync(alvo_com_agents);
+    writeFileSync(join(alvo_com_agents, 'AGENTS.md'), 'meu agents\n');
+    const com_agents = rodar(alvo_com_agents, 'site-estatico');
+    checar('novo-projeto.sh com AGENTS.md existente conclui, avisa e não o altera', com_agents.status === 0 && com_agents.stderr.includes('AGENTS.md') && readFileSync(join(alvo_com_agents, 'AGENTS.md'), 'utf8') === 'meu agents\n' && existsSync(join(alvo_com_agents, 'CLAUDE.md')), com_agents.stderr);
     const alvo_testado = join(base, 'projeto-testado');
     mkdirSync(alvo_testado);
     const so_testado = rodar(alvo_testado, 'site-estatico');
@@ -361,6 +385,7 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     checar(`skills/${pasta}: description no cabeçalho`, /^description:\s*\S.{20,}$/m.test(cabecalho));
     const citados = [...texto.matchAll(/\$\{CLAUDE_PLUGIN_ROOT\}\/([^\s`"'<>)*]+)/g)].map((m) => m[1]);
     checar(`skills/${pasta}: cita arquivos do método por \${CLAUDE_PLUGIN_ROOT}`, citados.length >= 2, `citados: ${citados.length}`);
+    checar(`skills/${pasta}: diz onde achar o método sem \${CLAUDE_PLUGIN_ROOT} (Codex)`, texto.includes('dois níveis acima'));
     for (const caminho of citados) checar(`skills/${pasta}: caminho citado existe (${caminho})`, existsSync(join(RAIZ, caminho)));
   }
   const inicio = ler('skills/novo-projeto/SKILL.md');
@@ -371,6 +396,9 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
   checar('skills/atualizar-projeto: maturidade rascunho', atualizar.includes('**Maturidade:** rascunho'));
   for (const termo of ['${CLAUDE_PLUGIN_ROOT}/CHANGELOG.md', 'Versão do método', 'Pode atualizar?', 'orca repo add', 'bash "${CLAUDE_PLUGIN_ROOT}/scripts/novo-projeto.sh"', 'nunca apague'])
     checar(`skills/atualizar-projeto: ${termo}`, atualizar.includes(termo));
+  checar('skills/atualizar-projeto: cria o AGENTS.md que falta', atualizar.includes('AGENTS.md'));
+  checar('skills/novo-projeto: oferece back com o Codex e front com o Claude', inicio.includes('--agent codex'));
+  checar('skills/consultar: aponta para o back com o Codex', ler('skills/consultar/SKILL.md').includes('Back e front com agentes diferentes'));
 }
 
 // 4) Consistência geral

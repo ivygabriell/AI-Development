@@ -2,6 +2,17 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 2.5.0 (2026-10-22)
+
+Back com agentes Codex e front com agentes Claude, no Orca, aprovado pela pessoa **sem caso real** (tudo em `rascunho` até o primeiro projeto feito assim). Ver [decisão 007](decisoes/007-back-com-codex-e-front-com-claude.md).
+
+- **Núcleo:** o `02` ganha a subseção "Back e front com agentes diferentes": uma só coordenadora, sempre Claude, que inicia o back com `--agent codex` e o front com `--agent claude`; o contrato da API aprovado antes de qualquer tarefa de construção; pastas separadas e arquivos comuns só com a coordenadora; a memória anota o agente e o retrabalho de cada tarefa.
+- **Regra do agente (amplia a da 2.4.1):** a coordenadora é sempre Claude; os agentes podem ser Claude ou Codex, e o Codex só entra em projeto que tem `AGENTS.md`.
+- **Modelo novo:** `modelos/AGENTS-projeto.md`. O `novo-projeto.sh` gera o `AGENTS.md` do projeto (se já existir, só avisa) e a skill `atualizar-projeto` o acrescenta.
+- **Skills:** as três dizem onde achar a cópia do método quando o Codex não troca `${CLAUDE_PLUGIN_ROOT}`; a `novo-projeto` oferece o modo na Fase 3 e a `consultar` aponta para ele.
+- **README:** o Codex em "Antes de começar" (plugins, REA, conferência e atualização) e o modo em "Iniciar um projeto".
+- Plano em [planos/2026-10-22-back-codex-front-claude.md](planos/2026-10-22-back-codex-front-claude.md).
+
 ## 2.4.1 (2026-10-21)
 
 - **Modo Orca:** a coordenadora e os agentes são sempre agentes Claude. O [prompt da coordenadora](modelos/prompt-coordenadora-orca.md) manda abrir cada agente com `worker-start --agent claude`, e o [02](nucleo/02-sessoes-e-papeis.md) e o `CLAUDE.md` dos projetos gerados explicam o motivo: os outros agentes que o Orca abre (Codex, Cursor e outros) não leem o `CLAUDE.md` do projeto nem os plugins `metodo` e Superpowers, e trabalhariam sem o método.
