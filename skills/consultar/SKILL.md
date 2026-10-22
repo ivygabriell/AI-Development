@@ -5,7 +5,7 @@ description: Use quando uma sessão de projeto precisar das regras do método de
 
 # Consultar o método
 
-A cópia do método fica em `${CLAUDE_PLUGIN_ROOT}` e é **só leitura**: leia, nunca altere. A versão está em `${CLAUDE_PLUGIN_ROOT}/VERSION`; compare com a "Versão do método" do `CLAUDE.md` do projeto e, se forem diferentes, avise a pessoa antes de aplicar uma regra nova.
+A cópia do método fica em `${CLAUDE_PLUGIN_ROOT}` e é **só leitura**: leia, nunca altere. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`: use esse caminho no lugar dele. A versão está em `${CLAUDE_PLUGIN_ROOT}/VERSION`; compare com a "Versão do método" do `CLAUDE.md` do projeto e, se forem diferentes, avise a pessoa antes de aplicar uma regra nova.
 
 | Preciso de | Leia |
 |---|---|
@@ -19,6 +19,7 @@ A cópia do método fica em `${CLAUDE_PLUGIN_ROOT}` e é **só leitura**: leia, 
 | Escrever a spec e os critérios de aceite | `${CLAUDE_PLUGIN_ROOT}/modelos/modelo-spec.md` e `${CLAUDE_PLUGIN_ROOT}/modelos/modelo-criterios-de-aceite.md` |
 | Abrir sessões paralelas | `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-sessao-integradora.md` e `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-sessao-trabalhadora.md` |
 | Orquestrar com o Orca (coordenadora e agentes, modo em rascunho) | `${CLAUDE_PLUGIN_ROOT}/nucleo/02-sessoes-e-papeis.md` (seção "Com o Orca") e `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-coordenadora-orca.md` |
+| Back com agentes Codex e front com agentes Claude (contrato da API, `AGENTS.md`, modo em rascunho) | `${CLAUDE_PLUGIN_ROOT}/nucleo/02-sessoes-e-papeis.md` (seção "Back e front com agentes diferentes") |
 | Trazer o projeto para a versão mais nova do método | `${CLAUDE_PLUGIN_ROOT}/CHANGELOG.md` e a skill `/metodo:atualizar-projeto` |
 | O que guardar na memória do projeto | `${CLAUDE_PLUGIN_ROOT}/modelos/memoria-do-projeto.md` |
 

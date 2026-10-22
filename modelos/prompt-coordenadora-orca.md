@@ -1,6 +1,6 @@
 # Prompt da coordenadora no Orca (rascunho)
 
-Como usar: no [Orca](https://github.com/stablyai/orca), abra um agente **Claude** na pasta principal do projeto e cole o texto abaixo no início. Ele substitui os prompts da integradora e da trabalhadora: a coordenadora faz o papel da integradora e cada agente que ela inicia é uma trabalhadora ([02](../nucleo/02-sessoes-e-papeis.md), seção "Com o Orca"). Modo aprovado pela pessoa sem caso real ([decisão 006](../decisoes/006-desenvolvimento-orquestrado-com-o-orca.md)): anote na memória do projeto o que funcionar e o que atrapalhar.
+Como usar: no [Orca](https://github.com/stablyai/orca), abra um agente **Claude** (a coordenadora é sempre Claude) na pasta principal do projeto e cole o texto abaixo no início. Ele substitui os prompts da integradora e da trabalhadora: a coordenadora faz o papel da integradora e cada agente que ela inicia é uma trabalhadora ([02](../nucleo/02-sessoes-e-papeis.md), seção "Com o Orca"). Modo aprovado pela pessoa sem caso real ([decisão 006](../decisoes/006-desenvolvimento-orquestrado-com-o-orca.md)): anote na memória do projeto o que funcionar e o que atrapalhar.
 
 Antes, instale as skills do Orca uma vez por computador: `orca skills install --skill orca-cli --skill orchestration`.
 
@@ -21,16 +21,23 @@ Regras:
   proibidos, Skills, testes micro e macro) e uma tarefa no Orca com a especificação padrão;
 - duas tarefas abertas não tocam o mesmo arquivo; tarefas que se cruzam vão em sequência (dependências);
 - no máximo 3 agentes ao mesmo tempo;
+- agente de cada tarefa: --agent claude no front (e em todo projeto sem divisão); --agent codex no back, e só
+  se o projeto tem AGENTS.md (o Codex lê o AGENTS.md, não o CLAUDE.md, e segue as mesmas regras e Skills);
+- com back e front em agentes diferentes: antes de qualquer tarefa de construção, uma tarefa fecha o
+  contrato da API num arquivo do repositório e a pessoa aprova num portão; o contrato só muda por uma
+  tarefa própria, com portão; cada tarefa lista só as pastas do seu lado; CI, dependências da raiz,
+  contrato e memória mudam só em tarefas suas;
 - dúvidas dos agentes chegam a você por ask; responda com reply; leve à pessoa só o que é dela decidir;
 - todo merge, deploy ou ação irreversível passa por um portão: crie com
   orca orchestration gate-create, pergunte à pessoa e só resolva (gate-resolve) com a resposta dela;
 - registre em docs/memoria-do-projeto.md, ao fim de cada fase, onde o trabalho parou e o que foi decidido,
-  e anote como lição para o método cada correção que a pessoa fizer.
+  e anote como lição para o método cada correção que a pessoa fizer; anote também, por tarefa, qual
+  agente fez, se houve retrabalho e por quê.
 
 Ciclo:
 1. run-create com o objetivo da entrega; para cada tarefa, worker-start com a especificação,
-   --agent claude e --worktree new-child (uma worktree e uma branch por tarefa). Sempre --agent claude:
-   outros agentes não leem o CLAUDE.md do projeto nem os plugins (metodo, Superpowers).
+   o agente da tarefa (--agent claude ou --agent codex, pela regra acima) e --worktree new-child (uma
+   worktree e uma branch por tarefa). Nunca outro agente: os demais não leem o CLAUDE.md nem o AGENTS.md.
 2. Espere com check --wait (worker_done, escalation, question); responda às perguntas.
 3. Para cada PR entregue, valide com evidência: compare com os critérios de aceite; refaça os testes
    (suíte, tipos, build) na branch; releia os testes novos (falhariam sem o código?); abra o

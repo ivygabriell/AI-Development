@@ -109,6 +109,20 @@ O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, 
 
 **O que observar no primeiro projeto:** se algum agente perguntou direto à pessoa em vez de usar `ask`; se os portões seguraram de fato o merge e o deploy; quantos agentes deu para acompanhar; se os scripts de worktree ainda fazem falta.
 
+### Back e front com agentes diferentes (rascunho)
+
+Para usar duas assinaturas no mesmo projeto, o back pode ficar com agentes **Codex** e o front com agentes **Claude**, no mesmo repositório e na mesma `main` ([decisão 007](../decisoes/007-back-com-codex-e-front-com-claude.md), aprovada pela pessoa sem caso real). Vale a pena se sair conforme o esperado e sem retrabalho.
+
+- **Uma coordenadora só, sempre Claude Code.** Ela é a única que integra. Inicia os agentes do front com `worker-start --agent claude` e os do back com `worker-start --agent codex`.
+- **Os mesmos princípios para os dois.** O agente Codex segue as mesmas regras e Skills: TDD visto falhar, testes micro e macro, verificação antes de dizer "pronto", uma tarefa por branch e por PR, nunca integra, pergunta à coordenadora com `ask`. Por isso, o Codex de cada computador tem os mesmos plugins e ferramentas que o Claude (README, "Antes de começar").
+- **`AGENTS.md`.** O Codex lê o `AGENTS.md` do projeto, não o `CLAUDE.md`. O `AGENTS.md` gerado pelo método manda ler o `CLAUDE.md`, o `docs/DESENVOLVIMENTO.md` e a memória, e repete as regras da trabalhadora. **Regra do agente:** a coordenadora é sempre Claude; os agentes podem ser Claude ou Codex, e o Codex só entra em projeto que tem `AGENTS.md`.
+- **Contrato primeiro.** Antes de qualquer tarefa de construção, uma tarefa fecha o **contrato da API** num arquivo do repositório (`docs/contrato-api.md`, ou o formato que a stack pedir, como OpenAPI), e a pessoa aprova num portão. Depois, o contrato só muda por uma tarefa própria, com um portão da pessoa; o lado que depende dele se ajusta na tarefa seguinte.
+- **Pastas separadas.** Cada lado tem a sua pasta (por exemplo, `back/` e `front/`, decididas na Fase 2 e registradas no `docs/DESENVOLVIMENTO.md`), e cada tarefa lista só as pastas do seu lado como permitidas. Os **arquivos comuns** (CI, dependências da raiz, contrato, memória do projeto) mudam só em tarefas da coordenadora, nunca em duas tarefas ao mesmo tempo.
+- **Validação.** A coordenadora valida os PRs do back pelos testes e pelo contrato, e abre o navegador quando o back e o front se encontram.
+- **Medição.** A memória do projeto anota, por tarefa, qual agente fez, se houve retrabalho e por quê.
+
+**O que observar no primeiro projeto:** se algum agente Codex pulou o TDD ou a verificação; se as skills do método funcionaram no Codex; quantas tarefas voltaram por causa do contrato; quanto cada cota rendeu; se a coordenadora gastou tokens demais revisando o back (aí entra uma coordenadora Codex só para o back, por baixo da principal).
+
 ## Como iniciar
 
 Use o [prompt da sessão trabalhadora](../modelos/prompt-sessao-trabalhadora.md) e o [prompt da integradora](../modelos/prompt-sessao-integradora.md). No Orca, use o [prompt da coordenadora](../modelos/prompt-coordenadora-orca.md): ele substitui os dois. Um bom primeiro passo é um **piloto pequeno**: 1 integradora e 1 trabalhadora numa tarefa quase só de estilo ou de conteúdo, enquanto a integradora não muda código.
