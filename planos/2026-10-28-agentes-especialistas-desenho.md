@@ -78,7 +78,7 @@ Todo harness tem estas 10 partes, nesta ordem:
 Decidido pela pessoa: **o modelo é fixo por ferramenta e o que varia é o esforço**, conforme o uso.
 
 - Agentes Claude: **Opus 5.5** (`--model claude-opus-5-5`).
-- Agentes Codex: **GPT 6.1 Solana**. **A conferir no plano:** o id exato no Codex; a configuração atual do Codex da pessoa usa `gpt-6-astra`.
+- Agentes Codex: **GPT 6.1 Solana** (`--model gpt-6.1-sol`, o id que o Codex 0.164 da pessoa usa na configuração).
 - No Orca, `--effort` só vale junto com `--model`, então todo `worker-start` passa os dois.
 
 Esforço inicial por papel (proposta da sessão do método, ajustada no harness de cada agente e medida no primeiro caso):
