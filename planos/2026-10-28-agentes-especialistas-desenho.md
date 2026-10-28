@@ -80,14 +80,25 @@ Conferido no Orca 1.4.241 da pessoa (ajuda do CLI, só leitura): `worker-start -
 2. O especialista que constrói (Back e Dados, Design e Front, DevOps) abre as **suas** trabalhadoras com `worker-start --parent <tarefa dele> --worktree new-child`, uma por issue.
 3. A trabalhadora pergunta com `ask`; a pergunta chega ao **especialista** que a iniciou. Ele responde com `reply`. Só sobe para a integradora o que ele não pode decidir (item 8 do harness).
 4. A trabalhadora termina com o PR aberto e o CI verde. O especialista revisa o tema e avisa a integradora (`worker_done` ou `merge_ready`).
-5. Se o PR toca o tema da Segurança, a integradora (ou o especialista) chama a Segurança. Achou falha: ela registra na issue ou no PR e **entrega a correção** ao especialista dono da pasta; depois confere a correção.
-6. A integradora faz a validação final (testes, navegador, critérios de aceite), cria o portão do merge e integra com o "pode integrar" da pessoa.
+5. A Segurança também atua **no começo**: nas Fases 2 e 3 mapeia os riscos do projeto (o que proteger, de quem, por onde), para evitar falhas futuras; o mapa vai para a memória do tema e vira critérios de aceite nas issues (decidido pela pessoa).
+6. Se o PR toca o tema da Segurança, a integradora (ou o especialista) chama a Segurança. Achou falha: ela registra na issue ou no PR e **entrega a correção** ao especialista dono da pasta; depois confere a correção.
+7. A integradora faz a validação final (testes, navegador, critérios de aceite), cria o portão do merge e integra com o "pode integrar" da pessoa.
 
 **Quem abre a issue:** a integradora, como hoje (a issue é a fila e o registro), com a etiqueta do tema; o especialista decide como executar e, se precisar dividir, pede à integradora as issues filhas.
 
 **Portões:** só a integradora cria e resolve portões, porque só ela fala com a pessoa. O especialista que precisa de uma decisão da pessoa sobe a pergunta para ela.
 
 **A conferir antes de escrever os harnesses (primeira tarefa do plano):** se um agente iniciado por `worker-start` consegue, ele mesmo, iniciar as suas trabalhadoras (Run filha). A ajuda do CLI cita coordenadoras aninhadas, mas não testamos. Se não conseguir, o especialista pede à integradora que inicie a trabalhadora com `--parent` dele, e as dúvidas continuam indo para ele por `send --to`.
+
+**Tudo visível no Orca, cada sessão na sua worktree** (decidido pela pessoa). As trabalhadoras são agentes do Orca filhos do especialista, **não** subagentes internos do Claude Code ou do Codex, que não aparecem no painel. Uma worktree por sessão, onde faz sentido:
+
+| Sessão | Worktree |
+|---|---|
+| Integradora | a pasta principal do projeto, na `main` |
+| Especialista que constrói (Back e Dados, Design e Front, DevOps) | uma própria, de onde coordena; não constrói nela |
+| Trabalhadora | uma por issue, `new-child` do especialista, com a branch criada a partir da `origin/main` (`--base-branch`) |
+| Arquitetura e Produto | uma própria, onde escrevem os documentos do tema, uma branch e um PR por mudança |
+| Segurança | uma própria, onde faz o checkout da branch do PR que revisa, só para ler e rodar verificações |
 
 **Rastro de cada item:** issue `#N` → tarefa no Orca (`--parent` do especialista, `--display-name` com o tema) → worktree `<tema>-<N>-<slug>` → branch `<tema>/<N>-<slug>` → PR com `Closes #N`. A memória do projeto anota, por tarefa, o especialista, o agente, se houve retrabalho e por quê.
 
