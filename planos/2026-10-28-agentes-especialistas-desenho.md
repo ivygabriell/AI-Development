@@ -127,7 +127,7 @@ Conferido no Orca 1.4.241 da pessoa (ajuda do CLI, só leitura): `worker-start -
 
 **Portões:** só a integradora cria e resolve portões, porque só ela fala com a pessoa. O especialista que precisa de uma decisão da pessoa sobe a pergunta para ela.
 
-**A conferir antes de escrever os harnesses (primeira tarefa do plano):** se um agente iniciado por `worker-start` consegue, ele mesmo, iniciar as suas trabalhadoras (Run filha). A ajuda do CLI cita coordenadoras aninhadas, mas não testamos. Se não conseguir, o especialista pede à integradora que inicie a trabalhadora com `--parent` dele, e as dúvidas continuam indo para ele por `send --to`.
+**Testado em 2026-10-28 (Orca 1.4.241, Tarefa 1 do plano):** um especialista iniciado com `worker-start` **inicia as próprias trabalhadoras** com `worker-start --spec ... --worktree new-child`, sem `run-create`; a trabalhadora aparece com o `parent` igual à tarefa do especialista e a dúvida dela (`ask`) chega ao especialista, não à integradora. **Exige um ajuste do Orca:** Settings → Orchestration → **Nested worker depth = 2** (o padrão é 1, e com ele o Orca recusa com `nested_worker_depth_exceeded`). Nem mais nem menos: com 2, uma trabalhadora não consegue abrir agentes próprios.
 
 **Requisito: toda sessão visível e correlacionada no Orca** (decidido pela pessoa). Cada sessão, especialista ou trabalhadora, é um agente do Orca, nunca um subagente interno do Claude Code ou do Codex (esses não aparecem no painel). No Orca, cada uma fica pendurada em quem a iniciou (integradora → especialista → trabalhadora, por `--parent`) e ligada à issue do trabalho.
 
