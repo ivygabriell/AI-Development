@@ -146,6 +146,12 @@ Depois: núcleo `02` (subseção nova em "Com o Orca"), decisão 008, `novo-proj
 - Versão **2.6.0** (menor): é um modo novo em `rascunho`, ao lado dos que existem, sem quebrar quem usa o modo Orca da 2.5.0.
 - O checklist de cada tema parte de conhecimento geral (por exemplo, OWASP para a Segurança) e é corrigido pelo primeiro caso.
 
+## Em aberto até o harness de cada agente
+
+- **Arquitetura:** o escopo vai além de arquitetura de software (pedido da pessoa); o que mais entra é decidido ao escrever o harness dela.
+- **Segurança e Produto com trabalhadoras:** proposta da sessão do método, a decidir no harness de cada um. Segurança com uma pasta própria de testes de segurança (que não toca o código do back nem do front); Produto com trabalhadoras de pesquisa (auditoria de referências, com o `modelos/prompt-auditoria-de-referencia.md`).
+- **CI com o DevOps ativo:** proposta da sessão do método: o CI passa para o DevOps quando ele está ativo e fica com a integradora quando não está; a decidir no harness do DevOps.
+
 ## O que fica para quem constrói
 
 - O texto de cada harness, seguindo as 9 partes, revisado com a pessoa um a um.
