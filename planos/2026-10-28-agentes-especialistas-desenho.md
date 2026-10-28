@@ -60,7 +60,7 @@ Decidido pela pessoa: os agrupamentos (Design com Front, Back com Banco de Dados
 
 ## O modelo comum do harness
 
-Todo harness tem estas 9 partes, nesta ordem:
+Todo harness tem estas 10 partes, nesta ordem:
 
 1. **Missão:** o tema, o que é dele e o que não é.
 2. **Quando é chamado:** os gatilhos (fase do fluxo, tipo de PR, tipo de dúvida).
@@ -71,6 +71,36 @@ Todo harness tem estas 9 partes, nesta ordem:
 7. **Formato da resposta:** o que devolve a quem chamou. Resumo curto com um veredito e os achados por gravidade; o detalhe vai no comentário do PR ou na issue, para não encher o contexto da integradora.
 8. **Quando sobe a decisão:** o que não decide sozinho e para quem sobe.
 9. **Memória do tema:** um arquivo do projeto com as decisões do tema (por exemplo, os riscos aceitos na Segurança).
+10. **Economia:** as regras da seção "Economia de tokens", com o esforço do papel (seção "Modelos e esforço").
+
+## Modelos e esforço
+
+Decidido pela pessoa: **o modelo é fixo por ferramenta e o que varia é o esforço**, conforme o uso.
+
+- Agentes Claude: **Opus 5.5** (`--model claude-opus-5-5`).
+- Agentes Codex: **GPT 6.1 Solana**. **A conferir no plano:** o id exato no Codex; a configuração atual do Codex da pessoa usa `gpt-6-astra`.
+- No Orca, `--effort` só vale junto com `--model`, então todo `worker-start` passa os dois.
+
+Esforço inicial por papel (proposta da sessão do método, ajustada no harness de cada agente e medida no primeiro caso):
+
+| Papel | Esforço |
+|---|---|
+| Arquitetura, Segurança (mapa de riscos e revisão) | alto |
+| Integradora (validação final) | alto |
+| Especialistas coordenando e respondendo dúvidas | médio |
+| Trabalhadoras | médio; alto em tarefa difícil ou depois de um retrabalho, a critério do especialista |
+| Produto em pesquisa | médio |
+
+## Economia de tokens (parte do modelo comum do harness)
+
+Decidido pela pessoa: as regras de economia entram no modelo comum e valem para todos os agentes. Estimativa do que mais consome (sem medição ainda): trabalhadoras construindo; retrabalho; sessões sempre abertas com contexto crescendo; o mesmo PR lido por três revisores; o custo fixo de abrir cada sessão; as mensagens entre agentes.
+
+1. **Resposta curta:** veredito e achados em poucas linhas; o detalhe vai no PR ou na issue.
+2. **Cada revisor olha só a sua parte:** o especialista revisa o tema; a Segurança, os arquivos sensíveis; a integradora confere critérios, testes e navegador sem reler o código linha a linha.
+3. **Estado na memória, sessão limpa:** ao fim de cada fase, o agente grava o estado do tema na memória e recomeça limpo, em vez de carregar o projeto inteiro.
+4. **Saídas longas fora do contexto:** logs de teste e build resumidos ao que falhou.
+5. **Só os plugins que o projeto usa** ligados em cada computador (a lista de Skills e ferramentas é paga em cada sessão aberta).
+6. **Medir:** a memória do projeto anota, por tarefa, o consumo de cada agente (`/cost` no Claude Code; o consumo exibido na sessão do Codex), para a Fase 9 responder com números.
 
 ## Como o fluxo funciona no Orca
 
@@ -119,7 +149,7 @@ Proposta inicial (escolha da sessão do método, a medir no primeiro caso): a in
 
 ## Onde ficam os harnesses
 
-- No método: `modelos/agentes/<agente>.md`, um por papel, mais `modelos/agentes/_modelo-harness.md` com as 9 partes.
+- No método: `modelos/agentes/<agente>.md`, um por papel, mais `modelos/agentes/_modelo-harness.md` com as 10 partes.
 - No projeto: copiados para `docs/agentes/` pelo `novo-projeto.sh` e pela skill `atualizar-projeto`, só quando o projeto escolhe o modo com especialistas na Fase 3.
 - O harness da integradora substitui o prompt da coordenadora no modo com especialistas; o prompt atual continua valendo para o modo Orca sem especialistas.
 - Como o agente carrega o harness: o `--spec` do `worker-start` manda ler `docs/agentes/<agente>.md` antes de tudo. **A conferir no plano:** se o Codex 0.164 tem um jeito próprio de carregar um perfil de agente (não achei no `codex --help`) e se vale um `AGENTS.md` aninhado na pasta do back.
@@ -154,7 +184,7 @@ Depois: núcleo `02` (subseção nova em "Com o Orca"), decisão 008, `novo-proj
 
 ## O que fica para quem constrói
 
-- O texto de cada harness, seguindo as 9 partes, revisado com a pessoa um a um.
+- O texto de cada harness, seguindo as 10 partes, revisado com a pessoa um a um.
 - As verificações exatas do verificador.
 - Um PR por harness ou um PR só: a combinar com a pessoa no plano.
 
