@@ -73,6 +73,15 @@ Todo harness tem estas 10 partes, nesta ordem:
 9. **Memória do tema:** um arquivo do projeto com as decisões do tema (por exemplo, os riscos aceitos na Segurança).
 10. **Economia:** as regras da seção "Economia de tokens", com o esforço do papel (seção "Modelos e esforço").
 
+## O harness manda
+
+Decidido pela pessoa: o agente **pode consultar** o que precisar (Skills, o método, plugins, a web, a documentação de bibliotecas), mas **atua dentro do harness**. É assim que a qualidade de cada agente fica sob controle: o que ele faz é o que o harness define.
+
+- **Ordem de precedência:** o harness → o que o projeto decidiu (spec, contrato, `docs/DESENVOLVIMENTO.md`, memória) → as Skills e o método → o que o agente consultou ou já sabe. Uma fonte consultada informa; nunca passa por cima do harness.
+- **O harness sempre traz as regras fixas do método** (o modelo comum garante): nunca integrar, uma tarefa por branch e por PR, TDD, verificação antes de dizer "pronto", não falar direto com a pessoa. Assim harness e método nunca se contradizem.
+- **Conflito ou lacuna:** se o agente acha que o harness está errado, ou que não cobre o caso, ele **não desvia**. Para, explica o que achou e sobe para quem o coordena. A resposta vira uma melhoria do harness, com a aprovação da pessoa.
+- **Conferível:** quem revisa o trabalho de um agente confere também se ele ficou dentro do harness (o checklist do tema é a régua).
+
 ## Modelos e esforço
 
 Decidido pela pessoa: **o modelo é fixo por ferramenta e o que varia é o esforço**, conforme o uso.
