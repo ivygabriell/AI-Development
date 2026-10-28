@@ -90,15 +90,19 @@ Conferido no Orca 1.4.241 da pessoa (ajuda do CLI, só leitura): `worker-start -
 
 **A conferir antes de escrever os harnesses (primeira tarefa do plano):** se um agente iniciado por `worker-start` consegue, ele mesmo, iniciar as suas trabalhadoras (Run filha). A ajuda do CLI cita coordenadoras aninhadas, mas não testamos. Se não conseguir, o especialista pede à integradora que inicie a trabalhadora com `--parent` dele, e as dúvidas continuam indo para ele por `send --to`.
 
-**Tudo visível no Orca, cada sessão na sua worktree** (decidido pela pessoa). As trabalhadoras são agentes do Orca filhos do especialista, **não** subagentes internos do Claude Code ou do Codex, que não aparecem no painel. Uma worktree por sessão, onde faz sentido:
+**Requisito: toda sessão visível e correlacionada no Orca** (decidido pela pessoa). Cada sessão, especialista ou trabalhadora, é um agente do Orca, nunca um subagente interno do Claude Code ou do Codex (esses não aparecem no painel). No Orca, cada uma fica pendurada em quem a iniciou (integradora → especialista → trabalhadora, por `--parent`) e ligada à issue do trabalho.
 
-| Sessão | Worktree |
+**Worktrees separadas onde faz sentido** (proposta da sessão do método, dentro do requisito): a worktree acompanha a **unidade de trabalho** (uma issue, uma branch), não a sessão. Quem só coordena ou revisa entra na worktree do trabalho que está olhando (`worker-start --worktree issue:<N>` ou `branch:<branch>`, que abre um terminal novo numa worktree que já existe).
+
+| Sessão | Onde trabalha |
 |---|---|
 | Integradora | a pasta principal do projeto, na `main` |
-| Especialista que constrói (Back e Dados, Design e Front, DevOps) | uma própria, de onde coordena; não constrói nela |
-| Trabalhadora | uma por issue, `new-child` do especialista, com a branch criada a partir da `origin/main` (`--base-branch`) |
-| Arquitetura e Produto | uma própria, onde escrevem os documentos do tema, uma branch e um PR por mudança |
-| Segurança | uma própria, onde faz o checkout da branch do PR que revisa, só para ler e rodar verificações |
+| Trabalhadora | a worktree da issue dela, com a branch criada a partir da `origin/main` (`--base-branch`); a única que escreve ali |
+| Especialista que coordena (Back e Dados, Design e Front, DevOps) | sem worktree própria: coordena da pasta principal, só lendo, e entra na worktree da trabalhadora para revisar o PR |
+| Segurança | entra na worktree do PR que revisa, só para ler e rodar verificações |
+| Arquitetura e Produto | uma worktree por documento que mudam (contrato, spec), como qualquer tarefa |
+
+**Regra:** numa mesma worktree, só a dona da tarefa escreve; as outras sessões só leem. Assim cada worktree reúne, no Orca, quem construiu, quem revisou e quem conferiu aquele item.
 
 **Rastro de cada item:** issue `#N` → tarefa no Orca (`--parent` do especialista, `--display-name` com o tema) → worktree `<tema>-<N>-<slug>` → branch `<tema>/<N>-<slug>` → PR com `Closes #N`. A memória do projeto anota, por tarefa, o especialista, o agente, se houve retrabalho e por quê.
 
