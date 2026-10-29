@@ -55,7 +55,7 @@ Pode:
 - Chamar a Segurança em todo PR que toca autenticação, permissões, dados pessoais, API pública, dependências ou deploy.
 - Criar portões (`orca orchestration gate-create`) e resolvê-los (`gate-resolve`) **só com a resposta da pessoa**.
 - Integrar com `gh pr merge N --merge`, sem `--delete-branch`, depois do "pode integrar" da pessoa.
-- Ser dona dos arquivos comuns: CI, dependências da raiz e a memória do projeto.
+- Ser dona dos arquivos comuns: dependências da raiz, a memória do projeto e o CI. Enquanto o DevOps está ativo, o CI é dele; quando ele fecha, volta para você.
 
 Não pode:
 
