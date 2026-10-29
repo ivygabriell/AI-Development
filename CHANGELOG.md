@@ -2,6 +2,17 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 2.6.0 (2026-10-28)
+
+Agentes especialistas ao lado da integradora, no Orca, aprovado pela pessoa **sem caso real** (tudo em `rascunho` até o primeiro projeto feito assim). Ver [decisão 008](decisoes/008-agentes-especialistas.md).
+
+- **Harnesses novos** em `modelos/agentes/`: o modelo comum (10 partes, "O harness manda", "Como pesquisa") e os sete papéis: Integradora, Arquitetura, Back e Dados, Design e Front, Segurança, Produto e DevOps, cada um com as referências escolhidas pela pessoa e validadas.
+- **Núcleo:** o `02` ganha a subseção "Com agentes especialistas": quem faz o quê, a ferramenta e o modelo de cada papel, os especialistas abrindo as próprias trabalhadoras (Nested worker depth = 2 no Orca), worktrees por issue com o tema no nome, o limite de 9 sessões. O `01` oferece o modo na Fase 3.
+- **Projetos:** `novo-projeto.sh --especialistas` copia os harnesses para `docs/agentes/`; o `CLAUDE.md` e o `AGENTS.md` gerados mandam cada agente ler o seu harness; a memória anota especialista e consumo por tarefa.
+- **Skills:** a `novo-projeto` oferece o modo, a `atualizar-projeto` acrescenta os harnesses que faltam, a `consultar` aponta para ele. O prompt da coordenadora avisa que, nesse modo, vale o harness da integradora.
+- **README:** o modo em "Iniciar um projeto".
+- Desenho em [planos/2026-10-28-agentes-especialistas-desenho.md](planos/2026-10-28-agentes-especialistas-desenho.md) e plano em [planos/2026-10-28-agentes-especialistas.md](planos/2026-10-28-agentes-especialistas.md).
+
 ## 2.5.0 (2026-10-22)
 
 Back com agentes Codex e front com agentes Claude, no Orca, aprovado pela pessoa **sem caso real** (tudo em `rascunho` até o primeiro projeto feito assim). Ver [decisão 007](decisoes/007-back-com-codex-e-front-com-claude.md).

@@ -1,7 +1,7 @@
 # Agentes especialistas ao lado da integradora: desenho
 
 **Data:** 2026-10-28
-**Status:** desenho para aprovação da pessoa; depois dele vem o plano de implementação
+**Status:** aceito pela pessoa em 2026-10-28 e implementado ([decisão 008](../decisoes/008-agentes-especialistas.md))
 **Caso de origem:** nenhum. Como as decisões 006 e 007, entra **aprovado pela pessoa sem caso real** e tudo fica como `rascunho` até o primeiro projeto feito assim virar caso.
 
 ## Intenção
