@@ -2,6 +2,16 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 2.8.0 (2026-10-29)
+
+Skills de Design e Front, pelo mesmo processo da [decisão 009](decisoes/009-skills-por-agente.md), aprovadas pela pessoa **sem caso real** (tudo em `rascunho`).
+
+- **Skills novas no plugin `metodo`:** `formularios-e-erros`, `desempenho-na-tela` e `estados-da-tela`, tiradas da leitura a fundo das referências do harness de Design e Front (WCAG 2.2, GOV.UK, NN/g, web.dev, MDN).
+- **Decisão da pessoa:** o erro de campo aparece ao avançar ou enviar, como no GOV.UK, e não ao sair do campo (NN/g).
+- **Base de conhecimento** em `modelos/referencias/design-e-front.md`, com os critérios novos da WCAG 2.2 para quem constrói e, só para projetos React, os avisos do React Blog.
+- **Harness de Design e Front:** as trabalhadoras usam as skills do especialista; a especificação do `worker-start` diz quais; a pesquisa passa pela base do método. O mapa de skills do `03` e a `consultar` apontam para elas.
+- Plano em [planos/2026-10-29-skills-design-e-front.md](planos/2026-10-29-skills-design-e-front.md).
+
 ## 2.7.0 (2026-10-29)
 
 Skills por agente, começando por Back e Dados, aprovado pela pessoa **sem caso real** (tudo em `rascunho`). Ver [decisão 009](decisoes/009-skills-por-agente.md).
