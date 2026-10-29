@@ -197,6 +197,29 @@ checar('skills/consultar: aponta para o modo com especialistas', ler('skills/con
 for (const termo of ['modelos/agentes/', '--especialistas', 'Nested worker depth'])
   checar(`README: modo com agentes especialistas (${termo})`, readme.includes(termo));
 
+// Skills por agente (decisão 009, rascunho): cada especialista que constrói tem as suas, e as trabalhadoras dele as usam
+const SKILLS_DO_AGENTE = { 'back-e-dados': ['api-conforme-contrato', 'migracao-sem-parada', 'transacoes-e-consultas', 'trabalho-em-segundo-plano'] };
+for (const [agente, nomes] of Object.entries(SKILLS_DO_AGENTE)) {
+  const base = ler(`modelos/referencias/${agente}.md`);
+  checar(`referências: existe modelos/referencias/${agente}.md`, base.length > 0);
+  checar(`referências/${agente}: maturidade rascunho e fontes com link`, base.includes('**Maturidade:** rascunho') && (base.match(/https:\/\//g) || []).length >= 5);
+  const harness = ler(`modelos/agentes/${agente}.md`);
+  const parteSkills = (harness.split('## 5. Skills')[1] || '').split('\n## ')[0];
+  const parteLe = (harness.split('## 3. O que lê')[1] || '').split('\n## ')[0];
+  checar(`agentes/${agente}: a pesquisa passa pela base do método (modelos/referencias/${agente}.md)`, parteLe.includes(`modelos/referencias/${agente}.md`));
+  checar(`agentes/${agente}: as trabalhadoras usam as skills do especialista`, parteSkills.includes('trabalhadoras usam'));
+  for (const nome of nomes) {
+    checar(`agentes/${agente}: parte 5 cita metodo:${nome}`, parteSkills.includes(`metodo:${nome}`));
+    const texto = ler(`skills/${nome}/SKILL.md`);
+    checar(`skills/${nome}: existe`, texto.length > 0);
+    checar(`skills/${nome}: description começa por "Use quando"`, /^description:\s*Use quando/m.test(texto));
+    for (const termo of ['**Maturidade:** rascunho', '## Checklist', '## Adaptar ao tamanho do projeto', `modelos/referencias/${agente}.md`])
+      checar(`skills/${nome}: ${termo}`, texto.includes(termo));
+    checar(`skills/${nome}: cada passo com a fonte (pelo menos 3 links)`, (texto.match(/\]\(https:\/\//g) || []).length >= 3);
+  }
+}
+checar('skills/consultar: aponta para as referências por agente', ler('skills/consultar/SKILL.md').includes('modelos/referencias/'));
+
 const skills = ler('nucleo/03-skills-e-testes.md');
 for (const termo of ['## Mapa de skills', '## Testes: micro e macro', 'micro', 'macro', 'RED', 'verification-before-completion', '## Verificação no navegador'])
   checar(`skills e testes: ${termo}`, skills.includes(termo));
@@ -506,6 +529,8 @@ const SKILLS_VALIDAS = new Set([
   ...['architecture', 'code-review', 'debug', 'deploy-checklist', 'documentation', 'incident-response', 'standup', 'system-design', 'tech-debt', 'testing-strategy'].map((n) => `engineering:${n}`),
   ...['accessibility-review', 'design-critique', 'design-handoff', 'design-system', 'research-synthesis', 'user-research', 'ux-copy'].map((n) => `design:${n}`),
 ]);
+// As skills do próprio plugin: toda citação metodo:<nome> precisa ter skills/<nome>/SKILL.md
+const SKILLS_METODO = new Set(existsSync(join(RAIZ, 'skills')) ? readdirSync(join(RAIZ, 'skills')).filter((n) => existsSync(join(RAIZ, 'skills', n, 'SKILL.md'))) : []);
 // Todo plugin cujas skills o método cita, e o REA, precisam estar na instalação do README
 for (const prefixo of new Set([...SKILLS_VALIDAS].map((s) => s.split(':')[0])))
   checar(`README: adoção instala o plugin ${prefixo}`, adocao.includes(`${prefixo}@`));
@@ -520,6 +545,8 @@ for (const arquivo of arquivosTexto) {
 
   for (const [, skill] of texto.matchAll(/`?((?:superpowers|engineering|design):[a-z-]+)`?/g))
     checar(`${nome}: skill existente (${skill})`, SKILLS_VALIDAS.has(skill));
+  for (const [, skill] of texto.matchAll(/(?<![\w/.-])metodo:([a-z][a-z-]*[a-z])/g))
+    checar(`${nome}: skill do plugin existente (metodo:${skill})`, SKILLS_METODO.has(skill));
 
   checar(`${nome}: sem pendências (TODO, TBD, XXX)`, !/(?<![\p{L}\p{N}_])(TODO|TBD|XXX|FIXME)(?![\p{L}\p{N}_])/u.test(texto));
 

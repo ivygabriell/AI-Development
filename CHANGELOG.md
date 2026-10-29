@@ -2,6 +2,16 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 2.7.0 (2026-10-29)
+
+Skills por agente, começando por Back e Dados, aprovado pela pessoa **sem caso real** (tudo em `rascunho`). Ver [decisão 009](decisoes/009-skills-por-agente.md).
+
+- **Skills novas no plugin `metodo`:** `api-conforme-contrato`, `migracao-sem-parada`, `transacoes-e-consultas` e `trabalho-em-segundo-plano`, tiradas da leitura a fundo das referências do harness de Back e Dados (Zalando, Google AIP, PostgreSQL, PlanetScale, Shopify). Cada uma traz passo a passo com a fonte de cada passo, o teste que prova cada regra, checklist e "Adaptar ao tamanho do projeto".
+- **As trabalhadoras usam as skills do especialista pai** (decidido pela pessoa): a especificação do `worker-start` diz quais skills a tarefa toca, e o especialista revisa pelas mesmas.
+- **Base de conhecimento** em `modelos/referencias/back-e-dados.md`; o "Como pesquisa" do harness passa por ela depois do `docs/referencias/` do projeto.
+- **Núcleo e skills:** o mapa de skills do `03` e a `consultar` apontam para as skills e a base. O verificador confere toda citação `metodo:<nome>` contra as pastas de `skills/`.
+- Plano em [planos/2026-10-29-skills-back-e-dados.md](planos/2026-10-29-skills-back-e-dados.md).
+
 ## 2.6.1 (2026-10-28)
 
 Correções dos pontos pequenos da revisão final da 2.6.0 (agentes especialistas, rascunho).
