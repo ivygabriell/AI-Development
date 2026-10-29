@@ -32,7 +32,15 @@ Os gatilhos: fase do fluxo, tipo de issue, tipo de PR, tipo de dúvida.
 
 ## 3. O que lê
 
-O contexto fixo do projeto (`CLAUDE.md` para o Claude, `AGENTS.md` para o Codex, que manda ler o `CLAUDE.md`, o `docs/DESENVOLVIMENTO.md` e a memória), o que é do tema e as referências oficiais do tema.
+O contexto fixo do projeto (`CLAUDE.md` para o Claude, `AGENTS.md` para o Codex, que manda ler o `CLAUDE.md`, o `docs/DESENVOLVIMENTO.md` e a memória), o que é do tema e as referências do tema, escolhidas pela pessoa (os links e o que se tira de cada um).
+
+**Como pesquisa** (igual em todo harness que tem referências):
+
+1. **Primeiro o que já está guardado:** `docs/referencias/<tema>.md` do projeto, com o que já foi lido antes.
+2. **Se não cobre a decisão, vai aos sites** das referências (busca e leitura na web), só o que serve para a decisão em aberto.
+3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe no projeto fica de fora, com o motivo.
+4. **Guarda o que leu** em `docs/referencias/<tema>.md`: o link, a data, o que foi aproveitado e por quê. A próxima consulta começa por ali, e a Fase 9 leva ao método o que valer para outros projetos.
+5. **Cita a fonte** na decisão: o registro diz de qual referência veio a ideia.
 
 ## 4. O que pode e o que não pode
 

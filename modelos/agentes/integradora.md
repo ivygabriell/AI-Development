@@ -34,6 +34,15 @@
 - Os harnesses dos especialistas em `docs/agentes/`, para saber o que cada um pode e não pode.
 - Durante o trabalho: os resumos dos especialistas. O diff, só onde a validação pede.
 - O guia de orquestração da versão instalada: `orca skills get orchestration`.
+- **Referências:** a pessoa ainda vai escolher as do tema da integradora (coordenação, validação e qualidade). Até lá, vale o método.
+
+**Como pesquisa** (quando uma decisão de coordenação ou de validação precisa de mais do que o método diz):
+
+1. **Primeiro o que já está guardado:** `docs/referencias/integradora.md` do projeto.
+2. **Se não cobre a decisão, vai aos sites** das referências escolhidas pela pessoa, só o que serve para a decisão em aberto.
+3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
+4. **Guarda o que leu** em `docs/referencias/integradora.md`: o link, a data, o que foi aproveitado e por quê.
+5. **Cita a fonte** na memória do projeto, junto da decisão.
 
 ## 4. O que pode e o que não pode
 
