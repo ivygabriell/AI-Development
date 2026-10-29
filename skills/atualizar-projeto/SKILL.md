@@ -34,6 +34,8 @@ ref="$(mktemp -d)"
 bash "${CLAUDE_PLUGIN_ROOT}/scripts/novo-projeto.sh" "$ref" <cenário>
 ```
 
+Se o projeto usa o modo com agentes especialistas (tem `docs/agentes/`, ou a pessoa disse que sim), gere a referência com `--especialistas` depois de `"$ref"`, para ela trazer os harnesses e a linha do modo no `DESENVOLVIMENTO.md`.
+
 Compare cada arquivo da referência com o do projeto e monte o plano, arquivo por arquivo:
 
 | Situação | O que fazer |
@@ -45,6 +47,9 @@ Compare cada arquivo da referência com o do projeto e monte o plano, arquivo po
 | `AGENTS.md` existe | Atualizar só a linha `Versão do método:` (ou acrescentá-la) e acrescentar, numa seção `## Método de desenvolvimento`, a leitura do `CLAUDE.md`, do `docs/DESENVOLVIMENTO.md` e da memória e as regras da referência que faltarem |
 | `docs/DESENVOLVIMENTO.md` existe | Atualizar a versão e acrescentar as regras e as linhas de "Tarefas e sessões" que faltarem, mantendo os comandos e as decisões do projeto |
 | `docs/memoria-do-projeto.md` existe | Acrescentar uma entrada: "Atualizado para o método `<versão>` em `<data>`: `<o que mudou>`" |
+| O projeto não tem `docs/agentes/` e a memória não diz o modo de execução | Pergunte se o projeto usa o modo com especialistas; só com o "sim", siga a linha abaixo |
+| O projeto usa o modo com especialistas e falta a linha dele em `docs/DESENVOLVIMENTO.md` | Acrescentar em "Tarefas e sessões" a linha da referência gerada com `--especialistas` (cada agente lê o seu harness em `docs/agentes/`; exige no Orca Settings → Orchestration → Nested worker depth = 2) |
+| O projeto escolheu o modo com especialistas e falta `docs/agentes/` ou um harness | Copiar de `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/` os harnesses que faltam, sem o `_modelo-harness.md`; um harness que o projeto já tem não é trocado: listar a diferença para a pessoa decidir |
 | Uma regra da referência contradiz uma decisão do projeto | Não trocar: listar para a pessoa decidir |
 
 Se o Orca estiver instalado (`orca status` responde) e o projeto não aparecer em `orca repo list`, inclua no plano registrar o projeto com `orca repo add --path .` (muda a configuração do Orca, não o repositório).

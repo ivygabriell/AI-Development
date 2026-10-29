@@ -123,6 +123,31 @@ Para usar duas assinaturas no mesmo projeto, o back pode ficar com agentes **Cod
 
 **O que observar no primeiro projeto:** se algum agente Codex pulou o TDD ou a verificação; se as skills do método funcionaram no Codex; quantas tarefas voltaram por causa do contrato; quanto cada cota rendeu; se a coordenadora gastou tokens demais revisando o back (aí entra uma coordenadora Codex só para o back, por baixo da principal).
 
+### Com agentes especialistas (rascunho)
+
+A integradora deixa de carregar tudo sozinha: ao lado dela trabalham **agentes especialistas por tema**, cada um com um **harness** escrito com a pessoa ([decisão 008](../decisoes/008-agentes-especialistas.md), aprovada sem caso real). O modelo continua o de integradora e trabalhadoras, com uma camada no meio: as trabalhadoras passam a ser abertas e coordenadas pelo especialista do tema.
+
+| Agente | Tema | Ferramenta | Trabalhadoras | Presença |
+|---|---|---|---|---|
+| Integradora | coordenação, validação final (QA) e integração | Claude | não; coordena os especialistas | sempre |
+| Arquitetura | estrutura, contrato da API, dados, confiabilidade, observabilidade, custo | Claude | não | sempre |
+| Back e Dados | regras de negócio, APIs, autenticação, banco de dados | Codex | Codex, até 2 | sempre |
+| Design e Front | experiência, design system, interface | Claude | Claude, até 2 | sempre |
+| Segurança | mapa de riscos no começo e revisão dos PRs sensíveis | Codex | não; entrega a correção ao dono da pasta | sempre |
+| Produto | produto, pesquisa com usuários, critérios de aceite | Claude | não | sob demanda (Fases 0 a 2) |
+| DevOps | deploy, CI/CD, nuvem, monitoramento; dono do CI enquanto ativo | Codex | Codex, 1 por vez | sob demanda |
+
+- **Harnesses:** os modelos ficam em [`modelos/agentes/`](../modelos/agentes/) e vão para `docs/agentes/` do projeto com `novo-projeto.sh --especialistas`. Cada um tem as mesmas 10 partes (missão, quando é chamado, o que lê, o que pode e o que não pode, Skills, checklist, formato da resposta, quando sobe a decisão, memória, economia), as referências escolhidas pela pessoa e o passo a passo "Como pesquisa".
+- **O harness manda:** o agente pode consultar o que precisar (referências, web, Skills, método), mas atua dentro do harness. Ordem de precedência: o harness, o que o projeto decidiu, as Skills e o método, o que foi consultado. Se acha o harness errado ou incompleto, não desvia: para e sobe a questão.
+- **Modelos:** Claude com `claude-opus-5-5`, Codex com `gpt-6.1-sol`; o esforço varia por papel e vai em todo `worker-start` (`--model` e `--effort`).
+- **No Orca:** a integradora abre os especialistas; cada especialista abre as suas trabalhadoras com `worker-start --worktree new-child`, e o Orca as pendura nele (`--parent`). A dúvida da trabalhadora (`ask`) chega ao especialista; só sobe para a integradora o que ele não pode decidir. **Exige o ajuste Settings → Orchestration → Nested worker depth = 2** (o padrão é 1; testado no Orca 1.4.241). Nem mais nem menos: com 2, uma trabalhadora não abre agentes próprios.
+- **Worktrees:** uma por unidade de trabalho (issue e branch), com nomes que levam o tema (`back-12-login`, `back/12-login`). Quem só coordena ou revisa entra na worktree do trabalho, só lendo; numa worktree, só a dona da tarefa escreve.
+- **Limite:** no máximo 9 sessões ao mesmo tempo (a integradora, os 4 fixos e até 2 trabalhadoras de Back e Dados e 2 de Design e Front); Produto e DevOps abrem e fecham com a fase deles. Neste modo, isso substitui o limite de "1 coordenadora e até 3 agentes" do modo Orca.
+- **Arquivos comuns mudam de dono:** o contrato da API passa para a Arquitetura, e o CI passa para o DevOps enquanto ele está ativo; a integradora fica com as dependências da raiz, a memória do projeto e o CI quando não há DevOps. Os especialistas que só leem a pasta principal mandam as notas da memória e das referências à integradora (`orca orchestration send --type status`), e ela grava.
+- **O que não muda:** só a integradora integra e só ela fala com a pessoa e resolve os portões; quem constrói não valida; uma tarefa, uma branch, um PR.
+
+**O que observar no primeiro projeto:** se as dúvidas pararam no especialista; quantas sessões a cota aguentou; se dois especialistas cruzaram arquivos; se a Segurança achou o que a integradora não acharia; se o ida e volta custou mais do que economizou; se o Codex leu e seguiu o harness; o consumo por tarefa.
+
 ## Como iniciar
 
-Use o [prompt da sessão trabalhadora](../modelos/prompt-sessao-trabalhadora.md) e o [prompt da integradora](../modelos/prompt-sessao-integradora.md). No Orca, use o [prompt da coordenadora](../modelos/prompt-coordenadora-orca.md): ele substitui os dois. Um bom primeiro passo é um **piloto pequeno**: 1 integradora e 1 trabalhadora numa tarefa quase só de estilo ou de conteúdo, enquanto a integradora não muda código.
+Use o [prompt da sessão trabalhadora](../modelos/prompt-sessao-trabalhadora.md) e o [prompt da integradora](../modelos/prompt-sessao-integradora.md). No Orca, use o [prompt da coordenadora](../modelos/prompt-coordenadora-orca.md): ele substitui os dois. No modo com especialistas, a integradora usa o [harness dela](../modelos/agentes/integradora.md) no lugar do prompt. Um bom primeiro passo é um **piloto pequeno**: 1 integradora e 1 trabalhadora numa tarefa quase só de estilo ou de conteúdo, enquanto a integradora não muda código.

@@ -179,6 +179,8 @@ A skill confere o ambiente, propõe o cenário (e avisa se ele é `rascunho`), p
 
 **Para dividir o back (Codex) e o front (Claude)**, a coordenadora continua sendo um agente Claude e é a única que integra; ela inicia os agentes do back com `--agent codex` e os do front com `--agent claude`, e o contrato da API é aprovado por você antes de qualquer tarefa de construção ([02](nucleo/02-sessoes-e-papeis.md), "Back e front com agentes diferentes", modo em rascunho).
 
+**Para trabalhar com agentes especialistas**, a integradora coordena um especialista por tema (Arquitetura, Back e Dados, Design e Front, Segurança e, quando preciso, Produto e DevOps), e cada especialista abre as próprias trabalhadoras. Cada agente atua dentro de um harness escrito com você, em [`modelos/agentes/`](modelos/agentes/), que vai para o projeto com `scripts/novo-projeto.sh <pasta> --especialistas`. No Orca, ajuste antes **Settings → Orchestration → Nested worker depth = 2** ([02](nucleo/02-sessoes-e-papeis.md), "Com agentes especialistas", modo em rascunho).
+
 ### Atualizar um projeto que já usa o método
 
 Quando o método muda, os projetos que você já tinha não mudam sozinhos. Primeiro atualize o plugin naquele computador (`/plugin marketplace update metodo-de-desenvolvimento`); depois, dentro de cada projeto, abra o Claude Code e digite:

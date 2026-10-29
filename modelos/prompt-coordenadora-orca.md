@@ -2,6 +2,8 @@
 
 Como usar: no [Orca](https://github.com/stablyai/orca), abra um agente **Claude** (a coordenadora é sempre Claude) na pasta principal do projeto e cole o texto abaixo no início. Ele substitui os prompts da integradora e da trabalhadora: a coordenadora faz o papel da integradora e cada agente que ela inicia é uma trabalhadora ([02](../nucleo/02-sessoes-e-papeis.md), seção "Com o Orca"). Modo aprovado pela pessoa sem caso real ([decisão 006](../decisoes/006-desenvolvimento-orquestrado-com-o-orca.md)): anote na memória do projeto o que funcionar e o que atrapalhar.
 
+**No modo com agentes especialistas** (o projeto tem `docs/agentes/`), não use este prompt: a integradora segue o harness dela, `docs/agentes/integradora.md` (modelo em [`agentes/integradora.md`](agentes/integradora.md)).
+
 Antes, instale as skills do Orca uma vez por computador: `orca skills install --skill orca-cli --skill orchestration`.
 
 ```text

@@ -73,6 +73,8 @@ const OBRIGATORIOS = [
   'decisoes/006-desenvolvimento-orquestrado-com-o-orca.md',
   'modelos/AGENTS-projeto.md',
   'decisoes/007-back-com-codex-e-front-com-claude.md',
+  'decisoes/008-agentes-especialistas.md',
+  'modelos/agentes/_modelo-harness.md',
 ];
 for (const arquivo of OBRIGATORIOS) checar(`existe ${arquivo}`, existsSync(join(RAIZ, arquivo)));
 
@@ -123,6 +125,73 @@ for (const termo of ['### Back e front com agentes diferentes', '--agent codex',
   checar(`sessões: back com o Codex e front com o Claude (${termo})`, sessoes.includes(termo));
 for (const termo of ['--agent codex', 'contrato da API', 'AGENTS.md', 'retrabalho'])
   checar(`prompt da coordenadora do Orca: back com o Codex (${termo})`, promptCoord.includes(termo));
+
+// Agentes especialistas (decisão 008, rascunho): cada harness tem as 10 partes, o modelo da sua ferramenta e as regras fixas
+const HARNESS_PARTES = ['## 1. Missão', '## 2. Quando é chamado', '## 3. O que lê', '## 4. O que pode e o que não pode', '## 5. Skills', '## 6. Checklist do tema', '## 7. Formato da resposta', '## 8. Quando sobe a decisão', '## 9. Memória do tema', '## 10. Economia'];
+const MODELO_DA_FERRAMENTA = { claude: 'claude-opus-5-5', codex: 'gpt-6.1-sol' };
+const LEITURA_DA_FERRAMENTA = { claude: 'CLAUDE.md', codex: 'AGENTS.md' };
+const HARNESSES = { integradora: 'claude', arquitetura: 'claude', 'back-e-dados': 'codex', 'design-e-front': 'claude', seguranca: 'codex', produto: 'claude', devops: 'codex' };
+// O que cada harness precisa dizer, além das regras comuns
+const HARNESS_PROPRIO = {
+  arquitetura: ['contrato da API', 'portão', 'docs/referencias/arquitetura.md'],
+  'back-e-dados': ['worker-start', '--parent', '--worktree new-child', 'contrato da API'],
+  'design-e-front': ['worker-start', '--parent', '--worktree new-child', 'design system'],
+  seguranca: ['mapa de riscos', 'entrega a correção', 'aprovar com ressalva'],
+  produto: ['critérios de aceite'],
+  devops: ['worker-start', '--parent', 'portão'],
+};
+const partesEmOrdem = (texto) => {
+  const posicoes = HARNESS_PARTES.map((parte) => texto.indexOf(`\n${parte}\n`));
+  return posicoes.every((p, i) => p >= 0 && (i === 0 || p > posicoes[i - 1]));
+};
+const modeloHarness = ler('modelos/agentes/_modelo-harness.md');
+checar('agentes: existe modelos/agentes/_modelo-harness.md', modeloHarness.length > 0);
+checar('agentes: modelo do harness tem as 10 partes em ordem', partesEmOrdem(modeloHarness));
+checar('agentes: modelo do harness ensina a pesquisar (guardado primeiro, depois os sites, adaptar, guardar)', modeloHarness.includes('Como pesquisa') && modeloHarness.includes('docs/referencias/'));
+checar('agentes: modelo do harness tem "O harness manda" (precedência, não desvia)', modeloHarness.includes('## O harness manda') && modeloHarness.includes('precedência') && modeloHarness.includes('não desvia'));
+for (const termo of ['claude-opus-5-5', 'gpt-6.1-sol', '--effort'])
+  checar(`agentes: modelo do harness cita ${termo}`, modeloHarness.includes(termo));
+function checarHarness(nome, ferramenta) {
+  const arquivo = `modelos/agentes/${nome}.md`;
+  const texto = ler(arquivo);
+  const outra = ferramenta === 'claude' ? 'codex' : 'claude';
+  checar(`agentes: existe ${arquivo}`, texto.length > 0);
+  checar(`agentes/${nome}: as 10 partes em ordem`, partesEmOrdem(texto));
+  for (const termo of ['**Maturidade:** rascunho', '**Ferramenta:**', '**Esforço:**', '## O harness manda', 'superpowers:verification-before-completion', 'Como pesquisa', `docs/referencias/${nome}.md`])
+    checar(`agentes/${nome}: ${termo}`, texto.includes(termo));
+  checar(`agentes/${nome}: modelo ${MODELO_DA_FERRAMENTA[ferramenta]} e leitura do ${LEITURA_DA_FERRAMENTA[ferramenta]}`, texto.includes(MODELO_DA_FERRAMENTA[ferramenta]) && texto.includes(LEITURA_DA_FERRAMENTA[ferramenta]));
+  checar(`agentes/${nome}: não usa o modelo da outra ferramenta (${MODELO_DA_FERRAMENTA[outra]})`, !texto.includes(MODELO_DA_FERRAMENTA[outra]));
+  if (nome === 'integradora') checar('agentes/integradora: integra e cria portões (gh pr merge, gate-create)', texto.includes('gh pr merge') && texto.includes('gate-create'));
+  else checar(`agentes/${nome}: nunca integra e fala pelo Orca (orca orchestration)`, /nunca integra/i.test(texto) && texto.includes('orca orchestration'));
+  checar(`agentes/${nome}: sem links relativos (o harness vai para dentro do projeto)`, !/\]\((?!https?:)/.test(texto));
+  for (const termo of HARNESS_PROPRIO[nome] || []) checar(`agentes/${nome}: ${termo}`, texto.includes(termo));
+  // Revisão final: as regras precisam estar no lugar certo, não em qualquer parte do texto
+  const manda = (texto.split('## O harness manda')[1] || '').split('\n## ')[0];
+  checar(`agentes/${nome}: "O harness manda" com precedência e não desvia`, manda.includes('precedência') && manda.includes('não desvia'));
+  const sobe = (texto.split('## 8. Quando sobe a decisão')[1] || '').split('\n## ')[0];
+  if (nome !== 'integradora') {
+    const fixas = manda.split('\n').find((l) => l.startsWith('- **Regras fixas do método:**')) || '';
+    checar(`agentes/${nome}: "nunca integra" nas regras fixas`, /nunca integra/i.test(fixas));
+    checar(`agentes/${nome}: sobe a decisão com orca orchestration send --type escalation (parte 8)`, sobe.includes('--type escalation'));
+    checar(`agentes/${nome}: manda memória e consumo à integradora (--type status), sem escrever na memória do projeto`, texto.includes('--type status') && !/grava o estado na memória|Anota o consumo/.test(texto));
+  } else {
+    checar('agentes/integradora: grava as notas que os especialistas mandam', texto.includes('notas que os especialistas mandam'));
+  }
+}
+for (const [nome, ferramenta] of Object.entries(HARNESSES)) checarHarness(nome, ferramenta);
+const subsecaoEsp = (sessoes.split('### Com agentes especialistas')[1] || '').split('\n## ')[0];
+for (const termo of ['docs/agentes/', '--parent', 'O harness manda', '9 sessões', 'Nested worker depth', 'substitui o limite', 'contrato da API passa para a Arquitetura'])
+  checar(`sessões: com agentes especialistas (${termo})`, subsecaoEsp.includes(termo));
+checar('fluxo: modo com agentes especialistas na Fase 3', (fluxo.split('## Fase 3')[1] || '').split('## Fase 4')[0].includes('especialistas'));
+checar('prompt da coordenadora do Orca: aponta para o harness da integradora no modo com especialistas', promptCoord.includes('integradora.md'));
+const inicioEsp = ler('skills/novo-projeto/SKILL.md');
+checar('skills/novo-projeto: na Fase 3 copia os harnesses sem rodar o novo-projeto.sh de novo (que recusaria)', inicioEsp.includes('modelos/agentes/') && inicioEsp.includes('_modelo-harness.md') && !inicioEsp.includes('novo-projeto.sh" . --especialistas') && inicioEsp.includes('Nested worker depth'));
+const atualizarEsp = ler('skills/atualizar-projeto/SKILL.md');
+checar('skills/atualizar-projeto: copia os harnesses que faltam (docs/agentes/)', atualizarEsp.includes('docs/agentes/'));
+checar('skills/atualizar-projeto: pergunta se o projeto usa o modo e acrescenta a linha do DESENVOLVIMENTO.md (Nested worker depth)', atualizarEsp.includes('Pergunte se o projeto usa o modo com especialistas') && atualizarEsp.includes('Nested worker depth'));
+checar('skills/consultar: aponta para o modo com especialistas', ler('skills/consultar/SKILL.md').includes('Com agentes especialistas'));
+for (const termo of ['modelos/agentes/', '--especialistas', 'Nested worker depth'])
+  checar(`README: modo com agentes especialistas (${termo})`, readme.includes(termo));
 
 const skills = ler('nucleo/03-skills-e-testes.md');
 for (const termo of ['## Mapa de skills', '## Testes: micro e macro', 'micro', 'macro', 'RED', 'verification-before-completion', '## Verificação no navegador'])
@@ -200,6 +269,7 @@ arquivosDecisao.forEach((nome, i) => {
 const versao = ler('VERSION').trim();
 checar('VERSION: semver X.Y.Z', /^\d+\.\d+\.\d+$/.test(versao), versao);
 checar('CHANGELOG: tem a versão atual', ler('CHANGELOG.md').includes(`## ${versao}`));
+checar('VERSION: 2.6.0 ou maior (modo com agentes especialistas, decisão 008)', versao.split('.').map(Number).reduce((acc, n, i) => acc || (n !== [2, 6, 0][i] ? (n > [2, 6, 0][i] ? 'maior' : 'menor') : ''), '') !== 'menor', versao);
 
 const claude = ler('CLAUDE.md').toLowerCase();
 for (const termo of ['## Objetivo deste repositório', '## Como esta sessão trabalha', '## Estrutura', '## Como acrescentar', 'nada entra sem um caso real', 'scripts/verificar.mjs', 'não toque', 'responda em português'])
@@ -347,6 +417,26 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     mkdirSync(alvo_testado);
     const so_testado = rodar(alvo_testado, 'site-estatico');
     checar('novo-projeto.sh só com cenário testado conclui sem aviso', so_testado.status === 0 && !so_testado.stderr.includes('AVISO'), so_testado.stderr);
+    // Modo com agentes especialistas (decisão 008): só com --especialistas o projeto recebe os harnesses em docs/agentes/
+    checar('novo-projeto.sh sem --especialistas não cria docs/agentes/', !existsSync(join(alvo, 'docs/agentes')));
+    checar('novo-projeto.sh: CLAUDE.md cita os harnesses em docs/agentes/', claudeProj.includes('docs/agentes/'));
+    checar('novo-projeto.sh: AGENTS.md cita os harnesses em docs/agentes/', agentsProj.includes('docs/agentes/'));
+    checar('novo-projeto.sh: memória anota o consumo por tarefa', memProj.includes('consumo'));
+    const alvo_esp = join(base, 'projeto-especialistas');
+    mkdirSync(alvo_esp);
+    const esp = rodar(alvo_esp, 'site-estatico', '--especialistas');
+    checar('novo-projeto.sh com --especialistas conclui', esp.status === 0, esp.stderr);
+    const copiados = existsSync(join(alvo_esp, 'docs/agentes')) ? readdirSync(join(alvo_esp, 'docs/agentes')).sort() : [];
+    checar('novo-projeto.sh com --especialistas copia os 7 harnesses, sem o modelo', JSON.stringify(copiados) === JSON.stringify(Object.keys(HARNESSES).map((n) => `${n}.md`).sort()), copiados.join(', '));
+    for (const nome of Object.keys(HARNESSES))
+      checar(`novo-projeto.sh com --especialistas: docs/agentes/${nome}.md igual ao do método`, copiados.includes(`${nome}.md`) && readFileSync(join(alvo_esp, 'docs/agentes', `${nome}.md`), 'utf8') === ler(`modelos/agentes/${nome}.md`));
+    const devEsp = existsSync(join(alvo_esp, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo_esp, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
+    checar('novo-projeto.sh com --especialistas: DESENVOLVIMENTO.md cita docs/agentes/ e o Nested worker depth', devEsp.includes('docs/agentes/') && devEsp.includes('Nested worker depth'));
+    checar('novo-projeto.sh com --especialistas não confunde a opção com um cenário', devEsp.includes('site-estatico') && !devEsp.includes('--especialistas ('));
+    const alvo_com_agentes = join(base, 'projeto-com-docs-agentes');
+    mkdirSync(join(alvo_com_agentes, 'docs/agentes'), { recursive: true });
+    const conf = rodar(alvo_com_agentes, '--especialistas');
+    checar('novo-projeto.sh --especialistas com docs/agentes/ existente recusa sem alterar nada', conf.status !== 0 && conf.stderr.includes('docs/agentes') && !existsSync(join(alvo_com_agentes, 'CLAUDE.md')), conf.stderr);
     try {
       accessSync(join(alvo, 'scripts/nova-tarefa.sh'), constants.X_OK);
       checar('novo-projeto.sh mantém os scripts executáveis', true);
