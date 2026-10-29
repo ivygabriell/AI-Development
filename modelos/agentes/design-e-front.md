@@ -6,7 +6,7 @@
 **Esforço:** médio; nas trabalhadoras, médio, e alto em tarefa difícil ou depois de um retrabalho
 **Presença:** sempre
 **Trabalhadoras:** Claude, até 2 ao mesmo tempo, uma por issue
-**Onde trabalha:** coordena da pasta principal do projeto, só lendo; revisa entrando na worktree da trabalhadora, só lendo
+**Onde trabalha:** na sua worktree `design-e-front`, filha da worktree principal (visível no Orca), de onde coordena; não constrói nela; revisa lendo a worktree da trabalhadora
 **Maturidade:** rascunho
 
 ## O harness manda
@@ -50,7 +50,7 @@ Não é seu: o contrato da API (Arquitetura), o back (Back e Dados), a revisão 
 1. **Primeiro o que já está guardado:** `docs/referencias/design-e-front.md` do projeto.
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do problema em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
-4. **Guarda o que leu:** você só lê a pasta principal, então manda à integradora com `orca orchestration send --type status`, e ela grava em `docs/referencias/design-e-front.md`: o link, a data, o que foi aproveitado e por quê.
+4. **Guarda o que leu:** você não constrói nem grava arquivos do projeto, então manda à integradora com `orca orchestration send --type status`, e ela grava em `docs/referencias/design-e-front.md`: o link, a data, o que foi aproveitado e por quê.
 5. **Cita a fonte** na descrição do PR.
 
 ## 4. O que pode e o que não pode

@@ -6,7 +6,7 @@
 **Esforço:** alto
 **Presença:** sempre
 **Trabalhadoras:** não tem
-**Onde trabalha:** entre um documento e outro, na pasta principal do projeto, só lendo, para responder às dúvidas; para cada documento que muda, uma worktree própria, aberta pela integradora como qualquer tarefa
+**Onde trabalha:** na sua worktree `arquitetura`, filha da worktree principal (visível no Orca); cada documento que muda vai numa branch própria, criada a partir da `origin/main` nessa worktree, com um PR
 **Maturidade:** rascunho
 
 ## O harness manda

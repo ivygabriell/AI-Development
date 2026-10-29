@@ -133,11 +133,11 @@ const LEITURA_DA_FERRAMENTA = { claude: 'CLAUDE.md', codex: 'AGENTS.md' };
 const HARNESSES = { integradora: 'claude', arquitetura: 'claude', 'back-e-dados': 'codex', 'design-e-front': 'claude', seguranca: 'codex', produto: 'claude', devops: 'codex' };
 // O que cada harness precisa dizer, além das regras comuns
 const HARNESS_PROPRIO = {
-  integradora: ['--model gpt-6.1-sol', '--model claude-opus-5-5', '--worktree current', '--worktree new-top-level', 'contam dentro das 9'],
-  arquitetura: ['contrato da API', 'portão', 'docs/referencias/arquitetura.md', '**Onde trabalha:** entre um documento e outro, na pasta principal do projeto, só lendo'],
+  integradora: ['--model gpt-6.1-sol', '--model claude-opus-5-5', '--worktree new-child --name arquitetura', '--worktree new-child --name back-e-dados', '--worktree new-child --name design-e-front', '--worktree new-child --name seguranca', '--worktree new-child --name produto', '--worktree new-child --name devops', 'contam dentro das 9'],
+  arquitetura: ['contrato da API', 'portão', 'docs/referencias/arquitetura.md', '**Onde trabalha:** na sua worktree `arquitetura`, filha da worktree principal'],
   'back-e-dados': ['worker-start', '--parent', '--worktree new-child', 'contrato da API'],
   'design-e-front': ['worker-start', '--parent', '--worktree new-child', 'design system'],
-  seguranca: ['mapa de riscos', 'entrega a correção', 'aprovar com ressalva', 'uma worktree própria para o mapa de riscos', 'MCP `rea`'],
+  seguranca: ['mapa de riscos', 'entrega a correção', 'aprovar com ressalva', '**Onde trabalha:** na sua worktree `seguranca`, filha da worktree principal', 'MCP `rea`'],
   produto: ['critérios de aceite'],
   devops: ['worker-start', '--parent', 'portão', 'merge_ready', 'a mudança do CI é uma tarefa da sua trabalhadora'],
 };
@@ -174,15 +174,17 @@ function checarHarness(nome, ferramenta) {
   if (nome !== 'integradora') {
     const fixas = manda.split('\n').find((l) => l.startsWith('- **Regras fixas do método:**')) || '';
     checar(`agentes/${nome}: "nunca integra" nas regras fixas`, /nunca integra/i.test(fixas));
+    checar(`agentes/${nome}: aparece no Orca na sua worktree, filha da principal (sem --worktree current nem new-top-level)`, texto.includes(`**Onde trabalha:** na sua worktree \`${nome}\`, filha da worktree principal`) && !texto.includes('--worktree current') && !texto.includes('new-top-level'));
     checar(`agentes/${nome}: sobe a decisão com orca orchestration send --type escalation (parte 8)`, sobe.includes('--type escalation'));
     checar(`agentes/${nome}: manda memória e consumo à integradora (--type status), sem escrever na memória do projeto`, texto.includes('--type status') && !/grava o estado na memória|Anota o consumo/.test(texto));
   } else {
     checar('agentes/integradora: grava as notas que os especialistas mandam', texto.includes('notas que os especialistas mandam'));
+    checar('agentes/integradora: abre cada especialista na worktree filha da principal (sem --worktree current nem new-top-level)', !texto.includes('--worktree current') && !texto.includes('new-top-level'));
   }
 }
 for (const [nome, ferramenta] of Object.entries(HARNESSES)) checarHarness(nome, ferramenta);
 const subsecaoEsp = (sessoes.split('### Com agentes especialistas')[1] || '').split('\n## ')[0];
-for (const termo of ['docs/agentes/', '--parent', 'O harness manda', '9 sessões', 'Nested worker depth', 'substitui o limite', 'contrato da API passa para a Arquitetura', 'contam dentro das 9'])
+for (const termo of ['docs/agentes/', '--parent', 'O harness manda', '9 sessões', 'Nested worker depth', 'substitui o limite', 'contrato da API passa para a Arquitetura', 'contam dentro das 9', 'filha da worktree principal'])
   checar(`sessões: com agentes especialistas (${termo})`, subsecaoEsp.includes(termo));
 checar('fluxo: modo com agentes especialistas na Fase 3', (fluxo.split('## Fase 3')[1] || '').split('## Fase 4')[0].includes('especialistas'));
 checar('prompt da coordenadora do Orca: aponta para o harness da integradora no modo com especialistas', promptCoord.includes('integradora.md'));

@@ -6,7 +6,7 @@
 **Esforço:** alto
 **Presença:** sempre
 **Trabalhadoras:** não tem
-**Onde trabalha:** uma worktree própria para o mapa de riscos, com branch e PR; para revisar, entra na worktree do PR, só lendo e rodando verificações
+**Onde trabalha:** na sua worktree `seguranca`, filha da worktree principal (visível no Orca): o mapa de riscos numa branch própria, com PR; para revisar, lê a worktree do PR, só lendo e rodando verificações
 **Maturidade:** rascunho
 
 ## O harness manda

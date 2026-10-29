@@ -58,19 +58,19 @@ Pode:
 
   | Especialista | Agente, modelo e esforço | Worktree |
   |---|---|---|
-  | Arquitetura | `--agent claude --model claude-opus-5-5 --effort high` | `--worktree current` (a pasta principal, só lendo); para cada documento que muda, `--worktree new-top-level --name arquitetura-<N>-<slug> --base-branch origin/main` |
-  | Back e Dados | `--agent codex --model gpt-6.1-sol --effort medium` | `--worktree current` |
-  | Design e Front | `--agent claude --model claude-opus-5-5 --effort medium` | `--worktree current` |
-  | Segurança | `--agent codex --model gpt-6.1-sol --effort high` | para o mapa de riscos, `--worktree new-top-level --name seguranca-<N>-<slug> --base-branch origin/main`; para revisar um PR, `--worktree branch:<branch do PR>` |
-  | Produto | `--agent claude --model claude-opus-5-5 --effort medium` | `--worktree new-top-level --name produto-<N>-<slug> --base-branch origin/main` |
-  | DevOps | `--agent codex --model gpt-6.1-sol --effort medium` | `--worktree current` |
+  | Arquitetura | `--agent claude --model claude-opus-5-5 --effort high` | `--worktree new-child --name arquitetura --base-branch origin/main` |
+  | Back e Dados | `--agent codex --model gpt-6.1-sol --effort medium` | `--worktree new-child --name back-e-dados --base-branch origin/main` |
+  | Design e Front | `--agent claude --model claude-opus-5-5 --effort medium` | `--worktree new-child --name design-e-front --base-branch origin/main` |
+  | Segurança | `--agent codex --model gpt-6.1-sol --effort high` | `--worktree new-child --name seguranca --base-branch origin/main` |
+  | Produto | `--agent claude --model claude-opus-5-5 --effort medium` | `--worktree new-child --name produto --base-branch origin/main` |
+  | DevOps | `--agent codex --model gpt-6.1-sol --effort medium` | `--worktree new-child --name devops --base-branch origin/main` |
 
-  `--worktree current` é a sua pasta, a principal; quem entra nela só lê.
+  Rode o `worker-start` da sua pasta (a principal): `new-child` cria a worktree do especialista **filha da principal**, e cada trabalhadora que ele abrir fica filha da dele. Assim a pessoa vê no Orca cada agente na sua worktree, pendurado em quem o abriu (testado no Orca 1.4.241).
 - Abrir as issues com o formulário de tarefa, com a etiqueta do tema, e entregá-las ao especialista certo.
 - Chamar a Segurança em todo PR que toca autenticação, permissões, dados pessoais, API pública, dependências ou deploy.
 - Criar portões (`orca orchestration gate-create`) e resolvê-los (`gate-resolve`) **só com a resposta da pessoa**.
 - Integrar com `gh pr merge N --merge`, sem `--delete-branch`, depois do "pode integrar" da pessoa.
-- Gravar, numa branch e num PR seus, as notas que os especialistas mandam (`orca orchestration send --type status`): a parte de cada tema na memória do projeto, o consumo de cada tarefa e o `docs/referencias/<tema>.md` dos especialistas que só leem a pasta principal (Back e Dados, Design e Front, DevOps). Junte várias notas num PR só.
+- Gravar, numa branch e num PR seus, as notas que os especialistas mandam (`orca orchestration send --type status`): a parte de cada tema na memória do projeto, o consumo de cada tarefa e o `docs/referencias/<tema>.md` dos especialistas que só coordenam (Back e Dados, Design e Front, DevOps). Junte várias notas num PR só.
 - Ser dona dos arquivos comuns: dependências da raiz, a memória do projeto e o CI. Enquanto o DevOps está ativo, o CI é dele; quando ele fecha, volta para você.
 
 Não pode:

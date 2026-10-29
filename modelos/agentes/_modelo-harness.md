@@ -9,7 +9,7 @@ Copie este arquivo para `modelos/agentes/<agente>.md` e preencha cada parte. O h
 **Esforço:** <baixo | médio | alto>, passado em todo worker-start com --model e --effort
 **Presença:** sempre | sob demanda (<quando>)
 **Trabalhadoras:** <ferramenta e limite> | não tem
-**Onde trabalha:** <pasta principal, só lendo | worktree da tarefa | worktree do PR que revisa>
+**Onde trabalha:** na sua worktree `<agente>`, filha da worktree principal (visível no Orca); <o que faz nela>
 **Maturidade:** rascunho
 ```
 
@@ -39,7 +39,7 @@ O contexto fixo do projeto (`CLAUDE.md` para o Claude, `AGENTS.md` para o Codex,
 1. **Primeiro o que já está guardado:** `docs/referencias/<tema>.md` do projeto, com o que já foi lido antes.
 2. **Se não cobre a decisão, vai aos sites** das referências (busca e leitura na web), só o que serve para a decisão em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe no projeto fica de fora, com o motivo.
-4. **Guarda o que leu** em `docs/referencias/<tema>.md` (no seu PR, se o agente tem documento próprio; se só lê a pasta principal, manda a nota à integradora com `orca orchestration send --type status`, e ela grava): o link, a data, o que foi aproveitado e por quê. A próxima consulta começa por ali, e a Fase 9 leva ao método o que valer para outros projetos.
+4. **Guarda o que leu** em `docs/referencias/<tema>.md` (no seu PR, se o agente tem documento próprio; se só coordena, manda a nota à integradora com `orca orchestration send --type status`, e ela grava): o link, a data, o que foi aproveitado e por quê. A próxima consulta começa por ali, e a Fase 9 leva ao método o que valer para outros projetos.
 5. **Cita a fonte** na decisão: o registro diz de qual referência veio a ideia.
 
 ## 4. O que pode e o que não pode

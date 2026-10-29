@@ -6,11 +6,12 @@ Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quan
 
 Correções dos pontos pequenos da revisão final da 2.6.0 (agentes especialistas, rascunho).
 
-- **Integradora:** o comando de abrir cada especialista com os valores concretos (agente, modelo, esforço e `--worktree` de cada um; `--worktree current` é a pasta principal, só lendo). Produto e DevOps contam dentro do limite de 9 sessões, também no `02`.
-- **Harnesses:** a Arquitetura diz onde fica entre um documento e outro; a Segurança ganha a worktree própria do mapa de riscos e diz que o REA é o MCP `rea`, também no Codex; o DevOps muda o CI pela trabalhadora dele e avisa com `merge_ready`; o modelo diz as duas diferenças do bloco "O harness manda".
+- **Visibilidade no Orca (decidido pela pessoa):** cada agente aparece no Orca na sua worktree. A integradora abre cada especialista com `worker-start --worktree new-child --name <tema>`, da pasta principal, e a worktree dele fica filha da principal; cada trabalhadora fica filha da do especialista. Testado no Orca 1.4.241. O harness da integradora traz o comando de cada especialista com os valores concretos, e o cabeçalho de cada harness diz a worktree dele.
+- **Limite:** Produto e DevOps contam dentro das 9 sessões, também no `02`.
+- **Harnesses:** a Segurança diz que o REA é o MCP `rea`, também no Codex; o DevOps muda o CI pela trabalhadora dele e avisa com `merge_ready`; o modelo diz as duas diferenças do bloco "O harness manda".
 - **`AGENTS.md` dos projetos:** sem o plugin, o Codex avisa a coordenadora com `orca orchestration ask`, em vez de pedir à pessoa.
 - **`novo-projeto.sh`:** `--especialistas` vale em qualquer posição, também antes da pasta.
-- `scripts/verificar.mjs` confere cada ponto (14 verificações novas, vistas falhar antes).
+- `scripts/verificar.mjs` confere cada ponto (verificações novas, vistas falhar antes).
 
 ## 2.6.0 (2026-10-28)
 

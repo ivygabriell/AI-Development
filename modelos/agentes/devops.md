@@ -6,7 +6,7 @@
 **Esforço:** médio; alto num incidente
 **Presença:** sob demanda: preparar a publicação, mudar o CI ou a infraestrutura, montar o monitoramento, incidente
 **Trabalhadoras:** Codex, 1 por vez
-**Onde trabalha:** coordena da pasta principal do projeto, só lendo; revisa entrando na worktree da trabalhadora, só lendo
+**Onde trabalha:** na sua worktree `devops`, filha da worktree principal (visível no Orca), de onde coordena; não constrói nela; revisa lendo a worktree da trabalhadora
 **Maturidade:** rascunho
 
 ## O harness manda
@@ -48,7 +48,7 @@ Não é seu: decidir a arquitetura (Arquitetura), a revisão de segurança (Segu
 1. **Primeiro o que já está guardado:** `docs/referencias/devops.md` do projeto.
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do problema em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
-4. **Guarda o que leu:** você só lê a pasta principal, então manda à integradora com `orca orchestration send --type status`, e ela grava em `docs/referencias/devops.md`: o link, a data, o que foi aproveitado e por quê.
+4. **Guarda o que leu:** você não constrói nem grava arquivos do projeto, então manda à integradora com `orca orchestration send --type status`, e ela grava em `docs/referencias/devops.md`: o link, a data, o que foi aproveitado e por quê.
 5. **Cita a fonte** na descrição do PR.
 
 ## 4. O que pode e o que não pode
@@ -59,7 +59,7 @@ Pode:
   `orca orchestration worker-start --agent codex --model gpt-6.1-sol --effort medium --worktree new-child --base-branch origin/main --name devops-<N>-<slug> --display-name "devops #<N>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes, Closes #<N>>"`.
   O Orca pendura a trabalhadora em você (`--parent` da sua tarefa); a dúvida dela chega a você.
 - Propor o pipeline, o plano de publicação e o plano de volta.
-- Mudar o CI, enquanto está ativo: a mudança do CI é uma tarefa da sua trabalhadora, numa branch e num PR, porque você só lê a pasta principal.
+- Mudar o CI, enquanto está ativo: a mudança do CI é uma tarefa da sua trabalhadora, numa branch e num PR, porque você não constrói na sua worktree.
 - Revisar o PR entrando na worktree da trabalhadora, só lendo.
 - Buscar e ler na web as referências do tema.
 
