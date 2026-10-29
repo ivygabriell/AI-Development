@@ -124,6 +124,37 @@ for (const termo of ['### Back e front com agentes diferentes', '--agent codex',
 for (const termo of ['--agent codex', 'contrato da API', 'AGENTS.md', 'retrabalho'])
   checar(`prompt da coordenadora do Orca: back com o Codex (${termo})`, promptCoord.includes(termo));
 
+// Agentes especialistas (decisão 008, rascunho): cada harness tem as 10 partes, o modelo da sua ferramenta e as regras fixas
+const HARNESS_PARTES = ['## 1. Missão', '## 2. Quando é chamado', '## 3. O que lê', '## 4. O que pode e o que não pode', '## 5. Skills', '## 6. Checklist do tema', '## 7. Formato da resposta', '## 8. Quando sobe a decisão', '## 9. Memória do tema', '## 10. Economia'];
+const MODELO_DA_FERRAMENTA = { claude: 'claude-opus-5-5', codex: 'gpt-6.1-sol' };
+const LEITURA_DA_FERRAMENTA = { claude: 'CLAUDE.md', codex: 'AGENTS.md' };
+const HARNESSES = { integradora: 'claude' };
+const partesEmOrdem = (texto) => {
+  const posicoes = HARNESS_PARTES.map((parte) => texto.indexOf(`\n${parte}\n`));
+  return posicoes.every((p, i) => p >= 0 && (i === 0 || p > posicoes[i - 1]));
+};
+const modeloHarness = ler('modelos/agentes/_modelo-harness.md');
+checar('agentes: existe modelos/agentes/_modelo-harness.md', modeloHarness.length > 0);
+checar('agentes: modelo do harness tem as 10 partes em ordem', partesEmOrdem(modeloHarness));
+checar('agentes: modelo do harness tem "O harness manda" (precedência, não desvia)', modeloHarness.includes('## O harness manda') && modeloHarness.includes('precedência') && modeloHarness.includes('não desvia'));
+for (const termo of ['claude-opus-5-5', 'gpt-6.1-sol', '--effort'])
+  checar(`agentes: modelo do harness cita ${termo}`, modeloHarness.includes(termo));
+function checarHarness(nome, ferramenta) {
+  const arquivo = `modelos/agentes/${nome}.md`;
+  const texto = ler(arquivo);
+  const outra = ferramenta === 'claude' ? 'codex' : 'claude';
+  checar(`agentes: existe ${arquivo}`, texto.length > 0);
+  checar(`agentes/${nome}: as 10 partes em ordem`, partesEmOrdem(texto));
+  for (const termo of ['**Maturidade:** rascunho', '**Ferramenta:**', '**Esforço:**', '## O harness manda', 'superpowers:verification-before-completion'])
+    checar(`agentes/${nome}: ${termo}`, texto.includes(termo));
+  checar(`agentes/${nome}: modelo ${MODELO_DA_FERRAMENTA[ferramenta]} e leitura do ${LEITURA_DA_FERRAMENTA[ferramenta]}`, texto.includes(MODELO_DA_FERRAMENTA[ferramenta]) && texto.includes(LEITURA_DA_FERRAMENTA[ferramenta]));
+  checar(`agentes/${nome}: não usa o modelo da outra ferramenta (${MODELO_DA_FERRAMENTA[outra]})`, !texto.includes(MODELO_DA_FERRAMENTA[outra]));
+  if (nome === 'integradora') checar('agentes/integradora: integra e cria portões (gh pr merge, gate-create)', texto.includes('gh pr merge') && texto.includes('gate-create'));
+  else checar(`agentes/${nome}: nunca integra e fala pelo Orca (orca orchestration)`, /nunca integra/i.test(texto) && texto.includes('orca orchestration'));
+  checar(`agentes/${nome}: sem links relativos (o harness vai para dentro do projeto)`, !/\]\((?!https?:)/.test(texto));
+}
+for (const [nome, ferramenta] of Object.entries(HARNESSES)) checarHarness(nome, ferramenta);
+
 const skills = ler('nucleo/03-skills-e-testes.md');
 for (const termo of ['## Mapa de skills', '## Testes: micro e macro', 'micro', 'macro', 'RED', 'verification-before-completion', '## Verificação no navegador'])
   checar(`skills e testes: ${termo}`, skills.includes(termo));
