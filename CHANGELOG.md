@@ -2,6 +2,17 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 2.6.1 (2026-10-28)
+
+Correções dos pontos pequenos da revisão final da 2.6.0 (agentes especialistas, rascunho).
+
+- **Visibilidade no Orca (decidido pela pessoa):** cada agente aparece no Orca na sua worktree. A integradora abre cada especialista com `worker-start --worktree new-child --name <tema>`, da pasta principal, e a worktree dele fica filha da principal; cada trabalhadora fica filha da do especialista. Testado no Orca 1.4.241. O harness da integradora traz o comando de cada especialista com os valores concretos, e o cabeçalho de cada harness diz a worktree dele.
+- **Limite:** Produto e DevOps contam dentro das 9 sessões, também no `02`.
+- **Harnesses:** a Segurança diz que o REA é o MCP `rea`, também no Codex; o DevOps muda o CI pela trabalhadora dele e avisa com `merge_ready`; o modelo diz as duas diferenças do bloco "O harness manda".
+- **`AGENTS.md` dos projetos:** sem o plugin, o Codex avisa a coordenadora com `orca orchestration ask`, em vez de pedir à pessoa.
+- **`novo-projeto.sh`:** `--especialistas` vale em qualquer posição, também antes da pasta.
+- `scripts/verificar.mjs` confere cada ponto (verificações novas, vistas falhar antes).
+
 ## 2.6.0 (2026-10-28)
 
 Agentes especialistas ao lado da integradora, no Orca, aprovado pela pessoa **sem caso real** (tudo em `rascunho` até o primeiro projeto feito assim). Ver [decisão 008](decisoes/008-agentes-especialistas.md).

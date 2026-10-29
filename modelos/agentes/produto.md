@@ -6,7 +6,7 @@
 **Esforço:** médio
 **Presença:** sob demanda, nas Fases 0 a 2 e quando uma prioridade muda
 **Trabalhadoras:** não tem
-**Onde trabalha:** uma worktree por documento que muda, aberta pela integradora como qualquer tarefa
+**Onde trabalha:** na sua worktree `produto`, filha da worktree principal (visível no Orca); cada documento que muda vai numa branch própria, criada a partir da `origin/main` nessa worktree, com um PR
 **Maturidade:** rascunho
 
 ## O harness manda

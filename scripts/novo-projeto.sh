@@ -19,17 +19,22 @@ if [[ $# -lt 1 ]]; then
   exit 1
 fi
 
-alvo="$1"
-shift
+# --especialistas pode vir em qualquer posição; o primeiro argumento que sobra é a pasta, os outros são cenários
 especialistas=0
-cenarios=()
+restantes=()
 for arg in "$@"; do
   if [[ "$arg" == "--especialistas" ]]; then
     especialistas=1
   else
-    cenarios+=("$arg")
+    restantes+=("$arg")
   fi
 done
+if [[ ${#restantes[@]} -lt 1 ]]; then
+  echo "$uso" >&2
+  exit 1
+fi
+alvo="${restantes[0]}"
+cenarios=("${restantes[@]:1}")
 
 if [[ ! -d "$alvo" ]]; then
   echo "A pasta $alvo não existe. Crie o repositório do projeto primeiro." >&2

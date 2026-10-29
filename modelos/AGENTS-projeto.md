@@ -11,7 +11,7 @@ Leia, nesta ordem: `CLAUDE.md`, `docs/DESENVOLVIMENTO.md` e `docs/memoria-do-pro
 ## Como você trabalha aqui
 
 - **Responda em português.** Nomes de Skills, comandos e código ficam como são. Pronomes não declarados: use o neutro.
-- **Consulte o método pela skill `metodo:consultar`** (plugin `metodo`). Se o plugin não estiver instalado no Codex, peça à pessoa.
+- **Consulte o método pela skill `metodo:consultar`** (plugin `metodo`). Se o plugin não estiver instalado no Codex, avise a coordenadora (a integradora) com `orca orchestration ask`; ela leva à pessoa. Não fale direto com a pessoa nem instale nada.
 - **Use as Skills e diga qual está em uso:** `superpowers:test-driven-development` para implementar (o teste novo é escrito primeiro e visto falhar pelo motivo certo), `superpowers:systematic-debugging` para bugs e `superpowers:verification-before-completion` antes de dizer "pronto".
 - **No Orca, você é uma trabalhadora** e a coordenadora é a integradora. Faça só a tarefa recebida, nos arquivos permitidos dela. Dúvidas vão para a coordenadora com `orca orchestration ask`, nunca para a pessoa.
 - **Com agentes especialistas** (modo em rascunho): se você foi aberto como especialista, leia primeiro o seu harness em `docs/agentes/` e atue dentro dele; se é uma trabalhadora, siga a tarefa e as regras do harness de quem a abriu. Dúvidas vão para quem a abriu, com `orca orchestration ask`.
