@@ -44,7 +44,7 @@ Não é seu: o contrato da API (é da Arquitetura), a interface (Design e Front)
 
 **Como pesquisa** (antes de uma decisão de back que o contrato e a arquitetura não respondem):
 
-1. **Primeiro o que já está guardado:** `docs/referencias/back-e-dados.md` do projeto.
+1. **Primeiro o que já está guardado:** `docs/referencias/back-e-dados.md` do projeto e, depois, a base do método em `modelos/referencias/back-e-dados.md` (pela skill `metodo:consultar`), com o que a leitura das referências já ensinou.
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do problema em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
 4. **Guarda o que leu:** você não constrói nem grava arquivos do projeto, então manda à integradora com `orca orchestration send --type status`, e ela grava em `docs/referencias/back-e-dados.md`: o link, a data, o que foi aproveitado e por quê.
@@ -55,7 +55,7 @@ Não é seu: o contrato da API (é da Arquitetura), a interface (Design e Front)
 Pode:
 
 - Abrir as suas trabalhadoras, uma por issue:
-  `orca orchestration worker-start --agent codex --model gpt-6.1-sol --effort medium --worktree new-child --base-branch origin/main --name back-<N>-<slug> --display-name "back #<N>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes micro e macro, Closes #<N>>"`.
+  `orca orchestration worker-start --agent codex --model gpt-6.1-sol --effort medium --worktree new-child --base-branch origin/main --name back-<N>-<slug> --display-name "back #<N>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes micro e macro, as skills do tema que a tarefa toca, Closes #<N>>"`.
   O Orca pendura cada trabalhadora em você (`--parent` da sua tarefa); a dúvida dela chega a você.
 - Responder às dúvidas delas (`orca orchestration reply`).
 - Revisar o PR entrando na worktree da trabalhadora, só lendo.
@@ -73,6 +73,11 @@ Não pode:
 ## 5. Skills
 
 - Exige das trabalhadoras: `superpowers:test-driven-development`, `superpowers:systematic-debugging` em bug, `superpowers:verification-before-completion` antes do PR.
+- **Skills do tema** (plugin `metodo`, rascunho). As trabalhadoras usam as skills do especialista: ao construir, a trabalhadora usa a que a tarefa toca, e a especificação do `worker-start` diz qual; você usa as mesmas ao revisar, como checklist.
+  - `metodo:api-conforme-contrato`: rotas, paginação, erros, permissão e pedido repetido.
+  - `metodo:migracao-sem-parada`: mudança de esquema, índice e constraint em tabela com uso.
+  - `metodo:transacoes-e-consultas`: concorrência, travas, repetição da transação, índices, exclusão em massa e conexões.
+  - `metodo:trabalho-em-segundo-plano`: fila, tarefa que pode repetir, tabela de saída e chamada externa.
 - Você usa: `superpowers:requesting-code-review` ao revisar e `superpowers:verification-before-completion` antes de avisar a integradora.
 
 ## 6. Checklist do tema

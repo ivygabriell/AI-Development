@@ -9,6 +9,10 @@ Duas regras valem para **todas as sessões**, integradora ou trabalhadora: usar 
 | Funcionalidade nova, mudança de comportamento ou pedido ambíguo | `superpowers:brainstorming` (antes de mexer em qualquer arquivo) |
 | Decisão de arquitetura, escolha entre tecnologias | `engineering:architecture` |
 | Desenho de sistema, serviços, APIs, modelagem de dados | `engineering:system-design` |
+| Back: rota de API conforme o contrato (paginação, erros, pedido repetido) | `metodo:api-conforme-contrato` (rascunho) |
+| Back: migração de banco em tabela com uso | `metodo:migracao-sem-parada` (rascunho) |
+| Back: concorrência, travas, exclusão em massa, conexões | `metodo:transacoes-e-consultas` (rascunho) |
+| Back: fila, tarefa em segundo plano, chamada externa depois de gravar | `metodo:trabalho-em-segundo-plano` (rascunho) |
 | Plano com vários passos a partir de uma spec | `superpowers:writing-plans` |
 | Executar um plano na sessão atual | `superpowers:executing-plans` |
 | Plano com tarefas independentes, com uma revisão a cada tarefa | `superpowers:subagent-driven-development` |
