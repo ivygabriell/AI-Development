@@ -128,11 +128,12 @@ for (const termo of ['--agent codex', 'contrato da API', 'AGENTS.md', 'retrabalh
 const HARNESS_PARTES = ['## 1. Missão', '## 2. Quando é chamado', '## 3. O que lê', '## 4. O que pode e o que não pode', '## 5. Skills', '## 6. Checklist do tema', '## 7. Formato da resposta', '## 8. Quando sobe a decisão', '## 9. Memória do tema', '## 10. Economia'];
 const MODELO_DA_FERRAMENTA = { claude: 'claude-opus-5-5', codex: 'gpt-6.1-sol' };
 const LEITURA_DA_FERRAMENTA = { claude: 'CLAUDE.md', codex: 'AGENTS.md' };
-const HARNESSES = { integradora: 'claude', arquitetura: 'claude', 'back-e-dados': 'codex' };
+const HARNESSES = { integradora: 'claude', arquitetura: 'claude', 'back-e-dados': 'codex', 'design-e-front': 'claude' };
 // O que cada harness precisa dizer, além das regras comuns
 const HARNESS_PROPRIO = {
   arquitetura: ['contrato da API', 'portão', 'docs/referencias/arquitetura.md'],
   'back-e-dados': ['worker-start', '--parent', '--worktree new-child', 'contrato da API'],
+  'design-e-front': ['worker-start', '--parent', '--worktree new-child', 'design system'],
 };
 const partesEmOrdem = (texto) => {
   const posicoes = HARNESS_PARTES.map((parte) => texto.indexOf(`\n${parte}\n`));
