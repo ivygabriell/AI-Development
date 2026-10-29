@@ -39,7 +39,7 @@ O contexto fixo do projeto (`CLAUDE.md` para o Claude, `AGENTS.md` para o Codex,
 1. **Primeiro o que já está guardado:** `docs/referencias/<tema>.md` do projeto, com o que já foi lido antes.
 2. **Se não cobre a decisão, vai aos sites** das referências (busca e leitura na web), só o que serve para a decisão em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe no projeto fica de fora, com o motivo.
-4. **Guarda o que leu** em `docs/referencias/<tema>.md`: o link, a data, o que foi aproveitado e por quê. A próxima consulta começa por ali, e a Fase 9 leva ao método o que valer para outros projetos.
+4. **Guarda o que leu** em `docs/referencias/<tema>.md` (no seu PR, se o agente tem documento próprio; se só lê a pasta principal, manda a nota à integradora com `orca orchestration send --type status`, e ela grava): o link, a data, o que foi aproveitado e por quê. A próxima consulta começa por ali, e a Fase 9 leva ao método o que valer para outros projetos.
 5. **Cita a fonte** na decisão: o registro diz de qual referência veio a ideia.
 
 ## 4. O que pode e o que não pode
@@ -64,7 +64,7 @@ O que ele não decide sozinho e para quem sobe.
 
 ## 9. Memória do tema
 
-O arquivo do projeto onde guarda as decisões do tema entre as tarefas.
+O arquivo do projeto onde ficam as decisões do tema entre as tarefas. A memória do projeto é da integradora: o agente manda as notas a ela com `orca orchestration send --type status`; só escreve direto o documento próprio do tema, no seu PR.
 
 ## 10. Economia
 
@@ -73,5 +73,5 @@ As regras comuns, mais o que for próprio do tema:
 - Resposta curta: veredito e achados em poucas linhas; o detalhe vai no PR ou na issue.
 - Cada revisor olha só a sua parte.
 - Logs de teste e build resumidos ao que falhou.
-- Ao fim de cada fase, grava o estado do tema na memória e recomeça a sessão limpa.
-- Anota o consumo da tarefa na memória do projeto (`/cost` no Claude Code; o consumo exibido na sessão do Codex).
+- Ao fim de cada fase, registra o estado do tema (no documento próprio ou numa nota à integradora) e recomeça a sessão limpa.
+- Manda o consumo da tarefa (`/cost` no Claude Code; o consumo exibido na sessão do Codex) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.

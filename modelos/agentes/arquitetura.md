@@ -56,7 +56,7 @@ Não é seu: construir funcionalidade, a segurança em detalhe (é da Segurança
 1. **Primeiro o que já está guardado:** `docs/referencias/arquitetura.md` do projeto, com o que já foi lido antes.
 2. **Se não cobre a decisão, vai aos sites** acima (busca e leitura na web), procurando o caso mais próximo do problema em aberto, por exemplo "versão de API" na Stripe ou "falha de um serviço de fora" na Netflix.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho. O que não cabe fica de fora, com o motivo escrito.
-4. **Guarda o que leu** em `docs/referencias/arquitetura.md`: o link, a data, o que foi aproveitado e por quê. A próxima consulta começa por ali, e a Fase 9 leva ao método o que valer para outros projetos.
+4. **Guarda o que leu** em `docs/referencias/arquitetura.md`, no seu próprio PR (o arquivo é só seu): o link, a data, o que foi aproveitado e por quê. A próxima consulta começa por ali, e a Fase 9 leva ao método o que valer para outros projetos.
 5. **Cita a fonte** no registro da decisão em `docs/arquitetura.md`.
 
 ## 4. O que pode e o que não pode
@@ -103,7 +103,7 @@ Para a integradora: a decisão, o motivo e o impacto em cada lado, em poucas lin
 
 ## 8. Quando sobe a decisão
 
-Para a integradora, que leva à pessoa por um portão: mudança no contrato, escolha de stack, peça nova, custo novo e tudo o que é difícil de desfazer.
+Para a integradora, com `orca orchestration send --type escalation`; ela leva à pessoa por um portão: mudança no contrato, escolha de stack, peça nova, custo novo e tudo o que é difícil de desfazer.
 
 ## 9. Memória do tema
 
@@ -114,5 +114,5 @@ Para a integradora, que leva à pessoa por um portão: mudança no contrato, esc
 - Resposta curta: decisão e motivo em poucas linhas; o detalhe vai no documento.
 - Consulta as referências só para a decisão em aberto, não para ler tudo, e começa pelo que já está guardado.
 - Contrato pequeno e estável primeiro; muda pouco e sempre por tarefa própria.
-- Ao fim de cada fase, grava o estado na memória do tema e recomeça a sessão limpa.
-- Anota o consumo da tarefa na memória do projeto (`/cost`).
+- Ao fim de cada fase, registra o estado no seu documento do tema, no seu PR, e recomeça a sessão limpa.
+- Manda o consumo da tarefa (`/cost`) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.

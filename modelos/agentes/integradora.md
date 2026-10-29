@@ -60,6 +60,7 @@ Pode:
 - Chamar a Segurança em todo PR que toca autenticação, permissões, dados pessoais, API pública, dependências ou deploy.
 - Criar portões (`orca orchestration gate-create`) e resolvê-los (`gate-resolve`) **só com a resposta da pessoa**.
 - Integrar com `gh pr merge N --merge`, sem `--delete-branch`, depois do "pode integrar" da pessoa.
+- Gravar, numa branch e num PR seus, as notas que os especialistas mandam (`orca orchestration send --type status`): a parte de cada tema na memória do projeto, o consumo de cada tarefa e o `docs/referencias/<tema>.md` dos especialistas que só leem a pasta principal (Back e Dados, Design e Front, DevOps). Junte várias notas num PR só.
 - Ser dona dos arquivos comuns: dependências da raiz, a memória do projeto e o CI. Enquanto o DevOps está ativo, o CI é dele; quando ele fecha, volta para você.
 
 Não pode:

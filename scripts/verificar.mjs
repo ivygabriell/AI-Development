@@ -165,15 +165,30 @@ function checarHarness(nome, ferramenta) {
   else checar(`agentes/${nome}: nunca integra e fala pelo Orca (orca orchestration)`, /nunca integra/i.test(texto) && texto.includes('orca orchestration'));
   checar(`agentes/${nome}: sem links relativos (o harness vai para dentro do projeto)`, !/\]\((?!https?:)/.test(texto));
   for (const termo of HARNESS_PROPRIO[nome] || []) checar(`agentes/${nome}: ${termo}`, texto.includes(termo));
+  // Revisão final: as regras precisam estar no lugar certo, não em qualquer parte do texto
+  const manda = (texto.split('## O harness manda')[1] || '').split('\n## ')[0];
+  checar(`agentes/${nome}: "O harness manda" com precedência e não desvia`, manda.includes('precedência') && manda.includes('não desvia'));
+  const sobe = (texto.split('## 8. Quando sobe a decisão')[1] || '').split('\n## ')[0];
+  if (nome !== 'integradora') {
+    const fixas = manda.split('\n').find((l) => l.startsWith('- **Regras fixas do método:**')) || '';
+    checar(`agentes/${nome}: "nunca integra" nas regras fixas`, /nunca integra/i.test(fixas));
+    checar(`agentes/${nome}: sobe a decisão com orca orchestration send --type escalation (parte 8)`, sobe.includes('--type escalation'));
+    checar(`agentes/${nome}: manda memória e consumo à integradora (--type status), sem escrever na memória do projeto`, texto.includes('--type status') && !/grava o estado na memória|Anota o consumo/.test(texto));
+  } else {
+    checar('agentes/integradora: grava as notas que os especialistas mandam', texto.includes('notas que os especialistas mandam'));
+  }
 }
 for (const [nome, ferramenta] of Object.entries(HARNESSES)) checarHarness(nome, ferramenta);
 const subsecaoEsp = (sessoes.split('### Com agentes especialistas')[1] || '').split('\n## ')[0];
-for (const termo of ['docs/agentes/', '--parent', 'O harness manda', '9 sessões', 'Nested worker depth'])
+for (const termo of ['docs/agentes/', '--parent', 'O harness manda', '9 sessões', 'Nested worker depth', 'substitui o limite', 'contrato da API passa para a Arquitetura'])
   checar(`sessões: com agentes especialistas (${termo})`, subsecaoEsp.includes(termo));
 checar('fluxo: modo com agentes especialistas na Fase 3', (fluxo.split('## Fase 3')[1] || '').split('## Fase 4')[0].includes('especialistas'));
 checar('prompt da coordenadora do Orca: aponta para o harness da integradora no modo com especialistas', promptCoord.includes('integradora.md'));
-checar('skills/novo-projeto: oferece o modo com especialistas (--especialistas)', ler('skills/novo-projeto/SKILL.md').includes('--especialistas'));
-checar('skills/atualizar-projeto: copia os harnesses que faltam (docs/agentes/)', ler('skills/atualizar-projeto/SKILL.md').includes('docs/agentes/'));
+const inicioEsp = ler('skills/novo-projeto/SKILL.md');
+checar('skills/novo-projeto: na Fase 3 copia os harnesses sem rodar o novo-projeto.sh de novo (que recusaria)', inicioEsp.includes('modelos/agentes/') && inicioEsp.includes('_modelo-harness.md') && !inicioEsp.includes('novo-projeto.sh" . --especialistas') && inicioEsp.includes('Nested worker depth'));
+const atualizarEsp = ler('skills/atualizar-projeto/SKILL.md');
+checar('skills/atualizar-projeto: copia os harnesses que faltam (docs/agentes/)', atualizarEsp.includes('docs/agentes/'));
+checar('skills/atualizar-projeto: pergunta se o projeto usa o modo e acrescenta a linha do DESENVOLVIMENTO.md (Nested worker depth)', atualizarEsp.includes('Pergunte se o projeto usa o modo com especialistas') && atualizarEsp.includes('Nested worker depth'));
 checar('skills/consultar: aponta para o modo com especialistas', ler('skills/consultar/SKILL.md').includes('Com agentes especialistas'));
 for (const termo of ['modelos/agentes/', '--especialistas', 'Nested worker depth'])
   checar(`README: modo com agentes especialistas (${termo})`, readme.includes(termo));

@@ -48,7 +48,7 @@ Não é seu: decidir a arquitetura (Arquitetura), a revisão de segurança (Segu
 1. **Primeiro o que já está guardado:** `docs/referencias/devops.md` do projeto.
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do problema em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
-4. **Guarda o que leu** em `docs/referencias/devops.md`: o link, a data, o que foi aproveitado e por quê.
+4. **Guarda o que leu:** você só lê a pasta principal, então manda à integradora com `orca orchestration send --type status`, e ela grava em `docs/referencias/devops.md`: o link, a data, o que foi aproveitado e por quê.
 5. **Cita a fonte** na descrição do PR.
 
 ## 4. O que pode e o que não pode
@@ -93,16 +93,16 @@ Para a integradora: o plano de publicação e o de volta, em poucas linhas, e o 
 
 ## 8. Quando sobe a decisão
 
-Para a pessoa, pela integradora, sempre por um portão: publicação, custo, mudança de provedor, qualquer ação num ambiente publicado.
+Para a integradora, com `orca orchestration send --type escalation`; ela leva à pessoa por um portão: publicação, custo, mudança de provedor, qualquer ação num ambiente publicado.
 
 ## 9. Memória do tema
 
-`docs/memoria-do-projeto.md`, na parte de infraestrutura: os ambientes, os nomes dos segredos (nunca os valores), os alertas e os incidentes, com o que se aprendeu.
+Os ambientes, os nomes dos segredos (nunca os valores), os alertas e os incidentes, com o que se aprendeu, ficam em `docs/memoria-do-projeto.md`, na parte de infraestrutura. Você não escreve nesse arquivo: manda à integradora com `orca orchestration send --type status`, e ela grava.
 
 ## 10. Economia
 
 - Resposta curta: o plano e o que precisa de portão.
 - Logs de pipeline resumidos ao que falhou.
 - Fecha a sessão quando a publicação está estável; a integradora abre de novo se precisar.
-- Ao fim de cada fase, grava o estado na memória e recomeça a sessão limpa.
-- Anota o consumo da tarefa na memória do projeto (o consumo exibido na sessão do Codex).
+- Ao fim de cada fase, manda o estado do tema à integradora (`orca orchestration send --type status`) e recomeça a sessão limpa.
+- Manda o consumo da tarefa (o consumo exibido na sessão do Codex) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.

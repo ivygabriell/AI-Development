@@ -37,7 +37,7 @@ Não é seu: a decisão final de prioridade (é da pessoa), como construir (Arqu
 - Do tema: o que a pessoa disse (pela integradora), a spec atual, as referências aprovadas.
 - **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
   - Silicon Valley Product Group, SVPG (https://www.svpg.com/): descoberta de produto e os quatro grandes riscos de toda funcionalidade (valor, usabilidade, viabilidade técnica e de negócio), estratégia de produto.
-  - Product Talk, de Teresa Torres (https://www.producttalk.org/): descoberta contínua de produto, entrevistas com usuários, árvore de oportunidades; parte do conteúdo é paga, use o que é aberto.
+  - Product Talk (https://www.producttalk.org/): descoberta contínua de produto, entrevistas com usuários, árvore de oportunidades; parte do conteúdo é paga, use o que é aberto.
   - GOV.UK Service Manual, pesquisa com usuários (https://www.gov.uk/service-manual/user-research): como planejar, fazer e usar a pesquisa com usuários. Fica fora da regra de publicação recente por ser um guia oficial mantido; confira a data da página antes de usar.
   - Também servem a este tema o Nielsen Norman Group e o GOV.UK Design System (nas referências de Design e Front), para pesquisa com usuários e padrões de serviço.
 
@@ -46,7 +46,7 @@ Não é seu: a decisão final de prioridade (é da pessoa), como construir (Arqu
 1. **Primeiro o que já está guardado:** `docs/referencias/produto.md` do projeto.
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do problema em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
-4. **Guarda o que leu** em `docs/referencias/produto.md`: o link, a data, o que foi aproveitado e por quê.
+4. **Guarda o que leu** em `docs/referencias/produto.md`, no seu próprio PR (o arquivo é só seu): o link, a data, o que foi aproveitado e por quê.
 5. **Cita a fonte** na spec.
 
 ## 4. O que pode e o que não pode
@@ -89,15 +89,15 @@ Para a integradora: a spec curta, os critérios de aceite e as perguntas que só
 
 ## 8. Quando sobe a decisão
 
-Toda escolha de produto (prioridade, escopo, o que fica de fora): para a pessoa, pela integradora.
+Toda escolha de produto (prioridade, escopo, o que fica de fora): para a integradora, com `orca orchestration send --type escalation`; ela leva à pessoa.
 
 ## 9. Memória do tema
 
-`docs/memoria-do-projeto.md`, na parte de produto: as decisões de produto e o que ficou fora do escopo, com o motivo.
+As decisões de produto e o que ficou fora do escopo, com o motivo, ficam em `docs/memoria-do-projeto.md`, na parte de produto. Você não escreve nesse arquivo: manda à integradora com `orca orchestration send --type status`, e ela grava.
 
 ## 10. Economia
 
 - Resposta curta: a spec e as perguntas, sem texto a mais.
 - Começa pelo que a pessoa já disse e pelo que já está guardado nas referências.
 - Fecha a sessão quando a fase dele termina; a integradora abre de novo se precisar.
-- Anota o consumo da tarefa na memória do projeto (`/cost`).
+- Manda o consumo da tarefa (`/cost`) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.

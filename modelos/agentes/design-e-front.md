@@ -50,7 +50,7 @@ Não é seu: o contrato da API (Arquitetura), o back (Back e Dados), a revisão 
 1. **Primeiro o que já está guardado:** `docs/referencias/design-e-front.md` do projeto.
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do problema em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
-4. **Guarda o que leu** em `docs/referencias/design-e-front.md`: o link, a data, o que foi aproveitado e por quê.
+4. **Guarda o que leu:** você só lê a pasta principal, então manda à integradora com `orca orchestration send --type status`, e ela grava em `docs/referencias/design-e-front.md`: o link, a data, o que foi aproveitado e por quê.
 5. **Cita a fonte** na descrição do PR.
 
 ## 4. O que pode e o que não pode
@@ -110,7 +110,7 @@ Para a integradora, com `orca orchestration send --type escalation`:
 
 ## 9. Memória do tema
 
-`docs/memoria-do-projeto.md`, na parte do front: o design system, as decisões visuais e os padrões de componentes.
+O design system, as decisões visuais e os padrões de componentes ficam em `docs/memoria-do-projeto.md`, na parte do front. Você não escreve nesse arquivo: manda à integradora com `orca orchestration send --type status`, e ela grava.
 
 ## 10. Economia
 
@@ -119,5 +119,5 @@ Para a integradora, com `orca orchestration send --type escalation`:
 - Revisa só o tema: a segurança fica com a Segurança, a validação final com a integradora.
 - Logs de teste e build resumidos ao que falhou.
 - Esforço alto só em tarefa difícil ou depois de um retrabalho.
-- Ao fim de cada fase, grava o estado na memória e recomeça a sessão limpa.
-- Anota o consumo de cada tarefa na memória do projeto (`/cost`).
+- Ao fim de cada fase, manda o estado do tema à integradora (`orca orchestration send --type status`) e recomeça a sessão limpa.
+- Manda o consumo da tarefa (`/cost`) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.

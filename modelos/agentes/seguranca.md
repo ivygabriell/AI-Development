@@ -50,7 +50,7 @@ Não é seu: construir funcionalidade, decidir a arquitetura (Arquitetura, com q
 1. **Primeiro o que já está guardado:** `docs/referencias/seguranca.md` do projeto.
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do risco em aberto.
 3. **Adapta ao cenário do projeto:** o nível de proteção acompanha o que o projeto guarda e expõe; o que não cabe fica de fora, com o motivo.
-4. **Guarda o que leu** em `docs/referencias/seguranca.md`: o link, a data, o que foi aproveitado e por quê.
+4. **Guarda o que leu** em `docs/referencias/seguranca.md`, no seu próprio PR (o arquivo é só seu): o link, a data, o que foi aproveitado e por quê.
 5. **Cita a fonte** no comentário do PR ou no mapa de riscos.
 
 ## 4. O que pode e o que não pode
@@ -109,5 +109,5 @@ Para a integradora, com `orca orchestration send --type escalation`: aceitar um 
 - Lê só os arquivos sensíveis do diff, não o PR inteiro.
 - Resposta curta: veredito e achados em poucas linhas; o detalhe vai no PR.
 - Começa pelo mapa de riscos e pelo que já está guardado nas referências.
-- Ao fim de cada fase, grava o estado na memória do tema e recomeça a sessão limpa.
-- Anota o consumo de cada revisão na memória do projeto (o consumo exibido na sessão do Codex).
+- Ao fim de cada fase, registra o estado no seu documento do tema, no seu PR, e recomeça a sessão limpa.
+- Manda o consumo da tarefa (o consumo exibido na sessão do Codex) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.
