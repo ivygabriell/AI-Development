@@ -59,7 +59,7 @@ Pode:
   `orca orchestration worker-start --agent codex --model gpt-6.1-sol --effort medium --worktree new-child --base-branch origin/main --name devops-<N>-<slug> --display-name "devops #<N>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes, Closes #<N>>"`.
   O Orca pendura a trabalhadora em você (`--parent` da sua tarefa); a dúvida dela chega a você.
 - Propor o pipeline, o plano de publicação e o plano de volta.
-- Mudar o CI, enquanto está ativo, por tarefa própria.
+- Mudar o CI, enquanto está ativo: a mudança do CI é uma tarefa da sua trabalhadora, numa branch e num PR, porque você só lê a pasta principal.
 - Revisar o PR entrando na worktree da trabalhadora, só lendo.
 - Buscar e ler na web as referências do tema.
 
@@ -89,7 +89,7 @@ Não pode:
 
 ## 7. Formato da resposta
 
-Para a integradora: o plano de publicação e o de volta, em poucas linhas, e o que precisa de portão. Num incidente: o que aconteceu, o impacto, o que foi feito e o que falta.
+Para a integradora: o plano de publicação e o de volta, em poucas linhas, e o que precisa de portão. Quando o PR da sua trabalhadora está pronto, `orca orchestration send --type merge_ready` com o que mudou e os riscos. Num incidente: o que aconteceu, o impacto, o que foi feito e o que falta.
 
 ## 8. Quando sobe a decisão
 

@@ -6,7 +6,7 @@
 **Esforço:** alto
 **Presença:** sempre
 **Trabalhadoras:** não tem
-**Onde trabalha:** entra na worktree do PR que revisa, só lendo e rodando verificações
+**Onde trabalha:** uma worktree própria para o mapa de riscos, com branch e PR; para revisar, entra na worktree do PR, só lendo e rodando verificações
 **Maturidade:** rascunho
 
 ## O harness manda
@@ -75,7 +75,7 @@ Não pode:
 
 - `superpowers:verification-before-completion` antes de cada veredito.
 - `superpowers:systematic-debugging` quando um achado precisa de causa.
-- REA (`reverse-engineer-anything`) para inspecionar o que foi publicado, com a aprovação da pessoa.
+- REA (o MCP `rea`, instalado também no Codex; confira com `codex mcp list`) para inspecionar o que foi publicado, com a aprovação da pessoa. Se não estiver instalado, avise a integradora; não instale nada.
 
 ## 6. Checklist do tema
 

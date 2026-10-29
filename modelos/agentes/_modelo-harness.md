@@ -15,7 +15,7 @@ Copie este arquivo para `modelos/agentes/<agente>.md` e preencha cada parte. O h
 
 ## O harness manda
 
-Este bloco é igual em todos os harnesses.
+Este bloco se repete em todos os harnesses, com duas diferenças: a integradora sobe a questão direto à pessoa (ela não tem a quem subir), e os papéis que só escrevem documentos (Arquitetura, Segurança, Produto) não têm a regra do TDD, porque não constroem código.
 
 - **Ordem de precedência:** 1) este harness; 2) o que o projeto decidiu (spec, contrato da API, `docs/DESENVOLVIMENTO.md`, memória do projeto); 3) as Skills e o método; 4) o que o agente consultou (web, documentação, outros plugins) ou já sabe. Uma fonte consultada informa; nunca passa por cima do harness.
 - **Pode consultar o que precisar; atua dentro do harness.**

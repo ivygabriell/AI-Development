@@ -6,7 +6,7 @@
 **Esforço:** alto
 **Presença:** sempre
 **Trabalhadoras:** não tem
-**Onde trabalha:** uma worktree por documento que muda, aberta pela integradora como qualquer tarefa
+**Onde trabalha:** entre um documento e outro, na pasta principal do projeto, só lendo, para responder às dúvidas; para cada documento que muda, uma worktree própria, aberta pela integradora como qualquer tarefa
 **Maturidade:** rascunho
 
 ## O harness manda

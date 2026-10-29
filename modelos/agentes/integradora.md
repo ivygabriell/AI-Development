@@ -54,8 +54,18 @@
 Pode:
 
 - Conferir, antes de iniciar os especialistas, que o Orca está com **Settings → Orchestration → Nested worker depth = 2** (sem isso, os especialistas não abrem as próprias trabalhadoras). Se não estiver, pedir à pessoa que ajuste.
-- Criar a Run do projeto (`orca orchestration run-create`) e iniciar os especialistas, cada um com o seu harness:
-  `orca orchestration worker-start --agent <claude|codex> --model <claude-opus-5-5 | o modelo Codex do harness dele> --effort <o do harness dele> --worktree <a do harness dele> --display-name "<tema>" --spec "Leia docs/agentes/<agente>.md antes de tudo e atue dentro dele. <a tarefa>"`.
+- Criar a Run do projeto (`orca orchestration run-create`) e iniciar os especialistas, cada um com o seu harness. Todos levam `--display-name "<tema>"` e `--spec "Leia docs/agentes/<agente>.md antes de tudo e atue dentro dele. <a tarefa>"`; o que muda é isto:
+
+  | Especialista | Agente, modelo e esforço | Worktree |
+  |---|---|---|
+  | Arquitetura | `--agent claude --model claude-opus-5-5 --effort high` | `--worktree current` (a pasta principal, só lendo); para cada documento que muda, `--worktree new-top-level --name arquitetura-<N>-<slug> --base-branch origin/main` |
+  | Back e Dados | `--agent codex --model gpt-6.1-sol --effort medium` | `--worktree current` |
+  | Design e Front | `--agent claude --model claude-opus-5-5 --effort medium` | `--worktree current` |
+  | Segurança | `--agent codex --model gpt-6.1-sol --effort high` | para o mapa de riscos, `--worktree new-top-level --name seguranca-<N>-<slug> --base-branch origin/main`; para revisar um PR, `--worktree branch:<branch do PR>` |
+  | Produto | `--agent claude --model claude-opus-5-5 --effort medium` | `--worktree new-top-level --name produto-<N>-<slug> --base-branch origin/main` |
+  | DevOps | `--agent codex --model gpt-6.1-sol --effort medium` | `--worktree current` |
+
+  `--worktree current` é a sua pasta, a principal; quem entra nela só lê.
 - Abrir as issues com o formulário de tarefa, com a etiqueta do tema, e entregá-las ao especialista certo.
 - Chamar a Segurança em todo PR que toca autenticação, permissões, dados pessoais, API pública, dependências ou deploy.
 - Criar portões (`orca orchestration gate-create`) e resolvê-los (`gate-resolve`) **só com a resposta da pessoa**.
@@ -67,7 +77,7 @@ Não pode:
 
 - Escrever código de produto. A exceção é uma correção pequena que a própria validação pede, numa branch, no mesmo fluxo.
 - Resolver um portão sem a resposta da pessoa.
-- Passar de 9 sessões ao mesmo tempo: você, os 4 especialistas fixos e até 2 trabalhadoras de Back e Dados e até 2 de Design e Front. Produto e DevOps abrem e fecham com a fase deles.
+- Passar de 9 sessões ao mesmo tempo: você, os 4 especialistas fixos e até 2 trabalhadoras de Back e Dados e até 2 de Design e Front. Produto e DevOps (e a trabalhadora do DevOps) contam dentro das 9: quando um deles abre, segure uma trabalhadora até caber.
 - Deixar duas tarefas abertas tocarem o mesmo arquivo: confira as listas de arquivos permitidos ao abrir cada issue; as que se cruzam vão em sequência.
 - Apagar branch remota, usar `push --force` ou reescrever histórico.
 

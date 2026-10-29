@@ -133,12 +133,13 @@ const LEITURA_DA_FERRAMENTA = { claude: 'CLAUDE.md', codex: 'AGENTS.md' };
 const HARNESSES = { integradora: 'claude', arquitetura: 'claude', 'back-e-dados': 'codex', 'design-e-front': 'claude', seguranca: 'codex', produto: 'claude', devops: 'codex' };
 // O que cada harness precisa dizer, além das regras comuns
 const HARNESS_PROPRIO = {
-  arquitetura: ['contrato da API', 'portão', 'docs/referencias/arquitetura.md'],
+  integradora: ['--model gpt-6.1-sol', '--model claude-opus-5-5', '--worktree current', '--worktree new-top-level', 'contam dentro das 9'],
+  arquitetura: ['contrato da API', 'portão', 'docs/referencias/arquitetura.md', '**Onde trabalha:** entre um documento e outro, na pasta principal do projeto, só lendo'],
   'back-e-dados': ['worker-start', '--parent', '--worktree new-child', 'contrato da API'],
   'design-e-front': ['worker-start', '--parent', '--worktree new-child', 'design system'],
-  seguranca: ['mapa de riscos', 'entrega a correção', 'aprovar com ressalva'],
+  seguranca: ['mapa de riscos', 'entrega a correção', 'aprovar com ressalva', 'uma worktree própria para o mapa de riscos', 'MCP `rea`'],
   produto: ['critérios de aceite'],
-  devops: ['worker-start', '--parent', 'portão'],
+  devops: ['worker-start', '--parent', 'portão', 'merge_ready', 'a mudança do CI é uma tarefa da sua trabalhadora'],
 };
 const partesEmOrdem = (texto) => {
   const posicoes = HARNESS_PARTES.map((parte) => texto.indexOf(`\n${parte}\n`));
@@ -147,6 +148,7 @@ const partesEmOrdem = (texto) => {
 const modeloHarness = ler('modelos/agentes/_modelo-harness.md');
 checar('agentes: existe modelos/agentes/_modelo-harness.md', modeloHarness.length > 0);
 checar('agentes: modelo do harness tem as 10 partes em ordem', partesEmOrdem(modeloHarness));
+checar('agentes: modelo do harness diz as diferenças do bloco "O harness manda" entre os papéis', modeloHarness.includes('duas diferenças'));
 checar('agentes: modelo do harness ensina a pesquisar (guardado primeiro, depois os sites, adaptar, guardar)', modeloHarness.includes('Como pesquisa') && modeloHarness.includes('docs/referencias/'));
 checar('agentes: modelo do harness tem "O harness manda" (precedência, não desvia)', modeloHarness.includes('## O harness manda') && modeloHarness.includes('precedência') && modeloHarness.includes('não desvia'));
 for (const termo of ['claude-opus-5-5', 'gpt-6.1-sol', '--effort'])
@@ -160,7 +162,7 @@ function checarHarness(nome, ferramenta) {
   for (const termo of ['**Maturidade:** rascunho', '**Ferramenta:**', '**Esforço:**', '## O harness manda', 'superpowers:verification-before-completion', 'Como pesquisa', `docs/referencias/${nome}.md`])
     checar(`agentes/${nome}: ${termo}`, texto.includes(termo));
   checar(`agentes/${nome}: modelo ${MODELO_DA_FERRAMENTA[ferramenta]} e leitura do ${LEITURA_DA_FERRAMENTA[ferramenta]}`, texto.includes(MODELO_DA_FERRAMENTA[ferramenta]) && texto.includes(LEITURA_DA_FERRAMENTA[ferramenta]));
-  checar(`agentes/${nome}: não usa o modelo da outra ferramenta (${MODELO_DA_FERRAMENTA[outra]})`, !texto.includes(MODELO_DA_FERRAMENTA[outra]));
+  if (nome !== 'integradora') checar(`agentes/${nome}: não usa o modelo da outra ferramenta (${MODELO_DA_FERRAMENTA[outra]})`, !texto.includes(MODELO_DA_FERRAMENTA[outra]));
   if (nome === 'integradora') checar('agentes/integradora: integra e cria portões (gh pr merge, gate-create)', texto.includes('gh pr merge') && texto.includes('gate-create'));
   else checar(`agentes/${nome}: nunca integra e fala pelo Orca (orca orchestration)`, /nunca integra/i.test(texto) && texto.includes('orca orchestration'));
   checar(`agentes/${nome}: sem links relativos (o harness vai para dentro do projeto)`, !/\]\((?!https?:)/.test(texto));
@@ -180,7 +182,7 @@ function checarHarness(nome, ferramenta) {
 }
 for (const [nome, ferramenta] of Object.entries(HARNESSES)) checarHarness(nome, ferramenta);
 const subsecaoEsp = (sessoes.split('### Com agentes especialistas')[1] || '').split('\n## ')[0];
-for (const termo of ['docs/agentes/', '--parent', 'O harness manda', '9 sessões', 'Nested worker depth', 'substitui o limite', 'contrato da API passa para a Arquitetura'])
+for (const termo of ['docs/agentes/', '--parent', 'O harness manda', '9 sessões', 'Nested worker depth', 'substitui o limite', 'contrato da API passa para a Arquitetura', 'contam dentro das 9'])
   checar(`sessões: com agentes especialistas (${termo})`, subsecaoEsp.includes(termo));
 checar('fluxo: modo com agentes especialistas na Fase 3', (fluxo.split('## Fase 3')[1] || '').split('## Fase 4')[0].includes('especialistas'));
 checar('prompt da coordenadora do Orca: aponta para o harness da integradora no modo com especialistas', promptCoord.includes('integradora.md'));
@@ -433,6 +435,11 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     const devEsp = existsSync(join(alvo_esp, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo_esp, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
     checar('novo-projeto.sh com --especialistas: DESENVOLVIMENTO.md cita docs/agentes/ e o Nested worker depth', devEsp.includes('docs/agentes/') && devEsp.includes('Nested worker depth'));
     checar('novo-projeto.sh com --especialistas não confunde a opção com um cenário', devEsp.includes('site-estatico') && !devEsp.includes('--especialistas ('));
+    const alvo_esp_antes = join(base, 'projeto-opcao-antes');
+    mkdirSync(alvo_esp_antes);
+    const espAntes = rodar('--especialistas', alvo_esp_antes, 'site-estatico');
+    checar('novo-projeto.sh aceita --especialistas antes da pasta', espAntes.status === 0 && existsSync(join(alvo_esp_antes, 'docs/agentes/integradora.md')), espAntes.stderr);
+    checar('novo-projeto.sh: AGENTS.md não manda o Codex falar com a pessoa (pede pela coordenadora)', agentsProj.length > 0 && !agentsProj.includes('peça à pessoa'));
     const alvo_com_agentes = join(base, 'projeto-com-docs-agentes');
     mkdirSync(join(alvo_com_agentes, 'docs/agentes'), { recursive: true });
     const conf = rodar(alvo_com_agentes, '--especialistas');
