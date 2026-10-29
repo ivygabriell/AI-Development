@@ -389,6 +389,26 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     mkdirSync(alvo_testado);
     const so_testado = rodar(alvo_testado, 'site-estatico');
     checar('novo-projeto.sh só com cenário testado conclui sem aviso', so_testado.status === 0 && !so_testado.stderr.includes('AVISO'), so_testado.stderr);
+    // Modo com agentes especialistas (decisão 008): só com --especialistas o projeto recebe os harnesses em docs/agentes/
+    checar('novo-projeto.sh sem --especialistas não cria docs/agentes/', !existsSync(join(alvo, 'docs/agentes')));
+    checar('novo-projeto.sh: CLAUDE.md cita os harnesses em docs/agentes/', claudeProj.includes('docs/agentes/'));
+    checar('novo-projeto.sh: AGENTS.md cita os harnesses em docs/agentes/', agentsProj.includes('docs/agentes/'));
+    checar('novo-projeto.sh: memória anota o consumo por tarefa', memProj.includes('consumo'));
+    const alvo_esp = join(base, 'projeto-especialistas');
+    mkdirSync(alvo_esp);
+    const esp = rodar(alvo_esp, 'site-estatico', '--especialistas');
+    checar('novo-projeto.sh com --especialistas conclui', esp.status === 0, esp.stderr);
+    const copiados = existsSync(join(alvo_esp, 'docs/agentes')) ? readdirSync(join(alvo_esp, 'docs/agentes')).sort() : [];
+    checar('novo-projeto.sh com --especialistas copia os 7 harnesses, sem o modelo', JSON.stringify(copiados) === JSON.stringify(Object.keys(HARNESSES).map((n) => `${n}.md`).sort()), copiados.join(', '));
+    for (const nome of Object.keys(HARNESSES))
+      checar(`novo-projeto.sh com --especialistas: docs/agentes/${nome}.md igual ao do método`, copiados.includes(`${nome}.md`) && readFileSync(join(alvo_esp, 'docs/agentes', `${nome}.md`), 'utf8') === ler(`modelos/agentes/${nome}.md`));
+    const devEsp = existsSync(join(alvo_esp, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo_esp, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
+    checar('novo-projeto.sh com --especialistas: DESENVOLVIMENTO.md cita docs/agentes/ e o Nested worker depth', devEsp.includes('docs/agentes/') && devEsp.includes('Nested worker depth'));
+    checar('novo-projeto.sh com --especialistas não confunde a opção com um cenário', devEsp.includes('site-estatico') && !devEsp.includes('--especialistas ('));
+    const alvo_com_agentes = join(base, 'projeto-com-docs-agentes');
+    mkdirSync(join(alvo_com_agentes, 'docs/agentes'), { recursive: true });
+    const conf = rodar(alvo_com_agentes, '--especialistas');
+    checar('novo-projeto.sh --especialistas com docs/agentes/ existente recusa sem alterar nada', conf.status !== 0 && conf.stderr.includes('docs/agentes') && !existsSync(join(alvo_com_agentes, 'CLAUDE.md')), conf.stderr);
     try {
       accessSync(join(alvo, 'scripts/nova-tarefa.sh'), constants.X_OK);
       checar('novo-projeto.sh mantém os scripts executáveis', true);

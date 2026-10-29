@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Prepara um projeto novo com os modelos do método.
-# Uso: scripts/novo-projeto.sh <pasta-do-projeto> [cenario ...]
+# Uso: scripts/novo-projeto.sh <pasta-do-projeto> [--especialistas] [cenario ...]
 #   <pasta-do-projeto>  pasta que já existe (de preferência um repositório Git novo)
+#   --especialistas     modo com agentes especialistas (rascunho): copia os harnesses para docs/agentes/
 #   cenario             um ou mais nomes de arquivos em cenarios/ (sem .md), por exemplo: site-estatico api-backend
 # Copia: formulário de tarefa, modelo de PR, CI, scripts de worktree, e cria CLAUDE.md, AGENTS.md (para o Codex),
 # docs/DESENVOLVIMENTO.md e docs/memoria-do-projeto.md carimbados com a versão do método. Nunca sobrescreve arquivos existentes.
@@ -10,7 +11,7 @@
 set -euo pipefail
 
 raiz="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-uso="Uso: scripts/novo-projeto.sh <pasta-do-projeto> [cenario ...]"
+uso="Uso: scripts/novo-projeto.sh <pasta-do-projeto> [--especialistas] [cenario ...]"
 
 if [[ $# -lt 1 ]]; then
   echo "$uso" >&2
@@ -20,7 +21,15 @@ fi
 
 alvo="$1"
 shift
-cenarios=("$@")
+especialistas=0
+cenarios=()
+for arg in "$@"; do
+  if [[ "$arg" == "--especialistas" ]]; then
+    especialistas=1
+  else
+    cenarios+=("$arg")
+  fi
+done
 
 if [[ ! -d "$alvo" ]]; then
   echo "A pasta $alvo não existe. Crie o repositório do projeto primeiro." >&2
@@ -47,6 +56,7 @@ copias=(
   "modelos/memoria-do-projeto.md|docs/memoria-do-projeto.md"
 )
 gerados=("docs/DESENVOLVIMENTO.md")
+[[ $especialistas -eq 1 ]] && gerados+=("docs/agentes")
 
 # Antes de escrever qualquer coisa, garante que nada será sobrescrito
 conflitos=()
@@ -70,6 +80,15 @@ for item in "${copias[@]}"; do
   cp "$raiz/$origem" "$alvo/$destino"
 done
 chmod +x "$alvo/scripts/nova-tarefa.sh" "$alvo/scripts/remover-tarefa.sh"
+
+# Modo com agentes especialistas (decisão 008): os harnesses vão para docs/agentes/, sem o modelo
+if [[ $especialistas -eq 1 ]]; then
+  mkdir -p "$alvo/docs/agentes"
+  for h in "$raiz"/modelos/agentes/*.md; do
+    [[ "$(basename "$h")" == _* ]] && continue
+    cp "$h" "$alvo/docs/agentes/"
+  done
+fi
 
 # CLAUDE.md do projeto: toda sessão já nasce com o contexto
 if [[ -e "$alvo/CLAUDE.md" ]]; then
@@ -99,6 +118,11 @@ if [[ ${#cenarios[@]} -gt 0 ]]; then
     fi
   done
   lista_cenarios="$(printf -- '%s\n' "${linhas[@]}")"
+fi
+
+linha_especialistas=""
+if [[ $especialistas -eq 1 ]]; then
+  linha_especialistas="- Com agentes especialistas (modo em rascunho): cada agente lê primeiro o seu harness em \`docs/agentes/\` e atua dentro dele. A integradora coordena os especialistas, e cada especialista abre as suas trabalhadoras. Exige no Orca: Settings → Orchestration → Nested worker depth = 2."
 fi
 
 mkdir -p "$alvo/docs"
@@ -133,7 +157,8 @@ Os detalhes de cada fase, os cenários, os casos e as lições ficam no reposit�
 - Worktrees: \`scripts/nova-tarefa.sh <tipo> <slug>\` e \`scripts/remover-tarefa.sh <tipo> <slug>\`.
 - Com o Orca (modo em rascunho): a coordenadora é a integradora e distribui as tarefas aos agentes (\`orca orchestration worker-start\`); o Orca cria e remove as worktrees, e os scripts acima ficam para quem trabalha sem ele. Prompt: \`modelos/prompt-coordenadora-orca.md\` do método.
 - Back com o Codex e front com o Claude (modo em rascunho): a coordenadora Claude inicia os agentes do back com \`--agent codex\`; o Codex lê o \`AGENTS.md\`, com as mesmas regras do \`CLAUDE.md\`. O contrato da API é aprovado antes de qualquer tarefa de construção.
-- Para trazer este projeto à versão mais nova do método: \`/metodo:atualizar-projeto\`.
+${linha_especialistas:+$linha_especialistas
+}- Para trazer este projeto à versão mais nova do método: \`/metodo:atualizar-projeto\`.
 - Memória do projeto: \`docs/memoria-do-projeto.md\`.
 
 ## Antes do primeiro push para um repositório público

@@ -12,7 +12,7 @@ A memória do projeto é o que a próxima sessão precisa saber para não recome
 | **Estado** | O que está integrado, o que está em andamento, o endereço do repositório, os comandos de teste |
 | **Pendências** | Lista curta e viva, com a decisão que cada uma espera |
 | **Lições** | Regras que vieram de um erro (por exemplo, "achar a seção pelo título exato") |
-| **Tarefas e retrabalho** | Por tarefa: a issue, o agente que fez (Claude ou Codex) e se houve retrabalho, e por quê. Com o back no Codex e o front no Claude, é a medida do modo na Fase 9 |
+| **Tarefas e retrabalho** | Por tarefa: a issue, o especialista (no modo com especialistas), o agente que fez (Claude ou Codex), se houve retrabalho e por quê, e o consumo. É a medida dos modos na Fase 9 |
 | **Referências** | Onde estão a spec, o plano, o painel de tarefas e a referência estudada |
 
 ## O que NÃO guardar
@@ -37,8 +37,8 @@ Decisões da pessoa: ...
 Pendências (em aberto):
 - ...
 
-Tarefas (issue · agente · retrabalho):
-- #N · codex · sem retrabalho
+Tarefas (issue · especialista · agente · retrabalho · consumo):
+- #N · back-e-dados · codex · sem retrabalho · consumo da sessão
 
 **Why:** por que esta memória existe.
 **How to apply:** como usar nas próximas sessões.
