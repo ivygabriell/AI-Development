@@ -34,7 +34,12 @@
 - Os harnesses dos especialistas em `docs/agentes/`, para saber o que cada um pode e não pode.
 - Durante o trabalho: os resumos dos especialistas. O diff, só onde a validação pede.
 - O guia de orquestração da versão instalada: `orca skills get orchestration`.
-- **Referências:** a pessoa ainda vai escolher as do tema da integradora (coordenação, validação e qualidade). Até lá, vale o método.
+- **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
+  - martinfowler.com (https://martinfowler.com/): estratégia de testes, integração contínua, refatoração, registros de decisão e trabalho com assistentes de código de IA.
+  - Google Testing Blog (https://testing.googleblog.com/): tamanhos de teste, testes que resistem a mudanças, testes de mutação, o modelo além da pirâmide de testes.
+  - Thoughtworks Technology Radar (https://www.thoughtworks.com/radar): quais técnicas e ferramentas adotar, testar ou evitar, com o motivo; tem versão em português.
+  - DORA (https://dora.dev/): as métricas de entrega (frequência, tempo até produção, falha de mudança, recuperação) e o que as melhora.
+  - Também servem a este tema: Google SRE (nas referências do DevOps), OWASP e GitHub Security Lab (nas da Segurança) e Zalando API Guidelines (nas de Back e Dados).
 
 **Como pesquisa** (quando uma decisão de coordenação ou de validação precisa de mais do que o método diz):
 
