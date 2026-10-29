@@ -73,6 +73,8 @@ const OBRIGATORIOS = [
   'decisoes/006-desenvolvimento-orquestrado-com-o-orca.md',
   'modelos/AGENTS-projeto.md',
   'decisoes/007-back-com-codex-e-front-com-claude.md',
+  'decisoes/008-agentes-especialistas.md',
+  'modelos/agentes/_modelo-harness.md',
 ];
 for (const arquivo of OBRIGATORIOS) checar(`existe ${arquivo}`, existsSync(join(RAIZ, arquivo)));
 
@@ -165,6 +167,16 @@ function checarHarness(nome, ferramenta) {
   for (const termo of HARNESS_PROPRIO[nome] || []) checar(`agentes/${nome}: ${termo}`, texto.includes(termo));
 }
 for (const [nome, ferramenta] of Object.entries(HARNESSES)) checarHarness(nome, ferramenta);
+const subsecaoEsp = (sessoes.split('### Com agentes especialistas')[1] || '').split('\n## ')[0];
+for (const termo of ['docs/agentes/', '--parent', 'O harness manda', '9 sessões', 'Nested worker depth'])
+  checar(`sessões: com agentes especialistas (${termo})`, subsecaoEsp.includes(termo));
+checar('fluxo: modo com agentes especialistas na Fase 3', (fluxo.split('## Fase 3')[1] || '').split('## Fase 4')[0].includes('especialistas'));
+checar('prompt da coordenadora do Orca: aponta para o harness da integradora no modo com especialistas', promptCoord.includes('integradora.md'));
+checar('skills/novo-projeto: oferece o modo com especialistas (--especialistas)', ler('skills/novo-projeto/SKILL.md').includes('--especialistas'));
+checar('skills/atualizar-projeto: copia os harnesses que faltam (docs/agentes/)', ler('skills/atualizar-projeto/SKILL.md').includes('docs/agentes/'));
+checar('skills/consultar: aponta para o modo com especialistas', ler('skills/consultar/SKILL.md').includes('Com agentes especialistas'));
+for (const termo of ['modelos/agentes/', '--especialistas', 'Nested worker depth'])
+  checar(`README: modo com agentes especialistas (${termo})`, readme.includes(termo));
 
 const skills = ler('nucleo/03-skills-e-testes.md');
 for (const termo of ['## Mapa de skills', '## Testes: micro e macro', 'micro', 'macro', 'RED', 'verification-before-completion', '## Verificação no navegador'])
@@ -242,6 +254,7 @@ arquivosDecisao.forEach((nome, i) => {
 const versao = ler('VERSION').trim();
 checar('VERSION: semver X.Y.Z', /^\d+\.\d+\.\d+$/.test(versao), versao);
 checar('CHANGELOG: tem a versão atual', ler('CHANGELOG.md').includes(`## ${versao}`));
+checar('VERSION: 2.6.0 ou maior (modo com agentes especialistas, decisão 008)', versao.split('.').map(Number).reduce((acc, n, i) => acc || (n !== [2, 6, 0][i] ? (n > [2, 6, 0][i] ? 'maior' : 'menor') : ''), '') !== 'menor', versao);
 
 const claude = ler('CLAUDE.md').toLowerCase();
 for (const termo of ['## Objetivo deste repositório', '## Como esta sessão trabalha', '## Estrutura', '## Como acrescentar', 'nada entra sem um caso real', 'scripts/verificar.mjs', 'não toque', 'responda em português'])
