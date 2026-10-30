@@ -2,6 +2,15 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 2.12.0 (2026-10-30)
+
+Skills do Produto e da Integradora, pelo mesmo processo da [decisão 009](decisoes/009-skills-por-agente.md), aprovadas pela pessoa **sem caso real** (tudo em `rascunho`). Com elas, todos os sete agentes têm skills próprias.
+
+- **Produto:** `necessidades-e-riscos` e `descoberta-continua`, tiradas do GOV.UK Service Manual (necessidades e pesquisa), do SVPG (os quatro riscos) e do Product Talk (árvore de oportunidades, entrevistas por história). O planejamento e a síntese de pesquisa continuam com `design:user-research` e `design:research-synthesis`.
+- **Integradora:** `validacao-final` e `metricas-de-entrega`, tiradas de martinfowler.com (pirâmide de testes na prática), do Google Testing Blog (detectores de mudança, mocks, interface pública, testes de ponta a ponta) e da DORA (as cinco métricas).
+- **Bases** em `modelos/referencias/produto.md` e `modelos/referencias/integradora.md`. Os harnesses, a `consultar`, o mapa do `03` e o README apontam para elas.
+- Plano em [planos/2026-10-30-skills-produto-e-integradora.md](planos/2026-10-30-skills-produto-e-integradora.md).
+
 ## 2.11.0 (2026-10-30)
 
 Skills da Arquitetura, pelo mesmo processo da [decisão 009](decisoes/009-skills-por-agente.md), aprovadas pela pessoa **sem caso real** (tudo em `rascunho`).

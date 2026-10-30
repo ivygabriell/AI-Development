@@ -43,7 +43,7 @@ Não é seu: a decisão final de prioridade (é da pessoa), como construir (Arqu
 
 **Como pesquisa** (antes de uma decisão de produto que a spec e a pessoa não responderam):
 
-1. **Primeiro o que já está guardado:** `docs/referencias/produto.md` do projeto.
+1. **Primeiro o que já está guardado:** `docs/referencias/produto.md` do projeto e, depois, a base do método em `modelos/referencias/produto.md` (pela skill `metodo:consultar`).
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do problema em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
 4. **Guarda o que leu** em `docs/referencias/produto.md`, no seu próprio PR (o arquivo é só seu): o link, a data, o que foi aproveitado e por quê.
@@ -71,6 +71,9 @@ Não pode:
 - `superpowers:brainstorming` para entender o que a pessoa quer antes de escrever.
 - `design:user-research` para planejar uma pesquisa com usuários e `design:research-synthesis` para juntar o que se aprendeu.
 - `superpowers:verification-before-completion` antes de entregar a spec.
+- **Skills do tema** (plugin `metodo`, rascunho). Você não tem trabalhadoras; as trabalhadoras usam as skills dos especialistas que constroem, a partir da spec que você escreve. Você usa as suas antes da spec, como roteiro e checklist.
+  - `metodo:necessidades-e-riscos`: o pedido como necessidade, a evidência e os quatro riscos.
+  - `metodo:descoberta-continua`: resultado, entrevistas por história, oportunidades e soluções comparadas.
 
 ## 6. Checklist do tema
 
