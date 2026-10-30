@@ -78,6 +78,7 @@ Não pode:
   - `metodo:migracao-sem-parada`: mudança de esquema, índice e constraint em tabela com uso.
   - `metodo:transacoes-e-consultas`: concorrência, travas, repetição da transação, índices, exclusão em massa e conexões.
   - `metodo:trabalho-em-segundo-plano`: fila, tarefa que pode repetir, tabela de saída e chamada externa.
+  - Da Segurança, quando a tarefa toca autenticação, permissão ou entrada de fora: `metodo:autenticacao-e-sessao`, `metodo:controle-de-acesso` e `metodo:entrada-nao-confiavel`.
 - Você usa: `superpowers:requesting-code-review` ao revisar e `superpowers:verification-before-completion` antes de avisar a integradora.
 
 ## 6. Checklist do tema

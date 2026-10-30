@@ -202,6 +202,7 @@ const SKILLS_DO_AGENTE = {
   'back-e-dados': ['api-conforme-contrato', 'migracao-sem-parada', 'transacoes-e-consultas', 'trabalho-em-segundo-plano'],
   'design-e-front': ['formularios-e-erros', 'desempenho-na-tela', 'estados-da-tela'],
   devops: ['publicacao-gradual', 'metas-e-alertas', 'ci-seguro'],
+  seguranca: ['autenticacao-e-sessao', 'controle-de-acesso', 'entrada-nao-confiavel', 'incidente-com-dados-pessoais'],
 };
 for (const [agente, nomes] of Object.entries(SKILLS_DO_AGENTE)) {
   const base = ler(`modelos/referencias/${agente}.md`);
@@ -224,6 +225,9 @@ for (const [agente, nomes] of Object.entries(SKILLS_DO_AGENTE)) {
 }
 for (const agente of Object.keys(SKILLS_DO_AGENTE))
   checar(`skills/consultar: aponta para a base de ${agente}`, ler('skills/consultar/SKILL.md').includes(`modelos/referencias/${agente}.md`));
+// As skills da Segurança também servem a quem corrige: o back e o front pedem as delas na especificação
+for (const agente of ['back-e-dados', 'design-e-front'])
+  checar(`agentes/${agente}: parte 5 aponta para as skills da Segurança`, ((ler(`modelos/agentes/${agente}.md`).split('## 5. Skills')[1] || '').split('\n## ')[0]).includes('metodo:entrada-nao-confiavel'));
 // Decisão da pessoa (2026-10-29): o erro de campo aparece ao avançar ou enviar, como no GOV.UK
 const formularios = ler('skills/formularios-e-erros/SKILL.md');
 checar('skills/formularios-e-erros: valida ao avançar ou enviar, não ao sair do campo (GOV.UK)', formularios.includes('ao avançar ou enviar') && formularios.includes('design-system.service.gov.uk/patterns/validation'));

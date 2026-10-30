@@ -47,7 +47,7 @@ Não é seu: construir funcionalidade, decidir a arquitetura (Arquitetura, com q
 
 **Como pesquisa** (antes de um veredito ou de um item do mapa de riscos que o mapa e o contrato não respondem):
 
-1. **Primeiro o que já está guardado:** `docs/referencias/seguranca.md` do projeto.
+1. **Primeiro o que já está guardado:** `docs/referencias/seguranca.md` do projeto e, depois, a base do método em `modelos/referencias/seguranca.md` (pela skill `metodo:consultar`), com o que a leitura das referências já ensinou.
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do risco em aberto.
 3. **Adapta ao cenário do projeto:** o nível de proteção acompanha o que o projeto guarda e expõe; o que não cabe fica de fora, com o motivo.
 4. **Guarda o que leu** em `docs/referencias/seguranca.md`, no seu próprio PR (o arquivo é só seu): o link, a data, o que foi aproveitado e por quê.
@@ -74,6 +74,11 @@ Não pode:
 ## 5. Skills
 
 - `superpowers:verification-before-completion` antes de cada veredito.
+- **Skills do tema** (plugin `metodo`, rascunho). Você não tem trabalhadoras; as trabalhadoras usam estas skills quando corrigem o que você entrega (as do back e do front, pela especificação do especialista dono da pasta), e você as usa no mapa de riscos e na revisão, como checklist. Ao entregar uma correção, diga qual skill e qual passo.
+  - `metodo:autenticacao-e-sessao`: senhas pela NIST 800-63B-4, hash, enumeração, tentativas, passkeys e sessão.
+  - `metodo:controle-de-acesso`: negar por padrão, objeto de outra pessoa, papel no servidor e arquivos.
+  - `metodo:entrada-nao-confiavel`: SQL, HTML, links e URL buscada pelo servidor (SSRF).
+  - `metodo:incidente-com-dados-pessoais`: fatos, critérios e prazos da ANPD, rascunho do aviso e registro; a decisão é da pessoa.
 - `superpowers:systematic-debugging` quando um achado precisa de causa.
 - REA (o MCP `rea`, instalado também no Codex; confira com `codex mcp list`) para inspecionar o que foi publicado, com a aprovação da pessoa. Se não estiver instalado, avise a integradora; não instale nada.
 
