@@ -201,6 +201,7 @@ for (const termo of ['modelos/agentes/', '--especialistas', 'Nested worker depth
 const SKILLS_DO_AGENTE = {
   'back-e-dados': ['api-conforme-contrato', 'migracao-sem-parada', 'transacoes-e-consultas', 'trabalho-em-segundo-plano'],
   'design-e-front': ['formularios-e-erros', 'desempenho-na-tela', 'estados-da-tela'],
+  devops: ['publicacao-gradual', 'metas-e-alertas', 'ci-seguro'],
 };
 for (const [agente, nomes] of Object.entries(SKILLS_DO_AGENTE)) {
   const base = ler(`modelos/referencias/${agente}.md`);
