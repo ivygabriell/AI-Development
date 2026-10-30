@@ -2,6 +2,14 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 2.11.0 (2026-10-30)
+
+Skills da Arquitetura, pelo mesmo processo da [decisão 009](decisoes/009-skills-por-agente.md), aprovadas pela pessoa **sem caso real** (tudo em `rascunho`).
+
+- **Skills novas no plugin `metodo`:** `contrato-de-api`, `analise-de-falhas` e `migracao-de-sistema`, tiradas da leitura das referências do harness da Arquitetura (Stripe, Netflix, Slack, Azure Well-Architected), com as regras de API do Zalando e do Google AIP que já estavam na base do back.
+- **Base de conhecimento** em `modelos/referencias/arquitetura.md`. O harness, a `consultar`, o mapa de skills do `03` e o README apontam para elas.
+- Plano em [planos/2026-10-30-skills-arquitetura.md](planos/2026-10-30-skills-arquitetura.md).
+
 ## 2.10.0 (2026-10-30)
 
 Skills da Segurança, pelo mesmo processo da [decisão 009](decisoes/009-skills-por-agente.md), aprovadas pela pessoa **sem caso real** (tudo em `rascunho`).

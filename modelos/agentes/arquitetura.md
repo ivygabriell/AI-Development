@@ -53,7 +53,7 @@ Não é seu: construir funcionalidade, a segurança em detalhe (é da Segurança
 
 **Como pesquisa** (antes de cada decisão de arquitetura):
 
-1. **Primeiro o que já está guardado:** `docs/referencias/arquitetura.md` do projeto, com o que já foi lido antes.
+1. **Primeiro o que já está guardado:** `docs/referencias/arquitetura.md` do projeto, com o que já foi lido antes, e, depois, a base do método em `modelos/referencias/arquitetura.md` (pela skill `metodo:consultar`).
 2. **Se não cobre a decisão, vai aos sites** acima (busca e leitura na web), procurando o caso mais próximo do problema em aberto, por exemplo "versão de API" na Stripe ou "falha de um serviço de fora" na Netflix.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho. O que não cabe fica de fora, com o motivo escrito.
 4. **Guarda o que leu** em `docs/referencias/arquitetura.md`, no seu próprio PR (o arquivo é só seu): o link, a data, o que foi aproveitado e por quê. A próxima consulta começa por ali, e a Fase 9 leva ao método o que valer para outros projetos.
@@ -82,6 +82,10 @@ Não pode:
 - `engineering:system-design` para a estrutura e o contrato.
 - `superpowers:brainstorming` quando a decisão tem caminhos diferentes.
 - `superpowers:verification-before-completion` antes de entregar.
+- **Skills do tema** (plugin `metodo`, rascunho). Você não tem trabalhadoras; as trabalhadoras usam as skills dos especialistas que constroem, e as suas dizem a eles o que o contrato e o desenho garantem. Você as usa ao decidir e ao revisar, como checklist.
+  - `metodo:contrato-de-api`: clientes, compatibilidade, versões, garantias de repetição, paginação e erros.
+  - `metodo:analise-de-falhas`: fluxos, dependências fortes e fracas, quadro de modos de falha, prazos e alternativas.
+  - `metodo:migracao-de-sistema`: interface, gravação dupla e modo sombra, comparação, passagem gradual e volta.
 
 ## 6. Checklist do tema
 

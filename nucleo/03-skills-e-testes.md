@@ -23,6 +23,9 @@ Duas regras valem para **todas as sessões**, integradora ou trabalhadora: usar 
 | Segurança: quem pode ver ou mudar o quê | `metodo:controle-de-acesso` (rascunho) |
 | Segurança: SQL, HTML, links e URL buscada pelo servidor | `metodo:entrada-nao-confiavel` (rascunho) |
 | Segurança: vazamento de dados pessoais (LGPD, ANPD) | `metodo:incidente-com-dados-pessoais` (rascunho) |
+| Arquitetura: escrever ou mudar o contrato da API | `metodo:contrato-de-api` (rascunho) |
+| Arquitetura: o que acontece quando uma parte falha | `metodo:analise-de-falhas` (rascunho) |
+| Arquitetura: mudança grande com o sistema no ar | `metodo:migracao-de-sistema` (rascunho) |
 | Plano com vários passos a partir de uma spec | `superpowers:writing-plans` |
 | Executar um plano na sessão atual | `superpowers:executing-plans` |
 | Plano com tarefas independentes, com uma revisão a cada tarefa | `superpowers:subagent-driven-development` |

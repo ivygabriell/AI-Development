@@ -203,6 +203,7 @@ const SKILLS_DO_AGENTE = {
   'design-e-front': ['formularios-e-erros', 'desempenho-na-tela', 'estados-da-tela'],
   devops: ['publicacao-gradual', 'metas-e-alertas', 'ci-seguro'],
   seguranca: ['autenticacao-e-sessao', 'controle-de-acesso', 'entrada-nao-confiavel', 'incidente-com-dados-pessoais'],
+  arquitetura: ['contrato-de-api', 'analise-de-falhas', 'migracao-de-sistema'],
 };
 for (const [agente, nomes] of Object.entries(SKILLS_DO_AGENTE)) {
   const base = ler(`modelos/referencias/${agente}.md`);
