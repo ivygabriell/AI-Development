@@ -43,7 +43,7 @@
 
 **Como pesquisa** (quando uma decisão de coordenação ou de validação precisa de mais do que o método diz):
 
-1. **Primeiro o que já está guardado:** `docs/referencias/integradora.md` do projeto.
+1. **Primeiro o que já está guardado:** `docs/referencias/integradora.md` do projeto e, depois, a base do método em `modelos/referencias/integradora.md` (pela skill `metodo:consultar`).
 2. **Se não cobre a decisão, vai aos sites** das referências escolhidas pela pessoa, só o que serve para a decisão em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
 4. **Guarda o que leu** em `docs/referencias/integradora.md`: o link, a data, o que foi aproveitado e por quê.
@@ -89,6 +89,9 @@ Não pode:
 - `superpowers:verification-before-completion` antes de afirmar qualquer coisa.
 - `superpowers:finishing-a-development-branch` ao integrar.
 - `metodo:consultar` para as regras do método.
+- **Skills do tema** (plugin `metodo`, rascunho). Você não tem trabalhadoras; as trabalhadoras usam as skills dos especialistas delas. Você usa as suas na validação final e ao responder à pessoa sobre o ritmo do projeto.
+  - `metodo:validacao-final`: critérios de aceite provados, comportamento e não implementação, dublês, pirâmide e testes instáveis.
+  - `metodo:metricas-de-entrega`: as cinco métricas da DORA, com linha de base e sem virar meta.
 
 ## 6. Checklist do tema
 

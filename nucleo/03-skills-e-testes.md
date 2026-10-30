@@ -26,6 +26,10 @@ Duas regras valem para **todas as sessões**, integradora ou trabalhadora: usar 
 | Arquitetura: escrever ou mudar o contrato da API | `metodo:contrato-de-api` (rascunho) |
 | Arquitetura: o que acontece quando uma parte falha | `metodo:analise-de-falhas` (rascunho) |
 | Arquitetura: mudança grande com o sistema no ar | `metodo:migracao-de-sistema` (rascunho) |
+| Produto: pedido que chega como solução; os quatro riscos | `metodo:necessidades-e-riscos` (rascunho) |
+| Produto: entrevistas, oportunidades e escolha da solução | `metodo:descoberta-continua` (rascunho) |
+| Integradora: validação final do PR (os testes provam?) | `metodo:validacao-final` (rascunho) |
+| Integradora: "estamos entregando bem?" | `metodo:metricas-de-entrega` (rascunho) |
 | Plano com vários passos a partir de uma spec | `superpowers:writing-plans` |
 | Executar um plano na sessão atual | `superpowers:executing-plans` |
 | Plano com tarefas independentes, com uma revisão a cada tarefa | `superpowers:subagent-driven-development` |
