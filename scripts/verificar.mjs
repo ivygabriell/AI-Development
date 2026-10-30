@@ -198,7 +198,10 @@ for (const termo of ['modelos/agentes/', '--especialistas', 'Nested worker depth
   checar(`README: modo com agentes especialistas (${termo})`, readme.includes(termo));
 
 // Skills por agente (decisão 009, rascunho): cada especialista que constrói tem as suas, e as trabalhadoras dele as usam
-const SKILLS_DO_AGENTE = { 'back-e-dados': ['api-conforme-contrato', 'migracao-sem-parada', 'transacoes-e-consultas', 'trabalho-em-segundo-plano'] };
+const SKILLS_DO_AGENTE = {
+  'back-e-dados': ['api-conforme-contrato', 'migracao-sem-parada', 'transacoes-e-consultas', 'trabalho-em-segundo-plano'],
+  'design-e-front': ['formularios-e-erros', 'desempenho-na-tela', 'estados-da-tela'],
+};
 for (const [agente, nomes] of Object.entries(SKILLS_DO_AGENTE)) {
   const base = ler(`modelos/referencias/${agente}.md`);
   checar(`referências: existe modelos/referencias/${agente}.md`, base.length > 0);
@@ -218,7 +221,11 @@ for (const [agente, nomes] of Object.entries(SKILLS_DO_AGENTE)) {
     checar(`skills/${nome}: cada passo com a fonte (pelo menos 3 links)`, (texto.match(/\]\(https:\/\//g) || []).length >= 3);
   }
 }
-checar('skills/consultar: aponta para as referências por agente', ler('skills/consultar/SKILL.md').includes('modelos/referencias/'));
+for (const agente of Object.keys(SKILLS_DO_AGENTE))
+  checar(`skills/consultar: aponta para a base de ${agente}`, ler('skills/consultar/SKILL.md').includes(`modelos/referencias/${agente}.md`));
+// Decisão da pessoa (2026-10-29): o erro de campo aparece ao avançar ou enviar, como no GOV.UK
+const formularios = ler('skills/formularios-e-erros/SKILL.md');
+checar('skills/formularios-e-erros: valida ao avançar ou enviar, não ao sair do campo (GOV.UK)', formularios.includes('ao avançar ou enviar') && formularios.includes('design-system.service.gov.uk/patterns/validation'));
 
 const skills = ler('nucleo/03-skills-e-testes.md');
 for (const termo of ['## Mapa de skills', '## Testes: micro e macro', 'micro', 'macro', 'RED', 'verification-before-completion', '## Verificação no navegador'])

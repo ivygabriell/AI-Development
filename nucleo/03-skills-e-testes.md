@@ -13,6 +13,9 @@ Duas regras valem para **todas as sessões**, integradora ou trabalhadora: usar 
 | Back: migração de banco em tabela com uso | `metodo:migracao-sem-parada` (rascunho) |
 | Back: concorrência, travas, exclusão em massa, conexões | `metodo:transacoes-e-consultas` (rascunho) |
 | Back: fila, tarefa em segundo plano, chamada externa depois de gravar | `metodo:trabalho-em-segundo-plano` (rascunho) |
+| Front: formulário, validação e mensagens de erro | `metodo:formularios-e-erros` (rascunho) |
+| Front: tela lenta ou que pula (LCP, INP, CLS, imagens, fontes) | `metodo:desempenho-na-tela` (rascunho) |
+| Front: carregando, vazio, erro do serviço, ação demorada | `metodo:estados-da-tela` (rascunho) |
 | Plano com vários passos a partir de uma spec | `superpowers:writing-plans` |
 | Executar um plano na sessão atual | `superpowers:executing-plans` |
 | Plano com tarefas independentes, com uma revisão a cada tarefa | `superpowers:subagent-driven-development` |

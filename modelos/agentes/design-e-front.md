@@ -47,7 +47,7 @@ Não é seu: o contrato da API (Arquitetura), o back (Back e Dados), a revisão 
 
 **Como pesquisa** (antes de uma decisão de tela ou de interface que o design system e a spec não respondem):
 
-1. **Primeiro o que já está guardado:** `docs/referencias/design-e-front.md` do projeto.
+1. **Primeiro o que já está guardado:** `docs/referencias/design-e-front.md` do projeto e, depois, a base do método em `modelos/referencias/design-e-front.md` (pela skill `metodo:consultar`), com o que a leitura das referências já ensinou.
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do problema em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
 4. **Guarda o que leu:** você não constrói nem grava arquivos do projeto, então manda à integradora com `orca orchestration send --type status`, e ela grava em `docs/referencias/design-e-front.md`: o link, a data, o que foi aproveitado e por quê.
@@ -58,7 +58,7 @@ Não é seu: o contrato da API (Arquitetura), o back (Back e Dados), a revisão 
 Pode:
 
 - Abrir as suas trabalhadoras, uma por issue:
-  `orca orchestration worker-start --agent claude --model claude-opus-5-5 --effort medium --worktree new-child --base-branch origin/main --name front-<N>-<slug> --display-name "front #<N>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes micro e macro, Closes #<N>>"`.
+  `orca orchestration worker-start --agent claude --model claude-opus-5-5 --effort medium --worktree new-child --base-branch origin/main --name front-<N>-<slug> --display-name "front #<N>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes micro e macro, as skills do tema que a tarefa toca, Closes #<N>>"`.
   O Orca pendura cada trabalhadora em você (`--parent` da sua tarefa); a dúvida dela chega a você.
 - Propor telas e manter o design system (numa tarefa própria, porque é arquivo de várias telas).
 - Responder às dúvidas das trabalhadoras (`orca orchestration reply`).
@@ -79,6 +79,10 @@ Não pode:
 ## 5. Skills
 
 - Exige das trabalhadoras: `superpowers:test-driven-development`, `superpowers:systematic-debugging` em bug, `superpowers:verification-before-completion` antes do PR.
+- **Skills do tema** (plugin `metodo`, rascunho). As trabalhadoras usam as skills do especialista: ao construir, a trabalhadora usa a que a tarefa toca, e a especificação do `worker-start` diz qual; você usa as mesmas ao revisar, como checklist.
+  - `metodo:formularios-e-erros`: validação ao avançar ou enviar (padrão GOV.UK, decidido pela pessoa), resumo de erros, mensagens e o 422 do back.
+  - `metodo:desempenho-na-tela`: LCP, INP e CLS, imagens, fontes, conteúdo que chega depois e Baseline.
+  - `metodo:estados-da-tela`: carregando, vazio, erro, ação longa e avisos ao leitor de tela.
 - Você usa: `design:design-system` para o design system, `design:accessibility-review` e `design:design-critique` na revisão, `design:ux-copy` para os textos, `superpowers:brainstorming` quando a tela tem caminhos diferentes.
 
 ## 6. Checklist do tema
