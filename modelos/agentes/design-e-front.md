@@ -83,6 +83,7 @@ Não pode:
   - `metodo:formularios-e-erros`: validação ao avançar ou enviar (padrão GOV.UK, decidido pela pessoa), resumo de erros, mensagens e o 422 do back.
   - `metodo:desempenho-na-tela`: LCP, INP e CLS, imagens, fontes, conteúdo que chega depois e Baseline.
   - `metodo:estados-da-tela`: carregando, vazio, erro, ação longa e avisos ao leitor de tela.
+  - Da Segurança, quando a tela mostra HTML ou link vindo de fora ou mexe com login: `metodo:entrada-nao-confiavel` e `metodo:autenticacao-e-sessao`.
 - Você usa: `design:design-system` para o design system, `design:accessibility-review` e `design:design-critique` na revisão, `design:ux-copy` para os textos, `superpowers:brainstorming` quando a tela tem caminhos diferentes.
 
 ## 6. Checklist do tema

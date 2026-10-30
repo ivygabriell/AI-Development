@@ -2,6 +2,15 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 2.10.0 (2026-10-30)
+
+Skills da Segurança, pelo mesmo processo da [decisão 009](decisoes/009-skills-por-agente.md), aprovadas pela pessoa **sem caso real** (tudo em `rascunho`).
+
+- **Skills novas no plugin `metodo`:** `autenticacao-e-sessao`, `controle-de-acesso`, `entrada-nao-confiavel` e `incidente-com-dados-pessoais`, tiradas da leitura a fundo das referências do harness da Segurança (NIST SP 800-63B-4, OWASP Cheat Sheets e ASVS 5.0.0, Resolução CD/ANPD nº 15/2024).
+- **Quem corrige também usa:** a Segurança não tem trabalhadoras; as trabalhadoras do back e do front usam estas skills quando corrigem o que ela entrega, e os harnesses do back e do front apontam para elas. A decisão sobre comunicar um incidente continua da pessoa.
+- **Base de conhecimento** em `modelos/referencias/seguranca.md`. O mapa de skills do `03` e a `consultar` apontam para ela.
+- Plano em [planos/2026-10-30-skills-seguranca.md](planos/2026-10-30-skills-seguranca.md).
+
 ## 2.9.0 (2026-10-29)
 
 Skills do DevOps, pelo mesmo processo da [decisão 009](decisoes/009-skills-por-agente.md), aprovadas pela pessoa **sem caso real** (tudo em `rascunho`).

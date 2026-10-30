@@ -19,6 +19,10 @@ Duas regras valem para **todas as sessões**, integradora ou trabalhadora: usar 
 | DevOps: como publicar código e configuração (canário, reversão) | `metodo:publicacao-gradual` (rascunho) |
 | DevOps: metas de confiabilidade e alertas | `metodo:metas-e-alertas` (rascunho) |
 | DevOps: workflows do GitHub Actions, segredos, PRs de fora | `metodo:ci-seguro` (rascunho) |
+| Segurança: login, senha, sessão | `metodo:autenticacao-e-sessao` (rascunho) |
+| Segurança: quem pode ver ou mudar o quê | `metodo:controle-de-acesso` (rascunho) |
+| Segurança: SQL, HTML, links e URL buscada pelo servidor | `metodo:entrada-nao-confiavel` (rascunho) |
+| Segurança: vazamento de dados pessoais (LGPD, ANPD) | `metodo:incidente-com-dados-pessoais` (rascunho) |
 | Plano com vários passos a partir de uma spec | `superpowers:writing-plans` |
 | Executar um plano na sessão atual | `superpowers:executing-plans` |
 | Plano com tarefas independentes, com uma revisão a cada tarefa | `superpowers:subagent-driven-development` |
