@@ -73,7 +73,7 @@ O método usa, além do plugin `metodo`, três plugins, uma ferramenta de engenh
 | **REA** (skill `reverse-engineer-anything` e servidor `rea`) | Engenharia reversa de artefatos fechados, quando uma referência não tem código-fonte ([04](nucleo/04-referencias-e-engenharia-reversa.md)) | [morluto/rea](https://github.com/morluto/rea) |
 | **Orca** (aplicativo e as skills `orca-cli` e `orchestration`) | Orquestração dos agentes: a coordenadora faz o papel da integradora e os agentes, das trabalhadoras ([02](nucleo/02-sessoes-e-papeis.md), modo em rascunho) | [stablyai/orca](https://github.com/stablyai/orca) |
 | **Codex** (opcional) | Agentes do back quando o projeto divide o back (Codex) e o front (Claude), com as mesmas regras e Skills ([02](nucleo/02-sessoes-e-papeis.md), modo em rascunho) | [openai/codex](https://github.com/openai/codex) |
-| Plugin **metodo** | Este repositório: `/metodo:novo-projeto`, `/metodo:atualizar-projeto`, a consulta ao método nas sessões do projeto e as skills dos agentes especialistas (por enquanto, as do back e as do front, em rascunho) | este repositório |
+| Plugin **metodo** | Este repositório: `/metodo:novo-projeto`, `/metodo:atualizar-projeto`, a consulta ao método nas sessões do projeto e as skills dos agentes especialistas (por enquanto, as do back, do front e do DevOps, em rascunho) | este repositório |
 
 Os comandos abaixo são o caminho curto. Para requisitos, opções e problemas de instalação de cada ferramenta, consulte o repositório oficial dela.
 

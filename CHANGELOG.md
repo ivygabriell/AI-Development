@@ -2,6 +2,15 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 2.9.0 (2026-10-29)
+
+Skills do DevOps, pelo mesmo processo da [decisão 009](decisoes/009-skills-por-agente.md), aprovadas pela pessoa **sem caso real** (tudo em `rascunho`).
+
+- **Skills novas no plugin `metodo`:** `publicacao-gradual`, `metas-e-alertas` e `ci-seguro`, tiradas da leitura a fundo das referências do harness do DevOps (Google SRE, incidentes da Cloudflare) e das que o harness empresta da Segurança (GitHub Security Lab), com a documentação de segurança do GitHub Actions.
+- **Base de conhecimento** em `modelos/referencias/devops.md`. O site da FinOps Foundation bloqueou a leitura automática: o resumo de custo ficou marcado para conferir no site; o Kubernetes, só apontado.
+- **Harness do DevOps:** a trabalhadora usa as skills do especialista; a especificação do `worker-start` diz quais; a pesquisa passa pela base do método. O mapa de skills do `03` e a `consultar` apontam para elas.
+- Plano em [planos/2026-10-29-skills-devops.md](planos/2026-10-29-skills-devops.md).
+
 ## 2.8.0 (2026-10-29)
 
 Skills de Design e Front, pelo mesmo processo da [decisão 009](decisoes/009-skills-por-agente.md), aprovadas pela pessoa **sem caso real** (tudo em `rascunho`).

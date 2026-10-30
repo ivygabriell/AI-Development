@@ -16,6 +16,9 @@ Duas regras valem para **todas as sessões**, integradora ou trabalhadora: usar 
 | Front: formulário, validação e mensagens de erro | `metodo:formularios-e-erros` (rascunho) |
 | Front: tela lenta ou que pula (LCP, INP, CLS, imagens, fontes) | `metodo:desempenho-na-tela` (rascunho) |
 | Front: carregando, vazio, erro do serviço, ação demorada | `metodo:estados-da-tela` (rascunho) |
+| DevOps: como publicar código e configuração (canário, reversão) | `metodo:publicacao-gradual` (rascunho) |
+| DevOps: metas de confiabilidade e alertas | `metodo:metas-e-alertas` (rascunho) |
+| DevOps: workflows do GitHub Actions, segredos, PRs de fora | `metodo:ci-seguro` (rascunho) |
 | Plano com vários passos a partir de uma spec | `superpowers:writing-plans` |
 | Executar um plano na sessão atual | `superpowers:executing-plans` |
 | Plano com tarefas independentes, com uma revisão a cada tarefa | `superpowers:subagent-driven-development` |

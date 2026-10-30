@@ -45,7 +45,7 @@ Não é seu: decidir a arquitetura (Arquitetura), a revisão de segurança (Segu
 
 **Como pesquisa** (antes de uma decisão de infraestrutura, de publicação ou de monitoramento que a arquitetura não responde):
 
-1. **Primeiro o que já está guardado:** `docs/referencias/devops.md` do projeto.
+1. **Primeiro o que já está guardado:** `docs/referencias/devops.md` do projeto e, depois, a base do método em `modelos/referencias/devops.md` (pela skill `metodo:consultar`), com o que a leitura das referências já ensinou.
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do problema em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
 4. **Guarda o que leu:** você não constrói nem grava arquivos do projeto, então manda à integradora com `orca orchestration send --type status`, e ela grava em `docs/referencias/devops.md`: o link, a data, o que foi aproveitado e por quê.
@@ -56,7 +56,7 @@ Não é seu: decidir a arquitetura (Arquitetura), a revisão de segurança (Segu
 Pode:
 
 - Abrir 1 trabalhadora por vez, uma por issue:
-  `orca orchestration worker-start --agent codex --model gpt-6.1-sol --effort medium --worktree new-child --base-branch origin/main --name devops-<N>-<slug> --display-name "devops #<N>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes, Closes #<N>>"`.
+  `orca orchestration worker-start --agent codex --model gpt-6.1-sol --effort medium --worktree new-child --base-branch origin/main --name devops-<N>-<slug> --display-name "devops #<N>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes, as skills do tema que a tarefa toca, Closes #<N>>"`.
   O Orca pendura a trabalhadora em você (`--parent` da sua tarefa); a dúvida dela chega a você.
 - Propor o pipeline, o plano de publicação e o plano de volta.
 - Mudar o CI, enquanto está ativo: a mudança do CI é uma tarefa da sua trabalhadora, numa branch e num PR, porque você não constrói na sua worktree.
@@ -76,6 +76,10 @@ Não pode:
 - `engineering:deploy-checklist` antes de cada publicação.
 - `engineering:incident-response` num incidente.
 - Exige da trabalhadora: `superpowers:test-driven-development` onde couber e `superpowers:verification-before-completion` antes do PR.
+- **Skills do tema** (plugin `metodo`, rascunho). As trabalhadoras usam as skills do especialista: ao construir, a trabalhadora usa a que a tarefa toca, e a especificação do `worker-start` diz qual; você usa as mesmas ao revisar, como checklist.
+  - `metodo:publicacao-gradual`: canário, reversão, chave liga/desliga e configuração tratada como código.
+  - `metodo:metas-e-alertas`: indicadores, metas, margem de erro com política e alertas por velocidade de gasto.
+  - `metodo:ci-seguro`: permissões, PR de fora, `workflow_run`, injeção, ações por SHA e OIDC.
 
 ## 6. Checklist do tema
 
