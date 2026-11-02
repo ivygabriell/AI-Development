@@ -5,7 +5,7 @@ description: Use quando for conversar com usuários ou clientes, organizar anota
 
 # Descoberta contínua
 
-**Maturidade:** rascunho (sem caso real ainda). **Quem usa:** o Produto. O planejamento formal de uma pesquisa segue `design:user-research`, e a síntese, `design:research-synthesis`. A prioridade final é da pessoa.
+**Quem usa:** o Produto. O planejamento formal de uma pesquisa segue `design:user-research`, e a síntese, `design:research-synthesis`. A prioridade final é da pessoa.
 
 A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/produto.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/produto.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 

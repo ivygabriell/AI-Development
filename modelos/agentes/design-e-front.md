@@ -7,7 +7,6 @@
 **Presença:** sempre
 **Trabalhadoras:** da mesma ferramenta, até 2 ao mesmo tempo, uma por issue
 **Onde trabalha:** na sua worktree `design-e-front`, filha da worktree principal (visível no Orca), de onde coordena; não constrói nela; revisa lendo a worktree da trabalhadora
-**Maturidade:** rascunho
 
 ## O harness manda
 
@@ -80,7 +79,7 @@ Não pode:
 ## 5. Skills
 
 - Exige das trabalhadoras: `superpowers:test-driven-development`, `superpowers:systematic-debugging` em bug, `superpowers:verification-before-completion` antes do PR.
-- **Skills do tema** (plugin `metodo`, rascunho). As trabalhadoras usam as skills do especialista: ao construir, a trabalhadora usa a que a tarefa toca, e a especificação do `worker-start` diz qual; você usa as mesmas ao revisar, como checklist.
+- **Skills do tema** (plugin `metodo`). As trabalhadoras usam as skills do especialista: ao construir, a trabalhadora usa a que a tarefa toca, e a especificação do `worker-start` diz qual; você usa as mesmas ao revisar, como checklist.
   - `metodo:formularios-e-erros`: validação ao avançar ou enviar (padrão GOV.UK, decidido pela pessoa), resumo de erros, mensagens e o 422 do back.
   - `metodo:desempenho-na-tela`: LCP, INP e CLS, imagens, fontes, conteúdo que chega depois e Baseline.
   - `metodo:estados-da-tela`: carregando, vazio, erro, ação longa e avisos ao leitor de tela.

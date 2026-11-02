@@ -5,7 +5,7 @@ description: Use quando for implementar ou revisar login, cadastro, regras de se
 
 # Autenticação e sessão
 
-**Maturidade:** rascunho (sem caso real ainda). **Quem usa:** a Segurança ao mapear riscos e revisar, e as trabalhadoras do back e do front quando constroem ou corrigem autenticação (a especificação do especialista dono da pasta diz quando).
+**Quem usa:** a Segurança ao mapear riscos e revisar, e as trabalhadoras do back e do front quando constroem ou corrigem autenticação (a especificação do especialista dono da pasta diz quando).
 
 A régua é a NIST SP 800-63B-4 (2025), que mudou números que muita gente ainda usa. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/seguranca.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/seguranca.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 

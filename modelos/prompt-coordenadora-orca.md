@@ -1,4 +1,4 @@
-# Prompt da coordenadora no Orca (rascunho)
+# Prompt da coordenadora no Orca
 
 Como usar: no [Orca](https://github.com/stablyai/orca), abra um agente da ferramenta do projeto (a linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`: Claude Code ou Codex, nunca as duas; [decisão 010](../decisoes/010-um-agente-principal-por-projeto.md)) na pasta principal do projeto e cole o texto abaixo no início. Ele substitui os prompts da integradora e da trabalhadora: a coordenadora faz o papel da integradora e cada agente que ela inicia é uma trabalhadora ([02](../nucleo/02-sessoes-e-papeis.md), seção "Com o Orca"). Modo aprovado pela pessoa sem caso real ([decisão 006](../decisoes/006-desenvolvimento-orquestrado-com-o-orca.md)): anote na memória do projeto o que funcionar e o que atrapalhar.
 

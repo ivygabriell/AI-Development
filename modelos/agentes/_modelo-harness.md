@@ -10,7 +10,6 @@ Copie este arquivo para `modelos/agentes/<agente>.md` e preencha cada parte. O h
 **Presença:** sempre | sob demanda (<quando>)
 **Trabalhadoras:** da mesma ferramenta, <limite> | não tem
 **Onde trabalha:** na sua worktree `<agente>`, filha da worktree principal (visível no Orca); <o que faz nela>
-**Maturidade:** rascunho
 ```
 
 O harness serve às duas ferramentas ([decisão 010](../../decisoes/010-um-agente-principal-por-projeto.md)): nunca fixe `--agent claude` nem `--agent codex` num comando. Todo `worker-start` usa `--agent <agente> --model <modelo>`, e o agente lê qual é a ferramenta na linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`.

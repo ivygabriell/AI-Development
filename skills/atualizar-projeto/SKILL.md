@@ -5,8 +5,6 @@ description: Use quando a pessoa quer trazer um projeto que já existe (preparad
 
 # Atualizar um projeto para a versão atual do método
 
-**Maturidade:** rascunho (ainda não usada num projeto real; o primeiro uso vira caso no repositório do método)
-
 Responda em português. Pronomes não declarados: use o neutro. Diga qual Skill está usando a cada passo. A cópia do método fica em `${CLAUDE_PLUGIN_ROOT}` e é **só leitura**. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`: use esse caminho no lugar dele. No projeto, a regra é **só acrescentar**: nunca apague nem sobrescreva conteúdo do projeto (comandos, decisões, regras próprias, CI).
 
 ## Passo 1 · Conferências (só leitura)

@@ -9,28 +9,28 @@ Duas regras valem para **todas as sessões**, integradora ou trabalhadora: usar 
 | Funcionalidade nova, mudança de comportamento ou pedido ambíguo | `superpowers:brainstorming` (antes de mexer em qualquer arquivo) |
 | Decisão de arquitetura, escolha entre tecnologias | `engineering:architecture` |
 | Desenho de sistema, serviços, APIs, modelagem de dados | `engineering:system-design` |
-| Back: rota de API conforme o contrato (paginação, erros, pedido repetido) | `metodo:api-conforme-contrato` (rascunho) |
-| Back: migração de banco em tabela com uso | `metodo:migracao-sem-parada` (rascunho) |
-| Back: concorrência, travas, exclusão em massa, conexões | `metodo:transacoes-e-consultas` (rascunho) |
-| Back: fila, tarefa em segundo plano, chamada externa depois de gravar | `metodo:trabalho-em-segundo-plano` (rascunho) |
-| Front: formulário, validação e mensagens de erro | `metodo:formularios-e-erros` (rascunho) |
-| Front: tela lenta ou que pula (LCP, INP, CLS, imagens, fontes) | `metodo:desempenho-na-tela` (rascunho) |
-| Front: carregando, vazio, erro do serviço, ação demorada | `metodo:estados-da-tela` (rascunho) |
-| DevOps: como publicar código e configuração (canário, reversão) | `metodo:publicacao-gradual` (rascunho) |
-| DevOps: metas de confiabilidade e alertas | `metodo:metas-e-alertas` (rascunho) |
-| DevOps: workflows do GitHub Actions, segredos, PRs de fora | `metodo:ci-seguro` (rascunho) |
-| Segurança: login, senha, sessão | `metodo:autenticacao-e-sessao` (rascunho) |
-| Segurança: quem pode ver ou mudar o quê | `metodo:controle-de-acesso` (rascunho) |
-| Segurança: SQL, HTML, links e URL buscada pelo servidor | `metodo:entrada-nao-confiavel` (rascunho) |
-| Segurança: vazamento de dados pessoais (LGPD, ANPD) | `metodo:incidente-com-dados-pessoais` (rascunho) |
-| Segurança: auditoria completa do código antes da primeira publicação ou depois de mudança grande (só com o portão da pessoa) | `security-audit` (rascunho, da Cloudflare; instalação no README) |
-| Arquitetura: escrever ou mudar o contrato da API | `metodo:contrato-de-api` (rascunho) |
-| Arquitetura: o que acontece quando uma parte falha | `metodo:analise-de-falhas` (rascunho) |
-| Arquitetura: mudança grande com o sistema no ar | `metodo:migracao-de-sistema` (rascunho) |
-| Produto: pedido que chega como solução; os quatro riscos | `metodo:necessidades-e-riscos` (rascunho) |
-| Produto: entrevistas, oportunidades e escolha da solução | `metodo:descoberta-continua` (rascunho) |
-| Integradora: validação final do PR (os testes provam?) | `metodo:validacao-final` (rascunho) |
-| Integradora: "estamos entregando bem?" | `metodo:metricas-de-entrega` (rascunho) |
+| Back: rota de API conforme o contrato (paginação, erros, pedido repetido) | `metodo:api-conforme-contrato` |
+| Back: migração de banco em tabela com uso | `metodo:migracao-sem-parada` |
+| Back: concorrência, travas, exclusão em massa, conexões | `metodo:transacoes-e-consultas` |
+| Back: fila, tarefa em segundo plano, chamada externa depois de gravar | `metodo:trabalho-em-segundo-plano` |
+| Front: formulário, validação e mensagens de erro | `metodo:formularios-e-erros` |
+| Front: tela lenta ou que pula (LCP, INP, CLS, imagens, fontes) | `metodo:desempenho-na-tela` |
+| Front: carregando, vazio, erro do serviço, ação demorada | `metodo:estados-da-tela` |
+| DevOps: como publicar código e configuração (canário, reversão) | `metodo:publicacao-gradual` |
+| DevOps: metas de confiabilidade e alertas | `metodo:metas-e-alertas` |
+| DevOps: workflows do GitHub Actions, segredos, PRs de fora | `metodo:ci-seguro` |
+| Segurança: login, senha, sessão | `metodo:autenticacao-e-sessao` |
+| Segurança: quem pode ver ou mudar o quê | `metodo:controle-de-acesso` |
+| Segurança: SQL, HTML, links e URL buscada pelo servidor | `metodo:entrada-nao-confiavel` |
+| Segurança: vazamento de dados pessoais (LGPD, ANPD) | `metodo:incidente-com-dados-pessoais` |
+| Segurança: auditoria completa do código antes da primeira publicação ou depois de mudança grande (só com o portão da pessoa) | `metodo:auditoria-de-seguranca`, que roda a `security-audit` (da Cloudflare; instalação no README) |
+| Arquitetura: escrever ou mudar o contrato da API | `metodo:contrato-de-api` |
+| Arquitetura: o que acontece quando uma parte falha | `metodo:analise-de-falhas` |
+| Arquitetura: mudança grande com o sistema no ar | `metodo:migracao-de-sistema` |
+| Produto: pedido que chega como solução; os quatro riscos | `metodo:necessidades-e-riscos` |
+| Produto: entrevistas, oportunidades e escolha da solução | `metodo:descoberta-continua` |
+| Integradora: validação final do PR (os testes provam?) | `metodo:validacao-final` |
+| Integradora: "estamos entregando bem?" | `metodo:metricas-de-entrega` |
 | Plano com vários passos a partir de uma spec | `superpowers:writing-plans` |
 | Executar um plano na sessão atual | `superpowers:executing-plans` |
 | Plano com tarefas independentes, com uma revisão a cada tarefa | `superpowers:subagent-driven-development` |

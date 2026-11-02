@@ -42,7 +42,7 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 - **Passos:** quebre em tarefas pequenas (2 a 5 minutos por passo), cada uma com os arquivos exatos, o teste primeiro, o comando e o resultado esperado. Liste as restrições globais e o que a revisão final precisa olhar.
 - **Skill:** `superpowers:writing-plans`.
 - **Resultado:** plano versionado.
-- **Portão:** a pessoa aprova o plano e escolhe o modo de execução (inline, subagentes, sessões divididas ou orquestração com o Orca, em rascunho, inclusive com agentes especialistas por tema; veja [02](02-sessoes-e-papeis.md)). Em qualquer modo, todas as sessões usam o agente principal escolhido no começo do projeto (Claude Code ou Codex, nunca os dois).
+- **Portão:** a pessoa aprova o plano e escolhe o modo de execução (inline, subagentes, sessões divididas ou orquestração com o Orca, inclusive com agentes especialistas por tema; veja [02](02-sessoes-e-papeis.md)). Em qualquer modo, todas as sessões usam o agente principal escolhido no começo do projeto (Claude Code ou Codex, nunca os dois).
 
 ## Fase 4 · Construir com TDD
 

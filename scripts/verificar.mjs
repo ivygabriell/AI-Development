@@ -76,6 +76,7 @@ const OBRIGATORIOS = [
   'decisoes/008-agentes-especialistas.md',
   'modelos/agentes/_modelo-harness.md',
   'decisoes/010-um-agente-principal-por-projeto.md',
+  'decisoes/011-sem-rascunho-fora-dos-cenarios.md',
 ];
 for (const arquivo of OBRIGATORIOS) checar(`existe ${arquivo}`, existsSync(join(RAIZ, arquivo)));
 
@@ -102,7 +103,7 @@ for (const termo of ['codex plugin marketplace add', 'codex plugin add', 'codex 
 checar('README: adoção explica o agente principal (Claude Code ou Codex, nunca os dois)', adocao.includes('Agente principal') && adocao.includes('--agente codex'));
 checar('README: adoção sem o back no Codex e o front no Claude (substituído pela decisão 010)', !adocao.includes('Para dividir o back (Codex) e o front (Claude)'));
 // security-audit da Cloudflare (decisão 010, rascunho): instalada para a ferramenta do projeto, usada pela Segurança
-checar('README: adoção instala a skill security-audit pelo repositório oficial', adocao.includes('https://github.com/cloudflare/security-audit-skill') && adocao.includes('npx skills add https://github.com/cloudflare/security-audit-skill'));
+checar('README: adoção instala a skill security-audit pelo repositório oficial, para o Claude Code e o Codex', adocao.includes('https://github.com/cloudflare/security-audit-skill') && adocao.includes('npx skills add https://github.com/cloudflare/security-audit-skill --skill security-audit --global --agent claude-code codex'));
 checar('README: como o repositório cresce', readme.includes('## Como este repositório cresce'));
 for (const arquivo of NUCLEO) checar(`README aponta para ${arquivo}`, readme.includes(arquivo));
 for (const pasta of ['nucleo/', 'cenarios/', 'casos/', 'licoes/', 'decisoes/', 'modelos/', 'scripts/', 'skills/', 'planos/']) checar(`README cita ${pasta}`, readme.includes(pasta));
@@ -147,7 +148,7 @@ const HARNESS_PROPRIO = {
   arquitetura: ['contrato da API', 'portão', 'docs/referencias/arquitetura.md', '**Onde trabalha:** na sua worktree `arquitetura`, filha da worktree principal'],
   'back-e-dados': ['worker-start', '--parent', '--worktree new-child', 'contrato da API'],
   'design-e-front': ['worker-start', '--parent', '--worktree new-child', 'design system'],
-  seguranca: ['mapa de riscos', 'entrega a correção', 'aprovar com ressalva', '**Onde trabalha:** na sua worktree `seguranca`, filha da worktree principal', 'MCP `rea`', '`security-audit`', '~/security-audit-skill/', 'antes da primeira publicação'],
+  seguranca: ['mapa de riscos', 'entrega a correção', 'aprovar com ressalva', 'metodo:auditoria-de-seguranca', 'modo de orientação', '**Onde trabalha:** na sua worktree `seguranca`, filha da worktree principal', 'MCP `rea`', '`security-audit`', '~/security-audit-skill/', 'antes da primeira publicação'],
   produto: ['critérios de aceite'],
   devops: ['worker-start', '--parent', 'portão', 'merge_ready', 'a mudança do CI é uma tarefa da sua trabalhadora'],
 };
@@ -168,7 +169,8 @@ function checarHarness(nome) {
   const texto = ler(arquivo);
   checar(`agentes: existe ${arquivo}`, texto.length > 0);
   checar(`agentes/${nome}: as 10 partes em ordem`, partesEmOrdem(texto));
-  for (const termo of ['**Maturidade:** rascunho', '**Ferramenta:**', '**Esforço:**', '## O harness manda', 'superpowers:verification-before-completion', 'Como pesquisa', `docs/referencias/${nome}.md`])
+  checar(`agentes/${nome}: sem selo de rascunho (decisão 011)`, !texto.includes('**Maturidade:**'));
+  for (const termo of ['**Ferramenta:**', '**Esforço:**', '## O harness manda', 'superpowers:verification-before-completion', 'Como pesquisa', `docs/referencias/${nome}.md`])
     checar(`agentes/${nome}: ${termo}`, texto.includes(termo));
   const cabecalho = texto.split('\n## ')[0];
   checar(`agentes/${nome}: a ferramenta é a do projeto (Agente principal), com o modelo de cada uma`, cabecalho.includes('Agente principal') && cabecalho.includes('claude-opus-5-5') && cabecalho.includes('gpt-6.1-sol'));
@@ -214,7 +216,7 @@ const SKILLS_DO_AGENTE = {
   'back-e-dados': ['api-conforme-contrato', 'migracao-sem-parada', 'transacoes-e-consultas', 'trabalho-em-segundo-plano'],
   'design-e-front': ['formularios-e-erros', 'desempenho-na-tela', 'estados-da-tela'],
   devops: ['publicacao-gradual', 'metas-e-alertas', 'ci-seguro'],
-  seguranca: ['autenticacao-e-sessao', 'controle-de-acesso', 'entrada-nao-confiavel', 'incidente-com-dados-pessoais'],
+  seguranca: ['autenticacao-e-sessao', 'controle-de-acesso', 'entrada-nao-confiavel', 'incidente-com-dados-pessoais', 'auditoria-de-seguranca'],
   arquitetura: ['contrato-de-api', 'analise-de-falhas', 'migracao-de-sistema'],
   produto: ['necessidades-e-riscos', 'descoberta-continua'],
   integradora: ['validacao-final', 'metricas-de-entrega'],
@@ -222,7 +224,7 @@ const SKILLS_DO_AGENTE = {
 for (const [agente, nomes] of Object.entries(SKILLS_DO_AGENTE)) {
   const base = ler(`modelos/referencias/${agente}.md`);
   checar(`referências: existe modelos/referencias/${agente}.md`, base.length > 0);
-  checar(`referências/${agente}: maturidade rascunho e fontes com link`, base.includes('**Maturidade:** rascunho') && (base.match(/https:\/\//g) || []).length >= 5);
+  checar(`referências/${agente}: data da leitura e fontes com link, sem selo de rascunho`, base.includes('**Leitura feita em:**') && !base.includes('**Maturidade:**') && (base.match(/https:\/\//g) || []).length >= 5);
   const harness = ler(`modelos/agentes/${agente}.md`);
   const parteSkills = (harness.split('## 5. Skills')[1] || '').split('\n## ')[0];
   const parteLe = (harness.split('## 3. O que lê')[1] || '').split('\n## ')[0];
@@ -233,7 +235,8 @@ for (const [agente, nomes] of Object.entries(SKILLS_DO_AGENTE)) {
     const texto = ler(`skills/${nome}/SKILL.md`);
     checar(`skills/${nome}: existe`, texto.length > 0);
     checar(`skills/${nome}: description começa por "Use quando"`, /^description:\s*Use quando/m.test(texto));
-    for (const termo of ['**Maturidade:** rascunho', '## Checklist', '## Adaptar ao tamanho do projeto', `modelos/referencias/${agente}.md`])
+    checar(`skills/${nome}: sem selo de rascunho (decisão 011)`, !texto.includes('**Maturidade:**'));
+    for (const termo of ['**Quem usa:**', '## Checklist', '## Adaptar ao tamanho do projeto', `modelos/referencias/${agente}.md`])
       checar(`skills/${nome}: ${termo}`, texto.includes(termo));
     checar(`skills/${nome}: cada passo com a fonte (pelo menos 3 links)`, (texto.match(/\]\(https:\/\//g) || []).length >= 3);
   }
@@ -248,7 +251,12 @@ const formularios = ler('skills/formularios-e-erros/SKILL.md');
 checar('skills/formularios-e-erros: valida ao avançar ou enviar, não ao sair do campo (GOV.UK)', formularios.includes('ao avançar ou enviar') && formularios.includes('design-system.service.gov.uk/patterns/validation'));
 
 const skills = ler('nucleo/03-skills-e-testes.md');
-checar('skills e testes: o mapa cita a security-audit (auditoria completa, rascunho)', (skills.split('## Mapa de skills')[1] || '').split('\n## ')[0].includes('`security-audit`'));
+checar('skills e testes: o mapa cita a auditoria de segurança (security-audit e metodo:auditoria-de-seguranca)', ['`security-audit`', '`metodo:auditoria-de-seguranca`'].every((t) => (skills.split('## Mapa de skills')[1] || '').split('\n## ')[0].includes(t)));
+// Auditoria completa (decisões 010 e 011): a skill do método diz como rodar a security-audit dentro do fluxo
+const auditoria = ler('skills/auditoria-de-seguranca/SKILL.md');
+for (const termo of ['security-audit', 'portão', '~/security-audit-skill/', 'confirmed', 'needs_validation', 'rejected', 'quick', 'standard', 'budget', 'sandbox', 'escopo', 'validate-findings.cjs', 'docs/seguranca.md', 'aviso de segurança privado'])
+  checar(`skills/auditoria-de-seguranca: ${termo}`, auditoria.includes(termo));
+checar('referências/seguranca: aprendizados da security-audit', ler('modelos/referencias/seguranca.md').includes('## Auditoria completa (security-audit da Cloudflare)'));
 for (const termo of ['## Mapa de skills', '## Testes: micro e macro', 'micro', 'macro', 'RED', 'verification-before-completion', '## Verificação no navegador'])
   checar(`skills e testes: ${termo}`, skills.includes(termo));
 
@@ -550,17 +558,28 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     for (const caminho of citados) checar(`skills/${pasta}: caminho citado existe (${caminho})`, existsSync(join(RAIZ, caminho)));
   }
   const inicio = ler('skills/novo-projeto/SKILL.md');
-  checar('skills/novo-projeto: maturidade rascunho', inicio.includes('**Maturidade:** rascunho'));
+  checar('skills/novo-projeto: sem selo de rascunho (decisão 011)', !inicio.includes('**Maturidade:**'));
   for (const termo of ['superpowers:brainstorming', 'gh repo create', '.DS_Store', 'Pode criar?', 'bash "${CLAUDE_PLUGIN_ROOT}/scripts/novo-projeto.sh"', 'orca repo add'])
     checar(`skills/novo-projeto: ${termo}`, inicio.includes(termo));
   const atualizar = ler('skills/atualizar-projeto/SKILL.md');
-  checar('skills/atualizar-projeto: maturidade rascunho', atualizar.includes('**Maturidade:** rascunho'));
+  checar('skills/atualizar-projeto: sem selo de rascunho (decisão 011)', !atualizar.includes('**Maturidade:**'));
   for (const termo of ['${CLAUDE_PLUGIN_ROOT}/CHANGELOG.md', 'Versão do método', 'Pode atualizar?', 'orca repo add', 'bash "${CLAUDE_PLUGIN_ROOT}/scripts/novo-projeto.sh"', 'nunca apague'])
     checar(`skills/atualizar-projeto: ${termo}`, atualizar.includes(termo));
   checar('skills/atualizar-projeto: cria o AGENTS.md que falta', atualizar.includes('AGENTS.md'));
   checar('skills/novo-projeto: pergunta o agente principal e o passa ao script (--agente)', inicio.includes('Agente principal') && inicio.includes('--agente <claude|codex>') && !inicio.includes('Back e front com agentes diferentes'));
   checar('skills/consultar: aponta para o agente principal por projeto', ler('skills/consultar/SKILL.md').includes('Um agente principal por projeto') && !ler('skills/consultar/SKILL.md').includes('Back e front com agentes diferentes'));
   checar('skills/atualizar-projeto: pergunta o agente principal e acrescenta a linha no DESENVOLVIMENTO.md', atualizar.includes('Agente principal') && atualizar.includes('--agente'));
+}
+
+// Decisão 011: fora dos cenários (que têm selo de maturidade próprio), nada do método fica marcado como rascunho
+{
+  const ativos = todosMd().map((a) => relative(RAIZ, a)).filter((n) => /^(README\.md|modelos\/|nucleo\/|skills\/)/.test(n));
+  for (const nome of ativos) {
+    const linhas = ler(nome).split('\n').filter((l) => /rascunho/i.test(l) && !/cen[aá]rio|selo de maturidade|rascunho do aviso/i.test(l));
+    checar(`${nome}: sem marca de rascunho fora dos cenários (decisão 011)`, linhas.length === 0, (linhas[0] || '').slice(0, 120));
+  }
+  const np = ler('scripts/novo-projeto.sh');
+  checar('novo-projeto.sh: sem "modo em rascunho" (decisão 011)', !/modo em rascunho|especialistas \(rascunho\)/.test(np));
 }
 
 // 4) Consistência geral

@@ -5,7 +5,7 @@ description: Use quando a pessoa perguntar se o projeto está entregando bem, ao
 
 # Métricas de entrega
 
-**Maturidade:** rascunho (sem caso real ainda). **Quem usa:** a integradora, que mede, anota na memória do projeto e responde à pessoa.
+**Quem usa:** a integradora, que mede, anota na memória do projeto e responde à pessoa.
 
 A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/integradora.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/integradora.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 

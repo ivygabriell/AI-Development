@@ -5,7 +5,7 @@ description: Use quando for escrever ou revisar um workflow do GitHub Actions (C
 
 # CI seguro no GitHub Actions
 
-**Maturidade:** rascunho (sem caso real ainda). **Quem usa:** a trabalhadora do DevOps ao construir e o especialista de DevOps ao revisar; a Segurança revisa os PRs de CI pelo mapa de riscos.
+**Quem usa:** a trabalhadora do DevOps ao construir e o especialista de DevOps ao revisar; a Segurança revisa os PRs de CI pelo mapa de riscos.
 
 O CI roda código de quem abriu o PR. Cada workflow recebe só a permissão de que precisa, e o código de fora nunca roda onde há escrita ou segredo. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/devops.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/devops.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 

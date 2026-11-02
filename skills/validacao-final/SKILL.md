@@ -5,7 +5,7 @@ description: Use quando a integradora for fazer a validação final de um PR ant
 
 # Validação final
 
-**Maturidade:** rascunho (sem caso real ainda). **Quem usa:** a integradora, depois do especialista do tema e da Segurança. Verde não basta: os testes precisam provar os critérios de aceite. As regras de testes do método (micro e macro, RED antes de GREEN) estão no `${CLAUDE_PLUGIN_ROOT}/nucleo/03-skills-e-testes.md`.
+**Quem usa:** a integradora, depois do especialista do tema e da Segurança. Verde não basta: os testes precisam provar os critérios de aceite. As regras de testes do método (micro e macro, RED antes de GREEN) estão no `${CLAUDE_PLUGIN_ROOT}/nucleo/03-skills-e-testes.md`.
 
 A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/integradora.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/integradora.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 

@@ -1,6 +1,6 @@
 # Base de conhecimento: Integradora
 
-**Maturidade:** rascunho (leitura feita em 2026-10-30, sem caso real ainda)
+**Leitura feita em:** 2026-10-30
 **Agente:** Integradora (harness em `modelos/agentes/integradora.md`)
 **Skills que saem daqui:** `metodo:validacao-final` e `metodo:metricas-de-entrega`
 

@@ -71,10 +71,10 @@ O método usa, além do plugin `metodo`, três plugins, uma ferramenta de engenh
 | Plugin **engineering** | Documentação, arquitetura, desenho de sistemas, revisão de código, estratégia de testes, checklist de deploy, incidentes | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins/tree/main/engineering) |
 | Plugin **design** | Revisão de acessibilidade, crítica de design, entrega para desenvolvimento e textos de interface | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins/tree/main/design) |
 | **REA** (skill `reverse-engineer-anything` e servidor `rea`) | Engenharia reversa de artefatos fechados, quando uma referência não tem código-fonte ([04](nucleo/04-referencias-e-engenharia-reversa.md)) | [morluto/rea](https://github.com/morluto/rea) |
-| **Orca** (aplicativo e as skills `orca-cli` e `orchestration`) | Orquestração dos agentes: a coordenadora faz o papel da integradora e os agentes, das trabalhadoras ([02](nucleo/02-sessoes-e-papeis.md), modo em rascunho) | [stablyai/orca](https://github.com/stablyai/orca) |
-| **Codex** (opcional) | O agente principal dos projetos que escolhem o Codex no lugar do Claude Code: todas as sessões do projeto usam a mesma ferramenta, com as mesmas regras e Skills ([02](nucleo/02-sessoes-e-papeis.md), "Um agente principal por projeto", modo em rascunho) | [openai/codex](https://github.com/openai/codex) |
-| Skill **security-audit** | Auditoria completa de segurança do código, feita pelo agente de Segurança antes da primeira publicação, com a sua aprovação (rascunho) | [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill) |
-| Plugin **metodo** | Este repositório: `/metodo:novo-projeto`, `/metodo:atualizar-projeto`, a consulta ao método nas sessões do projeto e as skills dos agentes especialistas (as de cada especialista, em rascunho) | este repositório |
+| **Orca** (aplicativo e as skills `orca-cli` e `orchestration`) | Orquestração dos agentes: a coordenadora faz o papel da integradora e os agentes, das trabalhadoras ([02](nucleo/02-sessoes-e-papeis.md)) | [stablyai/orca](https://github.com/stablyai/orca) |
+| **Codex** (opcional) | O agente principal dos projetos que escolhem o Codex no lugar do Claude Code: todas as sessões do projeto usam a mesma ferramenta, com as mesmas regras e Skills ([02](nucleo/02-sessoes-e-papeis.md), "Um agente principal por projeto") | [openai/codex](https://github.com/openai/codex) |
+| Skill **security-audit** | Auditoria completa de segurança do código, feita pelo agente de Segurança antes da primeira publicação, com a sua aprovação | [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill) |
+| Plugin **metodo** | Este repositório: `/metodo:novo-projeto`, `/metodo:atualizar-projeto`, a consulta ao método nas sessões do projeto e as skills dos agentes especialistas (as de cada especialista) | este repositório |
 
 Os comandos abaixo são o caminho curto. Para requisitos, opções e problemas de instalação de cada ferramenta, consulte o repositório oficial dela.
 
@@ -160,13 +160,13 @@ codex mcp list         # deve mostrar "rea" ativo
 
 Para receber as melhorias do método também no Codex: `codex plugin marketplace upgrade`. Nos projetos, o Codex lê o `AGENTS.md` (o `CLAUDE.md` é só do Claude); o `/metodo:novo-projeto` e o `/metodo:atualizar-projeto` criam esse arquivo.
 
-**9. Skill security-audit, no terminal** (para a ferramenta que você usa; se usa as duas em projetos diferentes, escolha as duas quando o instalador perguntar):
+**9. Skill security-audit, no terminal** (instala para o Claude Code e para o Codex de uma vez, em `~/.agents/skills/security-audit`):
 
 ```bash
-npx skills add https://github.com/cloudflare/security-audit-skill --skill security-audit --global
+npx skills add https://github.com/cloudflare/security-audit-skill --skill security-audit --global --agent claude-code codex -y
 ```
 
-Ela roda auditorias que gastam bastante cota (vários subagentes), por isso o agente de Segurança só a usa com a sua aprovação. Os relatórios ficam fora do projeto, em `~/security-audit-skill/`. Requisitos e opções: [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill).
+Ela roda auditorias que gastam bastante cota (vários subagentes), por isso o agente de Segurança só a usa com a sua aprovação (skill `metodo:auditoria-de-seguranca`). Para atualizar: `npx skills update security-audit --global`; para conferir: `npx skills ls --global`. Os relatórios ficam fora do projeto, em `~/security-audit-skill/`. Requisitos e opções: [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill).
 
 Os conectores que os plugins engineering e design trazem (Slack, Figma, Linear e outros) podem ficar sem autenticação; o método não depende deles.
 
@@ -188,9 +188,9 @@ A skill confere o ambiente, propõe o cenário (e avisa se ele é `rascunho`), p
 
 **Para trabalhar com vários agentes no Orca**, abra o projeto no Orca e use o [prompt da coordenadora](modelos/prompt-coordenadora-orca.md) no agente principal: ela distribui as tarefas aos agentes, valida e só integra com a sua aprovação ([02](nucleo/02-sessoes-e-papeis.md), seção "Com o Orca").
 
-**Num projeto Codex**, abra a coordenadora como um agente Codex no Orca: ela lê o `AGENTS.md`, usa o mesmo prompt e abre todos os agentes com `--agent codex`. Quando back e front são construídos em paralelo, o contrato da API é aprovado por você antes de qualquer tarefa de construção ([02](nucleo/02-sessoes-e-papeis.md), "Um agente principal por projeto", modo em rascunho).
+**Num projeto Codex**, abra a coordenadora como um agente Codex no Orca: ela lê o `AGENTS.md`, usa o mesmo prompt e abre todos os agentes com `--agent codex`. Quando back e front são construídos em paralelo, o contrato da API é aprovado por você antes de qualquer tarefa de construção ([02](nucleo/02-sessoes-e-papeis.md), "Um agente principal por projeto").
 
-**Para trabalhar com agentes especialistas**, a integradora coordena um especialista por tema (Arquitetura, Back e Dados, Design e Front, Segurança e, quando preciso, Produto e DevOps), e cada especialista abre as próprias trabalhadoras. Cada agente atua dentro de um harness escrito com você, em [`modelos/agentes/`](modelos/agentes/), que vai para o projeto com `scripts/novo-projeto.sh <pasta> --especialistas`. No Orca, ajuste antes **Settings → Orchestration → Nested worker depth = 2** ([02](nucleo/02-sessoes-e-papeis.md), "Com agentes especialistas", modo em rascunho).
+**Para trabalhar com agentes especialistas**, a integradora coordena um especialista por tema (Arquitetura, Back e Dados, Design e Front, Segurança e, quando preciso, Produto e DevOps), e cada especialista abre as próprias trabalhadoras. Cada agente atua dentro de um harness escrito com você, em [`modelos/agentes/`](modelos/agentes/), que vai para o projeto com `scripts/novo-projeto.sh <pasta> --especialistas`. No Orca, ajuste antes **Settings → Orchestration → Nested worker depth = 2** ([02](nucleo/02-sessoes-e-papeis.md), "Com agentes especialistas").
 
 ### Atualizar um projeto que já usa o método
 

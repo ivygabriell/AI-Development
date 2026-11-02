@@ -5,7 +5,7 @@ description: Use quando for implementar ou revisar uma tela que busca dados, uma
 
 # Estados da tela
 
-**Maturidade:** rascunho (sem caso real ainda). **Quem usa:** as trabalhadoras do front ao construir e o especialista de Design e Front ao revisar.
+**Quem usa:** as trabalhadoras do front ao construir e o especialista de Design e Front ao revisar.
 
 Toda tela que depende de dados tem pelo menos quatro estados: carregando, vazio, erro e com dados. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/design-e-front.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/design-e-front.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 

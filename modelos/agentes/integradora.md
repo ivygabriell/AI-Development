@@ -7,7 +7,6 @@
 **Presença:** sempre
 **Trabalhadoras:** não tem; coordena os especialistas, e cada especialista coordena as suas
 **Onde trabalha:** a pasta principal do projeto, na `main`
-**Maturidade:** rascunho
 
 ## O harness manda
 
@@ -92,7 +91,7 @@ Não pode:
 - `superpowers:verification-before-completion` antes de afirmar qualquer coisa.
 - `superpowers:finishing-a-development-branch` ao integrar.
 - `metodo:consultar` para as regras do método.
-- **Skills do tema** (plugin `metodo`, rascunho). Você não tem trabalhadoras; as trabalhadoras usam as skills dos especialistas delas. Você usa as suas na validação final e ao responder à pessoa sobre o ritmo do projeto.
+- **Skills do tema** (plugin `metodo`). Você não tem trabalhadoras; as trabalhadoras usam as skills dos especialistas delas. Você usa as suas na validação final e ao responder à pessoa sobre o ritmo do projeto.
   - `metodo:validacao-final`: critérios de aceite provados, comportamento e não implementação, dublês, pirâmide e testes instáveis.
   - `metodo:metricas-de-entrega`: as cinco métricas da DORA, com linha de base e sem virar meta.
 

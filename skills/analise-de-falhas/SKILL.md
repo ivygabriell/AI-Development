@@ -5,7 +5,7 @@ description: Use quando for decidir o que acontece quando uma parte do sistema o
 
 # Análise de falhas
 
-**Maturidade:** rascunho (sem caso real ainda). **Quem usa:** a Arquitetura, que registra o comportamento em falha; o back implementa (`metodo:transacoes-e-consultas` e `metodo:trabalho-em-segundo-plano`) e o DevOps mede (`metodo:metas-e-alertas`).
+**Quem usa:** a Arquitetura, que registra o comportamento em falha; o back implementa (`metodo:transacoes-e-consultas` e `metodo:trabalho-em-segundo-plano`) e o DevOps mede (`metodo:metas-e-alertas`).
 
 A falha vai acontecer; a análise decide o tamanho do estrago. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/arquitetura.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/arquitetura.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 

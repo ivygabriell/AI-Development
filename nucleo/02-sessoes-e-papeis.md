@@ -79,7 +79,7 @@ Uma **worktree** é uma segunda pasta do mesmo repositório, em outra branch, se
 | Fase B começou sem o alvo aprovado | Faltou o ponto de controle | A issue manda parar ao fim da Fase A |
 | Sessão apagada com trabalho dentro | Limpeza sem listar antes | Listar, mostrar o que será apagado e só então confirmar |
 
-## Com o Orca (rascunho)
+## Com o Orca
 
 O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, cada um na sua worktree, e faz por comando a orquestração que antes era manual. O mapa é direto: **a coordenadora do Orca é a integradora e cada agente supervisionado é uma trabalhadora** ([decisão 006](../decisoes/006-desenvolvimento-orquestrado-com-o-orca.md)). Este modo entrou aprovado pela pessoa, **sem caso real**; o primeiro projeto feito com ele confirma ou corrige esta seção.
 
@@ -109,7 +109,7 @@ O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, 
 
 **O que observar no primeiro projeto:** se algum agente perguntou direto à pessoa em vez de usar `ask`; se os portões seguraram de fato o merge e o deploy; quantos agentes deu para acompanhar; se os scripts de worktree ainda fazem falta.
 
-### Um agente principal por projeto (rascunho)
+### Um agente principal por projeto
 
 Dentro de um projeto atua **um agente principal só: o Claude Code ou o Codex, nunca as duas ferramentas ao mesmo tempo** ([decisão 010](../decisoes/010-um-agente-principal-por-projeto.md), aprovada pela pessoa sem caso real; substitui o back no Codex e o front no Claude da [decisão 007](../decisoes/007-back-com-codex-e-front-com-claude.md)). Vale para todas as sessões: a integradora (a coordenadora do Orca), os especialistas e as trabalhadoras.
 
@@ -126,7 +126,7 @@ Dentro de um projeto atua **um agente principal só: o Claude Code ou o Codex, n
 
 **O que observar no primeiro projeto Codex:** se a coordenadora Codex segurou os portões e validou no navegador; se algum agente Codex pulou o TDD ou a verificação; se as skills do método funcionaram no Codex; quanto a cota rendeu com uma ferramenta só.
 
-### Com agentes especialistas (rascunho)
+### Com agentes especialistas
 
 A integradora deixa de carregar tudo sozinha: ao lado dela trabalham **agentes especialistas por tema**, cada um com um **harness** escrito com a pessoa ([decisão 008](../decisoes/008-agentes-especialistas.md), aprovada sem caso real). O modelo continua o de integradora e trabalhadoras, com uma camada no meio: as trabalhadoras passam a ser abertas e coordenadas pelo especialista do tema.
 

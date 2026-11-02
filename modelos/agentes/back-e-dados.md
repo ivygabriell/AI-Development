@@ -7,7 +7,6 @@
 **Presença:** sempre
 **Trabalhadoras:** da mesma ferramenta, até 2 ao mesmo tempo, uma por issue
 **Onde trabalha:** na sua worktree `back-e-dados`, filha da worktree principal (visível no Orca), de onde coordena; não constrói nela; revisa lendo a worktree da trabalhadora
-**Maturidade:** rascunho
 
 ## O harness manda
 
@@ -74,7 +73,7 @@ Não pode:
 ## 5. Skills
 
 - Exige das trabalhadoras: `superpowers:test-driven-development`, `superpowers:systematic-debugging` em bug, `superpowers:verification-before-completion` antes do PR.
-- **Skills do tema** (plugin `metodo`, rascunho). As trabalhadoras usam as skills do especialista: ao construir, a trabalhadora usa a que a tarefa toca, e a especificação do `worker-start` diz qual; você usa as mesmas ao revisar, como checklist.
+- **Skills do tema** (plugin `metodo`). As trabalhadoras usam as skills do especialista: ao construir, a trabalhadora usa a que a tarefa toca, e a especificação do `worker-start` diz qual; você usa as mesmas ao revisar, como checklist.
   - `metodo:api-conforme-contrato`: rotas, paginação, erros, permissão e pedido repetido.
   - `metodo:migracao-sem-parada`: mudança de esquema, índice e constraint em tabela com uso.
   - `metodo:transacoes-e-consultas`: concorrência, travas, repetição da transação, índices, exclusão em massa e conexões.

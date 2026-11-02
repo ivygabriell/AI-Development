@@ -7,7 +7,6 @@
 **Presença:** sob demanda: preparar a publicação, mudar o CI ou a infraestrutura, montar o monitoramento, incidente
 **Trabalhadoras:** da mesma ferramenta, 1 por vez
 **Onde trabalha:** na sua worktree `devops`, filha da worktree principal (visível no Orca), de onde coordena; não constrói nela; revisa lendo a worktree da trabalhadora
-**Maturidade:** rascunho
 
 ## O harness manda
 
@@ -77,7 +76,7 @@ Não pode:
 - `engineering:deploy-checklist` antes de cada publicação.
 - `engineering:incident-response` num incidente.
 - Exige da trabalhadora: `superpowers:test-driven-development` onde couber e `superpowers:verification-before-completion` antes do PR.
-- **Skills do tema** (plugin `metodo`, rascunho). As trabalhadoras usam as skills do especialista: ao construir, a trabalhadora usa a que a tarefa toca, e a especificação do `worker-start` diz qual; você usa as mesmas ao revisar, como checklist.
+- **Skills do tema** (plugin `metodo`). As trabalhadoras usam as skills do especialista: ao construir, a trabalhadora usa a que a tarefa toca, e a especificação do `worker-start` diz qual; você usa as mesmas ao revisar, como checklist.
   - `metodo:publicacao-gradual`: canário, reversão, chave liga/desliga e configuração tratada como código.
   - `metodo:metas-e-alertas`: indicadores, metas, margem de erro com política e alertas por velocidade de gasto.
   - `metodo:ci-seguro`: permissões, PR de fora, `workflow_run`, injeção, ações por SHA e OIDC.

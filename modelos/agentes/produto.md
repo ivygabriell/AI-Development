@@ -7,7 +7,6 @@
 **Presença:** sob demanda, nas Fases 0 a 2 e quando uma prioridade muda
 **Trabalhadoras:** não tem
 **Onde trabalha:** na sua worktree `produto`, filha da worktree principal (visível no Orca); cada documento que muda vai numa branch própria, criada a partir da `origin/main` nessa worktree, com um PR
-**Maturidade:** rascunho
 
 ## O harness manda
 
@@ -71,7 +70,7 @@ Não pode:
 - `superpowers:brainstorming` para entender o que a pessoa quer antes de escrever.
 - `design:user-research` para planejar uma pesquisa com usuários e `design:research-synthesis` para juntar o que se aprendeu.
 - `superpowers:verification-before-completion` antes de entregar a spec.
-- **Skills do tema** (plugin `metodo`, rascunho). Você não tem trabalhadoras; as trabalhadoras usam as skills dos especialistas que constroem, a partir da spec que você escreve. Você usa as suas antes da spec, como roteiro e checklist.
+- **Skills do tema** (plugin `metodo`). Você não tem trabalhadoras; as trabalhadoras usam as skills dos especialistas que constroem, a partir da spec que você escreve. Você usa as suas antes da spec, como roteiro e checklist.
   - `metodo:necessidades-e-riscos`: o pedido como necessidade, a evidência e os quatro riscos.
   - `metodo:descoberta-continua`: resultado, entrevistas por história, oportunidades e soluções comparadas.
 

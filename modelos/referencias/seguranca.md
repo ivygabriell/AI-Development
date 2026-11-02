@@ -1,8 +1,8 @@
 # Base de conhecimento: Segurança
 
-**Maturidade:** rascunho (leitura feita em 2026-10-29, sem caso real ainda)
+**Leitura feita em:** 2026-10-29
 **Agente:** Segurança (harness em `modelos/agentes/seguranca.md`)
-**Skills que saem daqui:** `metodo:autenticacao-e-sessao`, `metodo:controle-de-acesso`, `metodo:entrada-nao-confiavel` e `metodo:incidente-com-dados-pessoais`
+**Skills que saem daqui:** `metodo:autenticacao-e-sessao`, `metodo:controle-de-acesso`, `metodo:entrada-nao-confiavel` e `metodo:incidente-com-dados-pessoais`; da seção "Auditoria completa", `metodo:auditoria-de-seguranca`
 
 O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `docs/referencias/seguranca.md` do projeto e antes dos sites. As skills também servem a quem corrige (as trabalhadoras do back e do front). A segurança do CI fica com `metodo:ci-seguro`, do DevOps.
 
@@ -55,6 +55,28 @@ O que a leitura das referências escolhidas pela pessoa ensinou, com palavras pr
 | Canal oficial da comunicação | onde comunicar | [ANPD, comunicação de incidente](https://www.gov.br/anpd/pt-br/canais_atendimento/agente-de-tratamento/comunicado-de-incidente-de-seguranca-cis) |
 
 A ANPD é a autoridade da lei; confira a data e a versão de cada norma antes de usar. Decidir se o incidente é comunicável e comunicar é da pessoa (com o encarregado e, se houver, o jurídico); a Segurança prepara os fatos.
+
+## Auditoria completa (security-audit da Cloudflare)
+
+Leitura do repositório inteiro da skill (commit `c1c8a8c`, de 2026-09-14), feita em 2026-11-02: o `SKILL.md`, as seis fases, as classes de ataque, os dez arquivos de domínio e o esquema dos achados. Os validadores passaram nos testes da própria skill (65 de 65) na instalação deste computador. É a skill que deu origem ao sistema de busca de falhas da Cloudflare ([o artigo](https://blog.cloudflare.com/build-your-own-vulnerability-harness)).
+
+| Regra | Por quê | Fonte |
+|---|---|---|
+| Um achado só existe com uma fronteira e um resultado: quem tem menos confiança, o que ele manda, o controle que deveria barrar, a fronteira cruzada e o efeito concreto | um checklist que não bate não é falha; uma camada a mais que falta, com outra já barrando, é só endurecimento | [SKILL.md, princípios](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md) |
+| Três vereditos separados: `confirmed` (caminho completo e resultado observado), `needs_validation` (falta um fato que está fora do código; **sem gravidade**) e `rejected` (refutado, guardado para não voltar) | separar certeza de prioridade; uma suspeita não vira falha | [SKILL.md, prioridade e certeza](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md) |
+| Gravidade pelo impacto demonstrado: `critical` é execução de código, banco inteiro ou tomada de contas sem login; `high` derruba um controle explícito (pular login, ler outra empresa, script salvo que roda para outros); `medium` é uma violação real e limitada; `low` é detalhe interno sem segredo | "se não dá para dizer o estrago concreto, a gravidade é menor do que parece" | [SKILL.md, âncoras de gravidade](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md) |
+| A correção recomendada é a menor mudança no código que garante a regra no último ponto de decisão confiável, com um teste de regressão | conselho genérico de endurecimento não corrige nada | [SKILL.md, a menor correção](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md) |
+| Quem confere um achado nunca é quem o achou: cada candidato vai a um verificador novo que tenta refutá-lo | é o que derruba os falsos positivos | [VALIDATION-AND-REPORTING.md](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/VALIDATION-AND-REPORTING.md) |
+| A cobertura é medida num registro (`coverage-ledger.json`), unidade por unidade (entrada, fronteira, parte do sistema, classe de ataque); um resumo dizendo "a autenticação foi vista" não conta | uma rodada nunca esgota o código; nas rodadas de teste da Cloudflare, uma rodada achou mais ou menos metade do que as repetidas acharam | [RECONNAISSANCE.md](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/RECONNAISSANCE.md) e [README](https://github.com/cloudflare/security-audit-skill) |
+| Ordem da caça: primeiro as entradas sem login, depois as fronteiras que protegem o que vale mais (credenciais, dados de outra empresa, execução de código, publicação), depois o que mudou desde a última rodada | gastar o orçamento onde o estrago é maior | [HUNTING.md](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/HUNTING.md) |
+| Sempre há um caçador "coisas óbvias" (segredos no código, `.env` no repositório, modo de depuração em produção, CORS `*` com credenciais, cookies sem `HttpOnly`/`Secure`/`SameSite`, redirecionamento aberto, erro com stack trace) e um "curinga" (o código estranho, a API que a tela nunca chama, o recurso meio pronto) | as falhas simples passam porque cada um acha que o outro conferiu | [ATTACK-CLASSES.md](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/ATTACK-CLASSES.md) |
+| Arquivos de domínio escolhidos pelo que o reconhecimento achou, não pelo nome da dependência: web e identidade, navegador, cadeia de suprimentos e CI, nuvem, protocolos e filas, esgotamento de recursos, isolamento de dados, IA e agentes, apps e IPC local, memória e binários | um projeto com IA ganha as classes de injeção de prompt e de ferramentas; um site estático, não | [ATTACK-CLASSES.md](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/ATTACK-CLASSES.md) |
+| Nada de testar um ambiente publicado: só leitura do código e verificações locais numa sandbox sem rede, com ambiente vazio e limites; sem sandbox, o que precisaria rodar vira `needs_validation` | auditoria não pode virar incidente | [SKILL.md, segurança da execução](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md) |
+| Saída fora do repositório (`~/security-audit-skill/<repo>/run-<N>`); dentro dele só se a pasta for ignorada pelo Git | o relatório descreve falhas abertas | [SKILL.md, configuração](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md) |
+| Perfis `quick`, `standard` e `deep`, escopo reduzido (pastas ou a diferença entre dois commits) e um limite de subagentes (`budget`); rodadas novas leem as anteriores e não confiam em achados de código que mudou | o custo fica previsível e a cobertura soma | [SKILL.md, perfis, escopo e orçamento](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md) |
+| A rodada só acaba completa (validadores passando) ou `incomplete`, com o motivo; um relatório parcial diz que é parcial | não declarar cobertura que não houve | [SKILL.md, fluxo](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md) |
+
+Como isso entra no método: a skill `metodo:auditoria-de-seguranca` (quando rodar, o portão, o tamanho, a triagem para o fluxo e o registro). Nas revisões de PR, a Segurança usa só o **modo de orientação** da skill: os princípios acima, sem as seis fases e sem arquivos.
 
 ## Outras referências do harness
 

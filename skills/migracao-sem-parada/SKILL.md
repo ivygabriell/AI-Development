@@ -5,7 +5,7 @@ description: Use quando for escrever ou revisar uma migração de banco (Postgre
 
 # Migração sem parar o sistema
 
-**Maturidade:** rascunho (sem caso real ainda). **Quem usa:** as trabalhadoras do back ao construir e o especialista de Back e Dados ao revisar.
+**Quem usa:** as trabalhadoras do back ao construir e o especialista de Back e Dados ao revisar.
 
 Uma migração é segura quando o código antigo e o novo funcionam durante toda a mudança, quando nenhuma trava fica na fila bloqueando o resto e quando dá para voltar. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/back-e-dados.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/back-e-dados.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 

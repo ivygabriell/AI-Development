@@ -5,7 +5,7 @@ description: Use quando dados pessoais podem ter vazado ou sido acessados sem au
 
 # Incidente com dados pessoais
 
-**Maturidade:** rascunho (sem caso real ainda). **Quem usa:** a Segurança, que levanta os fatos e prepara a comunicação. **Decidir se comunica e comunicar é da pessoa** (com o encarregado e, se houver, o jurídico): a Segurança sobe tudo à integradora, que leva à pessoa. A condução técnica do incidente segue `engineering:incident-response`.
+**Quem usa:** a Segurança, que levanta os fatos e prepara a comunicação. **Decidir se comunica e comunicar é da pessoa** (com o encarregado e, se houver, o jurídico): a Segurança sobe tudo à integradora, que leva à pessoa. A condução técnica do incidente segue `engineering:incident-response`.
 
 A régua é a Resolução CD/ANPD nº 15/2024; confira se há norma mais nova antes de usar. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/seguranca.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/seguranca.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 
