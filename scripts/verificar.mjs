@@ -113,6 +113,8 @@ for (let fase = 0; fase <= 9; fase += 1) checar(`fluxo: Fase ${fase}`, new RegEx
 checar('fluxo: Fase 9 é o fechamento (retrospectiva)', /^## Fase 9 · Fechamento/m.test(fluxo));
 checar('fluxo: classificação spike/delimitada/arquitetural', /spike/i.test(fluxo) && /delimitada/i.test(fluxo) && /arquitetural/i.test(fluxo));
 checar('fluxo: portões de aprovação humana', fluxo.includes('## Portões de aprovação'));
+checar('fluxo: Fase 7 pede a auditoria de segurança antes da primeira publicação, em qualquer modo', ((fluxo.split('## Fase 7')[1] || '').split('## Fase 8')[0]).includes('metodo:auditoria-de-seguranca'));
+checar('prompt da coordenadora do Orca: auditoria de segurança antes da primeira publicação', ler('modelos/prompt-coordenadora-orca.md').includes('metodo:auditoria-de-seguranca'));
 
 const sessoes = ler('nucleo/02-sessoes-e-papeis.md');
 for (const termo of ['## Quando dividir', '## Quando NÃO dividir', 'integradora', 'trabalhadora', '## Modos de falha'])

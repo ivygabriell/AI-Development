@@ -5,7 +5,7 @@ description: Use quando for rodar ou pedir uma auditoria completa de segurança 
 
 # Auditoria de segurança
 
-**Quem usa:** a Segurança, que propõe, roda e tria a auditoria. A integradora cria o portão e só publica depois da triagem. As trabalhadoras do back e do front corrigem o que a Segurança entrega, com as skills do tema (`metodo:controle-de-acesso`, `metodo:entrada-nao-confiavel`, `metodo:autenticacao-e-sessao`).
+**Quem usa:** no modo com especialistas, a Segurança, que propõe, roda e tria a auditoria, e a integradora cria o portão e só publica depois da triagem. Nos outros modos (uma sessão, sessões divididas ou o Orca sem especialistas), a integradora ou a coordenadora faz as duas partes. É um passo da Fase 7: antes da primeira publicação, sempre se pergunta à pessoa. As trabalhadoras do back e do front corrigem o que a Segurança entrega, com as skills do tema (`metodo:controle-de-acesso`, `metodo:entrada-nao-confiavel`, `metodo:autenticacao-e-sessao`).
 
 A `security-audit` faz a auditoria. Esta skill diz **como ela entra no fluxo do método**: quando rodar, com que tamanho, onde guardar e o que fazer com cada achado. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/seguranca.md` (seção "Auditoria completa"), e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/seguranca.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 

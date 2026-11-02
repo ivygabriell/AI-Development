@@ -72,7 +72,8 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 
 - **Entrada:** `main` verde.
 - **Passos:** lista de verificação de publicação (variáveis de ambiente, endereço público, indexação, dados de exemplo, desempenho, acessibilidade, monitoramento, plano de reversão). Se houver dados fictícios de exemplo, **uma trava automática** impede a publicação enquanto eles existirem.
-- **Skill:** `engineering:deploy-checklist`.
+- **Auditoria de segurança, antes da primeira publicação** e depois de cada mudança grande (login novo, API pública nova, troca de infraestrutura): a auditoria completa do código com `metodo:auditoria-de-seguranca`, que roda a `security-audit`. Vale em qualquer modo: no modo com especialistas, a Segurança propõe e roda; nos outros, a integradora (ou a coordenadora do Orca). Sempre por um portão, porque gasta cota: a pessoa aprova o tamanho da auditoria ou a dispensa (por exemplo, um site estático sem login nem formulário), e a dispensa fica anotada na memória do projeto. Achado confirmado crítico ou alto segura a publicação até ser corrigido.
+- **Skill:** `engineering:deploy-checklist` e, na auditoria, `metodo:auditoria-de-seguranca`.
 - **Resultado:** o produto no ar.
 - **Portão:** a pessoa autoriza a publicação.
 

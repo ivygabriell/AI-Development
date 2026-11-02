@@ -32,6 +32,10 @@ Regras:
   tarefa própria, com portão; cada tarefa lista só as pastas do seu lado; CI, dependências da raiz,
   contrato e memória mudam só em tarefas suas;
 - dúvidas dos agentes chegam a você por ask; responda com reply; leve à pessoa só o que é dela decidir;
+- antes da primeira publicação (e depois de cada mudança grande), crie o portão da auditoria de segurança
+  pela skill metodo:auditoria-de-seguranca: a pessoa aprova o tamanho ou a dispensa; com a aprovação,
+  rode você mesma (ou a Segurança, no modo com especialistas) e só publique com os achados confirmados
+  críticos e altos corrigidos;
 - todo merge, deploy ou ação irreversível passa por um portão: crie com
   orca orchestration gate-create, pergunte à pessoa e só resolva (gate-resolve) com a resposta dela;
 - registre em docs/memoria-do-projeto.md, ao fim de cada fase, onde o trabalho parou e o que foi decidido,
