@@ -1,8 +1,107 @@
-# Método de desenvolvimento com Claude Code
+# Arquitetura de agentes para desenvolvimento
 
-Um método para construir sites, aplicações e soluções tecnológicas com o Claude Code de forma organizada: **alvo definido antes de construir, testes em duas camadas, uma branch por mudança, validação independente e o humano decidindo o que importa**. Ele nasceu de um projeto real (um portfólio com animações, vídeos, CI e várias sessões em paralelo), inclui os erros que cometemos e **cresce a cada projeto**.
+Uma arquitetura de agentes de IA para construir sites, aplicações e soluções tecnológicas de forma organizada: **uma integradora que coordena, especialistas por tema que decidem e revisam, trabalhadoras que constroem e uma pessoa que aprova o que importa**. Os agentes rodam em **uma ferramenta por projeto, Claude Code ou Codex** ([decisão 010](decisoes/010-um-agente-principal-por-projeto.md)), orquestrados no [Orca](https://github.com/stablyai/orca), e seguem o mesmo método: alvo definido antes de construir, testes em duas camadas, uma branch por mudança e validação independente.
 
-Este repositório é **independente de qualquer projeto**. Versão atual: veja [VERSION](VERSION) e o [registro de mudanças](CHANGELOG.md).
+A arquitetura nasceu de um projeto real (um portfólio com animações, vídeos, CI e várias sessões em paralelo), inclui os erros que cometemos e **cresce a cada projeto**. Este repositório é **independente de qualquer projeto**. Versão atual: veja [VERSION](VERSION) e o [registro de mudanças](CHANGELOG.md).
+
+## A arquitetura
+
+```text
+                              Pessoa
+               aprova a spec, o plano, cada merge e o deploy
+                                 │ portões
+                                 ▼
+                            Integradora
+          coordena, faz a validação final (QA) e é a única que integra
+                                 │
+     ┌──────────────┬────────────┼─────────────┬──────────────┬─────────────┐
+     ▼              ▼            ▼             ▼              ▼             ▼
+ Arquitetura   Back e Dados  Design e Front  Segurança     Produto       DevOps
+ contrato,     regras, APIs, experiência,    mapa de       necessidade,  deploy, CI,
+ dados,        banco         interface       riscos,       critérios     nuvem
+ falhas                                      auditoria     (Fases 0-2)   (quando preciso)
+                    │            │
+                    ▼            ▼                                          ▼
+              trabalhadoras  trabalhadoras                            trabalhadora
+              (até 2)        (até 2)                                  (1 por vez)
+```
+
+| Peça | O que é | Onde está |
+|---|---|---|
+| **Agente principal** | A ferramenta do projeto: Claude Code ou Codex, a mesma para todos os agentes, nunca as duas | [02, "Um agente principal por projeto"](nucleo/02-sessoes-e-papeis.md) |
+| **Integradora** | A coordenadora: abre as issues, distribui aos especialistas, valida e integra com a sua aprovação | [harness da integradora](modelos/agentes/integradora.md) |
+| **Especialistas** | Um agente por tema, cada um com um **harness**: missão, o que pode e o que não pode, Skills, checklist, quando sobe a decisão | [`modelos/agentes/`](modelos/agentes/) |
+| **Trabalhadoras** | Constroem uma tarefa por vez, numa worktree e numa branch próprias, com TDD; nunca integram | [02, "Com agentes especialistas"](nucleo/02-sessoes-e-papeis.md) |
+| **Skills por agente** | Regras concretas tiradas das referências de cada tema, com fonte, teste e checklist (plugin `metodo`) | [`skills/`](skills/) e [03, "Mapa de skills"](nucleo/03-skills-e-testes.md) |
+| **Bases de referências** | O que a leitura das referências de cada agente ensinou, com o link | [`modelos/referencias/`](modelos/referencias/) |
+| **Método** | As fases, os portões, os testes, o Git e o CI que todos os agentes seguem | [`nucleo/`](nucleo/) |
+
+A arquitetura escala para baixo: um projeto pequeno roda com **uma sessão**, ou com a integradora e poucas trabalhadoras no Orca, sem os especialistas. O método é o mesmo em todos os tamanhos ([02](nucleo/02-sessoes-e-papeis.md)).
+
+## Conceitos, harnesses, skills e ferramentas
+
+Tudo o que a arquitetura usa, com o link de onde cada coisa é explicada.
+
+### Conceitos
+
+| Conceito | O que é | Onde está |
+|---|---|---|
+| **Agente principal** | A ferramenta do projeto: Claude Code ou Codex, a mesma para todas as sessões, registrada na linha `Agente principal:` do `docs/DESENVOLVIMENTO.md` | [02](nucleo/02-sessoes-e-papeis.md), [decisão 010](decisoes/010-um-agente-principal-por-projeto.md) |
+| **Integradora** | A sessão que coordena, valida com olhar independente e é a única que integra na `main`. No Orca, é a coordenadora | [02](nucleo/02-sessoes-e-papeis.md) |
+| **Trabalhadora** | A sessão que constrói uma tarefa isolada, numa worktree e numa branch próprias, e termina com o PR aberto | [02](nucleo/02-sessoes-e-papeis.md) |
+| **Especialista** | O agente de um tema (Arquitetura, Back e Dados, Design e Front, Segurança, Produto, DevOps), que decide e revisa o tema e coordena as próprias trabalhadoras | [02, "Com agentes especialistas"](nucleo/02-sessoes-e-papeis.md), [decisão 008](decisoes/008-agentes-especialistas.md) |
+| **Harness** | As regras de atuação de um agente, em 10 partes: missão, quando é chamado, o que lê, o que pode e o que não pode, Skills, checklist, formato da resposta, quando sobe a decisão, memória e economia. O harness manda; o que se consulta só informa | [modelo do harness](modelos/agentes/_modelo-harness.md) |
+| **Skill** | Um passo a passo que o agente carrega para um tipo de trabalho (planejar, testar, revisar, um tema). Dizer qual Skill está em uso faz parte do trabalho | [03, "Mapa de skills"](nucleo/03-skills-e-testes.md) |
+| **Skill por agente** | Uma skill do plugin `metodo` tirada da leitura das referências de um especialista: passo a passo com a fonte, o teste que prova, checklist e como adaptar ao tamanho do projeto | [decisão 009](decisoes/009-skills-por-agente.md) |
+| **Base de referências** | O que a leitura das referências de cada agente ensinou (regra, porquê, link). O agente procura nela antes de ir aos sites | [`modelos/referencias/`](modelos/referencias/) |
+| **Plugin `metodo`** | Este repositório empacotado para o Claude Code e o Codex: as skills de início, atualização e consulta, e as skills dos agentes | [`.claude-plugin/`](.claude-plugin/marketplace.json) |
+| **Fases e portões** | O caminho da ideia ao fechamento (Fases 0 a 9). Em cada portão, a pessoa aprova: spec, plano, cada merge e o deploy | [01](nucleo/01-fluxo-de-ponta-a-ponta.md) |
+| **Spec e critérios de aceite** | O alvo escrito antes de construir e a lista verificável do que "pronto" quer dizer | [modelo de spec](modelos/modelo-spec.md), [critérios de aceite](modelos/modelo-criterios-de-aceite.md) |
+| **Testes micro e macro** | Micro: TDD, com o teste escrito e visto falhar antes do código. Macro: a suíte inteira, os tipos, o build e a exploração no navegador | [03](nucleo/03-skills-e-testes.md) |
+| **Issue, branch e PR** | Uma tarefa, uma branch, um PR, com o CI verde. As branches integradas ficam no GitHub | [05](nucleo/05-git-github-e-ci.md) |
+| **Worktree** | Uma cópia de trabalho por tarefa, para várias sessões trabalharem ao mesmo tempo sem se cruzar | [05, "Worktrees"](nucleo/05-git-github-e-ci.md) |
+| **Orca** | O aplicativo que abre os agentes, cada um na sua worktree, e leva as dúvidas e os portões para a integradora (`worker-start`, `ask`, `gate-create`) | [02, "Com o Orca"](nucleo/02-sessoes-e-papeis.md) |
+| **Contrato da API** | O acordo entre o back e o front, fechado e aprovado antes de construir quando os dois andam em paralelo. É da Arquitetura | [02](nucleo/02-sessoes-e-papeis.md) |
+| **Mapa de riscos** | O que proteger, de quem e por onde, feito na Fase 2 com o roteiro da `security-audit`. Cada risco vira critério de aceite | [harness da Segurança](modelos/agentes/seguranca.md) |
+| **`CLAUDE.md` e `AGENTS.md` do projeto** | As instruções que cada ferramenta lê ao abrir o projeto: o Claude Code lê o `CLAUDE.md`, e o Codex lê o `AGENTS.md`, que manda ler o `CLAUDE.md` | [modelo do `CLAUDE.md`](modelos/CLAUDE-projeto.md), [modelo do `AGENTS.md`](modelos/AGENTS-projeto.md) |
+| **Memória do projeto** | O que a próxima sessão precisa saber: estado, decisões, pendências e, por tarefa, retrabalho e consumo | [modelo da memória](modelos/memoria-do-projeto.md) |
+| **Cenário** | Como o método se adapta a um tipo de projeto, com selo de maturidade (`rascunho`, `testado em 1 projeto`, `estável`) | [`cenarios/`](cenarios/README.md) |
+| **Caso, lição e decisão** | Caso: a retrospectiva de um projeto. Lição: um erro e a regra que veio dele. Decisão: por que uma regra mudou | [`casos/`](casos/_modelo-caso.md), [`licoes/`](licoes/_indice.md), [`decisoes/`](decisoes/_modelo-decisao.md) |
+
+### Harnesses
+
+| Agente | Harness | Presença |
+|---|---|---|
+| Integradora | [integradora.md](modelos/agentes/integradora.md) | sempre |
+| Arquitetura | [arquitetura.md](modelos/agentes/arquitetura.md) | sempre |
+| Back e Dados | [back-e-dados.md](modelos/agentes/back-e-dados.md) | sempre |
+| Design e Front | [design-e-front.md](modelos/agentes/design-e-front.md) | sempre |
+| Segurança | [seguranca.md](modelos/agentes/seguranca.md) | sempre |
+| Produto | [produto.md](modelos/agentes/produto.md) | sob demanda (Fases 0 a 2) |
+| DevOps | [devops.md](modelos/agentes/devops.md) | sob demanda |
+
+### Skills
+
+Quando usar cada uma está no [mapa de skills do 03](nucleo/03-skills-e-testes.md).
+
+| De onde | Skills |
+|---|---|
+| Plugin `metodo`: início e consulta | `metodo:novo-projeto`, `metodo:atualizar-projeto`, `metodo:consultar` |
+| Plugin `metodo`: Integradora | `metodo:validacao-final`, `metodo:metricas-de-entrega` |
+| Plugin `metodo`: Arquitetura | `metodo:contrato-de-api`, `metodo:analise-de-falhas`, `metodo:migracao-de-sistema` |
+| Plugin `metodo`: Back e Dados | `metodo:api-conforme-contrato`, `metodo:migracao-sem-parada`, `metodo:transacoes-e-consultas`, `metodo:trabalho-em-segundo-plano` |
+| Plugin `metodo`: Design e Front | `metodo:formularios-e-erros`, `metodo:desempenho-na-tela`, `metodo:estados-da-tela` |
+| Plugin `metodo`: Segurança | `metodo:autenticacao-e-sessao`, `metodo:controle-de-acesso`, `metodo:entrada-nao-confiavel`, `metodo:incidente-com-dados-pessoais`, `metodo:auditoria-de-seguranca` |
+| Plugin `metodo`: Produto | `metodo:necessidades-e-riscos`, `metodo:descoberta-continua` |
+| Plugin `metodo`: DevOps | `metodo:publicacao-gradual`, `metodo:metas-e-alertas`, `metodo:ci-seguro` |
+| Superpowers (o fluxo) | `superpowers:brainstorming`, `superpowers:writing-plans`, `superpowers:executing-plans`, `superpowers:subagent-driven-development`, `superpowers:dispatching-parallel-agents`, `superpowers:test-driven-development`, `superpowers:systematic-debugging`, `superpowers:verification-before-completion`, `superpowers:requesting-code-review`, `superpowers:receiving-code-review`, `superpowers:using-git-worktrees`, `superpowers:finishing-a-development-branch`, `superpowers:diagnosing-superpowers` |
+| engineering | `engineering:architecture`, `engineering:system-design`, `engineering:testing-strategy`, `engineering:debug`, `engineering:code-review`, `engineering:deploy-checklist`, `engineering:incident-response`, `engineering:tech-debt`, `engineering:documentation` |
+| design | `design:accessibility-review`, `design:design-critique`, `design:design-handoff`, `design:ux-copy` |
+| De fora | `security-audit` (auditoria de segurança da Cloudflare, usada pela Segurança) e `reverse-engineer-anything` (engenharia reversa, do REA) |
+
+### Ferramentas
+
+Claude Code ou Codex (o agente principal), Orca (orquestração), GitHub e GitHub CLI (`gh`), Git, Node.js, os plugins Superpowers, engineering, design e `metodo`, o REA e a skill `security-audit`. A instalação de cada uma, com o link oficial, está em [Antes de começar](#antes-de-começar-uma-vez-por-computador).
 
 ## Os 7 princípios
 
@@ -29,7 +128,7 @@ O repositório tem três camadas, com ritmos diferentes:
 | Documento | Para que serve |
 |---|---|
 | [01 · Fluxo de ponta a ponta](nucleo/01-fluxo-de-ponta-a-ponta.md) | As fases da ideia à manutenção e ao fechamento, com portões de aprovação |
-| [02 · Sessões e papéis](nucleo/02-sessoes-e-papeis.md) | Uma sessão ou várias; integradora e trabalhadoras |
+| [02 · Sessões e papéis](nucleo/02-sessoes-e-papeis.md) | A arquitetura de agentes: uma sessão ou várias, integradora, especialistas e trabalhadoras, o Orca e o agente principal |
 | [03 · Skills e testes](nucleo/03-skills-e-testes.md) | Qual Skill usar em cada cenário; testes micro e macro; verificação no navegador |
 | [04 · Referências e engenharia reversa](nucleo/04-referencias-e-engenharia-reversa.md) | Como estudar um site ou app de referência e quando usar engenharia reversa |
 | [05 · Git, GitHub e CI](nucleo/05-git-github-e-ci.md) | Branches, PRs, verificação automática, proteção da `main`, worktrees |
@@ -42,8 +141,8 @@ O repositório tem três camadas, com ritmos diferentes:
 | [casos/](casos/_modelo-caso.md) | Uma retrospectiva por projeto realizado: o que funcionou, o que falhou, medidas |
 | [licoes/](licoes/_indice.md) | Uma lição por arquivo: o que aconteceu, a causa, a regra |
 | [decisoes/](decisoes/_modelo-decisao.md) | Por que uma regra do método mudou |
-| [modelos/](modelos/) | O que se copia para um projeto: formulário de tarefa, modelo de PR, CI, `CLAUDE.md` do projeto, scripts de worktree, prompts e gabaritos |
-| `skills/` | As skills do plugin `metodo`: `novo-projeto` (inicia um projeto), `atualizar-projeto` (traz um projeto existente para a versão atual) e `consultar` (dá às sessões do projeto acesso ao método); o catálogo do plugin fica em `.claude-plugin/` |
+| [modelos/](modelos/) | O que se copia para um projeto: os harnesses dos agentes, as bases de referências, o formulário de tarefa, o modelo de PR, o CI, o `CLAUDE.md` e o `AGENTS.md` do projeto, os scripts de worktree, os prompts e os gabaritos |
+| `skills/` | As skills do plugin `metodo`: `novo-projeto` (inicia um projeto), `atualizar-projeto` (traz um projeto existente para a versão atual), `consultar` (dá às sessões do projeto acesso ao método) e as skills de cada agente especialista; o catálogo do plugin fica em `.claude-plugin/` |
 | `planos/` | Os planos de implementação das mudanças do método |
 | `scripts/` | `verificar.mjs` (confere o próprio método), `gerar-indice-licoes.mjs` e `novo-projeto.sh` |
 
@@ -59,7 +158,7 @@ Ideia ──► Alvo (Fase 0-2) ──► Plano (3) ──► Construir com TDD 
 
 ## Adotar em um projeto novo
 
-O caminho principal é o plugin `metodo`: este repositório também é um plugin do Claude Code, e o agente de qualquer computador com acesso a ele baixa o método inteiro e começa um projeto com um comando ([decisão 005](decisoes/005-iniciar-projeto-com-uma-skill.md)).
+O caminho principal é o plugin `metodo`: este repositório também é um plugin do Claude Code e do Codex, e o agente de qualquer computador com acesso a ele baixa a arquitetura inteira e começa um projeto com um comando ([decisão 005](decisoes/005-iniciar-projeto-com-uma-skill.md)).
 
 ### Antes de começar (uma vez por computador)
 
@@ -172,7 +271,7 @@ Os conectores que os plugins engineering e design trazem (Slack, Figma, Linear e
 
 ### Iniciar um projeto
 
-**A cada projeto**, abra o Claude Code numa pasta vazia e descreva o que quer:
+**A cada projeto**, abra o Claude Code (ou o Codex) numa pasta vazia e descreva o que quer:
 
 ```bash
 mkdir ~/Projetos/meu-site && cd ~/Projetos/meu-site && claude
@@ -194,7 +293,7 @@ A skill confere o ambiente, propõe o cenário (e avisa se ele é `rascunho`), p
 
 ### Atualizar um projeto que já usa o método
 
-Quando o método muda, os projetos que você já tinha não mudam sozinhos. Primeiro atualize o plugin naquele computador (`/plugin marketplace update metodo-de-desenvolvimento`); depois, dentro de cada projeto, abra o Claude Code e digite:
+Quando o método muda, os projetos que você já tinha não mudam sozinhos. Primeiro atualize o plugin naquele computador (`/plugin marketplace update metodo-de-desenvolvimento` no Claude Code; `codex plugin marketplace upgrade metodo-de-desenvolvimento` no Codex) e reinicie a ferramenta; depois, dentro de cada projeto, abra a ferramenta do projeto e digite:
 
 ```text
 /metodo:atualizar-projeto
