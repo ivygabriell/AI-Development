@@ -1,6 +1,6 @@
 # Base de conhecimento: Arquitetura
 
-**Maturidade:** rascunho (leitura feita em 2026-10-30, sem caso real ainda)
+**Leitura feita em:** 2026-10-30
 **Agente:** Arquitetura (harness em `modelos/agentes/arquitetura.md`)
 **Skills que saem daqui:** `metodo:contrato-de-api`, `metodo:analise-de-falhas` e `metodo:migracao-de-sistema`
 

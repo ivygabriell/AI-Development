@@ -1,6 +1,6 @@
 # Base de conhecimento: Produto
 
-**Maturidade:** rascunho (leitura feita em 2026-10-30, sem caso real ainda)
+**Leitura feita em:** 2026-10-30
 **Agente:** Produto (harness em `modelos/agentes/produto.md`)
 **Skills que saem daqui:** `metodo:necessidades-e-riscos` e `metodo:descoberta-continua`
 

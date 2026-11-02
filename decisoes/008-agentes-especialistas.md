@@ -13,7 +13,7 @@ O desenho foi feito com a pessoa ([desenho](../planos/2026-10-28-agentes-especia
 ## Decisão
 
 1. **Modo novo, "com agentes especialistas"** (rascunho), dentro do modo Orca. Ao lado da integradora trabalham sete papéis: Integradora, Arquitetura, Back e Dados, Design e Front, Segurança (sempre ativos) e Produto e DevOps (sob demanda).
-2. **O tema decide a ferramenta**, para o especialista e para as trabalhadoras dele: Claude na Integradora, na Arquitetura, em Design e Front e no Produto; Codex em Back e Dados, na Segurança e no DevOps. Modelos fixos: `claude-opus-5-5` e `gpt-6.1-sol`; o esforço varia por papel.
+2. *(Substituído pela [decisão 010](010-um-agente-principal-por-projeto.md) em 2026-11-02: a ferramenta passa a ser a do projeto, a mesma para todos os agentes.)* **O tema decide a ferramenta**, para o especialista e para as trabalhadoras dele: Claude na Integradora, na Arquitetura, em Design e Front e no Produto; Codex em Back e Dados, na Segurança e no DevOps. Modelos fixos: `claude-opus-5-5` e `gpt-6.1-sol`; o esforço varia por papel.
 3. **Cada agente tem um harness** em `modelos/agentes/`, com as mesmas 10 partes, as referências escolhidas pela pessoa e o passo a passo "Como pesquisa" (primeiro o que está guardado em `docs/referencias/`, depois os sites; adapta ao projeto; guarda o que leu; cita a fonte).
 4. **O harness manda:** o agente pode consultar o que precisar, mas atua dentro do harness. Se acha o harness errado ou incompleto, não desvia: para e sobe a questão.
 5. **Os especialistas que constroem coordenam as próprias trabalhadoras** no Orca (Back e Dados e Design e Front até 2 cada; DevOps 1 por vez). As dúvidas das trabalhadoras chegam ao especialista; só sobe para a integradora o que ele não pode decidir.

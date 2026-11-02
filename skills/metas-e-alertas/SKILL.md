@@ -5,7 +5,7 @@ description: Use quando for montar ou revisar monitoramento, metas de confiabili
 
 # Metas e alertas
 
-**Maturidade:** rascunho (sem caso real ainda). **Quem usa:** a trabalhadora do DevOps ao construir e o especialista de DevOps ao revisar. A condução de um incidente continua com `engineering:incident-response`.
+**Quem usa:** a trabalhadora do DevOps ao construir e o especialista de DevOps ao revisar. A condução de um incidente continua com `engineering:incident-response`.
 
 A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/devops.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/devops.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 

@@ -5,7 +5,7 @@ description: Use quando for implementar ou revisar uma rota de API (listagem, le
 
 # API conforme o contrato
 
-**Maturidade:** rascunho (sem caso real ainda). **Quem usa:** as trabalhadoras do back ao construir e o especialista de Back e Dados ao revisar.
+**Quem usa:** as trabalhadoras do back ao construir e o especialista de Back e Dados ao revisar.
 
 O contrato da API (`docs/contrato-api.md`) é da Arquitetura. Esta skill diz como cumpri-lo e o que fazer quando ele não responde. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/back-e-dados.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/back-e-dados.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 

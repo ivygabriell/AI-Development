@@ -5,7 +5,7 @@ description: Use quando for escrever ou mudar o contrato da API do projeto (docs
 
 # Contrato de API
 
-**Maturidade:** rascunho (sem caso real ainda). **Quem usa:** a Arquitetura, dona do contrato. O back implementa pelo `metodo:api-conforme-contrato`, que segue as mesmas regras; mudar o contrato exige o portão da pessoa.
+**Quem usa:** a Arquitetura, dona do contrato. O back implementa pelo `metodo:api-conforme-contrato`, que segue as mesmas regras; mudar o contrato exige o portão da pessoa.
 
 A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/arquitetura.md` (e as regras do Zalando e do Google AIP em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/back-e-dados.md`); o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/arquitetura.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 

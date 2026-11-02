@@ -5,7 +5,7 @@ description: Use quando for implementar ou revisar trabalho fora da requisição
 
 # Trabalho em segundo plano
 
-**Maturidade:** rascunho (sem caso real ainda). **Quem usa:** as trabalhadoras do back ao construir e o especialista de Back e Dados ao revisar.
+**Quem usa:** as trabalhadoras do back ao construir e o especialista de Back e Dados ao revisar.
 
 Uma tarefa em segundo plano vai rodar duas vezes, fora de ordem e com outra versão do código. Escreva para isso. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/back-e-dados.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/back-e-dados.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 

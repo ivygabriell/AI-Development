@@ -1,6 +1,6 @@
 # Base de conhecimento: Design e Front
 
-**Maturidade:** rascunho (leitura feita em 2026-10-29, sem caso real ainda)
+**Leitura feita em:** 2026-10-29
 **Agente:** Design e Front (harness em `modelos/agentes/design-e-front.md`)
 **Skills que saem daqui:** `metodo:formularios-e-erros`, `metodo:desempenho-na-tela` e `metodo:estados-da-tela`
 

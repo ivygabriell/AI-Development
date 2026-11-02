@@ -32,8 +32,9 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 
 - **Entrada:** entendimento e achados.
 - **Passos:** proponha 2 ou 3 abordagens com a sua recomendação; apresente o desenho em partes e peça aprovação a cada parte; escreva a spec (objetivo, restrições, estrutura, dados, critérios de aceite, o que fica de fora) e faça uma autorrevisão (pendências, contradições, ambiguidade, escopo).
-- **Skill:** `superpowers:brainstorming`; `engineering:architecture` para decisões de arquitetura; `engineering:system-design` para sistemas e APIs.
-- **Resultado:** spec versionada no repositório.
+- **Mapa de riscos de segurança**, junto da spec: o primeiro uso da `security-audit`, no modo de orientação (sem código ainda), pelo roteiro de `metodo:auditoria-de-seguranca`: quem usa e quem tem menos confiança, as fronteiras de confiança, as superfícies de entrada e os domínios de ataque que se aplicam. Fica em `docs/seguranca.md` e vira critério de aceite nas issues. No modo com especialistas, quem faz é a Segurança; nos outros, a integradora.
+- **Skill:** `superpowers:brainstorming`; `engineering:architecture` para decisões de arquitetura; `engineering:system-design` para sistemas e APIs; `metodo:auditoria-de-seguranca` para o mapa de riscos.
+- **Resultado:** spec versionada no repositório, com o mapa de riscos.
 - **Portão:** a pessoa lê e aprova a spec escrita.
 
 ## Fase 3 · Plano
@@ -42,7 +43,7 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 - **Passos:** quebre em tarefas pequenas (2 a 5 minutos por passo), cada uma com os arquivos exatos, o teste primeiro, o comando e o resultado esperado. Liste as restrições globais e o que a revisão final precisa olhar.
 - **Skill:** `superpowers:writing-plans`.
 - **Resultado:** plano versionado.
-- **Portão:** a pessoa aprova o plano e escolhe o modo de execução (inline, subagentes, sessões divididas ou orquestração com o Orca, em rascunho, inclusive com agentes especialistas por tema; veja [02](02-sessoes-e-papeis.md)).
+- **Portão:** a pessoa aprova o plano e escolhe o modo de execução (inline, subagentes, sessões divididas ou orquestração com o Orca, inclusive com agentes especialistas por tema; veja [02](02-sessoes-e-papeis.md)). Em qualquer modo, todas as sessões usam o agente principal escolhido no começo do projeto (Claude Code ou Codex, nunca os dois).
 
 ## Fase 4 · Construir com TDD
 
@@ -72,7 +73,8 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 
 - **Entrada:** `main` verde.
 - **Passos:** lista de verificação de publicação (variáveis de ambiente, endereço público, indexação, dados de exemplo, desempenho, acessibilidade, monitoramento, plano de reversão). Se houver dados fictícios de exemplo, **uma trava automática** impede a publicação enquanto eles existirem.
-- **Skill:** `engineering:deploy-checklist`.
+- **Auditoria de segurança, antes da primeira publicação** e depois de cada mudança grande (login novo, API pública nova, troca de infraestrutura): a auditoria completa do código com `metodo:auditoria-de-seguranca`, que roda a `security-audit`. Vale em qualquer modo: no modo com especialistas, a Segurança propõe e roda; nos outros, a integradora (ou a coordenadora do Orca). Sempre por um portão, porque gasta cota: a pessoa aprova o tamanho da auditoria ou a dispensa (por exemplo, um site estático sem login nem formulário), e a dispensa fica anotada na memória do projeto. Achado confirmado crítico ou alto segura a publicação até ser corrigido.
+- **Skill:** `engineering:deploy-checklist` e, na auditoria, `metodo:auditoria-de-seguranca`.
 - **Resultado:** o produto no ar.
 - **Portão:** a pessoa autoriza a publicação.
 

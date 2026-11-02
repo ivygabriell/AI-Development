@@ -1,6 +1,6 @@
 # Base de conhecimento: DevOps
 
-**Maturidade:** rascunho (leitura feita em 2026-10-29, sem caso real ainda)
+**Leitura feita em:** 2026-10-29
 **Agente:** DevOps (harness em `modelos/agentes/devops.md`)
 **Skills que saem daqui:** `metodo:publicacao-gradual`, `metodo:metas-e-alertas` e `metodo:ci-seguro`
 

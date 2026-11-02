@@ -1,6 +1,6 @@
 # Base de conhecimento: Back e Dados
 
-**Maturidade:** rascunho (leitura feita em 2026-10-29, sem caso real ainda)
+**Leitura feita em:** 2026-10-29
 **Agente:** Back e Dados (harness em `modelos/agentes/back-e-dados.md`)
 **Skills que saem daqui:** `metodo:api-conforme-contrato`, `metodo:migracao-sem-parada`, `metodo:transacoes-e-consultas` e `metodo:trabalho-em-segundo-plano`
 

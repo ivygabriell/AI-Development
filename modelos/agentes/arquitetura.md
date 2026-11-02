@@ -1,13 +1,12 @@
 # Harness da Arquitetura
 
 **Agente:** Arquitetura
-**Ferramenta:** Claude Code
-**Modelo:** claude-opus-5-5
+**Ferramenta:** a do projeto, a mesma para todos os agentes: Claude Code ou Codex, nunca as duas (linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`)
+**Modelo:** `claude-opus-5-5` no Claude Code (`--agent claude`); `gpt-6.1-sol` no Codex (`--agent codex`)
 **Esforço:** alto
 **Presença:** sempre
 **Trabalhadoras:** não tem
 **Onde trabalha:** na sua worktree `arquitetura`, filha da worktree principal (visível no Orca); cada documento que muda vai numa branch própria, criada a partir da `origin/main` nessa worktree, com um PR
-**Maturidade:** rascunho
 
 ## O harness manda
 
@@ -42,7 +41,7 @@ Não é seu: construir funcionalidade, a segurança em detalhe (é da Segurança
 
 ## 3. O que lê
 
-- No início: `CLAUDE.md`, `docs/DESENVOLVIMENTO.md`, `docs/memoria-do-projeto.md`, a spec.
+- No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `docs/DESENVOLVIMENTO.md` e a `docs/memoria-do-projeto.md`, a spec.
 - Do tema: o contrato atual (`docs/contrato-api.md`), os registros de decisão (`docs/arquitetura.md`), o mapa de riscos da Segurança.
 - **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
   - Stripe (https://stripe.dev/blog/topic/engineering): desenho de API, versões, repetir sem duplicar.
@@ -82,7 +81,7 @@ Não pode:
 - `engineering:system-design` para a estrutura e o contrato.
 - `superpowers:brainstorming` quando a decisão tem caminhos diferentes.
 - `superpowers:verification-before-completion` antes de entregar.
-- **Skills do tema** (plugin `metodo`, rascunho). Você não tem trabalhadoras; as trabalhadoras usam as skills dos especialistas que constroem, e as suas dizem a eles o que o contrato e o desenho garantem. Você as usa ao decidir e ao revisar, como checklist.
+- **Skills do tema** (plugin `metodo`). Você não tem trabalhadoras; as trabalhadoras usam as skills dos especialistas que constroem, e as suas dizem a eles o que o contrato e o desenho garantem. Você as usa ao decidir e ao revisar, como checklist.
   - `metodo:contrato-de-api`: clientes, compatibilidade, versões, garantias de repetição, paginação e erros.
   - `metodo:analise-de-falhas`: fluxos, dependências fortes e fracas, quadro de modos de falha, prazos e alternativas.
   - `metodo:migracao-de-sistema`: interface, gravação dupla e modo sombra, comparação, passagem gradual e volta.
@@ -119,4 +118,4 @@ Para a integradora, com `orca orchestration send --type escalation`; ela leva à
 - Consulta as referências só para a decisão em aberto, não para ler tudo, e começa pelo que já está guardado.
 - Contrato pequeno e estável primeiro; muda pouco e sempre por tarefa própria.
 - Ao fim de cada fase, registra o estado no seu documento do tema, no seu PR, e recomeça a sessão limpa.
-- Manda o consumo da tarefa (`/cost`) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.
+- Manda o consumo da tarefa (`/cost` no Claude Code; o consumo exibido na sessão do Codex) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.

@@ -18,9 +18,9 @@ A cópia do método fica em `${CLAUDE_PLUGIN_ROOT}` e é **só leitura**: leia, 
 | Erros já cometidos e a regra de cada um | `${CLAUDE_PLUGIN_ROOT}/licoes/_indice.md` |
 | Escrever a spec e os critérios de aceite | `${CLAUDE_PLUGIN_ROOT}/modelos/modelo-spec.md` e `${CLAUDE_PLUGIN_ROOT}/modelos/modelo-criterios-de-aceite.md` |
 | Abrir sessões paralelas | `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-sessao-integradora.md` e `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-sessao-trabalhadora.md` |
-| Orquestrar com o Orca (coordenadora e agentes, modo em rascunho) | `${CLAUDE_PLUGIN_ROOT}/nucleo/02-sessoes-e-papeis.md` (seção "Com o Orca") e `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-coordenadora-orca.md` |
-| Back com agentes Codex e front com agentes Claude (contrato da API, `AGENTS.md`, modo em rascunho) | `${CLAUDE_PLUGIN_ROOT}/nucleo/02-sessoes-e-papeis.md` (seção "Back e front com agentes diferentes") |
-| Com agentes especialistas (harness de cada agente, modo em rascunho) | `${CLAUDE_PLUGIN_ROOT}/nucleo/02-sessoes-e-papeis.md` (seção "Com agentes especialistas") e `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/` |
+| Orquestrar com o Orca (coordenadora e agentes) | `${CLAUDE_PLUGIN_ROOT}/nucleo/02-sessoes-e-papeis.md` (seção "Com o Orca") e `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-coordenadora-orca.md` |
+| Qual ferramenta usar (Claude Code ou Codex, uma só por projeto; `AGENTS.md`, contrato da API) | `${CLAUDE_PLUGIN_ROOT}/nucleo/02-sessoes-e-papeis.md` (seção "Um agente principal por projeto") e a linha `Agente principal:` do `docs/DESENVOLVIMENTO.md` do projeto |
+| Com agentes especialistas (harness de cada agente) | `${CLAUDE_PLUGIN_ROOT}/nucleo/02-sessoes-e-papeis.md` (seção "Com agentes especialistas") e `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/` |
 | O que a leitura das referências de um agente já ensinou (base de conhecimento por agente) | `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/back-e-dados.md`, `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/design-e-front.md`, `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/devops.md`, `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/seguranca.md`, `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/arquitetura.md`, `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/produto.md` e `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/integradora.md`; as skills do tema estão no harness do agente, parte 5 |
 | Trazer o projeto para a versão mais nova do método | `${CLAUDE_PLUGIN_ROOT}/CHANGELOG.md` e a skill `/metodo:atualizar-projeto` |
 | O que guardar na memória do projeto | `${CLAUDE_PLUGIN_ROOT}/modelos/memoria-do-projeto.md` |

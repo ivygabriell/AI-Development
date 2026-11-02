@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # Prepara um projeto novo com os modelos do método.
-# Uso: scripts/novo-projeto.sh <pasta-do-projeto> [--especialistas] [cenario ...]
+# Uso: scripts/novo-projeto.sh <pasta-do-projeto> [--agente claude|codex] [--especialistas] [cenario ...]
 #   <pasta-do-projeto>  pasta que já existe (de preferência um repositório Git novo)
-#   --especialistas     modo com agentes especialistas (rascunho): copia os harnesses para docs/agentes/
+#   --agente            o agente principal do projeto (decisão 010): claude (padrão) ou codex; todas as sessões usam o mesmo
+#   --especialistas     modo com agentes especialistas: copia os harnesses para docs/agentes/
 #   cenario             um ou mais nomes de arquivos em cenarios/ (sem .md), por exemplo: site-estatico api-backend
 # Copia: formulário de tarefa, modelo de PR, CI, scripts de worktree, e cria CLAUDE.md, AGENTS.md (para o Codex),
 # docs/DESENVOLVIMENTO.md e docs/memoria-do-projeto.md carimbados com a versão do método. Nunca sobrescreve arquivos existentes.
@@ -11,7 +12,7 @@
 set -euo pipefail
 
 raiz="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-uso="Uso: scripts/novo-projeto.sh <pasta-do-projeto> [--especialistas] [cenario ...]"
+uso="Uso: scripts/novo-projeto.sh <pasta-do-projeto> [--agente claude|codex] [--especialistas] [cenario ...]"
 
 if [[ $# -lt 1 ]]; then
   echo "$uso" >&2
@@ -19,16 +20,34 @@ if [[ $# -lt 1 ]]; then
   exit 1
 fi
 
-# --especialistas pode vir em qualquer posição; o primeiro argumento que sobra é a pasta, os outros são cenários
+# As opções podem vir em qualquer posição; o primeiro argumento que sobra é a pasta, os outros são cenários
 especialistas=0
+agente="claude"
 restantes=()
-for arg in "$@"; do
+args=("$@")
+i=0
+while [[ $i -lt ${#args[@]} ]]; do
+  arg="${args[$i]}"
   if [[ "$arg" == "--especialistas" ]]; then
     especialistas=1
+  elif [[ "$arg" == "--agente" ]]; then
+    i=$((i + 1))
+    agente="${args[$i]:-}"
+  elif [[ "$arg" == --agente=* ]]; then
+    agente="${arg#--agente=}"
   else
     restantes+=("$arg")
   fi
+  i=$((i + 1))
 done
+case "$agente" in
+  claude) nome_agente="Claude Code" ;;
+  codex) nome_agente="Codex" ;;
+  *)
+    echo "Agente principal inválido: '$agente'. Use --agente claude ou --agente codex (um só por projeto)." >&2
+    exit 1
+    ;;
+esac
 if [[ ${#restantes[@]} -lt 1 ]]; then
   echo "$uso" >&2
   exit 1
@@ -127,7 +146,7 @@ fi
 
 linha_especialistas=""
 if [[ $especialistas -eq 1 ]]; then
-  linha_especialistas="- Com agentes especialistas (modo em rascunho): cada agente lê primeiro o seu harness em \`docs/agentes/\` e atua dentro dele. A integradora coordena os especialistas, e cada especialista abre as suas trabalhadoras. Exige no Orca: Settings → Orchestration → Nested worker depth = 2."
+  linha_especialistas="- Com agentes especialistas: cada agente lê primeiro o seu harness em \`docs/agentes/\` e atua dentro dele. A integradora coordena os especialistas, e cada especialista abre as suas trabalhadoras. Exige no Orca: Settings → Orchestration → Nested worker depth = 2."
 fi
 
 mkdir -p "$alvo/docs"
@@ -135,6 +154,7 @@ cat > "$alvo/docs/DESENVOLVIMENTO.md" <<DOC
 # Como desenvolvemos este projeto
 
 Versão do método: $versao
+Agente principal: $nome_agente
 Cenários aplicados:
 $lista_cenarios
 
@@ -160,8 +180,8 @@ Os detalhes de cada fase, os cenários, os casos e as lições ficam no reposit�
 
 - Tarefas: issues com o formulário de tarefa (\`.github/ISSUE_TEMPLATE/tarefa.yml\`).
 - Worktrees: \`scripts/nova-tarefa.sh <tipo> <slug>\` e \`scripts/remover-tarefa.sh <tipo> <slug>\`.
-- Com o Orca (modo em rascunho): a coordenadora é a integradora e distribui as tarefas aos agentes (\`orca orchestration worker-start\`); o Orca cria e remove as worktrees, e os scripts acima ficam para quem trabalha sem ele. Prompt: \`modelos/prompt-coordenadora-orca.md\` do método.
-- Back com o Codex e front com o Claude (modo em rascunho): a coordenadora Claude inicia os agentes do back com \`--agent codex\`; o Codex lê o \`AGENTS.md\`, com as mesmas regras do \`CLAUDE.md\`. O contrato da API é aprovado antes de qualquer tarefa de construção.
+- Com o Orca: a coordenadora é a integradora e distribui as tarefas aos agentes (\`orca orchestration worker-start\`); o Orca cria e remove as worktrees, e os scripts acima ficam para quem trabalha sem ele. Prompt: \`modelos/prompt-coordenadora-orca.md\` do método.
+- Agente principal: todas as sessões deste projeto usam $nome_agente, nunca as duas ferramentas; no Orca, todo agente abre com \`--agent $agente\`. O Claude Code lê o \`CLAUDE.md\`; o Codex lê o \`AGENTS.md\`, que manda ler o \`CLAUDE.md\`. Trocar de ferramenta é uma decisão da pessoa, registrada na memória. Com back e front em tarefas paralelas, o contrato da API é aprovado antes de qualquer tarefa de construção.
 ${linha_especialistas:+$linha_especialistas
 }- Para trazer este projeto à versão mais nova do método: \`/metodo:atualizar-projeto\`.
 - Memória do projeto: \`docs/memoria-do-projeto.md\`.
@@ -171,7 +191,7 @@ ${linha_especialistas:+$linha_especialistas
 Rode a higiene de dados do método: nada de e-mail pessoal, telefone ou token em documentos, testes e commits.
 DOC
 
-echo "Projeto preparado em: $alvo (método $versao)"
+echo "Projeto preparado em: $alvo (método $versao, agente principal: $nome_agente)"
 echo "Próximos passos:"
 echo "  1. Faça o primeiro push da main, deixe o CI rodar e só depois ative a proteção da main."
 echo "  2. Preencha docs/DESENVOLVIMENTO.md (comandos) e docs/memoria-do-projeto.md."

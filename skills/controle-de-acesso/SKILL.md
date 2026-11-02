@@ -5,7 +5,7 @@ description: Use quando for implementar ou revisar quem pode ver ou mudar o quê
 
 # Controle de acesso
 
-**Maturidade:** rascunho (sem caso real ainda). **Quem usa:** a Segurança ao mapear riscos e revisar, e as trabalhadoras do back e do front quando constroem ou corrigem rotas e telas com permissão.
+**Quem usa:** a Segurança ao mapear riscos e revisar, e as trabalhadoras do back e do front quando constroem ou corrigem rotas e telas com permissão.
 
 Estar logado não é ter permissão. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/seguranca.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/seguranca.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 

@@ -4,14 +4,15 @@ Copie este arquivo para `modelos/agentes/<agente>.md` e preencha cada parte. O h
 
 ```text
 **Agente:** <nome>
-**Ferramenta:** Claude Code | Codex
-**Modelo:** claude-opus-5-5 (Claude) | gpt-6.1-sol (Codex)
+**Ferramenta:** a do projeto, a mesma para todos os agentes: Claude Code ou Codex, nunca as duas (linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`)
+**Modelo:** `claude-opus-5-5` no Claude Code (`--agent claude`); `gpt-6.1-sol` no Codex (`--agent codex`)
 **Esforço:** <baixo | médio | alto>, passado em todo worker-start com --model e --effort
 **Presença:** sempre | sob demanda (<quando>)
-**Trabalhadoras:** <ferramenta e limite> | não tem
+**Trabalhadoras:** da mesma ferramenta, <limite> | não tem
 **Onde trabalha:** na sua worktree `<agente>`, filha da worktree principal (visível no Orca); <o que faz nela>
-**Maturidade:** rascunho
 ```
+
+O harness serve às duas ferramentas ([decisão 010](../../decisoes/010-um-agente-principal-por-projeto.md)): nunca fixe `--agent claude` nem `--agent codex` num comando. Todo `worker-start` usa `--agent <agente> --model <modelo>`, e o agente lê qual é a ferramenta na linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`.
 
 ## O harness manda
 
@@ -32,7 +33,7 @@ Os gatilhos: fase do fluxo, tipo de issue, tipo de PR, tipo de dúvida.
 
 ## 3. O que lê
 
-O contexto fixo do projeto (`CLAUDE.md` para o Claude, `AGENTS.md` para o Codex, que manda ler o `CLAUDE.md`, o `docs/DESENVOLVIMENTO.md` e a memória), o que é do tema e as referências do tema, escolhidas pela pessoa (os links e o que se tira de cada um).
+O contexto fixo do projeto (o arquivo de instruções da ferramenta: `CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`; depois o `docs/DESENVOLVIMENTO.md` e a memória), o que é do tema e as referências do tema, escolhidas pela pessoa (os links e o que se tira de cada um).
 
 **Como pesquisa** (igual em todo harness que tem referências):
 

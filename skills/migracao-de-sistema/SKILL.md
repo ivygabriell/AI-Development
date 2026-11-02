@@ -5,7 +5,7 @@ description: Use quando for planejar uma mudança grande com o sistema no ar (no
 
 # Migração de sistema
 
-**Maturidade:** rascunho (sem caso real ainda). **Quem usa:** a Arquitetura, que desenha e registra a migração; o back executa a parte de banco por `metodo:migracao-sem-parada` e o DevOps publica por `metodo:publicacao-gradual`.
+**Quem usa:** a Arquitetura, que desenha e registra a migração; o back executa a parte de banco por `metodo:migracao-sem-parada` e o DevOps publica por `metodo:publicacao-gradual`.
 
 O caminho antigo fica de pé até o novo provar, com tráfego real, que faz o mesmo. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/arquitetura.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/arquitetura.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 

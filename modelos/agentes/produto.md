@@ -1,13 +1,12 @@
 # Harness de Produto
 
 **Agente:** Produto
-**Ferramenta:** Claude Code
-**Modelo:** claude-opus-5-5
+**Ferramenta:** a do projeto, a mesma para todos os agentes: Claude Code ou Codex, nunca as duas (linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`)
+**Modelo:** `claude-opus-5-5` no Claude Code (`--agent claude`); `gpt-6.1-sol` no Codex (`--agent codex`)
 **Esforço:** médio
 **Presença:** sob demanda, nas Fases 0 a 2 e quando uma prioridade muda
 **Trabalhadoras:** não tem
 **Onde trabalha:** na sua worktree `produto`, filha da worktree principal (visível no Orca); cada documento que muda vai numa branch própria, criada a partir da `origin/main` nessa worktree, com um PR
-**Maturidade:** rascunho
 
 ## O harness manda
 
@@ -33,7 +32,7 @@ Não é seu: a decisão final de prioridade (é da pessoa), como construir (Arqu
 
 ## 3. O que lê
 
-- No início: `CLAUDE.md`, `docs/DESENVOLVIMENTO.md`, `docs/memoria-do-projeto.md`.
+- No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `docs/DESENVOLVIMENTO.md` e a `docs/memoria-do-projeto.md`.
 - Do tema: o que a pessoa disse (pela integradora), a spec atual, as referências aprovadas.
 - **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
   - Silicon Valley Product Group, SVPG (https://www.svpg.com/): descoberta de produto e os quatro grandes riscos de toda funcionalidade (valor, usabilidade, viabilidade técnica e de negócio), estratégia de produto.
@@ -71,7 +70,7 @@ Não pode:
 - `superpowers:brainstorming` para entender o que a pessoa quer antes de escrever.
 - `design:user-research` para planejar uma pesquisa com usuários e `design:research-synthesis` para juntar o que se aprendeu.
 - `superpowers:verification-before-completion` antes de entregar a spec.
-- **Skills do tema** (plugin `metodo`, rascunho). Você não tem trabalhadoras; as trabalhadoras usam as skills dos especialistas que constroem, a partir da spec que você escreve. Você usa as suas antes da spec, como roteiro e checklist.
+- **Skills do tema** (plugin `metodo`). Você não tem trabalhadoras; as trabalhadoras usam as skills dos especialistas que constroem, a partir da spec que você escreve. Você usa as suas antes da spec, como roteiro e checklist.
   - `metodo:necessidades-e-riscos`: o pedido como necessidade, a evidência e os quatro riscos.
   - `metodo:descoberta-continua`: resultado, entrevistas por história, oportunidades e soluções comparadas.
 
@@ -103,4 +102,4 @@ As decisões de produto e o que ficou fora do escopo, com o motivo, ficam em `do
 - Resposta curta: a spec e as perguntas, sem texto a mais.
 - Começa pelo que a pessoa já disse e pelo que já está guardado nas referências.
 - Fecha a sessão quando a fase dele termina; a integradora abre de novo se precisar.
-- Manda o consumo da tarefa (`/cost`) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.
+- Manda o consumo da tarefa (`/cost` no Claude Code; o consumo exibido na sessão do Codex) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.
