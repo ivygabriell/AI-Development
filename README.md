@@ -173,7 +173,7 @@ O método usa, além do plugin `metodo`, três plugins, uma ferramenta de engenh
 | **REA** (skill `reverse-engineer-anything` e servidor `rea`) | Engenharia reversa de artefatos fechados, quando uma referência não tem código-fonte ([04](nucleo/04-referencias-e-engenharia-reversa.md)) | [morluto/rea](https://github.com/morluto/rea) |
 | **Orca** (aplicativo e as skills `orca-cli` e `orchestration`) | Orquestração dos agentes: a coordenadora faz o papel da integradora e os agentes, das trabalhadoras ([02](nucleo/02-sessoes-e-papeis.md)) | [stablyai/orca](https://github.com/stablyai/orca) |
 | **Codex** (opcional) | O agente principal dos projetos que escolhem o Codex no lugar do Claude Code: todas as sessões do projeto usam a mesma ferramenta, com as mesmas regras e Skills ([02](nucleo/02-sessoes-e-papeis.md), "Um agente principal por projeto") | [openai/codex](https://github.com/openai/codex) |
-| Plugin **ponytail** (rascunho) | A menor mudança que resolve a tarefa inteira, a revisão `/ponytail-review` dos especialistas e a auditoria de qualidade da Fase 8, sempre com o TDD do método por cima | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
+| Plugin **ponytail** (rascunho) | Menos tokens e menos custo no Claude Code (a menor mudança que resolve a tarefa inteira, respostas curtas) e a medida do consumo por tarefa; a revisão `/ponytail-review` dos especialistas e a auditoria de qualidade da Fase 8. No Codex, só sob demanda. O TDD do método vale por cima | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
 | Skill **security-audit** | Auditoria completa de segurança do código, feita pelo agente de Segurança antes da primeira publicação, com a sua aprovação | [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill) |
 | Plugin **metodo** | Este repositório: `/metodo:novo-projeto`, `/metodo:atualizar-projeto`, a consulta ao método nas sessões do projeto e as skills dos agentes especialistas (as de cada especialista) | este repositório |
 
@@ -269,21 +269,21 @@ npx skills add https://github.com/cloudflare/security-audit-skill --skill securi
 
 Ela roda auditorias que gastam bastante cota (vários subagentes), por isso o agente de Segurança só a usa com a sua aprovação (skill `metodo:auditoria-de-seguranca`). Para atualizar: `npx skills update security-audit --global`; para conferir: `npx skills ls --global`. Os relatórios ficam fora do projeto, em `~/security-audit-skill/`. Requisitos e opções: [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill).
 
-**10. Ponytail (rascunho).** Faz cada agente escrever a menor mudança que resolve a tarefa inteira, sem cortar validação, segurança nem acessibilidade; o TDD do método vale por cima dele ([03, "Ponytail"](nucleo/03-skills-e-testes.md)). Dentro do Claude Code, em dois comandos:
+**10. Ponytail (rascunho).** Reduz o custo em tokens no Claude Code: cada agente escreve a menor mudança que resolve a tarefa inteira, com respostas mais curtas, sem cortar validação, segurança nem acessibilidade. Na medição do próprio repositório, foram 45% menos tokens de saída e 26% menos custo por tarefa. O TDD do método vale por cima dele ([03, "Ponytail"](nucleo/03-skills-e-testes.md)). Dentro do Claude Code, em dois comandos:
 
 ```text
 /plugin marketplace add DietrichGebert/ponytail
 /plugin install ponytail@ponytail
 ```
 
-No Codex, no terminal, e depois abra `/hooks` no Codex e confie nos dois ganchos dele:
+No Codex, no terminal. Ali ele fica **só sob demanda**: não confie nos dois ganchos dele em `/hooks`, porque nos modelos de raciocínio da OpenAI as regras sempre ligadas encareceram em vez de economizar (veja o `03`):
 
 ```bash
 codex plugin marketplace add DietrichGebert/ponytail
 codex plugin add ponytail@ponytail
 ```
 
-Ele fica ligado em toda sessão, no nível `full`. Para desligar numa sessão: `/ponytail off`. Instale só pelo repositório oficial, [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail).
+No Claude Code, ele fica ligado em toda sessão, no nível `full`, e a faixa acima do prompt mostra o custo de cada tarefa. Para desligar numa sessão: `/ponytail off`. Instale só pelo repositório oficial, [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail).
 
 Os conectores que os plugins engineering e design trazem (Slack, Figma, Linear e outros) podem ficar sem autenticação; o método não depende deles.
 

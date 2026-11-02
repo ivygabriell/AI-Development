@@ -75,17 +75,37 @@ No modo com agentes especialistas, cada agente usa as skills da parte 5 do seu h
 
 ## Ponytail (rascunho)
 
-O [ponytail](https://github.com/DietrichGebert/ponytail) é um plugin que fica ativo em toda sessão e faz o agente escrever **a menor mudança que resolve a tarefa inteira**: antes de escrever, sobe uma escada (precisa existir? já existe no projeto? a linguagem ou a plataforma já fazem? uma dependência instalada faz? cabe numa linha legível?) e só então escreve o mínimo. Nunca corta validação nas fronteiras de confiança, tratamento de erro que evita perda de dados, segurança nem acessibilidade. Entrou pela [decisão 012](../decisoes/012-revalidacao-de-lacunas-e-ponytail.md), **sem caso real**: é `rascunho` até o primeiro projeto que o usar.
+O [ponytail](https://github.com/DietrichGebert/ponytail) é um plugin que fica ativo em toda sessão. Ele faz o agente escrever **a menor mudança que resolve a tarefa inteira**. Antes de escrever, sobe uma escada: precisa existir? já existe no projeto? a linguagem ou a plataforma já fazem? uma dependência instalada faz? cabe numa linha legível? Só então escreve o mínimo. Nunca corta validação nas fronteiras de confiança, tratamento de erro que evita perda de dados, segurança nem acessibilidade. Entrou pela [decisão 012](../decisoes/012-revalidacao-de-lacunas-e-ponytail.md), **sem caso real**: é `rascunho` até o primeiro projeto que o usar.
+
+**Para que o método o usa: economia de tokens no Claude.** O ganho vem de escrever menos código e respostas mais curtas, e não de cortar o processo. Na medição do próprio repositório, com o Claude Code e o Opus 5.5, em 39 tarefas e 5 rodadas cada ([resultado de 2026-10-07](https://github.com/DietrichGebert/ponytail/blob/main/benchmarks/results/2026-10-07-agentic.md)), comparado com o mesmo agente sem o plugin:
+
+| Medida | Ponytail 5 contra o mesmo agente sem ele |
+|---|---|
+| Linhas de código entregues | -53% |
+| Tokens de saída | -45% |
+| Tempo | -41% |
+| Idas e voltas (turnos) | -22% |
+| Custo por tarefa | -26% (US$ 0,200 para 0,142 por sessão, a preço de tabela) |
+| Respostas | 30% mais curtas, terminando com o que não foi conferido e os riscos |
+| Correção e segurança | iguais (testes escondidos e as seis tarefas de segurança) |
+| Lógica arriscada com teste | 98% (sem ele, 68%) |
+
+**No Codex, pode sair mais caro.** A conferência de custo do repositório ([resultado de 2026-06-17](https://github.com/DietrichGebert/ponytail/blob/main/benchmarks/results/2026-06-17-cost-verification.md)) achou o contrário nos modelos de raciocínio da OpenAI: o gpt-5.5 ficou 39% mais caro e o gpt-5.4-mini, 26%. O motivo: as regras do ponytail são reenviadas como entrada a cada chamada, e esses modelos já escrevem pouco. O modelo do Codex no método (`gpt-6.1-sol`) não foi medido. Por isso:
+
+- **No Claude Code:** o ponytail fica ligado em toda sessão, no nível `full`.
+- **No Codex:** só **sob demanda** até medir. Não confie nos dois ganchos dele em `/hooks`: sem eles, as regras não são reenviadas a cada chamada, e o `$ponytail:ponytail-review`, o `$ponytail:ponytail-audit` e o `$ponytail:ponytail-debt` continuam disponíveis. Ligar de vez é uma decisão da pessoa, depois de comparar o consumo de tarefas parecidas com e sem ele, anotado na memória.
+- **Subagentes:** no Claude Code, o gancho `SubagentStart` do ponytail injeta as regras em **cada subagente**. Num trabalho que abre muitos subagentes e não escreve código, como a auditoria completa de segurança, isso é só custo: desligue com `/ponytail off` antes (`metodo:auditoria-de-seguranca`). Para limitar sempre a injeção a alguns tipos de subagente, existe a variável `PONYTAIL_SUBAGENT_MATCHER`.
+
+**Medir o consumo (só no Claude Code).** A faixa do ponytail acima do prompt mostra, por tarefa, o custo, os tokens, as idas e voltas, o tempo, quanto foi reaproveitado e se os testes passaram. Cada tarefa vira uma linha em `~/.config/ponytail/band/<projeto>.csv`, só no computador (o webhook fica vazio). É a fonte do consumo por tarefa na memória do projeto e da medida de custo na Fase 9. `/ponytail band import` traz as sessões antigas para o quadro.
 
 **Regras de convivência com o método** (o `CLAUDE.md` e o `AGENTS.md` do projeto repetem, e o ponytail segue o que o projeto declara):
 
 1. **O TDD do método vale sobre o ponytail.** O teste novo é escrito antes e visto falhar (micro), e a suíte, os tipos e o build fecham a tarefa (macro). O "um teste pequeno, se houver lógica" do ponytail é o mínimo dele, não o do método.
 2. **A escada vale para a solução, não para o processo.** Spec, critérios de aceite, portões, revisão do especialista e validação da integradora não são "código a cortar".
-3. **Nível `full`** (o padrão) para quem constrói. O `lite` serve quando a pessoa quer ver a opção menor e escolher. O **`ultra` não é usado**: questionar o pedido é do Produto e da pessoa, nos portões, não de quem constrói.
+3. **Nível `full`** (o padrão) para quem constrói. O `lite` serve quando a pessoa quer ver a opção menor e escolher. O **`ultra` não é usado**: questionar o pedido é do Produto e da pessoa, nos portões.
 4. **Atalho deliberado** leva o comentário `shortcut: <o limite>, <quando melhorar>` e entra como pendência na memória do projeto; a lista sai com `/ponytail-debt` na Fase 8.
 5. **Revisão:** o especialista revisa os PRs das trabalhadoras com `/ponytail-review` (ele lê o código ligado à mudança, não só o diff, e cada achado traz um caso concreto); sem o ponytail, com `superpowers:requesting-code-review`. A validação final continua da integradora (`metodo:validacao-final`).
 6. **Auditoria de qualidade** do repositório inteiro, na Fase 8, com `/ponytail-audit`; a integradora completa com o que ele não olha (dependências, infraestrutura, documentação). Ela não substitui a auditoria de segurança (`metodo:auditoria-de-seguranca`).
-7. **Consumo:** no Claude Code, a faixa do ponytail acima do prompt mostra o custo, os tokens e o tempo de cada tarefa; é uma fonte para anotar o consumo por tarefa na memória.
 
 ## Testes: micro e macro
 

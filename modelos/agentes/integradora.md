@@ -136,5 +136,5 @@ Para a pessoa, sempre por um portão: merge, deploy, mudança no contrato da API
 - Cada revisor olha só a sua parte: você confia no veredito do especialista para o tema e confere critérios, testes e navegador, sem reler o código linha a linha.
 - Logs de teste e build resumidos ao que falhou.
 - Ao fim de cada fase, grava o estado na memória e recomeça a sessão limpa.
-- Anota o consumo de cada tarefa na memória (`/cost` no Claude Code; o consumo exibido na sessão do Codex).
+- Anota o consumo de cada tarefa na memória. No Claude Code, a fonte é o quadro do ponytail (`~/.config/ponytail/band/<projeto>.csv`: custo, tokens, idas e voltas e tempo por tarefa) ou o `/cost`; no Codex, o consumo exibido na sessão. Na Fase 9, compare o consumo das tarefas com e sem o ponytail.
 - Fecha Produto e DevOps quando a fase deles termina.

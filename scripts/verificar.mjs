@@ -639,6 +639,13 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     checar(`README: adoção instala o ponytail (${termo})`, adocao.includes(termo));
   const ponySec = (sessoes + skills);
   checar('skills e testes: seção do ponytail com as regras de convivência', skills.includes('## Ponytail (rascunho)') && /TDD do método/.test(skills.split('## Ponytail (rascunho)')[1] || '') && (skills.split('## Ponytail (rascunho)')[1] || '').includes('shortcut:') && (skills.split('## Ponytail (rascunho)')[1] || '').includes('ultra'));
+  // O ponytail é sobretudo economia de tokens no Claude; no Codex (modelos de raciocínio) pode encarecer, então é medido antes
+  const ponySecao = skills.split('## Ponytail (rascunho)')[1] || '';
+  for (const termo of ['tokens', 'custo', 'Codex', 'mais caro', '~/.config/ponytail/band/', 'SubagentStart', '/hooks', 'benchmarks/results'])
+    checar(`skills e testes: seção do ponytail cobre custo e o Codex (${termo})`, ponySecao.includes(termo));
+  checar('skills/auditoria-de-seguranca: desliga o ponytail durante a auditoria completa (subagentes)', auditoria.includes('/ponytail off'));
+  checar('agentes/integradora: lê o consumo por tarefa no quadro do ponytail', ler('modelos/agentes/integradora.md').includes('~/.config/ponytail/band/'));
+  checar('modelos/AGENTS-projeto.md: no Codex, o ponytail fica só sob demanda até medir', ler('modelos/AGENTS-projeto.md').includes('sob demanda'));
   for (const modelo of ['modelos/CLAUDE-projeto.md', 'modelos/AGENTS-projeto.md'])
     checar(`${modelo}: diz que o TDD do método vale sobre o ponytail`, ler(modelo).includes('ponytail') && ler(modelo).includes('TDD do método'));
   void ponySec;
