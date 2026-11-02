@@ -649,6 +649,12 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
   for (const termo of ['vale por pasta', '/ponytail default', 'versão conferida', '5.3.3', 'atualização automática', 'Antes de atualizar'])
     checar(`skills e testes: uso seguro do ponytail no tempo (${termo})`, ponySecao.includes(termo));
   checar('skills/auditoria-de-seguranca: roda numa worktree própria, para o /ponytail off não afetar outra sessão', auditoria.includes('worktree própria') && auditoria.includes('git worktree add --detach'));
+  // Convivência com as outras skills: pedido vago passa pelo brainstorming; o que uma skill do método exige conta como pedido;
+  // o veredito de segurança é da Segurança
+  for (const termo of ['Pedido vago', 'superpowers:brainstorming', 'conta como pedido', 'veredito da Segurança'])
+    checar(`skills e testes: convivência do ponytail com as outras skills (${termo})`, ponySecao.includes(termo));
+  for (const modelo of ['modelos/CLAUDE-projeto.md', 'modelos/AGENTS-projeto.md'])
+    checar(`${modelo}: o que as skills do método exigem conta como pedido para o ponytail`, ler(modelo).includes('conta como pedido'));
   checar('modelos/AGENTS-projeto.md: o Codex não carrega o ponytail sozinho', ler('modelos/AGENTS-projeto.md').includes('não carregue a skill `ponytail` por conta própria'));
   for (const modelo of ['modelos/CLAUDE-projeto.md', 'modelos/AGENTS-projeto.md'])
     checar(`${modelo}: nunca muda o padrão global do ponytail (/ponytail default)`, ler(modelo).includes('/ponytail default'));

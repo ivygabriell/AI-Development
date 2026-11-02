@@ -115,6 +115,9 @@ O [ponytail](https://github.com/DietrichGebert/ponytail) é um plugin que fica a
 4. **Atalho deliberado** leva o comentário `shortcut: <o limite>, <quando melhorar>` e entra como pendência na memória do projeto; a lista sai com `/ponytail-debt` na Fase 8.
 5. **Revisão:** o especialista revisa os PRs das trabalhadoras com `/ponytail-review` (ele lê o código ligado à mudança, não só o diff, e cada achado traz um caso concreto); sem o ponytail, com `superpowers:requesting-code-review`. A validação final continua da integradora (`metodo:validacao-final`).
 6. **Auditoria de qualidade** do repositório inteiro, na Fase 8, com `/ponytail-audit`; a integradora completa com o que ele não olha (dependências, infraestrutura, documentação). Ela não substitui a auditoria de segurança (`metodo:auditoria-de-seguranca`).
+7. **Pedido vago não vira "a menor versão".** A regra do ponytail manda entregar a menor versão quando o pedido é vago ("faça um X"). No método, isso vem antes: o alvo é definido antes de construir, um pedido ambíguo passa pelo `superpowers:brainstorming` ou por uma pergunta, e só a spec aprovada diz o que é "o pedido" (princípio 1 e lição 015).
+8. **O que o método exige conta como pedido.** O ponytail nunca corta "o que foi pedido". Os critérios de aceite, o contrato da API, o harness e as skills do método (por exemplo, a migração com volta, a chave de pedido repetido, os quatro estados da tela, a publicação gradual, os alertas) são parte do pedido, e não abstração "que ninguém pediu". Se o ponytail sugerir cortar um deles, vale a skill do método.
+9. **Segurança:** o `/ponytail-review` também aponta falhas de segurança, mas o veredito da Segurança é o que vale num PR sensível. A `security-audit`, as skills de segurança do método e o REA não mudam com o ponytail; a única interação é o custo da injeção nos subagentes da auditoria completa, resolvido pela worktree própria com o ponytail desligado.
 
 ## Testes: micro e macro
 
