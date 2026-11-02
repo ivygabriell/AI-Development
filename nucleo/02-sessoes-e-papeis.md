@@ -138,7 +138,7 @@ Todos os agentes usam o **agente principal do projeto** (Claude Code ou Codex, s
 | Arquitetura | estrutura, contrato da API, dados, confiabilidade, observabilidade, custo | não | sempre |
 | Back e Dados | regras de negócio, APIs, autenticação, banco de dados | até 2 | sempre |
 | Design e Front | experiência, design system, interface | até 2 | sempre |
-| Segurança | mapa de riscos no começo, revisão dos PRs sensíveis e auditoria completa (`security-audit`) antes da primeira publicação | não; entrega a correção ao dono da pasta | sempre |
+| Segurança | mapa de riscos no começo, revisão dos PRs sensíveis e auditoria completa antes da primeira publicação, com a `security-audit` desde o primeiro mapa | não; entrega a correção ao dono da pasta | sempre |
 | Produto | produto, pesquisa com usuários, critérios de aceite | não | sob demanda (Fases 0 a 2) |
 | DevOps | deploy, CI/CD, nuvem, monitoramento; dono do CI enquanto ativo | 1 por vez | sob demanda |
 

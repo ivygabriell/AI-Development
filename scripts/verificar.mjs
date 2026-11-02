@@ -114,6 +114,7 @@ checar('fluxo: Fase 9 é o fechamento (retrospectiva)', /^## Fase 9 · Fechament
 checar('fluxo: classificação spike/delimitada/arquitetural', /spike/i.test(fluxo) && /delimitada/i.test(fluxo) && /arquitetural/i.test(fluxo));
 checar('fluxo: portões de aprovação humana', fluxo.includes('## Portões de aprovação'));
 checar('fluxo: Fase 7 pede a auditoria de segurança antes da primeira publicação, em qualquer modo', ((fluxo.split('## Fase 7')[1] || '').split('## Fase 8')[0]).includes('metodo:auditoria-de-seguranca'));
+checar('fluxo: Fase 2 já usa a security-audit no primeiro mapa de riscos (modo de orientação)', ((fluxo.split('## Fase 2')[1] || '').split('## Fase 3')[0]).includes('metodo:auditoria-de-seguranca') && ((fluxo.split('## Fase 2')[1] || '').split('## Fase 3')[0]).includes('mapa de riscos'));
 checar('prompt da coordenadora do Orca: auditoria de segurança antes da primeira publicação', ler('modelos/prompt-coordenadora-orca.md').includes('metodo:auditoria-de-seguranca'));
 
 const sessoes = ler('nucleo/02-sessoes-e-papeis.md');
@@ -258,6 +259,9 @@ checar('skills e testes: o mapa cita a auditoria de segurança (security-audit e
 const auditoria = ler('skills/auditoria-de-seguranca/SKILL.md');
 for (const termo of ['security-audit', 'portão', '~/security-audit-skill/', 'confirmed', 'needs_validation', 'rejected', 'quick', 'standard', 'budget', 'sandbox', 'escopo', 'validate-findings.cjs', 'docs/seguranca.md', 'aviso de segurança privado'])
   checar(`skills/auditoria-de-seguranca: ${termo}`, auditoria.includes(termo));
+for (const termo of ['## Desde o primeiro mapa de riscos', 'Fase 2', 'modo de orientação', 'revisão de PR', 'Fase 7'])
+  checar(`skills/auditoria-de-seguranca: usada desde a primeira auditoria (${termo})`, auditoria.includes(termo));
+checar('agentes/seguranca: usa a security-audit desde o primeiro mapa de riscos', ler('modelos/agentes/seguranca.md').includes('desde o primeiro mapa de riscos'));
 checar('referências/seguranca: aprendizados da security-audit', ler('modelos/referencias/seguranca.md').includes('## Auditoria completa (security-audit da Cloudflare)'));
 for (const termo of ['## Mapa de skills', '## Testes: micro e macro', 'micro', 'macro', 'RED', 'verification-before-completion', '## Verificação no navegador'])
   checar(`skills e testes: ${termo}`, skills.includes(termo));

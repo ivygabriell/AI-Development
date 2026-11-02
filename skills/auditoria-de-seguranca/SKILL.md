@@ -1,6 +1,6 @@
 ---
 name: auditoria-de-seguranca
-description: Use quando for rodar ou pedir uma auditoria completa de segurança do código com a skill security-audit da Cloudflare (antes da primeira publicação, depois de uma mudança grande, ou quando a pessoa pedir), ou quando for transformar os achados dela (confirmed, needs_validation, rejected) em correções, perguntas e registros do projeto.
+description: Use quando for montar o mapa de riscos de segurança do projeto (Fase 2), revisar um PR sensível com os princípios da skill security-audit da Cloudflare, ou rodar ou pedir uma auditoria completa com ela (antes da primeira publicação, depois de uma mudança grande, ou quando a pessoa pedir), ou quando for transformar os achados dela (confirmed, needs_validation, rejected) em correções, perguntas e registros do projeto.
 ---
 
 # Auditoria de segurança
@@ -9,7 +9,19 @@ description: Use quando for rodar ou pedir uma auditoria completa de segurança 
 
 A `security-audit` faz a auditoria. Esta skill diz **como ela entra no fluxo do método**: quando rodar, com que tamanho, onde guardar e o que fazer com cada achado. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/seguranca.md` (seção "Auditoria completa"), e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/seguranca.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 
-## Passo a passo
+## Desde o primeiro mapa de riscos
+
+A `security-audit` entra **na primeira análise de segurança do projeto**, e não só na publicação. Em cada momento, usa um dos dois modos dela:
+
+| Momento | Modo da `security-audit` | O que sai |
+|---|---|---|
+| **Fase 2**, o primeiro mapa de riscos (antes de existir código) | modo de orientação, com o roteiro do reconhecimento: quem usa e quem tem menos confiança, o que cada um pode fazer, as fronteiras de confiança e o controle de cada uma, as superfícies de entrada (tela, API, arquivos, filas, CI, IA) e os arquivos de domínio que se aplicam (web e identidade, navegador, cadeia de suprimentos, nuvem, IA e agentes, isolamento de dados) | o mapa de riscos em `docs/seguranca.md`, cada risco virando critério de aceite nas issues da Fase 3 |
+| **Cada revisão de PR** sensível | modo de orientação: fronteira e resultado concreto, gravidade pelo impacto demonstrado, a menor correção | o veredito da revisão, sem arquivos novos |
+| **Fase 7**, antes da primeira publicação, e depois de cada mudança grande | modo de auditoria completa, pelo passo a passo abaixo, com portão | o relatório fora do repositório e a triagem no `docs/seguranca.md` |
+
+O mapa da Fase 2 é a semente das auditorias completas: as fronteiras e superfícies que ele listou são as que a primeira auditoria completa precisa cobrir, e o que ela achar volta para o mapa. Fonte: [RECONNAISSANCE.md, fase 1](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/RECONNAISSANCE.md) e [ATTACK-CLASSES.md, escolha dos domínios](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/ATTACK-CLASSES.md).
+
+## Passo a passo da auditoria completa
 
 1. **Conferir a instalação.** A skill fica em `~/.agents/skills/security-audit` (o Codex lê dali, e o Claude Code por um atalho em `~/.claude/skills/`), instalada uma vez por computador pelo README. Se ela não aparece na sua ferramenta, avise a integradora e pare; não instale nada. Ela precisa do Node.js para os validadores. Fonte: [cloudflare/security-audit-skill, instalação e requisitos](https://github.com/cloudflare/security-audit-skill#installation).
 2. **Escolher o modo certo.** A skill tem dois modos. No **modo de orientação** ela só empresta os princípios (fronteira e resultado concreto, gravidade pelo impacto demonstrado, a menor correção) e não cria arquivos nem roda as seis fases: é o modo das revisões de PR. O **modo de auditoria completa** só começa com um pedido explícito de auditoria, e é ele que precisa do portão. Fonte: [SKILL.md, modos de operação](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md).
@@ -51,6 +63,7 @@ A auditoria não escreve código. Quem prova é a correção: cada `confirmed` c
 
 ## Checklist
 
+- [ ] O mapa de riscos da Fase 2 seguiu o roteiro do reconhecimento (quem, o quê, fronteiras, superfícies, domínios).
 - [ ] Portão resolvido pela pessoa, com perfil, escopo e `budget`.
 - [ ] Auditoria da `main` integrada, com o commit anotado.
 - [ ] Saída fora do repositório, em `~/security-audit-skill/<repo>/run-<N>`.

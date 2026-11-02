@@ -32,8 +32,9 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 
 - **Entrada:** entendimento e achados.
 - **Passos:** proponha 2 ou 3 abordagens com a sua recomendação; apresente o desenho em partes e peça aprovação a cada parte; escreva a spec (objetivo, restrições, estrutura, dados, critérios de aceite, o que fica de fora) e faça uma autorrevisão (pendências, contradições, ambiguidade, escopo).
-- **Skill:** `superpowers:brainstorming`; `engineering:architecture` para decisões de arquitetura; `engineering:system-design` para sistemas e APIs.
-- **Resultado:** spec versionada no repositório.
+- **Mapa de riscos de segurança**, junto da spec: o primeiro uso da `security-audit`, no modo de orientação (sem código ainda), pelo roteiro de `metodo:auditoria-de-seguranca`: quem usa e quem tem menos confiança, as fronteiras de confiança, as superfícies de entrada e os domínios de ataque que se aplicam. Fica em `docs/seguranca.md` e vira critério de aceite nas issues. No modo com especialistas, quem faz é a Segurança; nos outros, a integradora.
+- **Skill:** `superpowers:brainstorming`; `engineering:architecture` para decisões de arquitetura; `engineering:system-design` para sistemas e APIs; `metodo:auditoria-de-seguranca` para o mapa de riscos.
+- **Resultado:** spec versionada no repositório, com o mapa de riscos.
 - **Portão:** a pessoa lê e aprova a spec escrita.
 
 ## Fase 3 · Plano
