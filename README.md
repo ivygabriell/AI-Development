@@ -34,6 +34,9 @@ A arquitetura nasceu de um projeto real (um portfólio com animações, vídeos,
 | **Trabalhadoras** | Constroem uma tarefa por vez, numa worktree e numa branch próprias, com TDD; nunca integram | [02, "Com agentes especialistas"](nucleo/02-sessoes-e-papeis.md) |
 | **Skills por agente** | Regras concretas tiradas das referências de cada tema, com fonte, teste e checklist (plugin `metodo`) | [`skills/`](skills/) e [03, "Mapa de skills"](nucleo/03-skills-e-testes.md) |
 | **Bases de referências** | O que a leitura das referências de cada agente ensinou, com o link | [`modelos/referencias/`](modelos/referencias/) |
+| **Lições** | Os erros que já aconteceram e a regra que ficou; todo agente lê as do seu tema | [`licoes/`](licoes/_indice.md) |
+| **Segurança desde o começo** | A `security-audit` no primeiro mapa de riscos (Fase 2), nas revisões de PR sensíveis e na auditoria completa antes da primeira publicação (Fase 7), sempre com a sua aprovação | [`metodo:auditoria-de-seguranca`](skills/auditoria-de-seguranca/SKILL.md) |
+| **Custo sob controle** (rascunho) | O ponytail: menos tokens no Claude Code (a menor mudança que resolve a tarefa, respostas curtas) e o consumo medido por tarefa; no Codex, só sob demanda | [03, "Ponytail"](nucleo/03-skills-e-testes.md) |
 | **Método** | As fases, os portões, os testes, o Git e o CI que todos os agentes seguem | [`nucleo/`](nucleo/) |
 
 A arquitetura escala para baixo: um projeto pequeno roda com **uma sessão**, ou com a integradora e poucas trabalhadoras no Orca, sem os especialistas. O método é o mesmo em todos os tamanhos ([02](nucleo/02-sessoes-e-papeis.md)).
@@ -65,6 +68,8 @@ Tudo o que a arquitetura usa, com o link de onde cada coisa é explicada.
 | **Mapa de riscos** | O que proteger, de quem e por onde, feito na Fase 2 com o roteiro da `security-audit`. Cada risco vira critério de aceite | [harness da Segurança](modelos/agentes/seguranca.md) |
 | **`CLAUDE.md` e `AGENTS.md` do projeto** | As instruções que cada ferramenta lê ao abrir o projeto: o Claude Code lê o `CLAUDE.md`, e o Codex lê o `AGENTS.md`, que manda ler o `CLAUDE.md` | [modelo do `CLAUDE.md`](modelos/CLAUDE-projeto.md), [modelo do `AGENTS.md`](modelos/AGENTS-projeto.md) |
 | **Memória do projeto** | O que a próxima sessão precisa saber: estado, decisões, pendências e, por tarefa, retrabalho e consumo | [modelo da memória](modelos/memoria-do-projeto.md) |
+| **Ponytail** (rascunho) | Plugin que faz o agente escrever a menor mudança que resolve a tarefa inteira. No Claude Code reduz tokens e custo; no Codex fica só sob demanda. O TDD, a spec e o que as skills do método exigem valem por cima dele | [03, "Ponytail"](nucleo/03-skills-e-testes.md) |
+| **Consumo por tarefa** | Custo, tokens, idas e voltas e tempo de cada tarefa, anotados na memória e comparados na Fase 9. No Claude Code, vêm do quadro local do ponytail | [harness da integradora](modelos/agentes/integradora.md) |
 | **Cenário** | Como o método se adapta a um tipo de projeto, com selo de maturidade (`rascunho`, `testado em 1 projeto`, `estável`) | [`cenarios/`](cenarios/README.md) |
 | **Caso, lição e decisão** | Caso: a retrospectiva de um projeto. Lição: um erro e a regra que veio dele. Decisão: por que uma regra mudou | [`casos/`](casos/_modelo-caso.md), [`licoes/`](licoes/_indice.md), [`decisoes/`](decisoes/_modelo-decisao.md) |
 
@@ -82,7 +87,7 @@ Tudo o que a arquitetura usa, com o link de onde cada coisa é explicada.
 
 ### Skills
 
-Quando usar cada uma está no [mapa de skills do 03](nucleo/03-skills-e-testes.md).
+Quando usar cada uma está no [mapa de skills do 03](nucleo/03-skills-e-testes.md). Toda skill do mapa tem um agente que a usa, ou está em "Skills fora dos agentes", no mesmo arquivo, com o motivo; o verificador acusa se alguma ficar solta. Saíram do método, por repetir outra skill ou não ter papel: `engineering:debug` (fica o `superpowers:systematic-debugging`), `engineering:code-review` (fica o `/ponytail-review`), `engineering:tech-debt` (a Fase 8 da integradora cobre) e `engineering:standup`.
 
 | De onde | Skills |
 |---|---|
@@ -283,7 +288,11 @@ codex plugin marketplace add DietrichGebert/ponytail
 codex plugin add ponytail@ponytail
 ```
 
-No Claude Code, ele fica ligado em toda sessão, no nível `full`, e a faixa acima do prompt mostra o custo de cada tarefa. Para desligar numa sessão: `/ponytail off`. Instale só pelo repositório oficial, [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail).
+No Claude Code, ele fica ligado em toda sessão, no nível `full`, e a faixa acima do prompt mostra o custo de cada tarefa. Instale só pelo repositório oficial, [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail). Para usar sem surpresa ([03, "Uso seguro no tempo"](nucleo/03-skills-e-testes.md)):
+
+- troque o nível só na sessão (`/ponytail off`, `/ponytail full`); **nunca** use `/ponytail default`, que muda todas as sessões do computador;
+- o nível vale por pasta: duas sessões na mesma pasta dividem o nível;
+- deixe a atualização automática desligada para o marketplace `ponytail`; a versão conferida pelo método é a 5.3.3, e cada atualização passa antes por uma releitura dos ganchos.
 
 Os conectores que os plugins engineering e design trazem (Slack, Figma, Linear e outros) podem ficar sem autenticação; o método não depende deles.
 

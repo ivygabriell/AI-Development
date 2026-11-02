@@ -631,7 +631,10 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
   // Removidas do método por decisão da pessoa (decisão 012): repetiam o Superpowers ou o ponytail, ou não tinham papel
   const ativosTexto = todosMd().map((a) => relative(RAIZ, a)).filter((n) => /^(README\.md|CLAUDE\.md|modelos\/|nucleo\/|skills\/|cenarios\/)/.test(n));
   for (const skill of ['engineering:debug', 'engineering:code-review', 'engineering:tech-debt', 'engineering:standup'])
-    checar(`método não usa mais ${skill} (decisão 012)`, ativosTexto.every((n) => !ler(n).includes(skill)), ativosTexto.find((n) => ler(n).includes(skill)) || '');
+  {
+    const usa = (n) => ler(n).split('\n').some((l) => l.includes(skill) && !l.includes('Saíram do método'));
+    checar(`método não usa mais ${skill} (decisão 012; só a nota "Saíram do método" do README pode citá-la)`, ativosTexto.every((n) => !usa(n)), ativosTexto.find(usa) || '');
+  }
   checar('agentes/integradora: a Fase 8 confere dependências, infraestrutura e documentação (o que a tech-debt cobria)', ler('modelos/agentes/integradora.md').includes('dependências desatualizadas'));
   checar('CLAUDE.md do método: superpowers:writing-skills ao criar ou mudar skill do plugin', ler('CLAUDE.md').includes('superpowers:writing-skills'));
   // Ponytail (rascunho): instalação oficial e as regras de convivência com o método

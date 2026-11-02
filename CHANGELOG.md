@@ -22,6 +22,7 @@ Revalidação completa das lacunas do método e o ponytail. Ver a [decisão 012]
 - **Ponytail e as outras skills:** pedido vago passa pelo brainstorming (não vira "a menor versão"); o que os critérios de aceite, o contrato, o harness e as skills do método exigem conta como pedido e não se corta; o veredito de segurança é da Segurança.
 - **Ponytail (rascunho):** instalação no README (passo 10) e regras de convivência no `03` e no `CLAUDE.md` e no `AGENTS.md` do projeto. O TDD do método vale por cima; nível `full`, sem o `ultra`; atalhos `shortcut:` viram pendência. Os especialistas revisam com `/ponytail-review`, e a integradora usa `/ponytail-audit` e `/ponytail-debt` na Fase 8.
 - **Saem do método quatro skills do engineering**, por decisão da pessoa: `engineering:debug` (repete o `superpowers:systematic-debugging`), `engineering:code-review` (repete o `/ponytail-review`; sem o ponytail, a revisão é o `superpowers:requesting-code-review`), `engineering:tech-debt` (o que só ela cobria foi para a Fase 8 da integradora) e `engineering:standup` (sem papel). Continuam instaladas no plugin engineering; o método só deixa de citá-las.
+- **README:** a arquitetura e os conceitos passam a mostrar as lições, a segurança desde o começo, o ponytail e o consumo por tarefa; a lista de skills diz o que saiu do método e por quê; a instalação do ponytail traz as regras de uso seguro.
 - **Verificador:** passa a acusar uma skill do mapa sem agente, um harness sem as lições, um cenário sem skill de agente e um prompt preso a uma ferramenta.
 
 ## 3.0.1 (2026-11-02)
