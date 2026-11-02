@@ -2,6 +2,10 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 3.0.1 (2026-11-02)
+
+README reescrito no começo, a pedido da pessoa: o repositório se apresenta como uma **arquitetura de agentes para desenvolvimento** (integradora, especialistas, trabalhadoras e a pessoa nos portões, em Claude Code ou Codex), e não mais como "método com Claude Code". Entra a seção "A arquitetura", com o desenho dos agentes e uma tabela de onde está cada peça. As instruções de atualização e de início citam as duas ferramentas. Nenhuma regra muda.
+
 ## 3.0.0 (2026-11-02)
 
 Um agente principal por projeto, a auditoria de segurança dentro da Segurança e o fim do selo de rascunho fora dos cenários, aprovados pela pessoa **sem caso real**. Ver as decisões [010](decisoes/010-um-agente-principal-por-projeto.md) e [011](decisoes/011-sem-rascunho-fora-dos-cenarios.md). Versão maior porque muda uma regra do núcleo: a coordenadora deixa de ser sempre Claude, e a ferramenta deixa de ser escolhida pelo tema.
