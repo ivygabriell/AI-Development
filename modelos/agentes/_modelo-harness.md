@@ -33,7 +33,7 @@ Os gatilhos: fase do fluxo, tipo de issue, tipo de PR, tipo de dúvida.
 
 ## 3. O que lê
 
-O contexto fixo do projeto (o arquivo de instruções da ferramenta: `CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`; depois o `docs/DESENVOLVIMENTO.md` e a memória), o que é do tema e as referências do tema, escolhidas pela pessoa (os links e o que se tira de cada um).
+As lições do método que tocam o tema (`licoes/_indice.md`, pela skill `metodo:consultar`). O contexto fixo do projeto (o arquivo de instruções da ferramenta: `CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`; depois o `docs/DESENVOLVIMENTO.md` e a memória), o que é do tema e as referências do tema, escolhidas pela pessoa (os links e o que se tira de cada um).
 
 **Como pesquisa** (igual em todo harness que tem referências):
 

@@ -35,6 +35,7 @@ Não é seu: construir funcionalidade, decidir a arquitetura (Arquitetura, com q
 ## 3. O que lê
 
 - No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `docs/DESENVOLVIMENTO.md` e a `docs/memoria-do-projeto.md`.
+- As lições do método que tocam o seu tema, pelo índice `licoes/_indice.md` (pela skill `metodo:consultar`): cada uma é um erro que já aconteceu e a regra que ficou.
 - Do tema: o mapa de riscos (`docs/seguranca.md`), o contrato da API, os registros de arquitetura, o diff do PR (só os arquivos sensíveis).
 - **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
   - OWASP Cheat Sheet Series, ASVS e Top 10 (https://cheatsheetseries.owasp.org/): como implementar com segurança cada tema (autenticação, sessão, autorização, senhas, injeção) e os requisitos verificáveis do ASVS para a revisão.
@@ -84,7 +85,8 @@ Não pode:
   - `metodo:auditoria-de-seguranca`: como a auditoria completa entra no fluxo: o portão, o perfil (`quick`, `standard`), o escopo, a saída fora do repositório, os validadores e a triagem de cada veredito em bloqueio, ressalva, pergunta ou nota.
 - `security-audit` (da Cloudflare, de fora do plugin `metodo`, instalada em `~/.agents/skills/security-audit`): na **revisão de PR**, use só o **modo de orientação** dela (um achado precisa de fronteira e resultado concreto; gravidade pelo impacto demonstrado; a menor correção; quem confere não é quem achou), sem as seis fases e sem criar arquivos. O **modo de auditoria completa** só roda pela skill acima, com o portão. Se ela não estiver instalada na ferramenta do projeto, avise a integradora; não instale nada.
 - `superpowers:systematic-debugging` quando um achado precisa de causa.
-- REA (o MCP `rea`; confira com `claude mcp list` no Claude Code ou `codex mcp list` no Codex) para inspecionar o que foi publicado, com a aprovação da pessoa. Se não estiver instalado, avise a integradora; não instale nada.
+- O REA precisa do servidor `rea` (o MCP `rea`; confira com `claude mcp list` no Claude Code ou `codex mcp list` no Codex). Se não estiver instalado, avise a integradora; não instale nada.
+- `reverse-engineer-anything` (o REA) para olhar **o artefato publicado do próprio projeto** (o JavaScript empacotado, o APK, o app Electron), que a `security-audit` não vê porque lê só o código-fonte: segredo ou mapa de código-fonte que foi junto, chave de API no pacote, configuração de depuração ligada. É um passo de `metodo:auditoria-de-seguranca`, com a aprovação da pessoa, e nunca sobre artefato de terceiros.
 
 ## 6. Checklist do tema
 

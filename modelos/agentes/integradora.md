@@ -30,6 +30,7 @@
 ## 3. O que lê
 
 - No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `docs/DESENVOLVIMENTO.md` e a `docs/memoria-do-projeto.md`, a spec e o plano.
+- As lições do método que tocam o seu tema, pelo índice `licoes/_indice.md` (pela skill `metodo:consultar`): cada uma é um erro que já aconteceu e a regra que ficou.
 - Os harnesses dos especialistas em `docs/agentes/`, para saber o que cada um pode e não pode.
 - Durante o trabalho: os resumos dos especialistas. O diff, só onde a validação pede.
 - O guia de orquestração da versão instalada: `orca skills get orchestration`.
@@ -94,6 +95,11 @@ Não pode:
 - **Skills do tema** (plugin `metodo`). Você não tem trabalhadoras; as trabalhadoras usam as skills dos especialistas delas. Você usa as suas na validação final e ao responder à pessoa sobre o ritmo do projeto.
   - `metodo:validacao-final`: critérios de aceite provados, comportamento e não implementação, dublês, pirâmide e testes instáveis.
   - `metodo:metricas-de-entrega`: as cinco métricas da DORA, com linha de base e sem virar meta.
+- `metodo:auditoria-de-seguranca`: para criar o portão da auditoria (Fases 2 e 7) e decidir a publicação pela tabela de triagem.
+- `engineering:testing-strategy` no plano (Fase 3): que testes micro e macro cada entrega pede.
+- Na Fase 8, `/ponytail-audit` (rascunho) para o que corrigir primeiro e o que apagar, e `/ponytail-debt` para os atalhos `shortcut:` deixados pelas trabalhadoras; cada item vira pendência na memória. Confira também o que o ponytail não olha: dependências desatualizadas, deploy feito à mão, falta de monitoramento e documentação velha. Ordene tudo por impacto, risco e esforço, e leve a ordem à pessoa.
+- `engineering:documentation` para o README, os runbooks e a documentação que a entrega pede.
+- `superpowers:diagnosing-superpowers` quando uma sessão deu errado (retrabalho, plano ignorado, custo alto) e é preciso entender por quê antes de virar lição.
 
 ## 6. Checklist do tema
 
@@ -130,5 +136,5 @@ Para a pessoa, sempre por um portão: merge, deploy, mudança no contrato da API
 - Cada revisor olha só a sua parte: você confia no veredito do especialista para o tema e confere critérios, testes e navegador, sem reler o código linha a linha.
 - Logs de teste e build resumidos ao que falhou.
 - Ao fim de cada fase, grava o estado na memória e recomeça a sessão limpa.
-- Anota o consumo de cada tarefa na memória (`/cost` no Claude Code; o consumo exibido na sessão do Codex).
+- Anota o consumo de cada tarefa na memória. No Claude Code, a fonte é o quadro do ponytail (`~/.config/ponytail/band/<projeto>.csv`: custo, tokens, idas e voltas e tempo por tarefa) ou o `/cost`; no Codex, o consumo exibido na sessão. Na Fase 9, compare o consumo das tarefas com e sem o ponytail. Num projeto Codex, anote também se o ponytail carregou sozinho (sem ser chamado) e o consumo dessas tarefas: é o que decide se ele fica ligado de vez no Codex.
 - Fecha Produto e DevOps quando a fase deles termina.

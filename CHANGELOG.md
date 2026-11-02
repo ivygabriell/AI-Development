@@ -2,6 +2,29 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 3.1.0 (2026-11-02)
+
+Revalidação completa das lacunas do método e o ponytail. Ver a [decisão 012](decisoes/012-revalidacao-de-lacunas-e-ponytail.md).
+
+- **Nada solto:** cada skill do mapa do `03` tem um agente que a usa, ou está na nova seção "Skills fora dos agentes", com o motivo.
+  - A integradora ganha `engineering:testing-strategy`, `engineering:tech-debt`, `engineering:documentation`, `superpowers:diagnosing-superpowers` e `metodo:auditoria-de-seguranca`.
+  - Design e Front ganha `design:design-handoff`.
+  - As trabalhadoras ganham `superpowers:receiving-code-review`.
+  - O mapa e o README passam a citar `design:design-system`, `design:user-research` e `design:research-synthesis`.
+- **REA com dono:** Design e Front (referência fechada), Arquitetura (sistema sem código-fonte) e Segurança (o artefato publicado do projeto, um passo novo de `metodo:auditoria-de-seguranca`).
+- **Segurança ligada ponta a ponta:** a integradora tem a skill da auditoria, e o DevOps recebe os `needs_validation` de infraestrutura.
+- **Lições:** todo harness manda ler as lições do método que tocam o tema.
+- **Cenários:** "Skills úteis" aponta para as skills dos agentes.
+- **Prompts manuais:** valem para o Claude Code e o Codex.
+- **Sessão do método:** usa `superpowers:writing-skills` ao criar ou mudar uma skill do plugin.
+- **Ponytail pelo custo:** no Claude Code, menos tokens e menos custo por tarefa (medição do próprio repositório: -45% de tokens de saída, -26% de custo), e o quadro local dele vira a fonte do consumo por tarefa. No Codex, fica só sob demanda até medir, porque nos modelos de raciocínio da OpenAI ele encareceu. Desligado durante a auditoria completa de segurança, que abre muitos subagentes.
+- **Ponytail sem surpresa no tempo:** versão conferida (5.3.3); nível por pasta, com a auditoria de segurança numa worktree própria; nunca `/ponytail default`; no Codex, o `AGENTS.md` proíbe carregar a skill sozinho; atualização deliberada, relendo os ganchos; sinais para desligar.
+- **Ponytail e as outras skills:** pedido vago passa pelo brainstorming (não vira "a menor versão"); o que os critérios de aceite, o contrato, o harness e as skills do método exigem conta como pedido e não se corta; o veredito de segurança é da Segurança.
+- **Ponytail (rascunho):** instalação no README (passo 10) e regras de convivência no `03` e no `CLAUDE.md` e no `AGENTS.md` do projeto. O TDD do método vale por cima; nível `full`, sem o `ultra`; atalhos `shortcut:` viram pendência. Os especialistas revisam com `/ponytail-review`, e a integradora usa `/ponytail-audit` e `/ponytail-debt` na Fase 8.
+- **Saem do método quatro skills do engineering**, por decisão da pessoa: `engineering:debug` (repete o `superpowers:systematic-debugging`), `engineering:code-review` (repete o `/ponytail-review`; sem o ponytail, a revisão é o `superpowers:requesting-code-review`), `engineering:tech-debt` (o que só ela cobria foi para a Fase 8 da integradora) e `engineering:standup` (sem papel). Continuam instaladas no plugin engineering; o método só deixa de citá-las.
+- **README:** a arquitetura e os conceitos passam a mostrar as lições, a segurança desde o começo, o ponytail e o consumo por tarefa; a lista de skills diz o que saiu do método e por quê; a instalação do ponytail traz as regras de uso seguro.
+- **Verificador:** passa a acusar uma skill do mapa sem agente, um harness sem as lições, um cenário sem skill de agente e um prompt preso a uma ferramenta.
+
 ## 3.0.1 (2026-11-02)
 
 README reescrito no começo, a pedido da pessoa: o repositório se apresenta como uma **arquitetura de agentes para desenvolvimento** (integradora, especialistas, trabalhadoras e a pessoa nos portões, em Claude Code ou Codex), e não mais como "método com Claude Code". Entra a seção "A arquitetura", com o desenho dos agentes e uma tabela de onde está cada peça. Entra também a seção "Conceitos, harnesses, skills e ferramentas": o glossário (agente principal, integradora, especialista, trabalhadora, harness, skill, base de referências, fases e portões, testes micro e macro, worktree, Orca, contrato da API, mapa de riscos, memória, cenário, caso, lição, decisão), os sete harnesses, todas as skills por origem e as ferramentas. As instruções de atualização e de início citam as duas ferramentas. Nenhuma regra muda.

@@ -22,7 +22,14 @@ O método base ([nucleo/](../nucleo/01-fluxo-de-ponta-a-ponta.md)) continua vale
 - `engineering:system-design`
 - `engineering:testing-strategy`
 - `engineering:documentation`
-- `engineering:code-review`
+- `/ponytail-review` (rascunho)
+- `metodo:contrato-de-api`
+- `metodo:api-conforme-contrato`
+- `metodo:migracao-sem-parada`
+- `metodo:transacoes-e-consultas`
+- `metodo:controle-de-acesso`
+- `metodo:entrada-nao-confiavel`
+- `metodo:auditoria-de-seguranca`
 
 ## Checklist
 

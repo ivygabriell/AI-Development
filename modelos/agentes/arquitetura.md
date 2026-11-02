@@ -42,6 +42,7 @@ Não é seu: construir funcionalidade, a segurança em detalhe (é da Segurança
 ## 3. O que lê
 
 - No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `docs/DESENVOLVIMENTO.md` e a `docs/memoria-do-projeto.md`, a spec.
+- As lições do método que tocam o seu tema, pelo índice `licoes/_indice.md` (pela skill `metodo:consultar`): cada uma é um erro que já aconteceu e a regra que ficou.
 - Do tema: o contrato atual (`docs/contrato-api.md`), os registros de decisão (`docs/arquitetura.md`), o mapa de riscos da Segurança.
 - **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
   - Stripe (https://stripe.dev/blog/topic/engineering): desenho de API, versões, repetir sem duplicar.
@@ -85,6 +86,7 @@ Não pode:
   - `metodo:contrato-de-api`: clientes, compatibilidade, versões, garantias de repetição, paginação e erros.
   - `metodo:analise-de-falhas`: fluxos, dependências fortes e fracas, quadro de modos de falha, prazos e alternativas.
   - `metodo:migracao-de-sistema`: interface, gravação dupla e modo sombra, comparação, passagem gradual e volta.
+- `reverse-engineer-anything` (o REA), pelo `nucleo/04-referencias-e-engenharia-reversa.md` do método, quando a decisão depende de um sistema sem código-fonte: o sistema antigo antes de uma migração (`metodo:migracao-de-sistema`), ou uma referência técnica fechada. Só leitura e só com a aprovação da pessoa.
 
 ## 6. Checklist do tema
 

@@ -57,7 +57,7 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 
 - **Entrada:** branch com testes macro verdes.
 - **Passos:** revisão com contexto limpo (outra sessão ou subagente na versão mais capaz), conferência contra os critérios de aceite e a referência, exploração no navegador ou no ambiente real, micro e macro.
-- **Skill:** `superpowers:requesting-code-review`, `superpowers:verification-before-completion`, `engineering:code-review`, `design:accessibility-review` quando houver interface.
+- **Skill:** `superpowers:requesting-code-review`, `superpowers:verification-before-completion`, `/ponytail-review` (rascunho), `design:accessibility-review` quando houver interface.
 - **Resultado:** lista de achados classificados (crítico, importante, menor). Críticos e importantes são corrigidos com teste que falha antes; menores viram pendências registradas.
 - **Portão:** nenhum crítico ou importante em aberto.
 
@@ -80,7 +80,7 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 
 ## Fase 8 · Manter
 
-- **Passos:** registre pendências e decisões, atualize a memória do projeto, faça uma retrospectiva curta dos erros e transforme cada erro em uma regra ou em um teste. Para incidentes, use `engineering:incident-response`; para dívida técnica, `engineering:tech-debt`.
+- **Passos:** registre pendências e decisões, atualize a memória do projeto, faça uma retrospectiva curta dos erros e transforme cada erro em uma regra ou em um teste. Para incidentes, use `engineering:incident-response`; para dívida técnica, `/ponytail-audit` e `/ponytail-debt` (rascunho).
 - **Resultado:** pendências visíveis (issues) e a memória em dia.
 
 ## Fase 9 · Fechamento (retrospectiva)

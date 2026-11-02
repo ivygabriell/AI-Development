@@ -33,6 +33,7 @@ Não é seu: a decisão final de prioridade (é da pessoa), como construir (Arqu
 ## 3. O que lê
 
 - No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `docs/DESENVOLVIMENTO.md` e a `docs/memoria-do-projeto.md`.
+- As lições do método que tocam o seu tema, pelo índice `licoes/_indice.md` (pela skill `metodo:consultar`): cada uma é um erro que já aconteceu e a regra que ficou.
 - Do tema: o que a pessoa disse (pela integradora), a spec atual, as referências aprovadas.
 - **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
   - Silicon Valley Product Group, SVPG (https://www.svpg.com/): descoberta de produto e os quatro grandes riscos de toda funcionalidade (valor, usabilidade, viabilidade técnica e de negócio), estratégia de produto.

@@ -34,6 +34,9 @@ A arquitetura nasceu de um projeto real (um portfólio com animações, vídeos,
 | **Trabalhadoras** | Constroem uma tarefa por vez, numa worktree e numa branch próprias, com TDD; nunca integram | [02, "Com agentes especialistas"](nucleo/02-sessoes-e-papeis.md) |
 | **Skills por agente** | Regras concretas tiradas das referências de cada tema, com fonte, teste e checklist (plugin `metodo`) | [`skills/`](skills/) e [03, "Mapa de skills"](nucleo/03-skills-e-testes.md) |
 | **Bases de referências** | O que a leitura das referências de cada agente ensinou, com o link | [`modelos/referencias/`](modelos/referencias/) |
+| **Lições** | Os erros que já aconteceram e a regra que ficou; todo agente lê as do seu tema | [`licoes/`](licoes/_indice.md) |
+| **Segurança desde o começo** | A `security-audit` no primeiro mapa de riscos (Fase 2), nas revisões de PR sensíveis e na auditoria completa antes da primeira publicação (Fase 7), sempre com a sua aprovação | [`metodo:auditoria-de-seguranca`](skills/auditoria-de-seguranca/SKILL.md) |
+| **Custo sob controle** (rascunho) | O ponytail: menos tokens no Claude Code (a menor mudança que resolve a tarefa, respostas curtas) e o consumo medido por tarefa; no Codex, só sob demanda | [03, "Ponytail"](nucleo/03-skills-e-testes.md) |
 | **Método** | As fases, os portões, os testes, o Git e o CI que todos os agentes seguem | [`nucleo/`](nucleo/) |
 
 A arquitetura escala para baixo: um projeto pequeno roda com **uma sessão**, ou com a integradora e poucas trabalhadoras no Orca, sem os especialistas. O método é o mesmo em todos os tamanhos ([02](nucleo/02-sessoes-e-papeis.md)).
@@ -65,6 +68,8 @@ Tudo o que a arquitetura usa, com o link de onde cada coisa é explicada.
 | **Mapa de riscos** | O que proteger, de quem e por onde, feito na Fase 2 com o roteiro da `security-audit`. Cada risco vira critério de aceite | [harness da Segurança](modelos/agentes/seguranca.md) |
 | **`CLAUDE.md` e `AGENTS.md` do projeto** | As instruções que cada ferramenta lê ao abrir o projeto: o Claude Code lê o `CLAUDE.md`, e o Codex lê o `AGENTS.md`, que manda ler o `CLAUDE.md` | [modelo do `CLAUDE.md`](modelos/CLAUDE-projeto.md), [modelo do `AGENTS.md`](modelos/AGENTS-projeto.md) |
 | **Memória do projeto** | O que a próxima sessão precisa saber: estado, decisões, pendências e, por tarefa, retrabalho e consumo | [modelo da memória](modelos/memoria-do-projeto.md) |
+| **Ponytail** (rascunho) | Plugin que faz o agente escrever a menor mudança que resolve a tarefa inteira. No Claude Code reduz tokens e custo; no Codex fica só sob demanda. O TDD, a spec e o que as skills do método exigem valem por cima dele | [03, "Ponytail"](nucleo/03-skills-e-testes.md) |
+| **Consumo por tarefa** | Custo, tokens, idas e voltas e tempo de cada tarefa, anotados na memória e comparados na Fase 9. No Claude Code, vêm do quadro local do ponytail | [harness da integradora](modelos/agentes/integradora.md) |
 | **Cenário** | Como o método se adapta a um tipo de projeto, com selo de maturidade (`rascunho`, `testado em 1 projeto`, `estável`) | [`cenarios/`](cenarios/README.md) |
 | **Caso, lição e decisão** | Caso: a retrospectiva de um projeto. Lição: um erro e a regra que veio dele. Decisão: por que uma regra mudou | [`casos/`](casos/_modelo-caso.md), [`licoes/`](licoes/_indice.md), [`decisoes/`](decisoes/_modelo-decisao.md) |
 
@@ -82,7 +87,7 @@ Tudo o que a arquitetura usa, com o link de onde cada coisa é explicada.
 
 ### Skills
 
-Quando usar cada uma está no [mapa de skills do 03](nucleo/03-skills-e-testes.md).
+Quando usar cada uma está no [mapa de skills do 03](nucleo/03-skills-e-testes.md). Toda skill do mapa tem um agente que a usa, ou está em "Skills fora dos agentes", no mesmo arquivo, com o motivo; o verificador acusa se alguma ficar solta. Saíram do método, por repetir outra skill ou não ter papel: `engineering:debug` (fica o `superpowers:systematic-debugging`), `engineering:code-review` (fica o `/ponytail-review`), `engineering:tech-debt` (a Fase 8 da integradora cobre) e `engineering:standup`.
 
 | De onde | Skills |
 |---|---|
@@ -94,14 +99,15 @@ Quando usar cada uma está no [mapa de skills do 03](nucleo/03-skills-e-testes.m
 | Plugin `metodo`: Segurança | `metodo:autenticacao-e-sessao`, `metodo:controle-de-acesso`, `metodo:entrada-nao-confiavel`, `metodo:incidente-com-dados-pessoais`, `metodo:auditoria-de-seguranca` |
 | Plugin `metodo`: Produto | `metodo:necessidades-e-riscos`, `metodo:descoberta-continua` |
 | Plugin `metodo`: DevOps | `metodo:publicacao-gradual`, `metodo:metas-e-alertas`, `metodo:ci-seguro` |
-| Superpowers (o fluxo) | `superpowers:brainstorming`, `superpowers:writing-plans`, `superpowers:executing-plans`, `superpowers:subagent-driven-development`, `superpowers:dispatching-parallel-agents`, `superpowers:test-driven-development`, `superpowers:systematic-debugging`, `superpowers:verification-before-completion`, `superpowers:requesting-code-review`, `superpowers:receiving-code-review`, `superpowers:using-git-worktrees`, `superpowers:finishing-a-development-branch`, `superpowers:diagnosing-superpowers` |
-| engineering | `engineering:architecture`, `engineering:system-design`, `engineering:testing-strategy`, `engineering:debug`, `engineering:code-review`, `engineering:deploy-checklist`, `engineering:incident-response`, `engineering:tech-debt`, `engineering:documentation` |
-| design | `design:accessibility-review`, `design:design-critique`, `design:design-handoff`, `design:ux-copy` |
+| Superpowers (o fluxo) | `superpowers:brainstorming`, `superpowers:writing-plans`, `superpowers:executing-plans`, `superpowers:subagent-driven-development`, `superpowers:dispatching-parallel-agents`, `superpowers:test-driven-development`, `superpowers:systematic-debugging`, `superpowers:verification-before-completion`, `superpowers:requesting-code-review`, `superpowers:receiving-code-review`, `superpowers:using-git-worktrees`, `superpowers:finishing-a-development-branch`, `superpowers:diagnosing-superpowers`; e `superpowers:writing-skills`, só na sessão que mantém este repositório |
+| engineering | `engineering:architecture`, `engineering:system-design`, `engineering:testing-strategy`, `engineering:deploy-checklist`, `engineering:incident-response`, `engineering:documentation` |
+| design | `design:accessibility-review`, `design:design-critique`, `design:design-handoff`, `design:ux-copy`, `design:design-system`, `design:user-research`, `design:research-synthesis` |
+| Ponytail (rascunho) | o modo ponytail (a menor mudança que resolve a tarefa inteira), `/ponytail-review`, `/ponytail-audit` e `/ponytail-debt` |
 | De fora | `security-audit` (auditoria de segurança da Cloudflare, usada pela Segurança) e `reverse-engineer-anything` (engenharia reversa, do REA) |
 
 ### Ferramentas
 
-Claude Code ou Codex (o agente principal), Orca (orquestração), GitHub e GitHub CLI (`gh`), Git, Node.js, os plugins Superpowers, engineering, design e `metodo`, o REA e a skill `security-audit`. A instalação de cada uma, com o link oficial, está em [Antes de começar](#antes-de-começar-uma-vez-por-computador).
+Claude Code ou Codex (o agente principal), Orca (orquestração), GitHub e GitHub CLI (`gh`), Git, Node.js, os plugins Superpowers, engineering, design, `metodo` e ponytail (rascunho), o REA e a skill `security-audit`. A instalação de cada uma, com o link oficial, está em [Antes de começar](#antes-de-começar-uma-vez-por-computador).
 
 ## Os 7 princípios
 
@@ -167,11 +173,12 @@ O método usa, além do plugin `metodo`, três plugins, uma ferramenta de engenh
 | O quê | Para que o método usa | Repositório oficial (instalação, uso e atualização) |
 |---|---|---|
 | Plugin **Superpowers** | O fluxo inteiro: brainstorming, TDD, depuração, planos, revisão e verificação antes de dizer "pronto" | [obra/superpowers](https://github.com/obra/superpowers) |
-| Plugin **engineering** | Documentação, arquitetura, desenho de sistemas, revisão de código, estratégia de testes, checklist de deploy, incidentes | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins/tree/main/engineering) |
+| Plugin **engineering** | Documentação, arquitetura, desenho de sistemas, estratégia de testes, checklist de deploy, incidentes | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins/tree/main/engineering) |
 | Plugin **design** | Revisão de acessibilidade, crítica de design, entrega para desenvolvimento e textos de interface | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins/tree/main/design) |
 | **REA** (skill `reverse-engineer-anything` e servidor `rea`) | Engenharia reversa de artefatos fechados, quando uma referência não tem código-fonte ([04](nucleo/04-referencias-e-engenharia-reversa.md)) | [morluto/rea](https://github.com/morluto/rea) |
 | **Orca** (aplicativo e as skills `orca-cli` e `orchestration`) | Orquestração dos agentes: a coordenadora faz o papel da integradora e os agentes, das trabalhadoras ([02](nucleo/02-sessoes-e-papeis.md)) | [stablyai/orca](https://github.com/stablyai/orca) |
 | **Codex** (opcional) | O agente principal dos projetos que escolhem o Codex no lugar do Claude Code: todas as sessões do projeto usam a mesma ferramenta, com as mesmas regras e Skills ([02](nucleo/02-sessoes-e-papeis.md), "Um agente principal por projeto") | [openai/codex](https://github.com/openai/codex) |
+| Plugin **ponytail** (rascunho) | Menos tokens e menos custo no Claude Code (a menor mudança que resolve a tarefa inteira, respostas curtas) e a medida do consumo por tarefa; a revisão `/ponytail-review` dos especialistas e a auditoria de qualidade da Fase 8. No Codex, só sob demanda. O TDD do método vale por cima | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
 | Skill **security-audit** | Auditoria completa de segurança do código, feita pelo agente de Segurança antes da primeira publicação, com a sua aprovação | [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill) |
 | Plugin **metodo** | Este repositório: `/metodo:novo-projeto`, `/metodo:atualizar-projeto`, a consulta ao método nas sessões do projeto e as skills dos agentes especialistas (as de cada especialista) | este repositório |
 
@@ -266,6 +273,26 @@ npx skills add https://github.com/cloudflare/security-audit-skill --skill securi
 ```
 
 Ela roda auditorias que gastam bastante cota (vários subagentes), por isso o agente de Segurança só a usa com a sua aprovação (skill `metodo:auditoria-de-seguranca`). Para atualizar: `npx skills update security-audit --global`; para conferir: `npx skills ls --global`. Os relatórios ficam fora do projeto, em `~/security-audit-skill/`. Requisitos e opções: [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill).
+
+**10. Ponytail (rascunho).** Reduz o custo em tokens no Claude Code: cada agente escreve a menor mudança que resolve a tarefa inteira, com respostas mais curtas, sem cortar validação, segurança nem acessibilidade. Na medição do próprio repositório, foram 45% menos tokens de saída e 26% menos custo por tarefa. O TDD do método vale por cima dele ([03, "Ponytail"](nucleo/03-skills-e-testes.md)). Dentro do Claude Code, em dois comandos:
+
+```text
+/plugin marketplace add DietrichGebert/ponytail
+/plugin install ponytail@ponytail
+```
+
+No Codex, no terminal. Ali ele fica **só sob demanda**: não confie nos dois ganchos dele em `/hooks`, porque nos modelos de raciocínio da OpenAI as regras sempre ligadas encareceram em vez de economizar (veja o `03`):
+
+```bash
+codex plugin marketplace add DietrichGebert/ponytail
+codex plugin add ponytail@ponytail
+```
+
+No Claude Code, ele fica ligado em toda sessão, no nível `full`, e a faixa acima do prompt mostra o custo de cada tarefa. Instale só pelo repositório oficial, [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail). Para usar sem surpresa ([03, "Uso seguro no tempo"](nucleo/03-skills-e-testes.md)):
+
+- troque o nível só na sessão (`/ponytail off`, `/ponytail full`); **nunca** use `/ponytail default`, que muda todas as sessões do computador;
+- o nível vale por pasta: duas sessões na mesma pasta dividem o nível;
+- deixe a atualização automática desligada para o marketplace `ponytail`; a versão conferida pelo método é a 5.3.3, e cada atualização passa antes por uma releitura dos ganchos.
 
 Os conectores que os plugins engineering e design trazem (Slack, Figma, Linear e outros) podem ficar sem autenticação; o método não depende deles.
 
