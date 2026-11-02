@@ -98,6 +98,15 @@ O [ponytail](https://github.com/DietrichGebert/ponytail) é um plugin que fica a
 
 **Medir o consumo (só no Claude Code).** A faixa do ponytail acima do prompt mostra, por tarefa, o custo, os tokens, as idas e voltas, o tempo, quanto foi reaproveitado e se os testes passaram. Cada tarefa vira uma linha em `~/.config/ponytail/band/<projeto>.csv`, só no computador (o webhook fica vazio). É a fonte do consumo por tarefa na memória do projeto e da medida de custo na Fase 9. `/ponytail band import` traz as sessões antigas para o quadro.
 
+**Uso seguro no tempo** (para não ter surpresa depois):
+
+- **O nível vale por pasta.** O ponytail guarda o nível (`off`, `lite`, `full`) por pasta do projeto. No Orca, cada agente tem a sua worktree e o seu nível. Duas sessões na **mesma pasta** dividem o nível: o `/ponytail off` de uma desliga a outra. Por isso, o que precisa do ponytail desligado (a auditoria de segurança) roda numa worktree própria.
+- **Nunca use `/ponytail default <nível>`.** É o único comando que muda o padrão de **todas** as sessões, de todos os projetos, deste computador (grava em `~/.config/ponytail/config.json`). Troque o nível só na sessão (`/ponytail off`, `/ponytail full`), que vale até a sessão acabar.
+- **Versão conferida: 5.3.3** (commit `96608e0` do repositório, lido por inteiro em 2026-11-02: as regras, os seis comandos, os ganchos, a faixa de custo e a configuração). Nada sai do computador (o webhook fica vazio), e ele não escreve nas configurações do Claude Code.
+- **Deixe a atualização automática desligada** para o marketplace `ponytail` (em `/plugin`, aba de marketplaces; é o padrão para marketplaces de fora). Ele se atualiza pelo ramo principal do repositório, sem versão fixa.
+- **Antes de atualizar:** leia o que mudou desde a versão conferida (os commits e o README) e confira três coisas: os ganchos continuam sem mandar nada pela rede, continuam sem escrever nas configurações do Claude Code, e as regras continuam sem cortar teste, validação ou segurança. Só então atualize (`claude plugin update ponytail@ponytail` e `codex plugin marketplace upgrade ponytail`) e registre a nova versão conferida aqui, por um PR do método.
+- **Sinais para desligar e avisar a pessoa:** o agente pulando o teste que falha antes, cortando validação, mudando o escopo da tarefa por conta própria ou o consumo por tarefa subindo em vez de cair. Cada caso vira nota na memória do projeto e, na Fase 9, lição do método.
+
 **Regras de convivência com o método** (o `CLAUDE.md` e o `AGENTS.md` do projeto repetem, e o ponytail segue o que o projeto declara):
 
 1. **O TDD do método vale sobre o ponytail.** O teste novo é escrito antes e visto falhar (micro), e a suíte, os tipos e o build fecham a tarefa (macro). O "um teste pequeno, se houver lógica" do ponytail é o mínimo dele, não o do método.

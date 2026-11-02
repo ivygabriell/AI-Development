@@ -644,6 +644,16 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
   for (const termo of ['tokens', 'custo', 'Codex', 'mais caro', '~/.config/ponytail/band/', 'SubagentStart', '/hooks', 'benchmarks/results'])
     checar(`skills e testes: seção do ponytail cobre custo e o Codex (${termo})`, ponySecao.includes(termo));
   checar('skills/auditoria-de-seguranca: desliga o ponytail durante a auditoria completa (subagentes)', auditoria.includes('/ponytail off'));
+  // Uso seguro do ponytail no tempo (pedido da pessoa): o nível vale por pasta, nunca se muda o padrão global,
+  // a auditoria roda numa worktree própria, o Codex declara o uso sob demanda e a atualização é deliberada
+  for (const termo of ['vale por pasta', '/ponytail default', 'versão conferida', '5.3.3', 'atualização automática', 'Antes de atualizar'])
+    checar(`skills e testes: uso seguro do ponytail no tempo (${termo})`, ponySecao.includes(termo));
+  checar('skills/auditoria-de-seguranca: roda numa worktree própria, para o /ponytail off não afetar outra sessão', auditoria.includes('worktree própria') && auditoria.includes('git worktree add --detach'));
+  checar('modelos/AGENTS-projeto.md: o Codex não carrega o ponytail sozinho', ler('modelos/AGENTS-projeto.md').includes('não carregue a skill `ponytail` por conta própria'));
+  for (const modelo of ['modelos/CLAUDE-projeto.md', 'modelos/AGENTS-projeto.md'])
+    checar(`${modelo}: nunca muda o padrão global do ponytail (/ponytail default)`, ler(modelo).includes('/ponytail default'));
+  checar('decisão 012: o que observar no primeiro projeto Codex inclui se o ponytail carregou sozinho', ler('decisoes/012-revalidacao-de-lacunas-e-ponytail.md').includes('carregou sozinho'));
+  checar('agentes/integradora: anota na memória se o ponytail carregou sozinho no Codex', ler('modelos/agentes/integradora.md').includes('carregou sozinho'));
   checar('agentes/integradora: lê o consumo por tarefa no quadro do ponytail', ler('modelos/agentes/integradora.md').includes('~/.config/ponytail/band/'));
   checar('modelos/AGENTS-projeto.md: no Codex, o ponytail fica só sob demanda até medir', ler('modelos/AGENTS-projeto.md').includes('sob demanda'));
   for (const modelo of ['modelos/CLAUDE-projeto.md', 'modelos/AGENTS-projeto.md'])
