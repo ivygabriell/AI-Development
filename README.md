@@ -38,6 +38,71 @@ A arquitetura nasceu de um projeto real (um portfólio com animações, vídeos,
 
 A arquitetura escala para baixo: um projeto pequeno roda com **uma sessão**, ou com a integradora e poucas trabalhadoras no Orca, sem os especialistas. O método é o mesmo em todos os tamanhos ([02](nucleo/02-sessoes-e-papeis.md)).
 
+## Conceitos, harnesses, skills e ferramentas
+
+Tudo o que a arquitetura usa, com o link de onde cada coisa é explicada.
+
+### Conceitos
+
+| Conceito | O que é | Onde está |
+|---|---|---|
+| **Agente principal** | A ferramenta do projeto: Claude Code ou Codex, a mesma para todas as sessões, registrada na linha `Agente principal:` do `docs/DESENVOLVIMENTO.md` | [02](nucleo/02-sessoes-e-papeis.md), [decisão 010](decisoes/010-um-agente-principal-por-projeto.md) |
+| **Integradora** | A sessão que coordena, valida com olhar independente e é a única que integra na `main`. No Orca, é a coordenadora | [02](nucleo/02-sessoes-e-papeis.md) |
+| **Trabalhadora** | A sessão que constrói uma tarefa isolada, numa worktree e numa branch próprias, e termina com o PR aberto | [02](nucleo/02-sessoes-e-papeis.md) |
+| **Especialista** | O agente de um tema (Arquitetura, Back e Dados, Design e Front, Segurança, Produto, DevOps), que decide e revisa o tema e coordena as próprias trabalhadoras | [02, "Com agentes especialistas"](nucleo/02-sessoes-e-papeis.md), [decisão 008](decisoes/008-agentes-especialistas.md) |
+| **Harness** | As regras de atuação de um agente, em 10 partes: missão, quando é chamado, o que lê, o que pode e o que não pode, Skills, checklist, formato da resposta, quando sobe a decisão, memória e economia. O harness manda; o que se consulta só informa | [modelo do harness](modelos/agentes/_modelo-harness.md) |
+| **Skill** | Um passo a passo que o agente carrega para um tipo de trabalho (planejar, testar, revisar, um tema). Dizer qual Skill está em uso faz parte do trabalho | [03, "Mapa de skills"](nucleo/03-skills-e-testes.md) |
+| **Skill por agente** | Uma skill do plugin `metodo` tirada da leitura das referências de um especialista: passo a passo com a fonte, o teste que prova, checklist e como adaptar ao tamanho do projeto | [decisão 009](decisoes/009-skills-por-agente.md) |
+| **Base de referências** | O que a leitura das referências de cada agente ensinou (regra, porquê, link). O agente procura nela antes de ir aos sites | [`modelos/referencias/`](modelos/referencias/) |
+| **Plugin `metodo`** | Este repositório empacotado para o Claude Code e o Codex: as skills de início, atualização e consulta, e as skills dos agentes | [`.claude-plugin/`](.claude-plugin/marketplace.json) |
+| **Fases e portões** | O caminho da ideia ao fechamento (Fases 0 a 9). Em cada portão, a pessoa aprova: spec, plano, cada merge e o deploy | [01](nucleo/01-fluxo-de-ponta-a-ponta.md) |
+| **Spec e critérios de aceite** | O alvo escrito antes de construir e a lista verificável do que "pronto" quer dizer | [modelo de spec](modelos/modelo-spec.md), [critérios de aceite](modelos/modelo-criterios-de-aceite.md) |
+| **Testes micro e macro** | Micro: TDD, com o teste escrito e visto falhar antes do código. Macro: a suíte inteira, os tipos, o build e a exploração no navegador | [03](nucleo/03-skills-e-testes.md) |
+| **Issue, branch e PR** | Uma tarefa, uma branch, um PR, com o CI verde. As branches integradas ficam no GitHub | [05](nucleo/05-git-github-e-ci.md) |
+| **Worktree** | Uma cópia de trabalho por tarefa, para várias sessões trabalharem ao mesmo tempo sem se cruzar | [05, "Worktrees"](nucleo/05-git-github-e-ci.md) |
+| **Orca** | O aplicativo que abre os agentes, cada um na sua worktree, e leva as dúvidas e os portões para a integradora (`worker-start`, `ask`, `gate-create`) | [02, "Com o Orca"](nucleo/02-sessoes-e-papeis.md) |
+| **Contrato da API** | O acordo entre o back e o front, fechado e aprovado antes de construir quando os dois andam em paralelo. É da Arquitetura | [02](nucleo/02-sessoes-e-papeis.md) |
+| **Mapa de riscos** | O que proteger, de quem e por onde, feito na Fase 2 com o roteiro da `security-audit`. Cada risco vira critério de aceite | [harness da Segurança](modelos/agentes/seguranca.md) |
+| **`CLAUDE.md` e `AGENTS.md` do projeto** | As instruções que cada ferramenta lê ao abrir o projeto: o Claude Code lê o `CLAUDE.md`, e o Codex lê o `AGENTS.md`, que manda ler o `CLAUDE.md` | [modelo do `CLAUDE.md`](modelos/CLAUDE-projeto.md), [modelo do `AGENTS.md`](modelos/AGENTS-projeto.md) |
+| **Memória do projeto** | O que a próxima sessão precisa saber: estado, decisões, pendências e, por tarefa, retrabalho e consumo | [modelo da memória](modelos/memoria-do-projeto.md) |
+| **Cenário** | Como o método se adapta a um tipo de projeto, com selo de maturidade (`rascunho`, `testado em 1 projeto`, `estável`) | [`cenarios/`](cenarios/README.md) |
+| **Caso, lição e decisão** | Caso: a retrospectiva de um projeto. Lição: um erro e a regra que veio dele. Decisão: por que uma regra mudou | [`casos/`](casos/_modelo-caso.md), [`licoes/`](licoes/_indice.md), [`decisoes/`](decisoes/_modelo-decisao.md) |
+
+### Harnesses
+
+| Agente | Harness | Presença |
+|---|---|---|
+| Integradora | [integradora.md](modelos/agentes/integradora.md) | sempre |
+| Arquitetura | [arquitetura.md](modelos/agentes/arquitetura.md) | sempre |
+| Back e Dados | [back-e-dados.md](modelos/agentes/back-e-dados.md) | sempre |
+| Design e Front | [design-e-front.md](modelos/agentes/design-e-front.md) | sempre |
+| Segurança | [seguranca.md](modelos/agentes/seguranca.md) | sempre |
+| Produto | [produto.md](modelos/agentes/produto.md) | sob demanda (Fases 0 a 2) |
+| DevOps | [devops.md](modelos/agentes/devops.md) | sob demanda |
+
+### Skills
+
+Quando usar cada uma está no [mapa de skills do 03](nucleo/03-skills-e-testes.md).
+
+| De onde | Skills |
+|---|---|
+| Plugin `metodo`: início e consulta | `metodo:novo-projeto`, `metodo:atualizar-projeto`, `metodo:consultar` |
+| Plugin `metodo`: Integradora | `metodo:validacao-final`, `metodo:metricas-de-entrega` |
+| Plugin `metodo`: Arquitetura | `metodo:contrato-de-api`, `metodo:analise-de-falhas`, `metodo:migracao-de-sistema` |
+| Plugin `metodo`: Back e Dados | `metodo:api-conforme-contrato`, `metodo:migracao-sem-parada`, `metodo:transacoes-e-consultas`, `metodo:trabalho-em-segundo-plano` |
+| Plugin `metodo`: Design e Front | `metodo:formularios-e-erros`, `metodo:desempenho-na-tela`, `metodo:estados-da-tela` |
+| Plugin `metodo`: Segurança | `metodo:autenticacao-e-sessao`, `metodo:controle-de-acesso`, `metodo:entrada-nao-confiavel`, `metodo:incidente-com-dados-pessoais`, `metodo:auditoria-de-seguranca` |
+| Plugin `metodo`: Produto | `metodo:necessidades-e-riscos`, `metodo:descoberta-continua` |
+| Plugin `metodo`: DevOps | `metodo:publicacao-gradual`, `metodo:metas-e-alertas`, `metodo:ci-seguro` |
+| Superpowers (o fluxo) | `superpowers:brainstorming`, `superpowers:writing-plans`, `superpowers:executing-plans`, `superpowers:subagent-driven-development`, `superpowers:dispatching-parallel-agents`, `superpowers:test-driven-development`, `superpowers:systematic-debugging`, `superpowers:verification-before-completion`, `superpowers:requesting-code-review`, `superpowers:receiving-code-review`, `superpowers:using-git-worktrees`, `superpowers:finishing-a-development-branch`, `superpowers:diagnosing-superpowers` |
+| engineering | `engineering:architecture`, `engineering:system-design`, `engineering:testing-strategy`, `engineering:debug`, `engineering:code-review`, `engineering:deploy-checklist`, `engineering:incident-response`, `engineering:tech-debt`, `engineering:documentation` |
+| design | `design:accessibility-review`, `design:design-critique`, `design:design-handoff`, `design:ux-copy` |
+| De fora | `security-audit` (auditoria de segurança da Cloudflare, usada pela Segurança) e `reverse-engineer-anything` (engenharia reversa, do REA) |
+
+### Ferramentas
+
+Claude Code ou Codex (o agente principal), Orca (orquestração), GitHub e GitHub CLI (`gh`), Git, Node.js, os plugins Superpowers, engineering, design e `metodo`, o REA e a skill `security-audit`. A instalação de cada uma, com o link oficial, está em [Antes de começar](#antes-de-começar-uma-vez-por-computador).
+
 ## Os 7 princípios
 
 1. **Alvo antes de construir.** Entenda a intenção, escreva de volta o que entendeu e só então desenhe. Se o pedido cita um título, um nome ou uma referência, ache exatamente aquilo; se não bater, pergunte antes de implementar.

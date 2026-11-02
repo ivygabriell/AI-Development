@@ -4,7 +4,7 @@ Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quan
 
 ## 3.0.1 (2026-11-02)
 
-README reescrito no começo, a pedido da pessoa: o repositório se apresenta como uma **arquitetura de agentes para desenvolvimento** (integradora, especialistas, trabalhadoras e a pessoa nos portões, em Claude Code ou Codex), e não mais como "método com Claude Code". Entra a seção "A arquitetura", com o desenho dos agentes e uma tabela de onde está cada peça. As instruções de atualização e de início citam as duas ferramentas. Nenhuma regra muda.
+README reescrito no começo, a pedido da pessoa: o repositório se apresenta como uma **arquitetura de agentes para desenvolvimento** (integradora, especialistas, trabalhadoras e a pessoa nos portões, em Claude Code ou Codex), e não mais como "método com Claude Code". Entra a seção "A arquitetura", com o desenho dos agentes e uma tabela de onde está cada peça. Entra também a seção "Conceitos, harnesses, skills e ferramentas": o glossário (agente principal, integradora, especialista, trabalhadora, harness, skill, base de referências, fases e portões, testes micro e macro, worktree, Orca, contrato da API, mapa de riscos, memória, cenário, caso, lição, decisão), os sete harnesses, todas as skills por origem e as ferramentas. As instruções de atualização e de início citam as duas ferramentas. Nenhuma regra muda.
 
 ## 3.0.0 (2026-11-02)
 
