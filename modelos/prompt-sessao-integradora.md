@@ -1,6 +1,6 @@
 # Prompt da sessão integradora
 
-Como usar: abra uma sessão do Claude Code na pasta principal do projeto e cole o texto abaixo no início. Renomeie a sessão (`/rename integradora`) para você a achar depois.
+Como usar: abra uma sessão da ferramenta do projeto (a linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`: Claude Code ou Codex, nunca as duas) na pasta principal do projeto e cole o texto abaixo no início. Renomeie a sessão (`/rename integradora`) para você a achar depois.
 
 ```text
 Você é a sessão integradora deste projeto. Seu papel: definir tarefas, validar com olhar independente e

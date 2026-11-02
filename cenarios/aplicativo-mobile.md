@@ -22,6 +22,11 @@ O método base ([nucleo/](../nucleo/01-fluxo-de-ponta-a-ponta.md)) continua vale
 - `engineering:testing-strategy`
 - `design:accessibility-review`
 - `engineering:deploy-checklist`
+- `metodo:estados-da-tela`
+- `metodo:formularios-e-erros`
+- `metodo:autenticacao-e-sessao`
+- `metodo:auditoria-de-seguranca`
+- `reverse-engineer-anything`
 
 ## Checklist
 

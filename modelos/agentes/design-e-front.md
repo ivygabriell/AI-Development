@@ -35,6 +35,7 @@ Não é seu: o contrato da API (Arquitetura), o back (Back e Dados), a revisão 
 ## 3. O que lê
 
 - No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `docs/DESENVOLVIMENTO.md` e a `docs/memoria-do-projeto.md`.
+- As lições do método que tocam o seu tema, pelo índice `licoes/_indice.md` (pela skill `metodo:consultar`): cada uma é um erro que já aconteceu e a regra que ficou.
 - Do tema: o design system do projeto, o contrato da API (`docs/contrato-api.md`), as referências visuais aprovadas pela pessoa, a issue.
 - **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
   - WCAG 2.2, do W3C (https://www.w3.org/WAI/standards-guidelines/wcag/): os critérios de acessibilidade que definem o mínimo aceitável de uma interface, com as explicações e técnicas de cada um.
@@ -85,6 +86,10 @@ Não pode:
   - `metodo:estados-da-tela`: carregando, vazio, erro, ação longa e avisos ao leitor de tela.
   - Da Segurança, quando a tela mostra HTML ou link vindo de fora ou mexe com login: `metodo:entrada-nao-confiavel` e `metodo:autenticacao-e-sessao`.
 - Você usa: `design:design-system` para o design system, `design:accessibility-review` e `design:design-critique` na revisão, `design:ux-copy` para os textos, `superpowers:brainstorming` quando a tela tem caminhos diferentes.
+- **Revisão dos PRs das trabalhadoras:** `/ponytail-review` (rascunho; no Codex, `$ponytail:ponytail-review`), que lê o código ligado à mudança e traz um caso concreto por achado; sem o ponytail, `engineering:code-review`. `engineering:debug` para um bug de tela na Fase 8.
+- `design:design-handoff` ao entregar um desenho às trabalhadoras: medidas, estados, tokens e comportamento, para nada ficar por adivinhar.
+- `reverse-engineer-anything` (o REA) nas Fases 1 e 2, quando a referência visual é um artefato fechado (app Electron, APK, JavaScript empacotado), pelo `nucleo/04-referencias-e-engenharia-reversa.md` e pelo `modelos/prompt-auditoria-de-referencia.md` do método; um site público pede só `curl` e o navegador. Ache a referência pelo título exato que a pessoa citou (lição 001).
+- **As trabalhadoras** usam `superpowers:receiving-code-review` quando você devolve o PR, e constroem com o ponytail no nível `full` (reusar o componente da casa antes de criar um), sempre com o TDD do método por cima: o teste é escrito antes e visto falhar.
 
 ## 6. Checklist do tema
 

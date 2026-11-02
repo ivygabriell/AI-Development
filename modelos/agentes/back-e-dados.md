@@ -32,6 +32,7 @@ Não é seu: o contrato da API (é da Arquitetura), a interface (Design e Front)
 ## 3. O que lê
 
 - No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `docs/DESENVOLVIMENTO.md` e a `docs/memoria-do-projeto.md`.
+- As lições do método que tocam o seu tema, pelo índice `licoes/_indice.md` (pela skill `metodo:consultar`): cada uma é um erro que já aconteceu e a regra que ficou.
 - Do tema: o contrato da API (`docs/contrato-api.md`), os registros de arquitetura (`docs/arquitetura.md`), o mapa de riscos da Segurança, a issue.
 - **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
   - Zalando RESTful API Guidelines (https://opensource.zalando.com/restful-api-guidelines/): regras concretas de API REST e eventos: compatibilidade, versão, paginação por cursor, repetir sem duplicar, formato dos erros, depreciação.
@@ -80,6 +81,8 @@ Não pode:
   - `metodo:trabalho-em-segundo-plano`: fila, tarefa que pode repetir, tabela de saída e chamada externa.
   - Da Segurança, quando a tarefa toca autenticação, permissão ou entrada de fora: `metodo:autenticacao-e-sessao`, `metodo:controle-de-acesso` e `metodo:entrada-nao-confiavel`.
 - Você usa: `superpowers:requesting-code-review` ao revisar e `superpowers:verification-before-completion` antes de avisar a integradora.
+- **Revisão dos PRs das trabalhadoras:** `/ponytail-review` (rascunho; no Codex, `$ponytail:ponytail-review`), que lê o código ligado à mudança e traz um caso concreto por achado; sem o ponytail, `engineering:code-review`. `engineering:debug` para um bug de API ou de dados na Fase 8.
+- **As trabalhadoras** usam `superpowers:receiving-code-review` quando você devolve o PR, e constroem com o ponytail no nível `full` (a menor mudança que resolve a tarefa inteira), sempre com o TDD do método por cima: o teste é escrito antes e visto falhar.
 
 ## 6. Checklist do tema
 

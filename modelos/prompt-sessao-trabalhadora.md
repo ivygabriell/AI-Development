@@ -1,6 +1,6 @@
 # Prompt da sessão trabalhadora
 
-Como usar: crie a worktree com `scripts/nova-tarefa.sh <tipo> <slug>`, abra uma nova sessão do Claude Code **dentro da pasta da worktree**, troque `N` pelo número da issue e cole o texto abaixo.
+Como usar: crie a worktree com `scripts/nova-tarefa.sh <tipo> <slug>`, abra uma nova sessão da ferramenta do projeto (a linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`: Claude Code ou Codex, nunca as duas) **dentro da pasta da worktree**, troque `N` pelo número da issue e cole o texto abaixo.
 
 ```text
 Você é uma sessão trabalhadora deste projeto. Sua tarefa é a issue #N do repositório

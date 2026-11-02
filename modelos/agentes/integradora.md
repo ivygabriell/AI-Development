@@ -30,6 +30,7 @@
 ## 3. O que lê
 
 - No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `docs/DESENVOLVIMENTO.md` e a `docs/memoria-do-projeto.md`, a spec e o plano.
+- As lições do método que tocam o seu tema, pelo índice `licoes/_indice.md` (pela skill `metodo:consultar`): cada uma é um erro que já aconteceu e a regra que ficou.
 - Os harnesses dos especialistas em `docs/agentes/`, para saber o que cada um pode e não pode.
 - Durante o trabalho: os resumos dos especialistas. O diff, só onde a validação pede.
 - O guia de orquestração da versão instalada: `orca skills get orchestration`.
@@ -94,6 +95,11 @@ Não pode:
 - **Skills do tema** (plugin `metodo`). Você não tem trabalhadoras; as trabalhadoras usam as skills dos especialistas delas. Você usa as suas na validação final e ao responder à pessoa sobre o ritmo do projeto.
   - `metodo:validacao-final`: critérios de aceite provados, comportamento e não implementação, dublês, pirâmide e testes instáveis.
   - `metodo:metricas-de-entrega`: as cinco métricas da DORA, com linha de base e sem virar meta.
+- `metodo:auditoria-de-seguranca`: para criar o portão da auditoria (Fases 2 e 7) e decidir a publicação pela tabela de triagem.
+- `engineering:testing-strategy` no plano (Fase 3): que testes micro e macro cada entrega pede.
+- `engineering:tech-debt` e `/ponytail-audit` (rascunho) na Fase 8: o que corrigir primeiro e o que apagar; `/ponytail-debt` junta os atalhos `shortcut:` deixados pelas trabalhadoras, que viram pendências na memória.
+- `engineering:documentation` para o README, os runbooks e a documentação que a entrega pede.
+- `superpowers:diagnosing-superpowers` quando uma sessão deu errado (retrabalho, plano ignorado, custo alto) e é preciso entender por quê antes de virar lição.
 
 ## 6. Checklist do tema
 

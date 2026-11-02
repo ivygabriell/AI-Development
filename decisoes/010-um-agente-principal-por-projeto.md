@@ -12,7 +12,7 @@ A pessoa decidiu que, dentro de um projeto, sempre atua **um agente principal s�
 
 Na mesma conversa, a pessoa pediu para avaliar três repositórios. Ela aprovou só a skill [security-audit](https://github.com/cloudflare/security-audit-skill), da Cloudflare: uma auditoria de segurança em seis fases (reconhecimento, caça guiada por cobertura, validação de cada candidato, saída estruturada, verificação independente e relatório), que funciona no Claude Code e no Codex. Os outros dois ficaram de fora por decisão dela:
 
-- **ponytail:** é um prompt sempre ativo que conflita com o TDD do método (ele pede "um teste pequeno, se houver lógica") e repete as revisões que o método já tem.
+- **ponytail** (entrou depois, pela [decisão 012](012-revalidacao-de-lacunas-e-ponytail.md), com regras de convivência): é um prompt sempre ativo que conflita com o TDD do método (ele pede "um teste pequeno, se houver lógica") e repete as revisões que o método já tem.
 - **claude-mem:** repete a memória revisada do projeto e o `orca search`; grava saídas de comandos que podem ter dados pessoais; injeta contexto sem portão; e aumenta o consumo de tokens (contexto em cada sessão nova e um modelo que resume cada uso de ferramenta), justamente o que a pessoa quer economizar com várias sessões no Orca. Pode voltar a ser avaliado junto do escopo futuro (contexto gerado a partir dos casos), com uma medição de consumo.
 
 ## Decisão

@@ -22,6 +22,9 @@ O método base ([nucleo/](../nucleo/01-fluxo-de-ponta-a-ponta.md)) continua vale
 - `engineering:documentation`
 - `engineering:testing-strategy`
 - `engineering:code-review`
+- `metodo:contrato-de-api`
+- `metodo:ci-seguro`
+- `metodo:publicacao-gradual`
 
 ## Checklist
 

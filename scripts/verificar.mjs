@@ -77,6 +77,7 @@ const OBRIGATORIOS = [
   'modelos/agentes/_modelo-harness.md',
   'decisoes/010-um-agente-principal-por-projeto.md',
   'decisoes/011-sem-rascunho-fora-dos-cenarios.md',
+  'decisoes/012-revalidacao-de-lacunas-e-ponytail.md',
 ];
 for (const arquivo of OBRIGATORIOS) checar(`existe ${arquivo}`, existsSync(join(RAIZ, arquivo)));
 
@@ -577,15 +578,65 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
   checar('skills/atualizar-projeto: pergunta o agente principal e acrescenta a linha no DESENVOLVIMENTO.md', atualizar.includes('Agente principal') && atualizar.includes('--agente'));
 }
 
-// Decisão 011: fora dos cenários (que têm selo de maturidade próprio), nada do método fica marcado como rascunho
+// Decisão 011: o que foi promovido não volta a ser rascunho; só os cenários e o que entrou depois sem caso real (o ponytail, decisão 012) levam o selo
 {
   const ativos = todosMd().map((a) => relative(RAIZ, a)).filter((n) => /^(README\.md|modelos\/|nucleo\/|skills\/)/.test(n));
   for (const nome of ativos) {
-    const linhas = ler(nome).split('\n').filter((l) => /rascunho/i.test(l) && !/cen[aá]rio|selo de maturidade|rascunho do aviso/i.test(l));
+    const linhas = ler(nome).split('\n').filter((l) => /rascunho/i.test(l) && !/cen[aá]rio|selo de maturidade|rascunho do aviso|ponytail/i.test(l));
     checar(`${nome}: sem marca de rascunho fora dos cenários (decisão 011)`, linhas.length === 0, (linhas[0] || '').slice(0, 120));
   }
   const np = ler('scripts/novo-projeto.sh');
   checar('novo-projeto.sh: sem "modo em rascunho" (decisão 011)', !/modo em rascunho|especialistas \(rascunho\)/.test(np));
+}
+
+
+// Decisão 012: revalidação de lacunas. Nada fica solto: toda skill do mapa do 03 tem um agente que a usa,
+// ou está na lista das que servem só aos modos sem especialistas; os agentes leem as lições; os cenários
+// apontam para as skills dos agentes; o REA e a security-audit têm dono; o ponytail entra com regras.
+{
+  const mapa = (skills.split('## Mapa de skills')[1] || '').split('\n## ')[0];
+  const foraDosAgentes = (skills.split('## Skills fora dos agentes')[1] || '').split('\n## ')[0];
+  checar('skills e testes: seção "Skills fora dos agentes", com o motivo de cada uma', foraDosAgentes.length > 200);
+  const harnessesTexto = HARNESSES.map((n) => ler(`modelos/agentes/${n}.md`)).join('\n');
+  const doMapa = new Set([...mapa.matchAll(/`((?:superpowers|engineering|design|metodo):[a-z-]+|security-audit|reverse-engineer-anything)`/g)].map((m) => m[1]));
+  for (const skill of doMapa)
+    checar(`mapa de skills: ${skill} tem um agente que a usa ou está em "Skills fora dos agentes"`, harnessesTexto.includes(skill) || foraDosAgentes.includes(skill));
+  for (const skill of ['design:design-system', 'design:user-research', 'design:research-synthesis'])
+    checar(`mapa de skills: cita ${skill}, que um agente usa`, mapa.includes(skill));
+  for (const skill of ['engineering:standup', 'superpowers:using-superpowers', 'superpowers:writing-skills'])
+    checar(`skills e testes: diz por que ${skill} fica fora dos agentes`, foraDosAgentes.includes(skill));
+  for (const nome of HARNESSES)
+    checar(`agentes/${nome}: lê as lições do método (licoes/_indice.md)`, ler(`modelos/agentes/${nome}.md`).includes('licoes/_indice.md'));
+  checar('agentes/_modelo-harness: manda ler as lições do método', modeloHarness.includes('licoes/_indice.md'));
+  const parte5 = (n) => (ler(`modelos/agentes/${n}.md`).split('## 5. Skills')[1] || '').split('\n## ')[0];
+  const exige = {
+    integradora: ['metodo:auditoria-de-seguranca', 'engineering:testing-strategy', 'engineering:tech-debt', 'engineering:documentation', 'superpowers:diagnosing-superpowers', '/ponytail-audit', '/ponytail-debt'],
+    'back-e-dados': ['/ponytail-review', 'engineering:code-review', 'engineering:debug', 'superpowers:receiving-code-review', 'ponytail'],
+    'design-e-front': ['/ponytail-review', 'engineering:code-review', 'engineering:debug', 'superpowers:receiving-code-review', 'design:design-handoff', 'reverse-engineer-anything', 'ponytail'],
+    devops: ['/ponytail-review', 'engineering:code-review', 'engineering:documentation', 'superpowers:receiving-code-review', 'ponytail'],
+    arquitetura: ['reverse-engineer-anything'],
+    seguranca: ['reverse-engineer-anything'],
+  };
+  for (const [nome, termos] of Object.entries(exige))
+    for (const termo of termos) checar(`agentes/${nome}: parte 5 cita ${termo}`, parte5(nome).includes(termo));
+  checar('agentes/devops: recebe da Segurança os needs_validation de infraestrutura', ler('modelos/agentes/devops.md').includes('needs_validation'));
+  checar('agentes/design-e-front: estuda referência pelo prompt de auditoria de referência', ler('modelos/agentes/design-e-front.md').includes('prompt-auditoria-de-referencia.md'));
+  checar('skills/auditoria-de-seguranca: o artefato publicado com o REA', auditoria.includes('reverse-engineer-anything') && auditoria.includes('artefato publicado'));
+  for (const nome of listar('cenarios'))
+    checar(`cenarios/${nome}: "Skills úteis" aponta para as skills dos agentes (metodo:)`, ((ler(`cenarios/${nome}`).split('## Skills úteis')[1] || '').split('\n## ')[0]).includes('`metodo:'));
+  for (const prompt of ['modelos/prompt-sessao-integradora.md', 'modelos/prompt-sessao-trabalhadora.md'])
+    checar(`${prompt}: vale para o agente principal (Claude Code ou Codex)`, ler(prompt).includes('Codex') && ler(prompt).includes('Agente principal'));
+  for (const skill of ['design:design-system', 'design:user-research', 'design:research-synthesis', 'superpowers:writing-skills', '/ponytail-review'])
+    checar(`README: lista de skills cita ${skill}`, readme.includes(skill));
+  checar('CLAUDE.md do método: superpowers:writing-skills ao criar ou mudar skill do plugin', ler('CLAUDE.md').includes('superpowers:writing-skills'));
+  // Ponytail (rascunho): instalação oficial e as regras de convivência com o método
+  for (const termo of ['https://github.com/DietrichGebert/ponytail', '/plugin marketplace add DietrichGebert/ponytail', 'codex plugin marketplace add DietrichGebert/ponytail'])
+    checar(`README: adoção instala o ponytail (${termo})`, adocao.includes(termo));
+  const ponySec = (sessoes + skills);
+  checar('skills e testes: seção do ponytail com as regras de convivência', skills.includes('## Ponytail (rascunho)') && /TDD do método/.test(skills.split('## Ponytail (rascunho)')[1] || '') && (skills.split('## Ponytail (rascunho)')[1] || '').includes('shortcut:') && (skills.split('## Ponytail (rascunho)')[1] || '').includes('ultra'));
+  for (const modelo of ['modelos/CLAUDE-projeto.md', 'modelos/AGENTS-projeto.md'])
+    checar(`${modelo}: diz que o TDD do método vale sobre o ponytail`, ler(modelo).includes('ponytail') && ler(modelo).includes('TDD do método'));
+  void ponySec;
 }
 
 // 4) Consistência geral

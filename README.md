@@ -94,14 +94,15 @@ Quando usar cada uma está no [mapa de skills do 03](nucleo/03-skills-e-testes.m
 | Plugin `metodo`: Segurança | `metodo:autenticacao-e-sessao`, `metodo:controle-de-acesso`, `metodo:entrada-nao-confiavel`, `metodo:incidente-com-dados-pessoais`, `metodo:auditoria-de-seguranca` |
 | Plugin `metodo`: Produto | `metodo:necessidades-e-riscos`, `metodo:descoberta-continua` |
 | Plugin `metodo`: DevOps | `metodo:publicacao-gradual`, `metodo:metas-e-alertas`, `metodo:ci-seguro` |
-| Superpowers (o fluxo) | `superpowers:brainstorming`, `superpowers:writing-plans`, `superpowers:executing-plans`, `superpowers:subagent-driven-development`, `superpowers:dispatching-parallel-agents`, `superpowers:test-driven-development`, `superpowers:systematic-debugging`, `superpowers:verification-before-completion`, `superpowers:requesting-code-review`, `superpowers:receiving-code-review`, `superpowers:using-git-worktrees`, `superpowers:finishing-a-development-branch`, `superpowers:diagnosing-superpowers` |
+| Superpowers (o fluxo) | `superpowers:brainstorming`, `superpowers:writing-plans`, `superpowers:executing-plans`, `superpowers:subagent-driven-development`, `superpowers:dispatching-parallel-agents`, `superpowers:test-driven-development`, `superpowers:systematic-debugging`, `superpowers:verification-before-completion`, `superpowers:requesting-code-review`, `superpowers:receiving-code-review`, `superpowers:using-git-worktrees`, `superpowers:finishing-a-development-branch`, `superpowers:diagnosing-superpowers`; e `superpowers:writing-skills`, só na sessão que mantém este repositório |
 | engineering | `engineering:architecture`, `engineering:system-design`, `engineering:testing-strategy`, `engineering:debug`, `engineering:code-review`, `engineering:deploy-checklist`, `engineering:incident-response`, `engineering:tech-debt`, `engineering:documentation` |
-| design | `design:accessibility-review`, `design:design-critique`, `design:design-handoff`, `design:ux-copy` |
+| design | `design:accessibility-review`, `design:design-critique`, `design:design-handoff`, `design:ux-copy`, `design:design-system`, `design:user-research`, `design:research-synthesis` |
+| Ponytail (rascunho) | o modo ponytail (a menor mudança que resolve a tarefa inteira), `/ponytail-review`, `/ponytail-audit` e `/ponytail-debt` |
 | De fora | `security-audit` (auditoria de segurança da Cloudflare, usada pela Segurança) e `reverse-engineer-anything` (engenharia reversa, do REA) |
 
 ### Ferramentas
 
-Claude Code ou Codex (o agente principal), Orca (orquestração), GitHub e GitHub CLI (`gh`), Git, Node.js, os plugins Superpowers, engineering, design e `metodo`, o REA e a skill `security-audit`. A instalação de cada uma, com o link oficial, está em [Antes de começar](#antes-de-começar-uma-vez-por-computador).
+Claude Code ou Codex (o agente principal), Orca (orquestração), GitHub e GitHub CLI (`gh`), Git, Node.js, os plugins Superpowers, engineering, design, `metodo` e ponytail (rascunho), o REA e a skill `security-audit`. A instalação de cada uma, com o link oficial, está em [Antes de começar](#antes-de-começar-uma-vez-por-computador).
 
 ## Os 7 princípios
 
@@ -172,6 +173,7 @@ O método usa, além do plugin `metodo`, três plugins, uma ferramenta de engenh
 | **REA** (skill `reverse-engineer-anything` e servidor `rea`) | Engenharia reversa de artefatos fechados, quando uma referência não tem código-fonte ([04](nucleo/04-referencias-e-engenharia-reversa.md)) | [morluto/rea](https://github.com/morluto/rea) |
 | **Orca** (aplicativo e as skills `orca-cli` e `orchestration`) | Orquestração dos agentes: a coordenadora faz o papel da integradora e os agentes, das trabalhadoras ([02](nucleo/02-sessoes-e-papeis.md)) | [stablyai/orca](https://github.com/stablyai/orca) |
 | **Codex** (opcional) | O agente principal dos projetos que escolhem o Codex no lugar do Claude Code: todas as sessões do projeto usam a mesma ferramenta, com as mesmas regras e Skills ([02](nucleo/02-sessoes-e-papeis.md), "Um agente principal por projeto") | [openai/codex](https://github.com/openai/codex) |
+| Plugin **ponytail** (rascunho) | A menor mudança que resolve a tarefa inteira, a revisão `/ponytail-review` dos especialistas e a auditoria de qualidade da Fase 8, sempre com o TDD do método por cima | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
 | Skill **security-audit** | Auditoria completa de segurança do código, feita pelo agente de Segurança antes da primeira publicação, com a sua aprovação | [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill) |
 | Plugin **metodo** | Este repositório: `/metodo:novo-projeto`, `/metodo:atualizar-projeto`, a consulta ao método nas sessões do projeto e as skills dos agentes especialistas (as de cada especialista) | este repositório |
 
@@ -266,6 +268,22 @@ npx skills add https://github.com/cloudflare/security-audit-skill --skill securi
 ```
 
 Ela roda auditorias que gastam bastante cota (vários subagentes), por isso o agente de Segurança só a usa com a sua aprovação (skill `metodo:auditoria-de-seguranca`). Para atualizar: `npx skills update security-audit --global`; para conferir: `npx skills ls --global`. Os relatórios ficam fora do projeto, em `~/security-audit-skill/`. Requisitos e opções: [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill).
+
+**10. Ponytail (rascunho).** Faz cada agente escrever a menor mudança que resolve a tarefa inteira, sem cortar validação, segurança nem acessibilidade; o TDD do método vale por cima dele ([03, "Ponytail"](nucleo/03-skills-e-testes.md)). Dentro do Claude Code, em dois comandos:
+
+```text
+/plugin marketplace add DietrichGebert/ponytail
+/plugin install ponytail@ponytail
+```
+
+No Codex, no terminal, e depois abra `/hooks` no Codex e confie nos dois ganchos dele:
+
+```bash
+codex plugin marketplace add DietrichGebert/ponytail
+codex plugin add ponytail@ponytail
+```
+
+Ele fica ligado em toda sessão, no nível `full`. Para desligar numa sessão: `/ponytail off`. Instale só pelo repositório oficial, [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail).
 
 Os conectores que os plugins engineering e design trazem (Slack, Figma, Linear e outros) podem ficar sem autenticação; o método não depende deles.
 

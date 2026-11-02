@@ -22,6 +22,10 @@ O método base ([nucleo/](../nucleo/01-fluxo-de-ponta-a-ponta.md)) continua vale
 - `engineering:deploy-checklist`
 - `engineering:incident-response`
 - `engineering:architecture`
+- `metodo:publicacao-gradual`
+- `metodo:metas-e-alertas`
+- `metodo:ci-seguro`
+- `metodo:analise-de-falhas`
 
 ## Checklist
 

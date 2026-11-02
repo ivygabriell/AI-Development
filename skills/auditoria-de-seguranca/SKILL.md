@@ -36,7 +36,8 @@ O mapa da Fase 2 é a semente das auditorias completas: as fronteiras e superfí
 5. **Rodar na `main` integrada, sem mudanças pendentes.** Audite a `main` atual, numa pasta só de leitura (a sua worktree, atualizada). Anote o commit auditado. A skill não executa código do projeto sem uma **sandbox** do sistema operacional, sem rede, com ambiente vazio e limites de recursos. Sem ela, o que precisaria rodar vira `needs_validation`, e está tudo bem: não contorne a regra. Ela também nunca testa um ambiente publicado. Fonte: [SKILL.md, segurança da execução](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md).
 6. **Guardar fora do repositório.** Deixe a saída no padrão da skill, `~/security-audit-skill/<repo>/run-<N>`: o relatório descreve falhas ainda abertas. Rodadas novas leem as anteriores da mesma pasta e somam cobertura. Por isso, nunca apague as rodadas antigas sem a pessoa pedir. Fonte: [SKILL.md, configuração da auditoria completa](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md).
 7. **Conferir antes de confiar.** A rodada só termina em dois estados: completa, com os dois validadores passando (`node <pasta-da-skill>/validate-findings.cjs <saída>/findings.json` e `validate-coverage-ledger.cjs` no `coverage-ledger.json`), ou `incomplete`, com o motivo escrito. Rode os validadores você mesma e leia o `REPORT.md` antes de qualquer veredito. Fonte: [VALIDATION-AND-REPORTING.md, fases 4 a 6](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/VALIDATION-AND-REPORTING.md).
-8. **Triar cada achado pelo fluxo do método:**
+8. **Olhar o artefato publicado.** A `security-audit` lê só o código-fonte; o que o build entrega pode levar mais do que o código mostra. Na Fase 7, com a aprovação da pessoa no mesmo portão, use o `reverse-engineer-anything` (o REA) sobre o **artefato publicado do próprio projeto**: o JavaScript empacotado e os mapas de código-fonte de um site, o APK, o app Electron. Procure segredo ou chave de API no pacote, mapa de código-fonte publicado sem querer, rota ou configuração de depuração ligada. Um achado aqui entra na triagem como `confirmed`. Nunca use sobre artefato de terceiros. Fonte: [REA](https://github.com/morluto/rea) e `${CLAUDE_PLUGIN_ROOT}/nucleo/04-referencias-e-engenharia-reversa.md`.
+9. **Triar cada achado pelo fluxo do método:**
 
    | Veredito da skill | O que vira no projeto |
    |---|---|
@@ -47,8 +48,8 @@ O mapa da Fase 2 é a semente das auditorias completas: as fronteiras e superfí
    | `rejected` | fica só no relatório: ele evita que a próxima rodada repita a mesma suspeita |
 
    Fonte: [SKILL.md, prioridade e certeza](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md).
-9. **Não espalhar a falha.** Nas issues e nos PRs vai só o necessário para corrigir (onde, qual regra, o teste). Num repositório **público**, uma falha `confirmed` ainda aberta não vira issue pública: use um aviso de segurança privado do GitHub (Security → Advisories) ou fale direto com o dono da pasta pelo Orca. Nenhum segredo encontrado aparece em resposta, comentário ou memória: diga onde está, nunca o valor. Fonte: [GitHub, avisos de segurança privados](https://docs.github.com/en/code-security/security-advisories/working-with-repository-security-advisories/about-repository-security-advisories).
-10. **Registrar.** Em `docs/seguranca.md`, numa seção "Auditorias": a data, o perfil, o escopo, o commit auditado, a contagem por veredito e gravidade, se a rodada ficou completa ou `incomplete`, e onde está o relatório (o caminho fora do repositório). Mande à integradora o consumo da auditoria (`orca orchestration send --type status`) para a memória do projeto: é a medida de custo da Fase 9.
+10. **Não espalhar a falha.** Nas issues e nos PRs vai só o necessário para corrigir (onde, qual regra, o teste). Num repositório **público**, uma falha `confirmed` ainda aberta não vira issue pública: use um aviso de segurança privado do GitHub (Security → Advisories) ou fale direto com o dono da pasta pelo Orca. Nenhum segredo encontrado aparece em resposta, comentário ou memória: diga onde está, nunca o valor. Fonte: [GitHub, avisos de segurança privados](https://docs.github.com/en/code-security/security-advisories/working-with-repository-security-advisories/about-repository-security-advisories).
+11. **Registrar.** Em `docs/seguranca.md`, numa seção "Auditorias": a data, o perfil, o escopo, o commit auditado, a contagem por veredito e gravidade, se a rodada ficou completa ou `incomplete`, e onde está o relatório (o caminho fora do repositório). Mande à integradora o consumo da auditoria (`orca orchestration send --type status`) para a memória do projeto: é a medida de custo da Fase 9.
 
 ## O teste que prova (escreva antes, veja falhar)
 
@@ -68,6 +69,7 @@ A auditoria não escreve código. Quem prova é a correção: cada `confirmed` c
 - [ ] Auditoria da `main` integrada, com o commit anotado.
 - [ ] Saída fora do repositório, em `~/security-audit-skill/<repo>/run-<N>`.
 - [ ] Os dois validadores passaram, ou o motivo de `incomplete` está escrito.
+- [ ] O artefato publicado do projeto foi olhado com o REA (ou a pessoa dispensou no portão).
 - [ ] Cada `confirmed` triado pela tabela; os `critical` e `high` bloqueiam a publicação.
 - [ ] Cada `needs_validation` virou pergunta no mapa de riscos, sem gravidade.
 - [ ] Nada de falha aberta em issue pública nem de segredo em texto.

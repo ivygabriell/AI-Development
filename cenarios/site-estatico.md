@@ -24,6 +24,9 @@ O método base ([nucleo/](../nucleo/01-fluxo-de-ponta-a-ponta.md)) continua vale
 - `design:accessibility-review`
 - `design:design-critique`
 - `superpowers:verification-before-completion`
+- `metodo:desempenho-na-tela`
+- `metodo:formularios-e-erros`
+- `metodo:estados-da-tela`
 
 ## Checklist
 

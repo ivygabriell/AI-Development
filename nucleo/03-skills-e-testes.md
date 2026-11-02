@@ -45,6 +45,12 @@ Duas regras valem para **todas as sessões**, integradora ou trabalhadora: usar 
 | Interface: crítica de design e usabilidade | `design:design-critique` |
 | Entregar um design para o desenvolvimento | `design:design-handoff` |
 | Textos de interface (botões, erros, estados vazios) | `design:ux-copy` |
+| Criar ou manter o design system (cores, tipografia, componentes) | `design:design-system` |
+| Planejar uma pesquisa com usuários (entrevistas, testes de usabilidade) | `design:user-research` |
+| Juntar o que a pesquisa trouxe (temas, achados, oportunidades) | `design:research-synthesis` |
+| Mudança grande, revisão enxuta: o que sobra, o que quebra, o que falta testar (rascunho) | `/ponytail-review` (no Codex, `$ponytail:ponytail-review`) |
+| Repositório inteiro: o que corrigir primeiro e o que apagar (rascunho) | `/ponytail-audit` |
+| Atalhos deixados para depois (`shortcut:`) | `/ponytail-debt` |
 | Isolar o trabalho numa worktree | `superpowers:using-git-worktrees` |
 | Fim de uma branch (integrar ou manter) | `superpowers:finishing-a-development-branch` |
 | Antes de publicar | `engineering:deploy-checklist` |
@@ -55,6 +61,32 @@ Duas regras valem para **todas as sessões**, integradora ou trabalhadora: usar 
 | Uma sessão deu errado e você quer entender por quê | `superpowers:diagnosing-superpowers` |
 
 Se nenhuma Skill cobrir o cenário, diga isso em uma linha e siga o fluxo normal.
+
+## Skills fora dos agentes
+
+No modo com agentes especialistas, cada agente usa as skills da parte 5 do seu harness. As skills abaixo ficam de fora dos harnesses de propósito, e cada uma tem o motivo:
+
+| Skill | Por que fica fora dos agentes |
+|---|---|
+| `superpowers:executing-plans`, `superpowers:subagent-driven-development`, `superpowers:dispatching-parallel-agents` | Servem aos modos sem o Orca (uma sessão executando o plano, ou subagentes dentro de uma sessão). No Orca, quem distribui o trabalho é a integradora e o especialista, com `worker-start` |
+| `superpowers:using-git-worktrees` | Serve às sessões abertas à mão (`scripts/nova-tarefa.sh`). No Orca, a worktree é criada por ele |
+| `superpowers:writing-skills` | É da sessão do método, ao criar ou mudar uma skill do plugin `metodo` ([CLAUDE.md](../CLAUDE.md)); os projetos não criam skills do método |
+| `superpowers:using-superpowers` | Carrega sozinha em toda sessão; ninguém precisa chamar |
+| `engineering:standup` | Não tem papel na arquitetura: a integradora relata o estado à pessoa pela memória do projeto e pelos portões |
+
+## Ponytail (rascunho)
+
+O [ponytail](https://github.com/DietrichGebert/ponytail) é um plugin que fica ativo em toda sessão e faz o agente escrever **a menor mudança que resolve a tarefa inteira**: antes de escrever, sobe uma escada (precisa existir? já existe no projeto? a linguagem ou a plataforma já fazem? uma dependência instalada faz? cabe numa linha legível?) e só então escreve o mínimo. Nunca corta validação nas fronteiras de confiança, tratamento de erro que evita perda de dados, segurança nem acessibilidade. Entrou pela [decisão 012](../decisoes/012-revalidacao-de-lacunas-e-ponytail.md), **sem caso real**: é `rascunho` até o primeiro projeto que o usar.
+
+**Regras de convivência com o método** (o `CLAUDE.md` e o `AGENTS.md` do projeto repetem, e o ponytail segue o que o projeto declara):
+
+1. **O TDD do método vale sobre o ponytail.** O teste novo é escrito antes e visto falhar (micro), e a suíte, os tipos e o build fecham a tarefa (macro). O "um teste pequeno, se houver lógica" do ponytail é o mínimo dele, não o do método.
+2. **A escada vale para a solução, não para o processo.** Spec, critérios de aceite, portões, revisão do especialista e validação da integradora não são "código a cortar".
+3. **Nível `full`** (o padrão) para quem constrói. O `lite` serve quando a pessoa quer ver a opção menor e escolher. O **`ultra` não é usado**: questionar o pedido é do Produto e da pessoa, nos portões, não de quem constrói.
+4. **Atalho deliberado** leva o comentário `shortcut: <o limite>, <quando melhorar>` e entra como pendência na memória do projeto; a lista sai com `/ponytail-debt` na Fase 8.
+5. **Revisão:** o especialista revisa os PRs das trabalhadoras com `/ponytail-review` (ele lê o código ligado à mudança, não só o diff, e cada achado traz um caso concreto); sem o ponytail, com `engineering:code-review`. A validação final continua da integradora (`metodo:validacao-final`).
+6. **Auditoria de qualidade** do repositório inteiro, na Fase 8, com `/ponytail-audit`, ao lado de `engineering:tech-debt`. Ela não substitui a auditoria de segurança (`metodo:auditoria-de-seguranca`).
+7. **Consumo:** no Claude Code, a faixa do ponytail acima do prompt mostra o custo, os tokens e o tempo de cada tarefa; é uma fonte para anotar o consumo por tarefa na memória.
 
 ## Testes: micro e macro
 
