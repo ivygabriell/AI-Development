@@ -1,7 +1,7 @@
 # 007 · Back com o Codex e front com o Claude, no Orca
 
 **Data:** 2026-10-22
-**Status:** aceita pela pessoa **sem caso real** (exceção à regra de ouro, pedida por ela, como na [decisão 006](006-desenvolvimento-orquestrado-com-o-orca.md)); tudo o que esta decisão acrescenta fica como `rascunho` até o primeiro projeto feito assim virar caso
+**Status:** substituída por [010](010-um-agente-principal-por-projeto.md) em 2026-11-02 (um agente principal por projeto, Claude Code ou Codex, nunca os dois). Antes: aceita pela pessoa **sem caso real** (exceção à regra de ouro, pedida por ela, como na [decisão 006](006-desenvolvimento-orquestrado-com-o-orca.md)); tudo o que esta decisão acrescenta fica como `rascunho` até o primeiro projeto feito assim virar caso
 **Caso de origem:** nenhum ainda. O primeiro projeto com o back no Codex e o front no Claude será registrado em `casos/` e confirma ou corrige esta decisão.
 
 ## Contexto

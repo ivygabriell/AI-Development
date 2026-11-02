@@ -2,6 +2,18 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 3.0.0 (2026-11-02)
+
+Um agente principal por projeto e a skill `security-audit` para a Segurança, aprovados pela pessoa **sem caso real** (tudo em `rascunho`). Ver [decisão 010](decisoes/010-um-agente-principal-por-projeto.md). Versão maior porque muda uma regra do núcleo: a coordenadora deixa de ser sempre Claude, e a ferramenta deixa de ser escolhida pelo tema.
+
+- **Um agente principal por projeto:** Claude Code (padrão) ou Codex, nunca os dois. A integradora, os especialistas e as trabalhadoras usam a mesma ferramenta. A escolha fica na linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`; o `/metodo:novo-projeto` pergunta, e o `novo-projeto.sh` ganha `--agente <claude|codex>`.
+- **Sai** o modo "back com o Codex e front com o Claude" (decisão 007, substituída). O contrato da API primeiro continua, agora para quando back e front são construídos em tarefas paralelas.
+- **O Codex pode ser a coordenadora:** o `AGENTS.md` do projeto diz como, e o prompt da coordenadora serve às duas ferramentas.
+- **Harnesses neutros:** os sete harnesses e o modelo dizem que a ferramenta é a do projeto, com o modelo de cada uma (`claude-opus-5-5` ou `gpt-6.1-sol`), e os comandos usam `--agent <agente> --model <modelo>`. A cópia em `docs/agentes/` continua igual ao modelo.
+- **Skill `security-audit`** ([cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill)): instalação no README (passo 9); a Segurança a usa na auditoria completa antes da primeira publicação e depois de mudança grande, só com o portão da pessoa, com os relatórios fora do repositório. Está no mapa de skills do `03`.
+- **Ficaram de fora**, por decisão da pessoa: o ponytail (conflita com o TDD do método) e o claude-mem (repete a memória do projeto e aumenta o consumo de tokens). Os motivos estão na decisão 010.
+- **Projetos existentes:** o `/metodo:atualizar-projeto` pergunta o agente principal, acrescenta a linha no `DESENVOLVIMENTO.md` e recomenda trocar os harnesses de antes da 3.0.0.
+
 ## 2.12.0 (2026-10-30)
 
 Skills do Produto e da Integradora, pelo mesmo processo da [decisão 009](decisoes/009-skills-por-agente.md), aprovadas pela pessoa **sem caso real** (tudo em `rascunho`). Com elas, todos os sete agentes têm skills próprias.

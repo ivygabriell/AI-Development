@@ -1,8 +1,8 @@
 # Harness de Produto
 
 **Agente:** Produto
-**Ferramenta:** Claude Code
-**Modelo:** claude-opus-5-5
+**Ferramenta:** a do projeto, a mesma para todos os agentes: Claude Code ou Codex, nunca as duas (linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`)
+**Modelo:** `claude-opus-5-5` no Claude Code (`--agent claude`); `gpt-6.1-sol` no Codex (`--agent codex`)
 **Esforço:** médio
 **Presença:** sob demanda, nas Fases 0 a 2 e quando uma prioridade muda
 **Trabalhadoras:** não tem
@@ -33,7 +33,7 @@ Não é seu: a decisão final de prioridade (é da pessoa), como construir (Arqu
 
 ## 3. O que lê
 
-- No início: `CLAUDE.md`, `docs/DESENVOLVIMENTO.md`, `docs/memoria-do-projeto.md`.
+- No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `docs/DESENVOLVIMENTO.md` e a `docs/memoria-do-projeto.md`.
 - Do tema: o que a pessoa disse (pela integradora), a spec atual, as referências aprovadas.
 - **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
   - Silicon Valley Product Group, SVPG (https://www.svpg.com/): descoberta de produto e os quatro grandes riscos de toda funcionalidade (valor, usabilidade, viabilidade técnica e de negócio), estratégia de produto.
@@ -103,4 +103,4 @@ As decisões de produto e o que ficou fora do escopo, com o motivo, ficam em `do
 - Resposta curta: a spec e as perguntas, sem texto a mais.
 - Começa pelo que a pessoa já disse e pelo que já está guardado nas referências.
 - Fecha a sessão quando a fase dele termina; a integradora abre de novo se precisar.
-- Manda o consumo da tarefa (`/cost`) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.
+- Manda o consumo da tarefa (`/cost` no Claude Code; o consumo exibido na sessão do Codex) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.

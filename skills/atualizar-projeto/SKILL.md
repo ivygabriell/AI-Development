@@ -31,8 +31,10 @@ Gere uma referência numa pasta temporária, com o cenário do projeto (da linha
 
 ```bash
 ref="$(mktemp -d)"
-bash "${CLAUDE_PLUGIN_ROOT}/scripts/novo-projeto.sh" "$ref" <cenário>
+bash "${CLAUDE_PLUGIN_ROOT}/scripts/novo-projeto.sh" "$ref" --agente <claude|codex> <cenário>
 ```
+
+O agente vem da linha `Agente principal:` do `docs/DESENVOLVIMENTO.md` do projeto; se ela não existir, pergunte antes (veja a tabela abaixo).
 
 Se o projeto usa o modo com agentes especialistas (tem `docs/agentes/`, ou a pessoa disse que sim), gere a referência com `--especialistas` depois de `"$ref"`, para ela trazer os harnesses e a linha do modo no `DESENVOLVIMENTO.md`.
 
@@ -47,6 +49,7 @@ Compare cada arquivo da referência com o do projeto e monte o plano, arquivo po
 | `AGENTS.md` existe | Atualizar só a linha `Versão do método:` (ou acrescentá-la) e acrescentar, numa seção `## Método de desenvolvimento`, a leitura do `CLAUDE.md`, do `docs/DESENVOLVIMENTO.md` e da memória e as regras da referência que faltarem |
 | `docs/DESENVOLVIMENTO.md` existe | Atualizar a versão e acrescentar as regras e as linhas de "Tarefas e sessões" que faltarem, mantendo os comandos e as decisões do projeto |
 | `docs/memoria-do-projeto.md` existe | Acrescentar uma entrada: "Atualizado para o método `<versão>` em `<data>`: `<o que mudou>`" |
+| Falta a linha `Agente principal:` no `docs/DESENVOLVIMENTO.md` | Pergunte qual é o agente principal do projeto: Claude Code ou Codex, um só para todas as sessões (decisão 010 do método). Se o projeto usava o back no Codex e o front no Claude (método 2.5 a 2.12), explique que esse modo saiu na 3.0.0 e que a escolha é dela. Gere a referência com `--agente <claude|codex>` e acrescente a linha logo depois de `Versão do método:`; em "Tarefas e sessões", ponha a linha "Agente principal" da referência no lugar da linha "Back com o Codex e front com o Claude", se houver (essa troca é a única remoção permitida além da versão). Os harnesses de antes da 3.0.0 fixam a ferramenta por tema: liste a diferença e recomende trocá-los pelos novos, que servem às duas |
 | O projeto não tem `docs/agentes/` e a memória não diz o modo de execução | Pergunte se o projeto usa o modo com especialistas; só com o "sim", siga a linha abaixo |
 | O projeto usa o modo com especialistas e falta a linha dele em `docs/DESENVOLVIMENTO.md` | Acrescentar em "Tarefas e sessões" a linha da referência gerada com `--especialistas` (cada agente lê o seu harness em `docs/agentes/`; exige no Orca Settings → Orchestration → Nested worker depth = 2) |
 | O projeto escolheu o modo com especialistas e falta `docs/agentes/` ou um harness | Copiar de `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/` os harnesses que faltam, sem o `_modelo-harness.md`; um harness que o projeto já tem não é trocado: listar a diferença para a pessoa decidir |
@@ -63,7 +66,7 @@ Sem um "pode" (ou equivalente claro), não siga.
 ## Passo 4 · Atualizar
 
 1. `git switch -c chore/metodo-<versão instalada>` a partir da `main` atualizada.
-2. Aplique o plano. Antes do commit, mostre `git diff --stat` e confira que nenhuma linha do projeto foi removida (`git diff` sem linhas começando com `-` além da linha da versão).
+2. Aplique o plano. Antes do commit, mostre `git diff --stat` e confira que nenhuma linha do projeto foi removida (`git diff` sem linhas começando com `-` além da linha da versão, da linha "Back com o Codex e front com o Claude" trocada pela do agente principal e dos harnesses que a pessoa mandou trocar).
 3. `git commit -m "chore: atualiza para o método <versão instalada>"`.
 4. Com a confirmação da pessoa: envie a branch e abra o PR com o modelo do projeto, listando o que mudou e o que ficou para ela decidir.
 5. Integre só com o "pode integrar" (`gh pr merge N --merge`, sem apagar a branch) e confira o CI da `main`.

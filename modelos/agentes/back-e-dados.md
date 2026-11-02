@@ -1,11 +1,11 @@
 # Harness de Back e Dados
 
 **Agente:** Back e Dados
-**Ferramenta:** Codex
-**Modelo:** gpt-6.1-sol
+**Ferramenta:** a do projeto, a mesma para todos os agentes: Claude Code ou Codex, nunca as duas (linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`)
+**Modelo:** `claude-opus-5-5` no Claude Code (`--agent claude`); `gpt-6.1-sol` no Codex (`--agent codex`)
 **Esforço:** médio; nas trabalhadoras, médio, e alto em tarefa difícil ou depois de um retrabalho
 **Presença:** sempre
-**Trabalhadoras:** Codex, até 2 ao mesmo tempo, uma por issue
+**Trabalhadoras:** da mesma ferramenta, até 2 ao mesmo tempo, uma por issue
 **Onde trabalha:** na sua worktree `back-e-dados`, filha da worktree principal (visível no Orca), de onde coordena; não constrói nela; revisa lendo a worktree da trabalhadora
 **Maturidade:** rascunho
 
@@ -32,7 +32,7 @@ Não é seu: o contrato da API (é da Arquitetura), a interface (Design e Front)
 
 ## 3. O que lê
 
-- No início: `AGENTS.md`, que manda ler o `CLAUDE.md`, o `docs/DESENVOLVIMENTO.md` e a `docs/memoria-do-projeto.md`.
+- No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `docs/DESENVOLVIMENTO.md` e a `docs/memoria-do-projeto.md`.
 - Do tema: o contrato da API (`docs/contrato-api.md`), os registros de arquitetura (`docs/arquitetura.md`), o mapa de riscos da Segurança, a issue.
 - **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
   - Zalando RESTful API Guidelines (https://opensource.zalando.com/restful-api-guidelines/): regras concretas de API REST e eventos: compatibilidade, versão, paginação por cursor, repetir sem duplicar, formato dos erros, depreciação.
@@ -55,7 +55,8 @@ Não é seu: o contrato da API (é da Arquitetura), a interface (Design e Front)
 Pode:
 
 - Abrir as suas trabalhadoras, uma por issue:
-  `orca orchestration worker-start --agent codex --model gpt-6.1-sol --effort medium --worktree new-child --base-branch origin/main --name back-<N>-<slug> --display-name "back #<N>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes micro e macro, as skills do tema que a tarefa toca, Closes #<N>>"`.
+  `orca orchestration worker-start --agent <agente> --model <modelo> --effort medium --worktree new-child --base-branch origin/main --name back-<N>-<slug> --display-name "back #<N>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes micro e macro, as skills do tema que a tarefa toca, Closes #<N>>"`.
+  `<agente>` e `<modelo>` são os do agente principal do projeto (veja **Ferramenta** e **Modelo**, no topo): as trabalhadoras usam sempre a mesma ferramenta que você.
   O Orca pendura cada trabalhadora em você (`--parent` da sua tarefa); a dúvida dela chega a você.
 - Responder às dúvidas delas (`orca orchestration reply`).
 - Revisar o PR entrando na worktree da trabalhadora, só lendo.
@@ -118,4 +119,4 @@ O modelo de dados, as migrações feitas e as regras de negócio decididas ficam
 - Logs de teste e build resumidos ao que falhou.
 - Esforço alto só em tarefa difícil ou depois de um retrabalho.
 - Ao fim de cada fase, manda o estado do tema à integradora (`orca orchestration send --type status`) e recomeça a sessão limpa.
-- Manda o consumo da tarefa (o consumo exibido na sessão do Codex) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.
+- Manda o consumo da tarefa (`/cost` no Claude Code; o consumo exibido na sessão do Codex) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.

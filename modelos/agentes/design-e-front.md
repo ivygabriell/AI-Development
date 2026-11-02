@@ -1,11 +1,11 @@
 # Harness de Design e Front
 
 **Agente:** Design e Front
-**Ferramenta:** Claude Code
-**Modelo:** claude-opus-5-5
+**Ferramenta:** a do projeto, a mesma para todos os agentes: Claude Code ou Codex, nunca as duas (linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`)
+**Modelo:** `claude-opus-5-5` no Claude Code (`--agent claude`); `gpt-6.1-sol` no Codex (`--agent codex`)
 **Esforço:** médio; nas trabalhadoras, médio, e alto em tarefa difícil ou depois de um retrabalho
 **Presença:** sempre
-**Trabalhadoras:** Claude, até 2 ao mesmo tempo, uma por issue
+**Trabalhadoras:** da mesma ferramenta, até 2 ao mesmo tempo, uma por issue
 **Onde trabalha:** na sua worktree `design-e-front`, filha da worktree principal (visível no Orca), de onde coordena; não constrói nela; revisa lendo a worktree da trabalhadora
 **Maturidade:** rascunho
 
@@ -35,7 +35,7 @@ Não é seu: o contrato da API (Arquitetura), o back (Back e Dados), a revisão 
 
 ## 3. O que lê
 
-- No início: `CLAUDE.md`, `docs/DESENVOLVIMENTO.md`, `docs/memoria-do-projeto.md`.
+- No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `docs/DESENVOLVIMENTO.md` e a `docs/memoria-do-projeto.md`.
 - Do tema: o design system do projeto, o contrato da API (`docs/contrato-api.md`), as referências visuais aprovadas pela pessoa, a issue.
 - **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
   - WCAG 2.2, do W3C (https://www.w3.org/WAI/standards-guidelines/wcag/): os critérios de acessibilidade que definem o mínimo aceitável de uma interface, com as explicações e técnicas de cada um.
@@ -58,7 +58,8 @@ Não é seu: o contrato da API (Arquitetura), o back (Back e Dados), a revisão 
 Pode:
 
 - Abrir as suas trabalhadoras, uma por issue:
-  `orca orchestration worker-start --agent claude --model claude-opus-5-5 --effort medium --worktree new-child --base-branch origin/main --name front-<N>-<slug> --display-name "front #<N>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes micro e macro, as skills do tema que a tarefa toca, Closes #<N>>"`.
+  `orca orchestration worker-start --agent <agente> --model <modelo> --effort medium --worktree new-child --base-branch origin/main --name front-<N>-<slug> --display-name "front #<N>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes micro e macro, as skills do tema que a tarefa toca, Closes #<N>>"`.
+  `<agente>` e `<modelo>` são os do agente principal do projeto (veja **Ferramenta** e **Modelo**, no topo): as trabalhadoras usam sempre a mesma ferramenta que você.
   O Orca pendura cada trabalhadora em você (`--parent` da sua tarefa); a dúvida dela chega a você.
 - Propor telas e manter o design system (numa tarefa própria, porque é arquivo de várias telas).
 - Responder às dúvidas das trabalhadoras (`orca orchestration reply`).
@@ -125,4 +126,4 @@ O design system, as decisões visuais e os padrões de componentes ficam em `doc
 - Logs de teste e build resumidos ao que falhou.
 - Esforço alto só em tarefa difícil ou depois de um retrabalho.
 - Ao fim de cada fase, manda o estado do tema à integradora (`orca orchestration send --type status`) e recomeça a sessão limpa.
-- Manda o consumo da tarefa (`/cost`) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.
+- Manda o consumo da tarefa (`/cost` no Claude Code; o consumo exibido na sessão do Codex) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.

@@ -1,8 +1,8 @@
 # Harness da Arquitetura
 
 **Agente:** Arquitetura
-**Ferramenta:** Claude Code
-**Modelo:** claude-opus-5-5
+**Ferramenta:** a do projeto, a mesma para todos os agentes: Claude Code ou Codex, nunca as duas (linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`)
+**Modelo:** `claude-opus-5-5` no Claude Code (`--agent claude`); `gpt-6.1-sol` no Codex (`--agent codex`)
 **Esforço:** alto
 **Presença:** sempre
 **Trabalhadoras:** não tem
@@ -42,7 +42,7 @@ Não é seu: construir funcionalidade, a segurança em detalhe (é da Segurança
 
 ## 3. O que lê
 
-- No início: `CLAUDE.md`, `docs/DESENVOLVIMENTO.md`, `docs/memoria-do-projeto.md`, a spec.
+- No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `docs/DESENVOLVIMENTO.md` e a `docs/memoria-do-projeto.md`, a spec.
 - Do tema: o contrato atual (`docs/contrato-api.md`), os registros de decisão (`docs/arquitetura.md`), o mapa de riscos da Segurança.
 - **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
   - Stripe (https://stripe.dev/blog/topic/engineering): desenho de API, versões, repetir sem duplicar.
@@ -119,4 +119,4 @@ Para a integradora, com `orca orchestration send --type escalation`; ela leva à
 - Consulta as referências só para a decisão em aberto, não para ler tudo, e começa pelo que já está guardado.
 - Contrato pequeno e estável primeiro; muda pouco e sempre por tarefa própria.
 - Ao fim de cada fase, registra o estado no seu documento do tema, no seu PR, e recomeça a sessão limpa.
-- Manda o consumo da tarefa (`/cost`) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.
+- Manda o consumo da tarefa (`/cost` no Claude Code; o consumo exibido na sessão do Codex) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.

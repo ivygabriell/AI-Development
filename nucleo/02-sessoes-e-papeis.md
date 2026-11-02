@@ -1,6 +1,6 @@
 # 02 · Sessões e papéis
 
-Como dividir o trabalho entre sessões do Claude Code sem perder qualidade. A ideia central: **separar quem constrói de quem valida**. Uma sessão **integradora** define, valida e integra; uma ou mais sessões **trabalhadoras** constroem tarefas isoladas.
+Como dividir o trabalho entre sessões do agente principal do projeto (Claude Code ou Codex) sem perder qualidade. A ideia central: **separar quem constrói de quem valida**. Uma sessão **integradora** define, valida e integra; uma ou mais sessões **trabalhadoras** constroem tarefas isoladas.
 
 ## Quando dividir
 
@@ -85,7 +85,7 @@ O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, 
 
 | Sessões abertas à mão | Com o Orca |
 |---|---|
-| A pessoa abre uma sessão por tarefa e cola o [prompt da trabalhadora](../modelos/prompt-sessao-trabalhadora.md) | A coordenadora abre o agente na worktree com `orca orchestration worker-start --agent claude`, passando a especificação da tarefa |
+| A pessoa abre uma sessão por tarefa e cola o [prompt da trabalhadora](../modelos/prompt-sessao-trabalhadora.md) | A coordenadora abre o agente na worktree com `orca orchestration worker-start --agent <agente>` (o agente principal do projeto), passando a especificação da tarefa |
 | `nova-tarefa.sh` cria a worktree | O Orca cria a worktree (`worker-start --worktree new-child`, ou `orca worktree create`) |
 | A trabalhadora comenta na issue e a pessoa avisa a integradora | O agente pergunta com `orca orchestration ask` e espera; a coordenadora responde com `orca orchestration reply` |
 | A pessoa acompanha cada terminal | A coordenadora espera com `orca orchestration check --wait` e o painel do Orca avisa quando um agente termina |
@@ -94,7 +94,7 @@ O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, 
 
 **O que não muda:** quem constrói não valida (a coordenadora refaz os testes e abre o navegador); os agentes **nunca** integram e terminam com o PR aberto e o CI verde; uma tarefa, uma branch, um PR; merge, deploy e o que é irreversível só com a aprovação da pessoa; a issue continua sendo o registro da tarefa. A coordenadora não escreve código, como a integradora.
 
-**A coordenadora e os agentes são Claude Code.** A coordenadora é aberta como um agente Claude no Orca e inicia cada agente com `--agent claude`. O Orca também abre outros agentes (Codex, Cursor e outros), mas eles não leem o `CLAUDE.md` do projeto nem os plugins do Claude Code (`metodo`, Superpowers) e trabalhariam sem o método.
+**A coordenadora e os agentes usam a ferramenta do projeto** (seção "Um agente principal por projeto", abaixo): todos Claude Code ou todos Codex. O Orca também abre outros agentes (Cursor e outros), mas eles não leem o `CLAUDE.md` nem o `AGENTS.md` do projeto nem os plugins do método e trabalhariam sem ele.
 
 **Ciclo de uma tarefa:**
 
@@ -109,44 +109,49 @@ O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, 
 
 **O que observar no primeiro projeto:** se algum agente perguntou direto à pessoa em vez de usar `ask`; se os portões seguraram de fato o merge e o deploy; quantos agentes deu para acompanhar; se os scripts de worktree ainda fazem falta.
 
-### Back e front com agentes diferentes (rascunho)
+### Um agente principal por projeto (rascunho)
 
-Para usar duas assinaturas no mesmo projeto, o back pode ficar com agentes **Codex** e o front com agentes **Claude**, no mesmo repositório e na mesma `main` ([decisão 007](../decisoes/007-back-com-codex-e-front-com-claude.md), aprovada pela pessoa sem caso real). Vale a pena se sair conforme o esperado e sem retrabalho.
+Dentro de um projeto atua **um agente principal só: o Claude Code ou o Codex, nunca as duas ferramentas ao mesmo tempo** ([decisão 010](../decisoes/010-um-agente-principal-por-projeto.md), aprovada pela pessoa sem caso real; substitui o back no Codex e o front no Claude da [decisão 007](../decisoes/007-back-com-codex-e-front-com-claude.md)). Vale para todas as sessões: a integradora (a coordenadora do Orca), os especialistas e as trabalhadoras.
 
-- **Uma coordenadora só, sempre Claude Code.** Ela é a única que integra. Inicia os agentes do front com `worker-start --agent claude` e os do back com `worker-start --agent codex`.
-- **Os mesmos princípios para os dois.** O agente Codex segue as mesmas regras e Skills: TDD visto falhar, testes micro e macro, verificação antes de dizer "pronto", uma tarefa por branch e por PR, nunca integra, pergunta à coordenadora com `ask`. Por isso, o Codex de cada computador tem os mesmos plugins e ferramentas que o Claude (README, "Antes de começar").
-- **`AGENTS.md`.** O Codex lê o `AGENTS.md` do projeto, não o `CLAUDE.md`. O `AGENTS.md` gerado pelo método manda ler o `CLAUDE.md`, o `docs/DESENVOLVIMENTO.md` e a memória, e repete as regras da trabalhadora. **Regra do agente:** a coordenadora é sempre Claude; os agentes podem ser Claude ou Codex, e o Codex só entra em projeto que tem `AGENTS.md`.
-- **Contrato primeiro.** Antes de qualquer tarefa de construção, uma tarefa fecha o **contrato da API** num arquivo do repositório (`docs/contrato-api.md`, ou o formato que a stack pedir, como OpenAPI), e a pessoa aprova num portão. Depois, o contrato só muda por uma tarefa própria, com um portão da pessoa; o lado que depende dele se ajusta na tarefa seguinte.
-- **Pastas separadas.** Cada lado tem a sua pasta (por exemplo, `back/` e `front/`, decididas na Fase 2 e registradas no `docs/DESENVOLVIMENTO.md`), e cada tarefa lista só as pastas do seu lado como permitidas. Os **arquivos comuns** (CI, dependências da raiz, contrato, memória do projeto) mudam só em tarefas da coordenadora, nunca em duas tarefas ao mesmo tempo.
-- **Validação.** A coordenadora valida os PRs do back pelos testes e pelo contrato, e abre o navegador quando o back e o front se encontram.
-- **Medição.** A memória do projeto anota, por tarefa, qual agente fez, se houve retrabalho e por quê.
+| Agente principal | No `worker-start` | Lê no início |
+|---|---|---|
+| Claude Code (padrão) | `--agent claude --model claude-opus-5-5` | `CLAUDE.md` |
+| Codex | `--agent codex --model gpt-6.1-sol` | `AGENTS.md`, que manda ler o `CLAUDE.md`, o `docs/DESENVOLVIMENTO.md` e a memória |
 
-**O que observar no primeiro projeto:** se algum agente Codex pulou o TDD ou a verificação; se as skills do método funcionaram no Codex; quantas tarefas voltaram por causa do contrato; quanto cada cota rendeu; se a coordenadora gastou tokens demais revisando o back (aí entra uma coordenadora Codex só para o back, por baixo da principal).
+- **Escolha no começo do projeto.** O `/metodo:novo-projeto` pergunta, e o `novo-projeto.sh --agente <claude|codex>` registra em `docs/DESENVOLVIMENTO.md` a linha `Agente principal:`. Trocar depois é uma decisão da pessoa, anotada na memória do projeto.
+- **Os mesmos princípios nas duas.** TDD visto falhar, testes micro e macro, verificação antes de dizer "pronto", uma tarefa por branch e por PR, só a integradora integra, dúvidas pela coordenadora com `ask`. Por isso o Codex de cada computador tem os mesmos plugins e ferramentas que o Claude (README, "Antes de começar"), e todo projeto tem o `CLAUDE.md` e o `AGENTS.md`.
+- **A coordenadora Codex** usa o mesmo [prompt da coordenadora](../modelos/prompt-coordenadora-orca.md) ou o mesmo harness da integradora, valida no navegador com um navegador automatizado ([03](03-skills-e-testes.md)) e só integra com o "pode integrar" da pessoa.
+- **Contrato primeiro, quando back e front correm em paralelo.** Antes da primeira tarefa de construção, uma tarefa fecha o **contrato da API** num arquivo do repositório (`docs/contrato-api.md`, ou o formato que a stack pedir, como OpenAPI), e a pessoa aprova num portão. Depois, o contrato só muda por uma tarefa própria, com portão. Cada lado tem a sua pasta (por exemplo, `back/` e `front/`, decididas na Fase 2), e os **arquivos comuns** (CI, dependências da raiz, contrato, memória do projeto) têm um dono só, nunca duas tarefas ao mesmo tempo.
+- **Medição.** A memória do projeto registra o agente principal e anota, por tarefa, se houve retrabalho e por quê, e o consumo.
+
+**O que observar no primeiro projeto Codex:** se a coordenadora Codex segurou os portões e validou no navegador; se algum agente Codex pulou o TDD ou a verificação; se as skills do método funcionaram no Codex; quanto a cota rendeu com uma ferramenta só.
 
 ### Com agentes especialistas (rascunho)
 
 A integradora deixa de carregar tudo sozinha: ao lado dela trabalham **agentes especialistas por tema**, cada um com um **harness** escrito com a pessoa ([decisão 008](../decisoes/008-agentes-especialistas.md), aprovada sem caso real). O modelo continua o de integradora e trabalhadoras, com uma camada no meio: as trabalhadoras passam a ser abertas e coordenadas pelo especialista do tema.
 
-| Agente | Tema | Ferramenta | Trabalhadoras | Presença |
-|---|---|---|---|---|
-| Integradora | coordenação, validação final (QA) e integração | Claude | não; coordena os especialistas | sempre |
-| Arquitetura | estrutura, contrato da API, dados, confiabilidade, observabilidade, custo | Claude | não | sempre |
-| Back e Dados | regras de negócio, APIs, autenticação, banco de dados | Codex | Codex, até 2 | sempre |
-| Design e Front | experiência, design system, interface | Claude | Claude, até 2 | sempre |
-| Segurança | mapa de riscos no começo e revisão dos PRs sensíveis | Codex | não; entrega a correção ao dono da pasta | sempre |
-| Produto | produto, pesquisa com usuários, critérios de aceite | Claude | não | sob demanda (Fases 0 a 2) |
-| DevOps | deploy, CI/CD, nuvem, monitoramento; dono do CI enquanto ativo | Codex | Codex, 1 por vez | sob demanda |
+Todos os agentes usam o **agente principal do projeto** (Claude Code ou Codex, seção acima).
+
+| Agente | Tema | Trabalhadoras | Presença |
+|---|---|---|---|
+| Integradora | coordenação, validação final (QA) e integração | não; coordena os especialistas | sempre |
+| Arquitetura | estrutura, contrato da API, dados, confiabilidade, observabilidade, custo | não | sempre |
+| Back e Dados | regras de negócio, APIs, autenticação, banco de dados | até 2 | sempre |
+| Design e Front | experiência, design system, interface | até 2 | sempre |
+| Segurança | mapa de riscos no começo, revisão dos PRs sensíveis e auditoria completa (`security-audit`) antes da primeira publicação | não; entrega a correção ao dono da pasta | sempre |
+| Produto | produto, pesquisa com usuários, critérios de aceite | não | sob demanda (Fases 0 a 2) |
+| DevOps | deploy, CI/CD, nuvem, monitoramento; dono do CI enquanto ativo | 1 por vez | sob demanda |
 
 - **Harnesses:** os modelos ficam em [`modelos/agentes/`](../modelos/agentes/) e vão para `docs/agentes/` do projeto com `novo-projeto.sh --especialistas`. Cada um tem as mesmas 10 partes (missão, quando é chamado, o que lê, o que pode e o que não pode, Skills, checklist, formato da resposta, quando sobe a decisão, memória, economia), as referências escolhidas pela pessoa e o passo a passo "Como pesquisa".
 - **O harness manda:** o agente pode consultar o que precisar (referências, web, Skills, método), mas atua dentro do harness. Ordem de precedência: o harness, o que o projeto decidiu, as Skills e o método, o que foi consultado. Se acha o harness errado ou incompleto, não desvia: para e sobe a questão.
-- **Modelos:** Claude com `claude-opus-5-5`, Codex com `gpt-6.1-sol`; o esforço varia por papel e vai em todo `worker-start` (`--model` e `--effort`).
+- **Modelos:** os do agente principal (`claude-opus-5-5` no Claude Code, `gpt-6.1-sol` no Codex); o esforço varia por papel e vai em todo `worker-start` (`--agent <agente> --model <modelo> --effort`).
 - **No Orca:** a integradora abre os especialistas; cada especialista abre as suas trabalhadoras com `worker-start --worktree new-child`, e o Orca as pendura nele (`--parent`). A dúvida da trabalhadora (`ask`) chega ao especialista; só sobe para a integradora o que ele não pode decidir. **Exige o ajuste Settings → Orchestration → Nested worker depth = 2** (o padrão é 1; testado no Orca 1.4.241). Nem mais nem menos: com 2, uma trabalhadora não abre agentes próprios.
 - **Worktrees e visibilidade:** a pessoa vê cada agente no Orca, na sua worktree. Cada especialista abre numa worktree com o nome do tema, **filha da worktree principal** (`worker-start --worktree new-child --name <tema>`, da pasta principal); cada trabalhadora, numa worktree por issue, filha da do especialista (`back-12-login`, branch `back/12-login`). Quem só coordena ou revisa lê a worktree do trabalho; numa worktree, só a dona da tarefa escreve. Testado no Orca 1.4.241.
 - **Limite:** no máximo 9 sessões ao mesmo tempo (a integradora, os 4 fixos e até 2 trabalhadoras de Back e Dados e 2 de Design e Front); Produto e DevOps abrem e fecham com a fase deles. Produto e DevOps (e a trabalhadora do DevOps) contam dentro das 9: quando um deles abre, a integradora segura uma trabalhadora até caber. Neste modo, isso substitui o limite de "1 coordenadora e até 3 agentes" do modo Orca.
 - **Arquivos comuns mudam de dono:** o contrato da API passa para a Arquitetura, e o CI passa para o DevOps enquanto ele está ativo; a integradora fica com as dependências da raiz, a memória do projeto e o CI quando não há DevOps. Os especialistas que só coordenam mandam as notas da memória e das referências à integradora (`orca orchestration send --type status`), e ela grava.
 - **O que não muda:** só a integradora integra e só ela fala com a pessoa e resolve os portões; quem constrói não valida; uma tarefa, uma branch, um PR.
 
-**O que observar no primeiro projeto:** se as dúvidas pararam no especialista; quantas sessões a cota aguentou; se dois especialistas cruzaram arquivos; se a Segurança achou o que a integradora não acharia; se o ida e volta custou mais do que economizou; se o Codex leu e seguiu o harness; o consumo por tarefa.
+**O que observar no primeiro projeto:** se as dúvidas pararam no especialista; quantas sessões a cota aguentou; se dois especialistas cruzaram arquivos; se a Segurança achou o que a integradora não acharia; se o ida e volta custou mais do que economizou; se o agente principal leu e seguiu o harness; o consumo por tarefa.
 
 ## Como iniciar
 

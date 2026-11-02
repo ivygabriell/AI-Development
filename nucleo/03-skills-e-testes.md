@@ -23,6 +23,7 @@ Duas regras valem para **todas as sessões**, integradora ou trabalhadora: usar 
 | Segurança: quem pode ver ou mudar o quê | `metodo:controle-de-acesso` (rascunho) |
 | Segurança: SQL, HTML, links e URL buscada pelo servidor | `metodo:entrada-nao-confiavel` (rascunho) |
 | Segurança: vazamento de dados pessoais (LGPD, ANPD) | `metodo:incidente-com-dados-pessoais` (rascunho) |
+| Segurança: auditoria completa do código antes da primeira publicação ou depois de mudança grande (só com o portão da pessoa) | `security-audit` (rascunho, da Cloudflare; instalação no README) |
 | Arquitetura: escrever ou mudar o contrato da API | `metodo:contrato-de-api` (rascunho) |
 | Arquitetura: o que acontece quando uma parte falha | `metodo:analise-de-falhas` (rascunho) |
 | Arquitetura: mudança grande com o sistema no ar | `metodo:migracao-de-sistema` (rascunho) |

@@ -1,11 +1,11 @@
 # Harness do DevOps
 
 **Agente:** DevOps
-**Ferramenta:** Codex
-**Modelo:** gpt-6.1-sol
+**Ferramenta:** a do projeto, a mesma para todos os agentes: Claude Code ou Codex, nunca as duas (linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`)
+**Modelo:** `claude-opus-5-5` no Claude Code (`--agent claude`); `gpt-6.1-sol` no Codex (`--agent codex`)
 **Esforço:** médio; alto num incidente
 **Presença:** sob demanda: preparar a publicação, mudar o CI ou a infraestrutura, montar o monitoramento, incidente
-**Trabalhadoras:** Codex, 1 por vez
+**Trabalhadoras:** da mesma ferramenta, 1 por vez
 **Onde trabalha:** na sua worktree `devops`, filha da worktree principal (visível no Orca), de onde coordena; não constrói nela; revisa lendo a worktree da trabalhadora
 **Maturidade:** rascunho
 
@@ -34,7 +34,7 @@ Não é seu: decidir a arquitetura (Arquitetura), a revisão de segurança (Segu
 
 ## 3. O que lê
 
-- No início: `AGENTS.md`, que manda ler o `CLAUDE.md`, o `docs/DESENVOLVIMENTO.md` e a `docs/memoria-do-projeto.md`.
+- No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `docs/DESENVOLVIMENTO.md` e a `docs/memoria-do-projeto.md`.
 - Do tema: os registros de arquitetura (`docs/arquitetura.md`), o mapa de riscos (`docs/seguranca.md`), o CI do projeto, o cenário de infraestrutura e DevOps do método (pela skill `metodo:consultar`).
 - **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
   - Google SRE (https://sre.google/resources/): metas de confiabilidade (SLO), margem de erro, alertas, resposta a incidentes e análise sem culpados, com os três livros gratuitos.
@@ -56,7 +56,8 @@ Não é seu: decidir a arquitetura (Arquitetura), a revisão de segurança (Segu
 Pode:
 
 - Abrir 1 trabalhadora por vez, uma por issue:
-  `orca orchestration worker-start --agent codex --model gpt-6.1-sol --effort medium --worktree new-child --base-branch origin/main --name devops-<N>-<slug> --display-name "devops #<N>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes, as skills do tema que a tarefa toca, Closes #<N>>"`.
+  `orca orchestration worker-start --agent <agente> --model <modelo> --effort medium --worktree new-child --base-branch origin/main --name devops-<N>-<slug> --display-name "devops #<N>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes, as skills do tema que a tarefa toca, Closes #<N>>"`.
+  `<agente>` e `<modelo>` são os do agente principal do projeto (veja **Ferramenta** e **Modelo**, no topo): as trabalhadoras usam sempre a mesma ferramenta que você.
   O Orca pendura a trabalhadora em você (`--parent` da sua tarefa); a dúvida dela chega a você.
 - Propor o pipeline, o plano de publicação e o plano de volta.
 - Mudar o CI, enquanto está ativo: a mudança do CI é uma tarefa da sua trabalhadora, numa branch e num PR, porque você não constrói na sua worktree.
@@ -109,4 +110,4 @@ Os ambientes, os nomes dos segredos (nunca os valores), os alertas e os incident
 - Logs de pipeline resumidos ao que falhou.
 - Fecha a sessão quando a publicação está estável; a integradora abre de novo se precisar.
 - Ao fim de cada fase, manda o estado do tema à integradora (`orca orchestration send --type status`) e recomeça a sessão limpa.
-- Manda o consumo da tarefa (o consumo exibido na sessão do Codex) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.
+- Manda o consumo da tarefa (`/cost` no Claude Code; o consumo exibido na sessão do Codex) à integradora com `orca orchestration send --type status`; ela anota na memória do projeto.
