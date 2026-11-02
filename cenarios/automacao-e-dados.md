@@ -20,7 +20,7 @@ O método base ([nucleo/](../nucleo/01-fluxo-de-ponta-a-ponta.md)) continua vale
 ## Skills úteis
 
 - `engineering:testing-strategy`
-- `engineering:debug`
+- `superpowers:systematic-debugging`
 - `engineering:documentation`
 - `metodo:trabalho-em-segundo-plano`
 - `metodo:transacoes-e-consultas`

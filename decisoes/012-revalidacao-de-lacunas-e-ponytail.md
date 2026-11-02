@@ -23,7 +23,7 @@ A revalidação cruzou cada skill dos plugins instalados (Superpowers, engineeri
 
 ## Decisão
 
-1. **Cada skill do mapa do `03` tem um agente que a usa, ou está na nova seção "Skills fora dos agentes", com o motivo.** Integradora: `engineering:testing-strategy`, `engineering:tech-debt`, `engineering:documentation`, `superpowers:diagnosing-superpowers` e `metodo:auditoria-de-seguranca`. Back e Dados e Design e Front: `engineering:code-review` e `engineering:debug`. Design e Front: `design:design-handoff`. DevOps: `engineering:code-review` e `engineering:documentation`. As trabalhadoras: `superpowers:receiving-code-review`. Ficam fora dos agentes, com o motivo escrito: `executing-plans`, `subagent-driven-development`, `dispatching-parallel-agents` e `using-git-worktrees` (modos sem o Orca), `writing-skills` (sessão do método, agora no `CLAUDE.md` deste repositório), `using-superpowers` (carrega sozinha) e `engineering:standup` (sem papel na arquitetura).
+1. **Cada skill do mapa do `03` tem um agente que a usa, ou está na nova seção "Skills fora dos agentes", com o motivo.** Integradora: `engineering:testing-strategy`, `engineering:documentation`, `superpowers:diagnosing-superpowers` e `metodo:auditoria-de-seguranca`. Back e Dados, Design e Front e DevOps: o `/ponytail-review` na revisão (item 6). Design e Front: `design:design-handoff`. DevOps: `engineering:documentation`. As trabalhadoras: `superpowers:receiving-code-review`. Ficam fora dos agentes, com o motivo escrito: `executing-plans`, `subagent-driven-development`, `dispatching-parallel-agents` e `using-git-worktrees` (modos sem o Orca), `writing-skills` (sessão do método, agora no `CLAUDE.md` deste repositório), `using-superpowers` (carrega sozinha).
 2. **O REA ganha dono em três agentes:** Design e Front (referência fechada nas Fases 1 e 2, com o `nucleo/04` e o prompt de auditoria de referência), Arquitetura (sistema sem código-fonte antes de uma migração) e Segurança (o artefato publicado do próprio projeto, um passo novo de `metodo:auditoria-de-seguranca`, porque a `security-audit` lê só o código-fonte).
 3. **Todo harness manda ler as lições do método** que tocam o tema (`licoes/_indice.md`).
 4. **Os cenários apontam para as skills dos agentes** em "Skills úteis". Só a lista de skills muda; o selo de maturidade de cada cenário fica como está.
@@ -33,17 +33,18 @@ A revalidação cruzou cada skill dos plugins instalados (Superpowers, engineeri
    - a escada do ponytail vale para a solução, não para o processo;
    - o nível é `full`, e o `ultra` não é usado;
    - atalho deliberado leva o comentário `shortcut:` e vira pendência;
-   - os especialistas revisam os PRs das trabalhadoras com `/ponytail-review` (sem o ponytail, `engineering:code-review`);
+   - os especialistas revisam os PRs das trabalhadoras com `/ponytail-review` (sem o ponytail, `superpowers:requesting-code-review`);
    - a integradora usa `/ponytail-audit` e `/ponytail-debt` na Fase 8;
    - a faixa do ponytail serve de fonte para o consumo por tarefa.
-7. **O verificador passa a acusar lacunas:** uma skill do mapa sem agente e fora da lista, um harness sem as lições, um cenário sem skill de agente e um prompt preso a uma ferramenta.
+7. **Quatro skills do engineering saem do método** (decisão da pessoa, depois de ver a comparação de cada uma): `engineering:debug` repete o `superpowers:systematic-debugging`, que é mais rígido (causa antes da correção, teste que falha antes); `engineering:code-review` repete o `/ponytail-review`, e a alternativa sem o ponytail passa a ser o `superpowers:requesting-code-review`; `engineering:tech-debt` sai, e o que só ela cobria (dependências desatualizadas, deploy à mão, falta de monitoramento, documentação velha, e a ordem por impacto, risco e esforço) passa para o harness da integradora, na Fase 8, ao lado do `/ponytail-audit` e do `/ponytail-debt`; `engineering:standup` não tinha papel na arquitetura. Continuam instaladas, porque fazem parte do plugin engineering, que o método usa; o método só deixa de citá-las.
+8. **O verificador passa a acusar lacunas:** uma skill do mapa sem agente e fora da lista, um harness sem as lições, um cenário sem skill de agente e um prompt preso a uma ferramenta.
 
 Decidido pela pessoa em 2026-11-02: fazer a revalidação completa do que está solto ou sem uso; usar o ponytail.
 
 **Escolhas da sessão do método** (a pessoa confere ao aprovar o PR):
 
 - A revalidação não leva o selo de `rascunho`, porque só liga ao método o que já estava nele. O ponytail leva, porque é novo e não tem caso, como manda a regra de ouro, que continua.
-- O `/ponytail-review` é a revisão do especialista, e o `engineering:code-review` fica como alternativa, para não haver duas revisões do mesmo PR.
+- O `/ponytail-review` é a revisão do especialista, e o `superpowers:requesting-code-review` fica como alternativa quando o ponytail está desligado, para não haver duas revisões do mesmo PR.
 - O ponytail fica instalado para o usuário inteiro (todas as sessões), no nível `full`, com o quadro de tarefas local e sem webhook: nada sai do computador.
 - Versão menor (3.1.0): conteúdo novo e ligações, sem mudar uma regra do núcleo.
 

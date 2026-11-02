@@ -22,7 +22,7 @@ O método base ([nucleo/](../nucleo/01-fluxo-de-ponta-a-ponta.md)) continua vale
 - `engineering:system-design`
 - `engineering:testing-strategy`
 - `engineering:documentation`
-- `engineering:code-review`
+- `/ponytail-review` (rascunho)
 - `metodo:contrato-de-api`
 - `metodo:api-conforme-contrato`
 - `metodo:migracao-sem-parada`

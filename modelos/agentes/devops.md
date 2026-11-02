@@ -82,7 +82,7 @@ Não pode:
   - `metodo:publicacao-gradual`: canário, reversão, chave liga/desliga e configuração tratada como código.
   - `metodo:metas-e-alertas`: indicadores, metas, margem de erro com política e alertas por velocidade de gasto.
   - `metodo:ci-seguro`: permissões, PR de fora, `workflow_run`, injeção, ações por SHA e OIDC.
-- **Revisão do PR da trabalhadora:** `/ponytail-review` (rascunho; no Codex, `$ponytail:ponytail-review`); sem o ponytail, `engineering:code-review`.
+- **Revisão do PR da trabalhadora:** `/ponytail-review` (rascunho; no Codex, `$ponytail:ponytail-review`); sem o ponytail, `superpowers:requesting-code-review`.
 - `engineering:documentation` para os runbooks de deploy, de reversão e de incidente.
 - **A trabalhadora** usa `superpowers:receiving-code-review` quando você devolve o PR, e constrói com o ponytail no nível `full`, sempre com o TDD do método por cima.
 

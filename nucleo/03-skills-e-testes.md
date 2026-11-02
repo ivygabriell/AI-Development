@@ -37,9 +37,9 @@ Duas regras valem para **todas as sessões**, integradora ou trabalhadora: usar 
 | Duas ou mais tarefas independentes dentro de uma sessão | `superpowers:dispatching-parallel-agents` |
 | Implementar qualquer coisa | `superpowers:test-driven-development` (RED antes de GREEN) |
 | Estratégia de testes de um projeto ou funcionalidade | `engineering:testing-strategy` |
-| Bug, teste que falha ou comportamento inesperado | `superpowers:systematic-debugging` ou `engineering:debug` |
+| Bug, teste que falha ou comportamento inesperado | `superpowers:systematic-debugging` |
 | Antes de dizer "pronto", "passou" ou abrir o PR | `superpowers:verification-before-completion` |
-| Mudança grande ou arriscada | `superpowers:requesting-code-review` e `engineering:code-review` |
+| Mudança grande ou arriscada | `/ponytail-review` (rascunho); sem o ponytail, `superpowers:requesting-code-review` |
 | Receber comentários de revisão | `superpowers:receiving-code-review` |
 | Interface: acessibilidade, contraste, teclado | `design:accessibility-review` |
 | Interface: crítica de design e usabilidade | `design:design-critique` |
@@ -55,7 +55,7 @@ Duas regras valem para **todas as sessões**, integradora ou trabalhadora: usar 
 | Fim de uma branch (integrar ou manter) | `superpowers:finishing-a-development-branch` |
 | Antes de publicar | `engineering:deploy-checklist` |
 | Incidente em produção | `engineering:incident-response` |
-| Dívida técnica | `engineering:tech-debt` |
+| Dívida técnica | `/ponytail-audit` e `/ponytail-debt` (rascunho), e a ordem por impacto, risco e esforço do harness da integradora |
 | Documentação, README, runbook | `engineering:documentation` |
 | Analisar um artefato fechado (binário, app empacotado) | `reverse-engineer-anything` |
 | Uma sessão deu errado e você quer entender por quê | `superpowers:diagnosing-superpowers` |
@@ -72,7 +72,6 @@ No modo com agentes especialistas, cada agente usa as skills da parte 5 do seu h
 | `superpowers:using-git-worktrees` | Serve às sessões abertas à mão (`scripts/nova-tarefa.sh`). No Orca, a worktree é criada por ele |
 | `superpowers:writing-skills` | É da sessão do método, ao criar ou mudar uma skill do plugin `metodo` ([CLAUDE.md](../CLAUDE.md)); os projetos não criam skills do método |
 | `superpowers:using-superpowers` | Carrega sozinha em toda sessão; ninguém precisa chamar |
-| `engineering:standup` | Não tem papel na arquitetura: a integradora relata o estado à pessoa pela memória do projeto e pelos portões |
 
 ## Ponytail (rascunho)
 
@@ -84,8 +83,8 @@ O [ponytail](https://github.com/DietrichGebert/ponytail) é um plugin que fica a
 2. **A escada vale para a solução, não para o processo.** Spec, critérios de aceite, portões, revisão do especialista e validação da integradora não são "código a cortar".
 3. **Nível `full`** (o padrão) para quem constrói. O `lite` serve quando a pessoa quer ver a opção menor e escolher. O **`ultra` não é usado**: questionar o pedido é do Produto e da pessoa, nos portões, não de quem constrói.
 4. **Atalho deliberado** leva o comentário `shortcut: <o limite>, <quando melhorar>` e entra como pendência na memória do projeto; a lista sai com `/ponytail-debt` na Fase 8.
-5. **Revisão:** o especialista revisa os PRs das trabalhadoras com `/ponytail-review` (ele lê o código ligado à mudança, não só o diff, e cada achado traz um caso concreto); sem o ponytail, com `engineering:code-review`. A validação final continua da integradora (`metodo:validacao-final`).
-6. **Auditoria de qualidade** do repositório inteiro, na Fase 8, com `/ponytail-audit`, ao lado de `engineering:tech-debt`. Ela não substitui a auditoria de segurança (`metodo:auditoria-de-seguranca`).
+5. **Revisão:** o especialista revisa os PRs das trabalhadoras com `/ponytail-review` (ele lê o código ligado à mudança, não só o diff, e cada achado traz um caso concreto); sem o ponytail, com `superpowers:requesting-code-review`. A validação final continua da integradora (`metodo:validacao-final`).
+6. **Auditoria de qualidade** do repositório inteiro, na Fase 8, com `/ponytail-audit`; a integradora completa com o que ele não olha (dependências, infraestrutura, documentação). Ela não substitui a auditoria de segurança (`metodo:auditoria-de-seguranca`).
 7. **Consumo:** no Claude Code, a faixa do ponytail acima do prompt mostra o custo, os tokens e o tempo de cada tarefa; é uma fonte para anotar o consumo por tarefa na memória.
 
 ## Testes: micro e macro

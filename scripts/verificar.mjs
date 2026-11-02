@@ -603,17 +603,17 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     checar(`mapa de skills: ${skill} tem um agente que a usa ou está em "Skills fora dos agentes"`, harnessesTexto.includes(skill) || foraDosAgentes.includes(skill));
   for (const skill of ['design:design-system', 'design:user-research', 'design:research-synthesis'])
     checar(`mapa de skills: cita ${skill}, que um agente usa`, mapa.includes(skill));
-  for (const skill of ['engineering:standup', 'superpowers:using-superpowers', 'superpowers:writing-skills'])
+  for (const skill of ['superpowers:using-superpowers', 'superpowers:writing-skills'])
     checar(`skills e testes: diz por que ${skill} fica fora dos agentes`, foraDosAgentes.includes(skill));
   for (const nome of HARNESSES)
     checar(`agentes/${nome}: lê as lições do método (licoes/_indice.md)`, ler(`modelos/agentes/${nome}.md`).includes('licoes/_indice.md'));
   checar('agentes/_modelo-harness: manda ler as lições do método', modeloHarness.includes('licoes/_indice.md'));
   const parte5 = (n) => (ler(`modelos/agentes/${n}.md`).split('## 5. Skills')[1] || '').split('\n## ')[0];
   const exige = {
-    integradora: ['metodo:auditoria-de-seguranca', 'engineering:testing-strategy', 'engineering:tech-debt', 'engineering:documentation', 'superpowers:diagnosing-superpowers', '/ponytail-audit', '/ponytail-debt'],
-    'back-e-dados': ['/ponytail-review', 'engineering:code-review', 'engineering:debug', 'superpowers:receiving-code-review', 'ponytail'],
-    'design-e-front': ['/ponytail-review', 'engineering:code-review', 'engineering:debug', 'superpowers:receiving-code-review', 'design:design-handoff', 'reverse-engineer-anything', 'ponytail'],
-    devops: ['/ponytail-review', 'engineering:code-review', 'engineering:documentation', 'superpowers:receiving-code-review', 'ponytail'],
+    integradora: ['metodo:auditoria-de-seguranca', 'engineering:testing-strategy', 'engineering:documentation', 'superpowers:diagnosing-superpowers', '/ponytail-audit', '/ponytail-debt'],
+    'back-e-dados': ['/ponytail-review', 'superpowers:requesting-code-review', 'superpowers:receiving-code-review', 'ponytail'],
+    'design-e-front': ['/ponytail-review', 'superpowers:requesting-code-review', 'superpowers:receiving-code-review', 'design:design-handoff', 'reverse-engineer-anything', 'ponytail'],
+    devops: ['/ponytail-review', 'superpowers:requesting-code-review', 'engineering:documentation', 'superpowers:receiving-code-review', 'ponytail'],
     arquitetura: ['reverse-engineer-anything'],
     seguranca: ['reverse-engineer-anything'],
   };
@@ -628,6 +628,11 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     checar(`${prompt}: vale para o agente principal (Claude Code ou Codex)`, ler(prompt).includes('Codex') && ler(prompt).includes('Agente principal'));
   for (const skill of ['design:design-system', 'design:user-research', 'design:research-synthesis', 'superpowers:writing-skills', '/ponytail-review'])
     checar(`README: lista de skills cita ${skill}`, readme.includes(skill));
+  // Removidas do método por decisão da pessoa (decisão 012): repetiam o Superpowers ou o ponytail, ou não tinham papel
+  const ativosTexto = todosMd().map((a) => relative(RAIZ, a)).filter((n) => /^(README\.md|CLAUDE\.md|modelos\/|nucleo\/|skills\/|cenarios\/)/.test(n));
+  for (const skill of ['engineering:debug', 'engineering:code-review', 'engineering:tech-debt', 'engineering:standup'])
+    checar(`método não usa mais ${skill} (decisão 012)`, ativosTexto.every((n) => !ler(n).includes(skill)), ativosTexto.find((n) => ler(n).includes(skill)) || '');
+  checar('agentes/integradora: a Fase 8 confere dependências, infraestrutura e documentação (o que a tech-debt cobria)', ler('modelos/agentes/integradora.md').includes('dependências desatualizadas'));
   checar('CLAUDE.md do método: superpowers:writing-skills ao criar ou mudar skill do plugin', ler('CLAUDE.md').includes('superpowers:writing-skills'));
   // Ponytail (rascunho): instalação oficial e as regras de convivência com o método
   for (const termo of ['https://github.com/DietrichGebert/ponytail', '/plugin marketplace add DietrichGebert/ponytail', 'codex plugin marketplace add DietrichGebert/ponytail'])

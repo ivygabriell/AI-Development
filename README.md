@@ -95,7 +95,7 @@ Quando usar cada uma está no [mapa de skills do 03](nucleo/03-skills-e-testes.m
 | Plugin `metodo`: Produto | `metodo:necessidades-e-riscos`, `metodo:descoberta-continua` |
 | Plugin `metodo`: DevOps | `metodo:publicacao-gradual`, `metodo:metas-e-alertas`, `metodo:ci-seguro` |
 | Superpowers (o fluxo) | `superpowers:brainstorming`, `superpowers:writing-plans`, `superpowers:executing-plans`, `superpowers:subagent-driven-development`, `superpowers:dispatching-parallel-agents`, `superpowers:test-driven-development`, `superpowers:systematic-debugging`, `superpowers:verification-before-completion`, `superpowers:requesting-code-review`, `superpowers:receiving-code-review`, `superpowers:using-git-worktrees`, `superpowers:finishing-a-development-branch`, `superpowers:diagnosing-superpowers`; e `superpowers:writing-skills`, só na sessão que mantém este repositório |
-| engineering | `engineering:architecture`, `engineering:system-design`, `engineering:testing-strategy`, `engineering:debug`, `engineering:code-review`, `engineering:deploy-checklist`, `engineering:incident-response`, `engineering:tech-debt`, `engineering:documentation` |
+| engineering | `engineering:architecture`, `engineering:system-design`, `engineering:testing-strategy`, `engineering:deploy-checklist`, `engineering:incident-response`, `engineering:documentation` |
 | design | `design:accessibility-review`, `design:design-critique`, `design:design-handoff`, `design:ux-copy`, `design:design-system`, `design:user-research`, `design:research-synthesis` |
 | Ponytail (rascunho) | o modo ponytail (a menor mudança que resolve a tarefa inteira), `/ponytail-review`, `/ponytail-audit` e `/ponytail-debt` |
 | De fora | `security-audit` (auditoria de segurança da Cloudflare, usada pela Segurança) e `reverse-engineer-anything` (engenharia reversa, do REA) |
@@ -168,7 +168,7 @@ O método usa, além do plugin `metodo`, três plugins, uma ferramenta de engenh
 | O quê | Para que o método usa | Repositório oficial (instalação, uso e atualização) |
 |---|---|---|
 | Plugin **Superpowers** | O fluxo inteiro: brainstorming, TDD, depuração, planos, revisão e verificação antes de dizer "pronto" | [obra/superpowers](https://github.com/obra/superpowers) |
-| Plugin **engineering** | Documentação, arquitetura, desenho de sistemas, revisão de código, estratégia de testes, checklist de deploy, incidentes | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins/tree/main/engineering) |
+| Plugin **engineering** | Documentação, arquitetura, desenho de sistemas, estratégia de testes, checklist de deploy, incidentes | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins/tree/main/engineering) |
 | Plugin **design** | Revisão de acessibilidade, crítica de design, entrega para desenvolvimento e textos de interface | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins/tree/main/design) |
 | **REA** (skill `reverse-engineer-anything` e servidor `rea`) | Engenharia reversa de artefatos fechados, quando uma referência não tem código-fonte ([04](nucleo/04-referencias-e-engenharia-reversa.md)) | [morluto/rea](https://github.com/morluto/rea) |
 | **Orca** (aplicativo e as skills `orca-cli` e `orchestration`) | Orquestração dos agentes: a coordenadora faz o papel da integradora e os agentes, das trabalhadoras ([02](nucleo/02-sessoes-e-papeis.md)) | [stablyai/orca](https://github.com/stablyai/orca) |

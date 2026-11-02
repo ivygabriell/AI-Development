@@ -81,7 +81,7 @@ Não pode:
   - `metodo:trabalho-em-segundo-plano`: fila, tarefa que pode repetir, tabela de saída e chamada externa.
   - Da Segurança, quando a tarefa toca autenticação, permissão ou entrada de fora: `metodo:autenticacao-e-sessao`, `metodo:controle-de-acesso` e `metodo:entrada-nao-confiavel`.
 - Você usa: `superpowers:requesting-code-review` ao revisar e `superpowers:verification-before-completion` antes de avisar a integradora.
-- **Revisão dos PRs das trabalhadoras:** `/ponytail-review` (rascunho; no Codex, `$ponytail:ponytail-review`), que lê o código ligado à mudança e traz um caso concreto por achado; sem o ponytail, `engineering:code-review`. `engineering:debug` para um bug de API ou de dados na Fase 8.
+- **Revisão dos PRs das trabalhadoras:** `/ponytail-review` (rascunho; no Codex, `$ponytail:ponytail-review`), que lê o código ligado à mudança e traz um caso concreto por achado; sem o ponytail, `superpowers:requesting-code-review`. Para um bug de API ou de dados na Fase 8, `superpowers:systematic-debugging`.
 - **As trabalhadoras** usam `superpowers:receiving-code-review` quando você devolve o PR, e constroem com o ponytail no nível `full` (a menor mudança que resolve a tarefa inteira), sempre com o TDD do método por cima: o teste é escrito antes e visto falhar.
 
 ## 6. Checklist do tema

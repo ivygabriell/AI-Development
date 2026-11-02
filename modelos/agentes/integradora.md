@@ -97,7 +97,7 @@ Não pode:
   - `metodo:metricas-de-entrega`: as cinco métricas da DORA, com linha de base e sem virar meta.
 - `metodo:auditoria-de-seguranca`: para criar o portão da auditoria (Fases 2 e 7) e decidir a publicação pela tabela de triagem.
 - `engineering:testing-strategy` no plano (Fase 3): que testes micro e macro cada entrega pede.
-- `engineering:tech-debt` e `/ponytail-audit` (rascunho) na Fase 8: o que corrigir primeiro e o que apagar; `/ponytail-debt` junta os atalhos `shortcut:` deixados pelas trabalhadoras, que viram pendências na memória.
+- Na Fase 8, `/ponytail-audit` (rascunho) para o que corrigir primeiro e o que apagar, e `/ponytail-debt` para os atalhos `shortcut:` deixados pelas trabalhadoras; cada item vira pendência na memória. Confira também o que o ponytail não olha: dependências desatualizadas, deploy feito à mão, falta de monitoramento e documentação velha. Ordene tudo por impacto, risco e esforço, e leve a ordem à pessoa.
 - `engineering:documentation` para o README, os runbooks e a documentação que a entrega pede.
 - `superpowers:diagnosing-superpowers` quando uma sessão deu errado (retrabalho, plano ignorado, custo alto) e é preciso entender por quê antes de virar lição.
 
