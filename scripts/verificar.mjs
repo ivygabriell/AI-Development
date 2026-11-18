@@ -617,7 +617,13 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
   checar('skills/atualizar-projeto: cria o AGENTS.md que falta', atualizar.includes('AGENTS.md'));
   checar('skills/novo-projeto: explica a ferramenta por papel e passa --agente só para uma ferramenta só', inicio.includes('Ferramenta por papel') && inicio.includes('--agente <claude|codex>') && !inicio.includes('Back e front com agentes diferentes'));
   checar('skills/consultar: aponta para a ferramenta por papel', ler('skills/consultar/SKILL.md').includes('Lead e ferramenta por papel') && !ler('skills/consultar/SKILL.md').includes('Back e front com agentes diferentes'));
-  checar('skills/atualizar-projeto: pergunta o agente principal e acrescenta a linha no DESENVOLVIMENTO.md', atualizar.includes('Agente principal') && atualizar.includes('--agente'));
+  // Decisão 013: projetos 3.x passam para a Lead e a ferramenta por papel, com os harnesses renomeados
+  checar('skills/atualizar-projeto: troca a linha Agente principal pela linha Lead e a tabela Ferramenta por papel', atualizar.includes('Agente principal:') && atualizar.includes('Lead:') && atualizar.includes('Ferramenta por papel') && atualizar.includes('--agente'));
+  for (const [antigo, novo] of [['integradora', 'lead'], ['arquitetura', 'architect'], ['back-e-dados', 'backend'], ['design-e-front', 'frontend'], ['seguranca', 'security'], ['produto', 'product'], ['devops', 'ops']])
+    checar(`skills/atualizar-projeto: renomeia docs/agentes/${antigo}.md para ${novo}.md`, atualizar.includes(`| \`${antigo}.md\` | \`${novo}.md\` |`));
+  checar('skills/atualizar-projeto: renomeia com git mv, sem perder a personalização, e lista a diferença', atualizar.includes('git mv') && atualizar.includes('personaliza'));
+  checar('skills/atualizar-projeto: acrescenta a seção Aprovações', atualizar.includes('## Aprovações'));
+  checar('skills/atualizar-projeto: o git diff permite só as remoções das duas exceções', (atualizar.split('## Passo 4')[1] || '').includes('Agente principal:') && (atualizar.split('## Passo 4')[1] || '').includes('renomeados'));
 }
 
 // Decisão 011: o que foi promovido não volta a ser rascunho; só os cenários e o que entrou depois sem caso real (o ponytail, decisão 012) levam o selo
