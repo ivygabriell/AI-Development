@@ -53,7 +53,7 @@ Para outras stacks, troque os passos (o resto fica igual):
 
 Ative **depois** do primeiro CI verde (o check precisa existir para ser exigido). Exige PR, o check verde e a branch em dia; bloqueia push forçado e exclusão; deixa o administrador contornar numa emergência.
 
-**Disponibilidade:** a proteção depende do plano. Num repositório **privado** de uma conta gratuita, o GitHub recusa o comando abaixo com HTTP 403 (*"Upgrade to GitHub Pro or make this repository public to enable this feature."*). Confira a visibilidade antes (`gh repo view --json visibility`). Se a proteção não estiver disponível, a pessoa escolhe entre plano pago, repositório público ou seguir sem proteção; no último caso, registre no `CLAUDE.md` ou no `docs/DESENVOLVIMENTO.md` que a regra "nunca commit direto na `main`" vale só pela disciplina das sessões ([lição 019](../licoes/019-protecao-da-main-indisponivel-em-repositorio-privado.md)).
+**Disponibilidade:** a proteção depende do plano. Num repositório **privado** de uma conta gratuita, o GitHub recusa o comando abaixo com HTTP 403 (*"Upgrade to GitHub Pro or make this repository public to enable this feature."*). Confira a visibilidade antes (`gh repo view --json visibility`). Se a proteção não estiver disponível, a pessoa escolhe entre plano pago, repositório público ou seguir sem proteção; no último caso, registre no `CLAUDE.md` ou no `processo/DESENVOLVIMENTO.md` que a regra "nunca commit direto na `main`" vale só pela disciplina das sessões ([lição 019](../licoes/019-protecao-da-main-indisponivel-em-repositorio-privado.md)).
 
 ```bash
 cat > protecao.json <<'EOF'
@@ -79,6 +79,19 @@ Notas: troque `"Testes, tipos e build"` pelo nome do seu job; `strict: true` obr
 - `gh label create tarefa --color 1f4fff --description "Tarefa para uma sessão Builder" --force`
 - O formulário de tarefa ([issue-tarefa.yml](../modelos/issue-tarefa.yml)) e o de bug ([issue-bug.yml](../modelos/issue-bug.yml)) vão em `.github/ISSUE_TEMPLATE/`, junto com um `config.yml` que desliga a issue em branco (`blank_issues_enabled: false`).
 - Abra tarefas pelo terminal com `gh issue create --label tarefa --body-file corpo.md`.
+
+## Estrutura do projeto
+
+O método mantém a raiz do projeto limpa (decisão 016). Tudo o que ele cria fica em `processo/`; na raiz só ficam o que as ferramentas e o GitHub exigem ali e o código:
+
+```text
+README.md  CLAUDE.md  AGENTS.md   (o CLAUDE.md e o AGENTS.md são curtos e importam processo/)
+.github/                          (CI, formulários de issue e modelo de PR)
+processo/                         (DESENVOLVIMENTO.md, memoria-do-projeto.md, requisitos.md, telas/, agentes/, referencias/, scripts/, seguranca.md...)
+src/ ...                          (o código)
+```
+
+A pasta `docs/` fica livre para a documentação do produto. Tudo continua versionado e sobe junto para o GitHub, para que as worktrees e os agentes enxerguem o processo.
 
 ## Worktrees
 

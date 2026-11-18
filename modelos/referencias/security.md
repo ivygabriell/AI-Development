@@ -4,7 +4,7 @@
 **Agente:** Security (harness em `modelos/agentes/security.md`)
 **Skills que saem daqui:** `metodo:autenticacao-e-sessao`, `metodo:controle-de-acesso`, `metodo:entrada-nao-confiavel` e `metodo:incidente-com-dados-pessoais`; da seção "Auditoria completa", `metodo:auditoria-de-seguranca`
 
-O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `docs/referencias/security.md` do projeto e antes dos sites. As skills também servem a quem corrige (as Builders do back e do front). A segurança do CI fica com `metodo:ci-seguro`, do Ops.
+O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `processo/referencias/security.md` do projeto e antes dos sites. As skills também servem a quem corrige (as Builders do back e do front). A segurança do CI fica com `metodo:ci-seguro`, do Ops.
 
 ## Autenticação e senhas (NIST SP 800-63B-4 e OWASP)
 

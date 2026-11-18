@@ -49,7 +49,7 @@ Tudo o que a arquitetura usa, com o link de onde cada coisa é explicada.
 
 | Conceito | O que é | Onde está |
 |---|---|---|
-| **Ferramenta por papel** | A ferramenta de cada papel, registrada na linha `Lead:` e na tabela Ferramenta por papel do `docs/DESENVOLVIMENTO.md`; todo PR recebe ao menos uma revisão da outra ferramenta | [02](nucleo/02-sessoes-e-papeis.md), [decisão 013](decisoes/013-lead-e-builders-com-codex-e-claude.md) |
+| **Ferramenta por papel** | A ferramenta de cada papel, registrada na linha `Lead:` e na tabela Ferramenta por papel do `processo/DESENVOLVIMENTO.md`; todo PR recebe ao menos uma revisão da outra ferramenta | [02](nucleo/02-sessoes-e-papeis.md), [decisão 013](decisoes/013-lead-e-builders-com-codex-e-claude.md) |
 | **Lead** | A sessão que coordena, valida com olhar independente e é a única que integra na `main`. No Orca, é a Lead | [02](nucleo/02-sessoes-e-papeis.md) |
 | **Builder** | A sessão que constrói uma tarefa isolada, numa worktree e numa branch próprias, e termina com o PR aberto | [02](nucleo/02-sessoes-e-papeis.md) |
 | **Especialista** | O agente de um tema (Architect, Backend, Frontend, Security, Product, Ops), que decide e revisa o tema e coordena as próprias Builders | [02, "Com agentes especialistas"](nucleo/02-sessoes-e-papeis.md), [decisão 008](decisoes/008-agentes-especialistas.md) |
@@ -321,7 +321,7 @@ mkdir ~/Projetos/meu-site && cd ~/Projetos/meu-site && claude
 
 A skill confere o ambiente, propõe o cenário (e avisa se ele é `rascunho`), pede **uma** confirmação antes de criar o repositório no GitHub, prepara tudo com o `novo-projeto.sh` (inclusive o `CLAUDE.md` do projeto, que dá o contexto a toda sessão futura), espera o primeiro CI e começa a Fase 0. Daí em diante, ela para em cada portão: spec, plano, deploy e o que aciona um gatilho de aprovação (os merges sem gatilho, a Lead integra). Qualquer sessão do projeto consulta o método pela skill `metodo:consultar`.
 
-**Para trabalhar com vários agentes no Orca**, abra o projeto no Orca e use o [prompt da Lead](modelos/prompt-lead-orca.md) num agente da ferramenta da Lead (a linha `Lead:` do `docs/DESENVOLVIMENTO.md`, por padrão o Claude Code): ela distribui as tarefas aos agentes, valida e integra pelos gatilhos de aprovação ([01](nucleo/01-fluxo-de-ponta-a-ponta.md), "Portões de aprovação"; [02](nucleo/02-sessoes-e-papeis.md), "Com o Orca").
+**Para trabalhar com vários agentes no Orca**, abra o projeto no Orca e use o [prompt da Lead](modelos/prompt-lead-orca.md) num agente da ferramenta da Lead (a linha `Lead:` do `processo/DESENVOLVIMENTO.md`, por padrão o Claude Code): ela distribui as tarefas aos agentes, valida e integra pelos gatilhos de aprovação ([01](nucleo/01-fluxo-de-ponta-a-ponta.md), "Portões de aprovação"; [02](nucleo/02-sessoes-e-papeis.md), "Com o Orca").
 
 **Com as duas ferramentas**, a Lead abre cada agente na ferramenta do papel (`--agent claude` ou `--agent codex`); o Codex lê o `AGENTS.md`. Quando a cota acaba no meio de uma tarefa, a Builder deixa a passagem na issue e outra, na outra ferramenta, continua na mesma branch. Quando back e front são construídos em paralelo, o contrato da API é aprovado por você antes de qualquer tarefa de construção ([02](nucleo/02-sessoes-e-papeis.md), "Lead e ferramenta por papel").
 
@@ -348,10 +348,10 @@ Sem o plugin, com uma cópia local deste repositório:
    ```bash
    scripts/novo-projeto.sh <pasta-do-projeto> site-estatico
    ```
-   Ele copia o formulário de tarefa, o modelo de PR, o CI e os scripts de worktree, e cria o `CLAUDE.md`, o `AGENTS.md` (para o Codex), o `docs/DESENVOLVIMENTO.md` e o `docs/memoria-do-projeto.md` carimbados com a versão do método. Nunca sobrescreve nada; se o projeto já tem um `CLAUDE.md`, só avisa para acrescentar as importações.
+   Ele copia o formulário de tarefa, o modelo de PR, o CI e os scripts de worktree, e cria o `CLAUDE.md`, o `AGENTS.md` (para o Codex), o `processo/DESENVOLVIMENTO.md` e o `processo/memoria-do-projeto.md` carimbados com a versão do método. Nunca sobrescreve nada; se o projeto já tem um `CLAUDE.md`, só avisa para acrescentar as importações.
    Se um cenário escolhido ainda é `rascunho`, o script avisa (sem interromper) e o `DESENVOLVIMENTO.md` registra a maturidade de cada cenário: trate um rascunho como hipótese, não como regra.
 3. Faça o primeiro commit com tudo e dê o primeiro push da `main`. O CI passa com o aviso "stack ainda não definida" até o primeiro PR da stack. **Depois** ative a proteção da `main` e crie as etiquetas (comandos em [05](nucleo/05-git-github-e-ci.md)). Em repositório privado, a proteção exige plano pago; o 05 diz o que fazer sem ela.
-4. Preencha os comandos do projeto no `docs/DESENVOLVIMENTO.md` e ajuste o CI para a sua stack.
+4. Preencha os comandos do projeto no `processo/DESENVOLVIMENTO.md` e ajuste o CI para a sua stack.
 5. Defina o **alvo** da primeira entrega com [modelo-spec.md](modelos/modelo-spec.md) e [modelo-criterios-de-aceite.md](modelos/modelo-criterios-de-aceite.md).
 6. Abra a primeira issue com o formulário de tarefa e comece pela Fase 0 de [01](nucleo/01-fluxo-de-ponta-a-ponta.md).
 

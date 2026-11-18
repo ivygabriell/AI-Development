@@ -4,7 +4,7 @@
 ## Por quê
 <!-- O pedido ou o problema que originou a mudança. "Closes #N" quando houver issue. -->
 
-Requisitos atendidos: R-xx, R-yy (de `docs/requisitos.md`)
+Requisitos atendidos: R-xx, R-yy (de `processo/requisitos.md`)
 
 ## Como testei
 - [ ] Os testes novos (micro) falharam antes e passam agora
@@ -21,7 +21,7 @@ Requisitos atendidos: R-xx, R-yy (de `docs/requisitos.md`)
 ## Capturas
 <!-- Antes e depois, quando a mudança for visual. -->
 
-- [ ] Com interface: a tela construída confere com a captura aprovada em `docs/telas/` (nome do frame: ...)
+- [ ] Com interface: a tela construída confere com a captura aprovada em `processo/telas/` (nome do frame: ...)
 
 ## Riscos e pendências
 <!-- O que pode quebrar, o que ficou para depois. -->

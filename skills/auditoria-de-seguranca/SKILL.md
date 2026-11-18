@@ -15,9 +15,9 @@ A `security-audit` entra **na primeira análise de segurança do projeto**, e n�
 
 | Momento | Modo da `security-audit` | O que sai |
 |---|---|---|
-| **Fase 2**, o primeiro mapa de riscos (antes de existir código) | modo de orientação, com o roteiro do reconhecimento: quem usa e quem tem menos confiança, o que cada um pode fazer, as fronteiras de confiança e o controle de cada uma, as superfícies de entrada (tela, API, arquivos, filas, CI, IA) e os arquivos de domínio que se aplicam (web e identidade, navegador, cadeia de suprimentos, nuvem, IA e agentes, isolamento de dados) | o mapa de riscos em `docs/seguranca.md`, cada risco virando critério de aceite nas issues da Fase 3 |
+| **Fase 2**, o primeiro mapa de riscos (antes de existir código) | modo de orientação, com o roteiro do reconhecimento: quem usa e quem tem menos confiança, o que cada um pode fazer, as fronteiras de confiança e o controle de cada uma, as superfícies de entrada (tela, API, arquivos, filas, CI, IA) e os arquivos de domínio que se aplicam (web e identidade, navegador, cadeia de suprimentos, nuvem, IA e agentes, isolamento de dados) | o mapa de riscos em `processo/seguranca.md`, cada risco virando critério de aceite nas issues da Fase 3 |
 | **Cada revisão de PR** sensível | modo de orientação: fronteira e resultado concreto, gravidade pelo impacto demonstrado, a menor correção | o veredito da revisão, sem arquivos novos |
-| **Fase 7**, antes da primeira publicação, e depois de cada mudança grande | modo de auditoria completa, pelo passo a passo abaixo, com portão | o relatório fora do repositório e a triagem no `docs/seguranca.md` |
+| **Fase 7**, antes da primeira publicação, e depois de cada mudança grande | modo de auditoria completa, pelo passo a passo abaixo, com portão | o relatório fora do repositório e a triagem no `processo/seguranca.md` |
 
 O mapa da Fase 2 é a semente das auditorias completas: as fronteiras e superfícies que ele listou são as que a primeira auditoria completa precisa cobrir, e o que ela achar volta para o mapa. Fonte: [RECONNAISSANCE.md, fase 1](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/RECONNAISSANCE.md) e [ATTACK-CLASSES.md, escolha dos domínios](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/ATTACK-CLASSES.md).
 
@@ -43,14 +43,14 @@ O mapa da Fase 2 é a semente das auditorias completas: as fronteiras e superfí
    | Veredito da skill | O que vira no projeto |
    |---|---|
    | `confirmed` `critical` ou `high` | **bloquear** a publicação. Uma correção entregue ao dono da pasta, com a menor mudança que a skill propõe e o teste de regressão escrito antes |
-   | `confirmed` `medium` | **aprovar com ressalva**. Correção numa tarefa própria, antes da próxima publicação, ou risco aceito pela pessoa no `docs/seguranca.md` |
-   | `confirmed` `low` ou `informational` | nota de endurecimento no `docs/seguranca.md`; vira tarefa só se a pessoa quiser |
+   | `confirmed` `medium` | **aprovar com ressalva**. Correção numa tarefa própria, antes da próxima publicação, ou risco aceito pela pessoa no `processo/seguranca.md` |
+   | `confirmed` `low` ou `informational` | nota de endurecimento no `processo/seguranca.md`; vira tarefa só se a pessoa quiser |
    | `needs_validation` | pergunta em aberto no mapa de riscos, **sem gravidade**, com o fato que falta e quem pode observar (o Ops para infraestrutura; a pessoa para conta ou provedor). Nunca vire um palpite em correção |
    | `rejected` | fica só no relatório: ele evita que a próxima rodada repita a mesma suspeita |
 
    Fonte: [SKILL.md, prioridade e certeza](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md).
 11. **Não espalhar a falha.** Nas issues e nos PRs vai só o necessário para corrigir (onde, qual regra, o teste). Num repositório **público**, uma falha `confirmed` ainda aberta não vira issue pública: use um aviso de segurança privado do GitHub (Security → Advisories) ou fale direto com o dono da pasta pelo Orca. Nenhum segredo encontrado aparece em resposta, comentário ou memória: diga onde está, nunca o valor. Fonte: [GitHub, avisos de segurança privados](https://docs.github.com/en/code-security/security-advisories/working-with-repository-security-advisories/about-repository-security-advisories).
-12. **Registrar.** Em `docs/seguranca.md`, numa seção "Auditorias": a data, o perfil, o escopo, o commit auditado, a contagem por veredito e gravidade, se a rodada ficou completa ou `incomplete`, e onde está o relatório (o caminho fora do repositório). Mande à Lead o consumo da auditoria (`orca orchestration send --type status`) para a memória do projeto: é a medida de custo da Fase 9.
+12. **Registrar.** Em `processo/seguranca.md`, numa seção "Auditorias": a data, o perfil, o escopo, o commit auditado, a contagem por veredito e gravidade, se a rodada ficou completa ou `incomplete`, e onde está o relatório (o caminho fora do repositório). Mande à Lead o consumo da auditoria (`orca orchestration send --type status`) para a memória do projeto: é a medida de custo da Fase 9.
 
 ## O teste que prova (escreva antes, veja falhar)
 
@@ -74,7 +74,7 @@ A auditoria não escreve código. Quem prova é a correção: cada `confirmed` c
 - [ ] Cada `confirmed` triado pela tabela; os `critical` e `high` bloqueiam a publicação.
 - [ ] Cada `needs_validation` virou pergunta no mapa de riscos, sem gravidade.
 - [ ] Nada de falha aberta em issue pública nem de segredo em texto.
-- [ ] Registro em `docs/seguranca.md` e consumo enviado à Lead.
+- [ ] Registro em `processo/seguranca.md` e consumo enviado à Lead.
 
 ## Adaptar ao tamanho do projeto
 

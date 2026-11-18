@@ -19,7 +19,7 @@ body:
     id: requisitos
     attributes:
       label: Requisitos (R-xx)
-      description: Os IDs de docs/requisitos.md, como "R-03, R-04". Sem requisito, a tarefa não entra (requisito novo passa pela pessoa).
+      description: Os IDs de processo/requisitos.md, como "R-03, R-04". Sem requisito, a tarefa não entra (requisito novo passa pela pessoa).
     validations:
       required: true
   - type: textarea

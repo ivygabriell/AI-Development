@@ -2,6 +2,15 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 6.0.0 (2026-11-18)
+
+O processo do projeto numa pasta só. Ver a [decisão 016](decisoes/016-processo-fora-da-raiz.md), o [desenho](planos/2026-11-18-processo-fora-da-raiz-desenho.md) e o [plano](planos/2026-11-18-processo-fora-da-raiz.md).
+
+- **`processo/`** reúne o que o método cria no projeto: `DESENVOLVIMENTO.md`, `memoria-do-projeto.md`, `requisitos.md`, `telas/`, `agentes/`, `referencias/` e o resto de `docs/`, mais `processo/scripts/` com `nova-tarefa.sh` e `remover-tarefa.sh`. A raiz fica com `README.md`, `CLAUDE.md`, `AGENTS.md`, `.github/`, `processo/` e o código; `docs/` fica livre para o produto.
+- `novo-projeto.sh` cria a estrutura nova; modelos, núcleo, skills e cenários usam os caminhos `processo/`.
+- **`metodo:atualizar-projeto`** ganha a migração (Exceção 3): `git mv` só dos itens do método, com PR e a aprovação da pessoa.
+- `verificar.mjs` falha se um caminho antigo voltar fora do histórico.
+
 ## 5.0.0 (2026-11-17)
 
 Requisitos descritos e telas no Figma antes do código. Ver a [decisão 015](decisoes/015-requisitos-e-telas-antes-do-codigo.md), o [desenho](planos/2026-11-17-requisitos-e-telas-antes-do-codigo-desenho.md) e o [plano](planos/2026-11-17-requisitos-e-telas-antes-do-codigo.md).

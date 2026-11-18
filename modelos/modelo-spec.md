@@ -1,6 +1,6 @@
 # Modelo de spec
 
-Gabarito para o documento de desenho (Fase 2). Vem **depois** dos requisitos (`docs/requisitos.md`, pelo [modelo de requisitos](modelo-requisitos.md)) e, com interface, da identidade e de todas as telas aprovadas no Figma e registradas em `docs/telas/`: a spec cita os R-xx e os frames em vez de repetir. Salve em `docs/specs/AAAA-MM-DD-tema.md` e faça a pessoa aprovar **o arquivo escrito**. Seja objetivo: uma seção que não se aplica pode dizer "não se aplica".
+Gabarito para o documento de desenho (Fase 2). Vem **depois** dos requisitos (`processo/requisitos.md`, pelo [modelo de requisitos](modelo-requisitos.md)) e, com interface, da identidade e de todas as telas aprovadas no Figma e registradas em `processo/telas/`: a spec cita os R-xx e os frames em vez de repetir. Salve em `processo/specs/AAAA-MM-DD-tema.md` e faça a pessoa aprovar **o arquivo escrito**. Seja objetivo: uma seção que não se aplica pode dizer "não se aplica".
 
 ```markdown
 # Título da mudança
@@ -17,7 +17,7 @@ Gabarito para o documento de desenho (Fase 2). Vem **depois** dos requisitos (`d
 - Qual referência e onde (título exato, link) e o resumo dos achados medidos.
 
 ## 4. Desenho
-- Requisitos cobertos (R-xx) e, com interface, as telas (frames do Figma e `docs/telas/`).
+- Requisitos cobertos (R-xx) e, com interface, as telas (frames do Figma e `processo/telas/`).
 - Estrutura e componentes, com a responsabilidade de cada um.
 - Dados e onde moram (arquivos de conteúdo, configuração, banco).
 - Fluxos e estados (vazio, erro, carregando).

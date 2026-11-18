@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Cria uma worktree (cópia isolada da pasta) e a branch de uma tarefa, a partir da main do GitHub.
-# Uso: scripts/nova-tarefa.sh <feat|fix|chore|docs> <slug> [porta]
-#   ex.: scripts/nova-tarefa.sh fix menu-mobile 3011
+# Uso: processo/scripts/nova-tarefa.sh <feat|fix|chore|docs> <slug> [porta]
+#   ex.: processo/scripts/nova-tarefa.sh fix menu-mobile 3011
 # Variáveis opcionais:
 #   WORKTREES_DIR  pasta das tarefas (padrão: ../<nome-do-projeto>-tarefas)
 #   PORTA_INICIAL  primeira porta da faixa de 10 portas das tarefas (padrão: 3010)
@@ -15,7 +15,7 @@ porta="${3:-}"
 
 if [[ ! "$tipo" =~ ^(feat|fix|chore|docs)$ ]]; then
   echo "Tipo inválido '$tipo': use feat, fix, chore ou docs." >&2
-  echo "Uso: scripts/nova-tarefa.sh <feat|fix|chore|docs> <slug> [porta]" >&2
+  echo "Uso: processo/scripts/nova-tarefa.sh <feat|fix|chore|docs> <slug> [porta]" >&2
   exit 1
 fi
 if [[ ! "$slug" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]]; then
