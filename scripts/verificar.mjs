@@ -872,6 +872,9 @@ checar('016: VERSION é 6.0.0 ou maior', Number(versao.split('.')[0]) >= 6, vers
 checar('016: decisão 016 existe e o CHANGELOG tem a 6.0.0', existsSync(join(RAIZ, 'decisoes/016-processo-fora-da-raiz.md')) && ler('CHANGELOG.md').includes('## 6.0.0'));
 const atualizar016 = ler('skills/atualizar-projeto/SKILL.md');
 checar('016: a skill atualizar-projeto migra docs/ e scripts/ para processo/', ['git mv', 'processo/scripts/', 'só os itens listados', 'processo/DESENVOLVIMENTO.md', 'docs/DESENVOLVIMENTO.md'].every((t) => atualizar016.includes(t)));
+checar('016: a migração também move docs/spec.md', atualizar016.includes('`docs/spec.md`'));
+checar('016: a referência lê os cenários também do docs/DESENVOLVIMENTO.md (projeto 5.x)', atualizar016.split('\n').some((l) => l.includes('Cenários aplicados') && l.includes('docs/DESENVOLVIMENTO.md')));
+checar('016: a conferência do diff admite a troca de caminhos da migração (Exceção 3)', (atualizar016.split('Aplique o plano.')[1] || '').split('\n')[0].includes('Exceção 3'));
 
 // Resultado
 if (falhas.length) {

@@ -25,7 +25,7 @@ Leia, em `${CLAUDE_PLUGIN_ROOT}/CHANGELOG.md`, as seções das versões mais nov
 
 ## Passo 3 · Referência e plano
 
-Gere uma referência numa pasta temporária, com o cenário do projeto (da linha "Cenários aplicados" do `processo/DESENVOLVIMENTO.md`; se não houver, pergunte à pessoa ou rode sem cenário):
+Gere uma referência numa pasta temporária, com o cenário do projeto (da linha "Cenários aplicados" do `processo/DESENVOLVIMENTO.md` (ou, antes da migração, do `docs/DESENVOLVIMENTO.md`); se não houver, pergunte à pessoa ou rode sem cenário):
 
 ```bash
 ref="$(mktemp -d)"
@@ -36,7 +36,7 @@ Sem `--agente`, a referência traz a Lead e a tabela **Ferramenta por papel** do
 
 Se o projeto usa o modo com agentes especialistas (tem `processo/agentes/`, ou `docs/agentes/` antes da migração, ou a pessoa disse que sim), gere a referência com `--especialistas` depois de `"$ref"`, para ela trazer os harnesses e a linha do modo no `DESENVOLVIMENTO.md`.
 
-**Migração para `processo/` (6.0.0, decisão 016).** Se o projeto é anterior à 6.0.0 e tem `docs/DESENVOLVIMENTO.md` (ou `scripts/nova-tarefa.sh`), o plano começa pela migração, e as linhas da tabela abaixo valem **depois** dela, com os caminhos `processo/`. É a **Exceção 3** à regra "só acrescentar": mover não apaga nada. Mova com `git mv` **só os itens listados**, e só os que existirem: `docs/DESENVOLVIMENTO.md`, `docs/memoria-do-projeto.md`, `docs/requisitos.md`, `docs/telas`, `docs/agentes`, `docs/referencias`, `docs/seguranca.md`, `docs/contrato-api.md`, `docs/arquitetura.md` e `docs/specs` para `processo/`; `scripts/nova-tarefa.sh` e `scripts/remover-tarefa.sh` para `processo/scripts/`. Tudo o mais em `docs/` e em `scripts/` é do produto e fica onde está. Se `processo/` já existir, pare e pergunte. Depois, troque os caminhos antigos pelos novos em `CLAUDE.md`, `AGENTS.md`, `.github/` e nos arquivos movidos, confira com `grep -rn` que nenhum caminho antigo do método restou, e mostre à pessoa o que foi movido.
+**Migração para `processo/` (6.0.0, decisão 016).** Se o projeto é anterior à 6.0.0 e tem `docs/DESENVOLVIMENTO.md` (ou `scripts/nova-tarefa.sh`), o plano começa pela migração, e as linhas da tabela abaixo valem **depois** dela, com os caminhos `processo/`. É a **Exceção 3** à regra "só acrescentar": mover não apaga nada. Mova com `git mv` **só os itens listados**, e só os que existirem: `docs/DESENVOLVIMENTO.md`, `docs/memoria-do-projeto.md`, `docs/requisitos.md`, `docs/telas`, `docs/agentes`, `docs/referencias`, `docs/seguranca.md`, `docs/contrato-api.md`, `docs/arquitetura.md` e `docs/specs` e `docs/spec.md` para `processo/`; `scripts/nova-tarefa.sh` e `scripts/remover-tarefa.sh` para `processo/scripts/`. Tudo o mais em `docs/` e em `scripts/` é do produto e fica onde está. Se `processo/` já existir, pare e pergunte. Depois, troque os caminhos antigos pelos novos em `CLAUDE.md`, `AGENTS.md`, `.github/` e nos arquivos movidos, confira com `grep -rn` que nenhum caminho antigo do método restou, e mostre à pessoa o que foi movido.
 
 Compare cada arquivo da referência com o do projeto e monte o plano, arquivo por arquivo:
 
@@ -84,7 +84,7 @@ Sem um "pode" (ou equivalente claro), não siga.
 ## Passo 4 · Atualizar
 
 1. `git switch -c chore/metodo-<versão instalada>` a partir da `main` atualizada.
-2. Aplique o plano. Antes do commit, mostre `git diff --stat` e confira que nenhuma linha do projeto foi removida (`git diff` sem linhas começando com `-` além da linha da versão, da linha `Agente principal:` (ou "Back com o Codex e front com o Claude") trocada pela linha `Lead:`, dos harnesses renomeados com `git mv` (o `git diff -M` os mostra como renomeados, sem conteúdo removido) e dos harnesses que a pessoa mandou trocar).
+2. Aplique o plano. Antes do commit, mostre `git diff --stat` e confira que nenhuma linha do projeto foi removida (`git diff` sem linhas começando com `-` além da linha da versão, da linha `Agente principal:` (ou "Back com o Codex e front com o Claude") trocada pela linha `Lead:`, dos harnesses renomeados com `git mv` (o `git diff -M` os mostra como renomeados, sem conteúdo removido), dos harnesses que a pessoa mandou trocar e, na migração para `processo/` (**Exceção 3**), dos arquivos movidos com `git mv` e das linhas de `CLAUDE.md`, `AGENTS.md` e `.github/` que só trocam `docs/` ou `scripts/` por `processo/`).
 3. `git commit -m "chore: atualiza para o método <versão instalada>"`.
 4. Com a confirmação da pessoa: envie a branch e abra o PR com o modelo do projeto, listando o que mudou e o que ficou para ela decidir.
 5. Integre só com o "pode integrar" (`gh pr merge N --merge`, sem apagar a branch) e confira o CI da `main`.
