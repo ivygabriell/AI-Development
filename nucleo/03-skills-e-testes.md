@@ -46,6 +46,8 @@ Duas regras valem para **todas as sessões**, Lead ou Builder: usar a Skill cert
 | Entregar um design para o desenvolvimento | `design:design-handoff` |
 | Textos de interface (botões, erros, estados vazios) | `design:ux-copy` |
 | Criar ou manter o design system (cores, tipografia, componentes) | `design:design-system` |
+| Descrever os requisitos (fichas R-xx com o peso) | `metodo:necessidades-e-riscos`, `metodo:descoberta-continua` e o modelo `modelos/modelo-requisitos.md` |
+| Criar a identidade e as telas no Figma, e ler o frame aprovado ao construir | servidor MCP oficial do Figma (`use_figma` para escrever, com assento Full; `get_design_context`, `get_screenshot` e `get_variable_defs` para ler) |
 | Planejar uma pesquisa com usuários (entrevistas, testes de usabilidade) | `design:user-research` |
 | Juntar o que a pesquisa trouxe (temas, achados, oportunidades) | `design:research-synthesis` |
 | Mudança grande, revisão enxuta: o que sobra, o que quebra, o que falta testar (rascunho) | `/ponytail-review` (no Codex, `$ponytail:ponytail-review`) |

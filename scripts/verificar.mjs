@@ -55,6 +55,8 @@ const OBRIGATORIOS = [
   'modelos/issue-tarefa.yml',
   'modelos/issue-bug.yml',
   'decisoes/014-fluxo-de-correcao-de-bugs.md',
+  'modelos/modelo-requisitos.md',
+  'decisoes/015-requisitos-e-telas-antes-do-codigo.md',
   'modelos/pull_request_template.md',
   'modelos/ci-node.yml',
   'modelos/nova-tarefa.sh',
@@ -418,6 +420,39 @@ checar('sessões: com uma ferramenta só, a revisão cruzada não se aplica', se
 const FRASES_RUINS = ['Architect de agentes', '### Security e dados', 'Da Security', 'a Lead ou a Lead', 'o Architect, dona', '**Contrato da API:** dona', '9. **Security:**'];
 const ruins = ARQUIVOS_VIVOS.flatMap((f) => { const t = readFileSync(f, 'utf8'); return FRASES_RUINS.filter((x) => t.includes(x)).map((x) => `${f.slice(RAIZ.length + 1)}: ${x}`); });
 checar('troca de nomes sem frases quebradas (assunto virou papel, concordância, duplicação)', ruins.length === 0, ruins.join('; '));
+// Decisão 015: requisitos descritos pelo Product e identidade e telas no Figma, registradas em docs/telas/, antes do código
+const modReq = ler('modelos/modelo-requisitos.md');
+for (const termo of ['R-01', 'História', 'Regras de negócio', 'Casos de erro', 'Critérios de aceite', 'Dependências', 'Telas', 'Valor', 'Esforço', 'Risco', 'Prioridade proposta'])
+  checar(`modelo de requisitos: ${termo}`, modReq.includes(termo));
+const fase2 = (fluxo.split('## Fase 2')[1] || '').split('## Fase 3')[0];
+for (const termo of ['requisitos', 'identidade', 'todas as telas', 'Figma', 'docs/telas/', 'antes do plano'])
+  checar(`fluxo: a Fase 2 cobre ${termo}`, fase2.includes(termo));
+checar('aprovações: tela nova não fica mais com a Lead; todas as telas são da pessoa', !portoes.includes('Telas seguintes') && portoes.includes('todas as telas'));
+const harnessProduct = ler('modelos/agentes/product.md');
+checar('agentes/product: escreve as fichas R-xx com o peso', harnessProduct.includes('docs/requisitos.md') && harnessProduct.includes('R-') && harnessProduct.includes('peso'));
+const harnessFront = ler('modelos/agentes/frontend.md');
+checar('agentes/frontend: identidade e todas as telas no Figma antes de qualquer código, registradas em docs/telas/', ['use_figma', 'docs/telas/', 'antes de qualquer código', 'get_variable_defs'].every((t) => harnessFront.includes(t)));
+for (const form of ['modelos/issue-tarefa.yml', 'modelos/issue-bug.yml'])
+  checar(`${form}: campo obrigatório requisitos`, ler(form).split('  - type:').some((b) => b.includes('id: requisitos\n') && b.includes('required: true')));
+checar('modelo de PR: requisitos atendidos e telas conferidas', ler('modelos/pull_request_template.md').includes('Requisitos atendidos') && ler('modelos/pull_request_template.md').includes('docs/telas/'));
+for (const p of ['modelos/CLAUDE-projeto.md', 'modelos/AGENTS-projeto.md'])
+  checar(`${p}: nenhuma tela codada sem estar aprovada em docs/telas/; mudança começa no Figma`, ler(p).includes('docs/telas/') && ler(p).includes('Figma'));
+checar('atualizar-projeto: acrescenta docs/requisitos.md, docs/telas/ e a linha Telas:', ['docs/requisitos.md', 'docs/telas/', 'Telas:'].every((t) => ler('skills/atualizar-projeto/SKILL.md').includes(t)));
+checar('README: instala o MCP do Figma no Codex', ler('README.md').includes('codex mcp add figma --url https://mcp.figma.com/mcp'));
+for (const c of ['site-estatico', 'aplicacao-web-full-stack', 'aplicativo-mobile'])
+  checar(`cenário ${c}: identidade e telas aprovadas em docs/telas/ antes do código`, ler(`cenarios/${c}.md`).includes('docs/telas/'));
+checar('decisão 015: aceita sem caso real', ler('decisoes/015-requisitos-e-telas-antes-do-codigo.md').includes('sem caso real'));
+// Revisão do Codex da 5.0.0
+const atualizar015 = ler('skills/atualizar-projeto/SKILL.md');
+checar('atualizar-projeto: copia requisitos e telas só o que falta, cada um por si', atualizar015.includes('cada um só se faltar'));
+checar('atualizar-projeto: acrescenta o campo de requisitos aos formulários e ao PR que o projeto já tem', atualizar015.includes('id: requisitos') && atualizar015.includes('Requisitos atendidos'));
+for (const p of ['modelos/prompt-lead.md', 'modelos/prompt-lead-orca.md', 'modelos/prompt-builder.md'])
+  checar(`${p}: requisitos e telas aprovadas (decisão 015)`, ler(p).includes('docs/requisitos.md') && ler(p).includes('docs/telas/'));
+checar('sessões: a especificação da tarefa leva os requisitos e as telas', (sessoes.split('**Ciclo de uma tarefa:**')[1] || '').slice(0, 600).includes('requisitos (R-xx)'));
+checar('fluxo: o portão da Fase 2 só exige identidade e telas com interface', /\(com interface\)/.test((fase2.split('- **Portão:**')[1] || '').split('\n')[0]));
+checar('sessões: Frontend presente só com interface', /\| Frontend \|.*\| sempre que há interface \|/.test(sessoes));
+checar('modelo de requisitos: sem link relativo (é copiado para docs/requisitos.md)', !/\]\((?!https?:)[^)]+\)/.test(modReq));
+checar('VERSION: 5.0.0 ou maior (decisão 015)', Number(versao.split('.')[0]) >= 5, versao);
 checar('VERSION: 3.0.0 ou maior (um agente principal por projeto, decisão 010)', versao.split('.').map(Number).reduce((acc, n, i) => acc || (n !== [3, 0, 0][i] ? (n > [3, 0, 0][i] ? 'maior' : 'menor') : ''), '') !== 'menor', versao);
 
 const claude = ler('CLAUDE.md').toLowerCase();
@@ -541,6 +576,7 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     checar('novo-projeto.sh: AGENTS.md carimba a versão do método', agentsProj.includes(`Versão do método: ${versao}`));
     for (const termo of ['CLAUDE.md', 'docs/DESENVOLVIMENTO.md', 'docs/memoria-do-projeto.md', 'superpowers:test-driven-development', 'superpowers:verification-before-completion', 'orca orchestration ask'])
       checar(`novo-projeto.sh: AGENTS.md cita ${termo}`, agentsProj.includes(termo));
+    checar('novo-projeto.sh: cria docs/requisitos.md, docs/telas/ e a linha Telas:', existsSync(join(alvo, 'docs/requisitos.md')) && existsSync(join(alvo, 'docs/telas')) && dev.includes('Telas:'));
     checar('novo-projeto.sh: AGENTS.md diz que a ferramenta vem do papel (Ferramenta por papel, prompt da Lead)', agentsProj.includes('Ferramenta por papel') && agentsProj.includes('prompt-lead-orca.md'));
     const alvo_codex = join(base, 'projeto-codex');
     mkdirSync(alvo_codex);
@@ -624,6 +660,11 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     }
     const antes = existsSync(join(alvo, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
     writeFileSync(join(alvo, 'docs/DESENVOLVIMENTO.md'), `${antes}\nminha edição\n`);
+    const alvo_telas = join(base, 'projeto-com-telas');
+    mkdirSync(join(alvo_telas, 'docs/telas'), { recursive: true });
+    writeFileSync(join(alvo_telas, 'docs/telas/README.md'), 'minhas telas\n');
+    const comTelas = rodar(alvo_telas, 'site-estatico');
+    checar('novo-projeto.sh recusa docs/telas/ existente e não cria nada', comTelas.status !== 0 && readFileSync(join(alvo_telas, 'docs/telas/README.md'), 'utf8') === 'minhas telas\n' && !existsSync(join(alvo_telas, 'CLAUDE.md')));
     const de_novo = rodar(alvo, 'site-estatico');
     checar('novo-projeto.sh não sobrescreve arquivos que já existem', de_novo.status !== 0 && readFileSync(join(alvo, 'docs/DESENVOLVIMENTO.md'), 'utf8').includes('minha edição'));
   } catch (erro) {

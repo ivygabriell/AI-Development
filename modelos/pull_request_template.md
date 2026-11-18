@@ -4,6 +4,8 @@
 ## Por quê
 <!-- O pedido ou o problema que originou a mudança. "Closes #N" quando houver issue. -->
 
+Requisitos atendidos: R-xx, R-yy (de `docs/requisitos.md`)
+
 ## Como testei
 - [ ] Os testes novos (micro) falharam antes e passam agora
 - [ ] A suíte completa, os tipos e o build passam
@@ -18,6 +20,8 @@
 
 ## Capturas
 <!-- Antes e depois, quando a mudança for visual. -->
+
+- [ ] Com interface: a tela construída confere com a captura aprovada em `docs/telas/` (nome do frame: ...)
 
 ## Riscos e pendências
 <!-- O que pode quebrar, o que ficou para depois. -->

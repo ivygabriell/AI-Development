@@ -10,6 +10,9 @@ Antes de qualquer coisa, leia o documento de desenvolvimento do projeto e siga:
 - as Skills do Superpowers em todo o trabalho, dizendo qual está usando: superpowers:brainstorming (se a tarefa
   é nova ou reestrutura algo), superpowers:test-driven-development, superpowers:systematic-debugging (se houver
   bug) e superpowers:verification-before-completion (antes de dizer "pronto");
+- atenda aos requisitos (R-xx) de docs/requisitos.md que a issue cita; com interface, construa a tela igual
+  à aprovada em docs/telas/ (o frame no Figma, pelo MCP do Figma); tela que não está lá, ou diferente dela,
+  não se coda: pergunte à Lead;
 - só mexa nos arquivos permitidos pela issue; os proibidos e os congelados ficam intocados;
 - bug fora do escopo da sua tarefa: abra uma issue nova com o formulário de bug e siga a sua tarefa;
 - TDD: escreva o teste primeiro e veja-o falhar pelo motivo certo; commits pequenos;

@@ -16,6 +16,8 @@ A cópia do método fica em `${CLAUDE_PLUGIN_ROOT}` e é **só leitura**: leia, 
 | Branches, PR, CI, proteção da `main`, worktrees | `${CLAUDE_PLUGIN_ROOT}/nucleo/05-git-github-e-ci.md` |
 | O cenário do projeto (checklist e skills úteis) | `${CLAUDE_PLUGIN_ROOT}/cenarios/README.md` e o arquivo do cenário ao lado dele |
 | Erros já cometidos e a regra de cada um | `${CLAUDE_PLUGIN_ROOT}/licoes/_indice.md` |
+| Descrever os requisitos (fichas R-xx com o peso) | `${CLAUDE_PLUGIN_ROOT}/modelos/modelo-requisitos.md` e a Fase 2 de `${CLAUDE_PLUGIN_ROOT}/nucleo/01-fluxo-de-ponta-a-ponta.md` |
+| A identidade e as telas no Figma, o registro em `docs/telas/` | A Fase 2 de `${CLAUDE_PLUGIN_ROOT}/nucleo/01-fluxo-de-ponta-a-ponta.md` e `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/frontend.md` |
 | Escrever a spec e os critérios de aceite | `${CLAUDE_PLUGIN_ROOT}/modelos/modelo-spec.md` e `${CLAUDE_PLUGIN_ROOT}/modelos/modelo-criterios-de-aceite.md` |
 | Abrir sessões paralelas | `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-lead.md` e `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-builder.md` |
 | Orquestrar com o Orca (Lead e agentes) | `${CLAUDE_PLUGIN_ROOT}/nucleo/02-sessoes-e-papeis.md` (seção "Com o Orca") e `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-lead-orca.md` |

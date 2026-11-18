@@ -116,7 +116,7 @@ O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, 
 
 **Ciclo de uma tarefa:**
 
-1. A Lead abre a issue com o formulário de tarefa e cria a tarefa no Orca com a especificação padrão do [prompt da Lead](../modelos/prompt-lead-orca.md) (objetivo, critérios de aceite, arquivos permitidos e proibidos, Skills, testes micro e macro, `Closes #N`).
+1. A Lead abre a issue com o formulário de tarefa e cria a tarefa no Orca com a especificação padrão do [prompt da Lead](../modelos/prompt-lead-orca.md) (objetivo, requisitos (R-xx) e, com interface, as telas aprovadas em `docs/telas/`, critérios de aceite, arquivos permitidos e proibidos, Skills, testes micro e macro, `Closes #N`).
 2. O agente constrói com TDD, traz a `main`, roda os testes macro, envia a branch, abre o PR e avisa o fim (`worker_done`). Dúvidas vão para a Lead com `ask`.
 3. A Lead valida o PR (checklist do [03](03-skills-e-testes.md)) e confere os gatilhos de aprovação. Sem gatilho, integra com `gh pr merge N --merge` e registra no resumo por marco; com gatilho, cria o portão do merge e pergunta à pessoa.
 4. Com o "pode integrar" (quando havia gatilho), resolve o portão e integra; em qualquer caso, confere a `main` e o CI e libera o agente.
@@ -162,9 +162,9 @@ Cada agente usa a **ferramenta do seu papel** (Claude Code ou Codex, seção aci
 | Lead | coordenação, validação final (QA) e integração | não; coordena os especialistas | sempre |
 | Architect | estrutura, contrato da API, dados, confiabilidade, observabilidade, custo | não | sempre |
 | Backend | regras de negócio, APIs, autenticação, banco de dados | até 2 | sempre |
-| Frontend | experiência, design system, interface | até 2 | sempre |
+| Frontend | identidade e todas as telas no Figma (Fase 2, antes do código), registro em `docs/telas/`, design system, interface | até 2 | sempre que há interface |
 | Security | mapa de riscos no começo, revisão dos PRs sensíveis e auditoria completa antes da primeira publicação, com a `security-audit` desde o primeiro mapa | não; entrega a correção ao dono da pasta | sempre |
-| Product | produto, pesquisa com usuários, critérios de aceite | não | sob demanda (Fases 0 a 2) |
+| Product | requisitos (fichas R-xx com o peso, em `docs/requisitos.md`), pesquisa com usuários, critérios de aceite | não | sob demanda (Fases 0 a 2) |
 | Ops | deploy, CI/CD, nuvem, monitoramento; dono do CI enquanto ativo | 1 por vez | sob demanda |
 
 - **Harnesses:** os modelos ficam em [`modelos/agentes/`](../modelos/agentes/) e vão para `docs/agentes/` do projeto com `novo-projeto.sh --especialistas`. Cada um tem as mesmas 10 partes (missão, quando é chamado, o que lê, o que pode e o que não pode, Skills, checklist, formato da resposta, quando sobe a decisão, memória, economia), as referências escolhidas pela pessoa e o passo a passo "Como pesquisa".
