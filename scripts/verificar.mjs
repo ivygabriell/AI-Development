@@ -210,6 +210,14 @@ function checarHarness(nome) {
   }
 }
 for (const nome of HARNESSES) checarHarness(nome);
+// Decisão 013: cada Builder tem nome com papel, issue, resumo e ferramenta; a worktree fica curta
+for (const [nome, papel] of [['backend', 'Backend'], ['frontend', 'Frontend'], ['ops', 'Ops']]) {
+  const abre = ler(`modelos/agentes/${nome}.md`).split('\n').filter((l) => l.includes('worker-start --'));
+  checar(`agentes/${nome}: abre a Builder com --name ${nome}-<N>-<slug> e --display-name "${papel} Builder #<N> · <resumo> · <ferramenta>"`, abre.length > 0 && abre.every((l) => l.includes(`--name ${nome}-<N>-<slug>`) && l.includes(`--display-name "${papel} Builder #<N> · <resumo> · <ferramenta>"`)));
+}
+const tabelaLead = ler('modelos/agentes/lead.md').split('\n').filter((l) => /^\s*\| (Architect|Backend|Frontend|Security|Product|Ops) \|/.test(l));
+checar('agentes/lead: abre cada especialista com --display-name <Papel>', tabelaLead.length === 6 && tabelaLead.every((l) => l.includes(`--display-name ${l.trim().split('|')[1].trim()}`)));
+checar('sessões: nome da Builder (Builder #<issue> · <resumo> · <ferramenta>) e a issue como identidade única', sessoes.includes('Builder #<issue> · <resumo> · <ferramenta>') && sessoes.includes('identidade única') && sessoes.includes('`backend-12-login`, branch `backend/12-login`'));
 const subsecaoEsp = (sessoes.split('### Com agentes especialistas')[1] || '').split('\n## ')[0];
 for (const termo of ['docs/agentes/', '--parent', 'O harness manda', '9 sessões', 'Nested worker depth', 'substitui o limite', 'contrato da API passa para o Architect', 'contam dentro das 9', 'filha da worktree principal'])
   checar(`sessões: com agentes especialistas (${termo})`, subsecaoEsp.includes(termo));

@@ -57,7 +57,7 @@ Não é seu: decidir a arquitetura (Architect), a revisão de segurança (Securi
 Pode:
 
 - Abrir 1 Builder por vez, uma por issue:
-  `orca orchestration worker-start --agent <agente> --model <modelo> --effort medium --worktree new-child --base-branch origin/main --name devops-<N>-<slug> --display-name "devops #<N>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes, as skills do tema que a tarefa toca, Closes #<N>>"`.
+  `orca orchestration worker-start --agent <agente> --model <modelo> --effort medium --worktree new-child --base-branch origin/main --name ops-<N>-<slug> --display-name "Ops Builder #<N> · <resumo> · <ferramenta>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes, as skills do tema que a tarefa toca, Closes #<N>>"`.
   `<agente>` e `<modelo>` são os do agente principal do projeto (veja **Ferramenta** e **Modelo**, no topo): as Builders usam sempre a mesma ferramenta que você.
   O Orca pendura a Builder em você (`--parent` da sua tarefa); a dúvida dela chega a você.
 - Propor o pipeline, o plano de publicação e o plano de volta.

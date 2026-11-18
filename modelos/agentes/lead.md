@@ -58,12 +58,12 @@ Pode:
 
   | Especialista | Agente, modelo e esforço | Worktree |
   |---|---|---|
-  | Architect | `--agent <agente> --model <modelo> --effort high` | `--worktree new-child --name architect --base-branch origin/main` |
-  | Backend | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name backend --base-branch origin/main` |
-  | Frontend | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name frontend --base-branch origin/main` |
-  | Security | `--agent <agente> --model <modelo> --effort high` | `--worktree new-child --name security --base-branch origin/main` |
-  | Product | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name product --base-branch origin/main` |
-  | Ops | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name ops --base-branch origin/main` |
+  | Architect | `--agent <agente> --model <modelo> --effort high` | `--worktree new-child --name architect --display-name Architect --base-branch origin/main` |
+  | Backend | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name backend --display-name Backend --base-branch origin/main` |
+  | Frontend | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name frontend --display-name Frontend --base-branch origin/main` |
+  | Security | `--agent <agente> --model <modelo> --effort high` | `--worktree new-child --name security --display-name Security --base-branch origin/main` |
+  | Product | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name product --display-name Product --base-branch origin/main` |
+  | Ops | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name ops --display-name Ops --base-branch origin/main` |
 
   `<agente>` e `<modelo>` são os do agente principal do projeto, iguais para todos: `--agent claude --model claude-opus-5-5` no Claude Code ou `--agent codex --model gpt-6.1-sol` no Codex (linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`). Nunca abra um especialista com a outra ferramenta.
 

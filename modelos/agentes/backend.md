@@ -55,7 +55,7 @@ Não é seu: o contrato da API (é do Architect), a interface (Frontend), a revi
 Pode:
 
 - Abrir as suas Builders, uma por issue:
-  `orca orchestration worker-start --agent <agente> --model <modelo> --effort medium --worktree new-child --base-branch origin/main --name back-<N>-<slug> --display-name "back #<N>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes micro e macro, as skills do tema que a tarefa toca, Closes #<N>>"`.
+  `orca orchestration worker-start --agent <agente> --model <modelo> --effort medium --worktree new-child --base-branch origin/main --name backend-<N>-<slug> --display-name "Backend Builder #<N> · <resumo> · <ferramenta>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes micro e macro, as skills do tema que a tarefa toca, Closes #<N>>"`.
   `<agente>` e `<modelo>` são os do agente principal do projeto (veja **Ferramenta** e **Modelo**, no topo): as Builders usam sempre a mesma ferramenta que você.
   O Orca pendura cada Builder em você (`--parent` da sua tarefa); a dúvida dela chega a você.
 - Responder às dúvidas delas (`orca orchestration reply`).
