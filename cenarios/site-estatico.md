@@ -30,7 +30,7 @@ O método base ([nucleo/](../nucleo/01-fluxo-de-ponta-a-ponta.md)) continua vale
 
 ## Checklist
 
-- [ ] Requisitos descritos em `docs/requisitos.md` (R-xx com o peso) e a identidade e todas as telas aprovadas no Figma e registradas em `docs/telas/` antes do código ([decisão 015](../decisoes/015-requisitos-e-telas-antes-do-codigo.md), sem caso real ainda)
+- [ ] Requisitos descritos em `processo/requisitos.md` (R-xx com o peso) e a identidade e todas as telas aprovadas no Figma e registradas em `processo/telas/` antes do código ([decisão 015](../decisoes/015-requisitos-e-telas-antes-do-codigo.md), sem caso real ainda)
 - [ ] Referência estudada pelo título exato e critérios de aceite escritos antes de construir
 - [ ] Testes de HTML e CSS do que mudou e paridade entre idiomas
 - [ ] Lighthouse (desempenho e acessibilidade) e exploração no desktop, tablet e celular, com movimento reduzido

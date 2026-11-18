@@ -71,7 +71,7 @@ No modo com agentes especialistas, cada agente usa as skills da parte 5 do seu h
 | Skill | Por que fica fora dos agentes |
 |---|---|
 | `superpowers:executing-plans`, `superpowers:subagent-driven-development`, `superpowers:dispatching-parallel-agents` | Servem aos modos sem o Orca (uma sessão executando o plano, ou subagentes dentro de uma sessão). No Orca, quem distribui o trabalho é a Lead e o especialista, com `worker-start` |
-| `superpowers:using-git-worktrees` | Serve às sessões abertas à mão (`scripts/nova-tarefa.sh`). No Orca, a worktree é criada por ele |
+| `superpowers:using-git-worktrees` | Serve às sessões abertas à mão (`processo/scripts/nova-tarefa.sh`). No Orca, a worktree é criada por ele |
 | `superpowers:writing-skills` | É da sessão do método, ao criar ou mudar uma skill do plugin `metodo` ([CLAUDE.md](../CLAUDE.md)); os projetos não criam skills do método |
 | `superpowers:using-superpowers` | Carrega sozinha em toda sessão; ninguém precisa chamar |
 

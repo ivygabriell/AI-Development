@@ -1,6 +1,6 @@
 ---
 name: contrato-de-api
-description: Use quando for escrever ou mudar o contrato da API do projeto (docs/contrato-api.md), decidir como a API vai mudar sem quebrar clientes (app móvel, integrações), definir versões, formato de erro, paginação ou as garantias para pedido repetido, ou responder a um especialista que pediu algo que o contrato não prevê.
+description: Use quando for escrever ou mudar o contrato da API do projeto (processo/contrato-api.md), decidir como a API vai mudar sem quebrar clientes (app móvel, integrações), definir versões, formato de erro, paginação ou as garantias para pedido repetido, ou responder a um especialista que pediu algo que o contrato não prevê.
 ---
 
 # Contrato de API

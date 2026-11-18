@@ -181,7 +181,7 @@ const HARNESSES = ['lead', 'architect', 'backend', 'frontend', 'security', 'prod
 // O que cada harness precisa dizer, além das regras comuns
 const HARNESS_PROPRIO = {
   lead: ['--agent <agente> --model <modelo>', '--worktree new-child --name architect', '--worktree new-child --name backend', '--worktree new-child --name frontend', '--worktree new-child --name security', '--worktree new-child --name product', '--worktree new-child --name ops', 'contam dentro das 9'],
-  architect: ['contrato da API', 'portão', 'docs/referencias/architect.md', '**Onde trabalha:** na sua worktree `architect`, filha da worktree principal'],
+  architect: ['contrato da API', 'portão', 'processo/referencias/architect.md', '**Onde trabalha:** na sua worktree `architect`, filha da worktree principal'],
   'backend': ['worker-start', '--parent', '--worktree new-child', 'contrato da API'],
   'frontend': ['worker-start', '--parent', '--worktree new-child', 'design system'],
   security: ['mapa de riscos', 'entrega a correção', 'aprovar com ressalva', 'metodo:auditoria-de-seguranca', 'modo de orientação', '**Onde trabalha:** na sua worktree `security`, filha da worktree principal', 'MCP `rea`', '`security-audit`', '~/security-audit-skill/', 'antes da primeira publicação'],
@@ -196,7 +196,7 @@ const modeloHarness = ler('modelos/agentes/_modelo-harness.md');
 checar('agentes: existe modelos/agentes/_modelo-harness.md', modeloHarness.length > 0);
 checar('agentes: modelo do harness tem as 10 partes em ordem', partesEmOrdem(modeloHarness));
 checar('agentes: modelo do harness diz as diferenças do bloco "O harness manda" entre os papéis', modeloHarness.includes('duas diferenças'));
-checar('agentes: modelo do harness ensina a pesquisar (guardado primeiro, depois os sites, adaptar, guardar)', modeloHarness.includes('Como pesquisa') && modeloHarness.includes('docs/referencias/'));
+checar('agentes: modelo do harness ensina a pesquisar (guardado primeiro, depois os sites, adaptar, guardar)', modeloHarness.includes('Como pesquisa') && modeloHarness.includes('processo/referencias/'));
 checar('agentes: modelo do harness tem "O harness manda" (precedência, não desvia)', modeloHarness.includes('## O harness manda') && modeloHarness.includes('precedência') && modeloHarness.includes('não desvia'));
 for (const termo of ['claude-opus-5-5', 'gpt-6.1-sol', '--effort', 'Ferramenta por papel', '--agent <agente> --model <modelo>'])
   checar(`agentes: modelo do harness cita ${termo}`, modeloHarness.includes(termo));
@@ -206,7 +206,7 @@ function checarHarness(nome) {
   checar(`agentes: existe ${arquivo}`, texto.length > 0);
   checar(`agentes/${nome}: as 10 partes em ordem`, partesEmOrdem(texto));
   checar(`agentes/${nome}: sem selo de rascunho (decisão 011)`, !texto.includes('**Maturidade:**'));
-  for (const termo of ['**Ferramenta:**', '**Esforço:**', '## O harness manda', 'superpowers:verification-before-completion', 'Como pesquisa', `docs/referencias/${nome}.md`])
+  for (const termo of ['**Ferramenta:**', '**Esforço:**', '## O harness manda', 'superpowers:verification-before-completion', 'Como pesquisa', `processo/referencias/${nome}.md`])
     checar(`agentes/${nome}: ${termo}`, texto.includes(termo));
   const cabecalho = texto.split('\n## ')[0];
   checar(`agentes/${nome}: a ferramenta é a do papel (Ferramenta por papel), com o modelo de cada uma`, cabecalho.includes('Ferramenta por papel') && cabecalho.includes('claude-opus-5-5') && cabecalho.includes('gpt-6.1-sol'));
@@ -242,14 +242,14 @@ const tabelaLead = ler('modelos/agentes/lead.md').split('\n').filter((l) => /^\s
 checar('agentes/lead: abre cada especialista com --display-name <Papel>', tabelaLead.length === 6 && tabelaLead.every((l) => l.includes(`--display-name ${l.trim().split('|')[1].trim()}`)));
 checar('sessões: nome da Builder (Builder #<issue> · <resumo> · <ferramenta>) e a issue como identidade única', sessoes.includes('Builder #<issue> · <resumo> · <ferramenta>') && sessoes.includes('identidade única') && sessoes.includes('`backend-12-login`, branch `backend/12-login`'));
 const subsecaoEsp = (sessoes.split('### Com agentes especialistas')[1] || '').split('\n## ')[0];
-for (const termo of ['docs/agentes/', '--parent', 'O harness manda', '9 sessões', 'Nested worker depth', 'substitui o limite', 'contrato da API passa para o Architect', 'contam dentro das 9', 'filha da worktree principal'])
+for (const termo of ['processo/agentes/', '--parent', 'O harness manda', '9 sessões', 'Nested worker depth', 'substitui o limite', 'contrato da API passa para o Architect', 'contam dentro das 9', 'filha da worktree principal'])
   checar(`sessões: com agentes especialistas (${termo})`, subsecaoEsp.includes(termo));
 checar('fluxo: modo com agentes especialistas na Fase 3', (fluxo.split('## Fase 3')[1] || '').split('## Fase 4')[0].includes('especialistas'));
 checar('prompt da Lead do Orca: aponta para o harness da Lead no modo com especialistas', promptCoord.includes('lead.md'));
 const inicioEsp = ler('skills/novo-projeto/SKILL.md');
 checar('skills/novo-projeto: na Fase 3 copia os harnesses sem rodar o novo-projeto.sh de novo (que recusaria)', inicioEsp.includes('modelos/agentes/') && inicioEsp.includes('_modelo-harness.md') && !inicioEsp.includes('novo-projeto.sh" . --especialistas') && inicioEsp.includes('Nested worker depth'));
 const atualizarEsp = ler('skills/atualizar-projeto/SKILL.md');
-checar('skills/atualizar-projeto: copia os harnesses que faltam (docs/agentes/)', atualizarEsp.includes('docs/agentes/'));
+checar('skills/atualizar-projeto: copia os harnesses que faltam (processo/agentes/)', atualizarEsp.includes('processo/agentes/'));
 checar('skills/atualizar-projeto: pergunta se o projeto usa o modo e acrescenta a linha do DESENVOLVIMENTO.md (Nested worker depth)', atualizarEsp.includes('Pergunte se o projeto usa o modo com especialistas') && atualizarEsp.includes('Nested worker depth'));
 checar('skills/consultar: aponta para o modo com especialistas', ler('skills/consultar/SKILL.md').includes('Com agentes especialistas'));
 for (const termo of ['modelos/agentes/', '--especialistas', 'Nested worker depth'])
@@ -298,7 +298,7 @@ const skills = ler('nucleo/03-skills-e-testes.md');
 checar('skills e testes: o mapa cita a auditoria de segurança (security-audit e metodo:auditoria-de-seguranca)', ['`security-audit`', '`metodo:auditoria-de-seguranca`'].every((t) => (skills.split('## Mapa de skills')[1] || '').split('\n## ')[0].includes(t)));
 // Auditoria completa (decisões 010 e 011): a skill do método diz como rodar a security-audit dentro do fluxo
 const auditoria = ler('skills/auditoria-de-seguranca/SKILL.md');
-for (const termo of ['security-audit', 'portão', '~/security-audit-skill/', 'confirmed', 'needs_validation', 'rejected', 'quick', 'standard', 'budget', 'sandbox', 'escopo', 'validate-findings.cjs', 'docs/seguranca.md', 'aviso de segurança privado'])
+for (const termo of ['security-audit', 'portão', '~/security-audit-skill/', 'confirmed', 'needs_validation', 'rejected', 'quick', 'standard', 'budget', 'sandbox', 'escopo', 'validate-findings.cjs', 'processo/seguranca.md', 'aviso de segurança privado'])
   checar(`skills/auditoria-de-seguranca: ${termo}`, auditoria.includes(termo));
 for (const termo of ['## Desde o primeiro mapa de riscos', 'Fase 2', 'modo de orientação', 'revisão de PR', 'Fase 7'])
   checar(`skills/auditoria-de-seguranca: usada desde a primeira auditoria (${termo})`, auditoria.includes(termo));
@@ -420,38 +420,38 @@ checar('sessões: com uma ferramenta só, a revisão cruzada não se aplica', se
 const FRASES_RUINS = ['Architect de agentes', '### Security e dados', 'Da Security', 'a Lead ou a Lead', 'o Architect, dona', '**Contrato da API:** dona', '9. **Security:**'];
 const ruins = ARQUIVOS_VIVOS.flatMap((f) => { const t = readFileSync(f, 'utf8'); return FRASES_RUINS.filter((x) => t.includes(x)).map((x) => `${f.slice(RAIZ.length + 1)}: ${x}`); });
 checar('troca de nomes sem frases quebradas (assunto virou papel, concordância, duplicação)', ruins.length === 0, ruins.join('; '));
-// Decisão 015: requisitos descritos pelo Product e identidade e telas no Figma, registradas em docs/telas/, antes do código
+// Decisão 015: requisitos descritos pelo Product e identidade e telas no Figma, registradas em processo/telas/, antes do código
 const modReq = ler('modelos/modelo-requisitos.md');
 for (const termo of ['R-01', 'História', 'Regras de negócio', 'Casos de erro', 'Critérios de aceite', 'Dependências', 'Telas', 'Valor', 'Esforço', 'Risco', 'Prioridade proposta'])
   checar(`modelo de requisitos: ${termo}`, modReq.includes(termo));
 const fase2 = (fluxo.split('## Fase 2')[1] || '').split('## Fase 3')[0];
-for (const termo of ['requisitos', 'identidade', 'todas as telas', 'Figma', 'docs/telas/', 'antes do plano'])
+for (const termo of ['requisitos', 'identidade', 'todas as telas', 'Figma', 'processo/telas/', 'antes do plano'])
   checar(`fluxo: a Fase 2 cobre ${termo}`, fase2.includes(termo));
 checar('aprovações: tela nova não fica mais com a Lead; todas as telas são da pessoa', !portoes.includes('Telas seguintes') && portoes.includes('todas as telas'));
 const harnessProduct = ler('modelos/agentes/product.md');
-checar('agentes/product: escreve as fichas R-xx com o peso', harnessProduct.includes('docs/requisitos.md') && harnessProduct.includes('R-') && harnessProduct.includes('peso'));
+checar('agentes/product: escreve as fichas R-xx com o peso', harnessProduct.includes('processo/requisitos.md') && harnessProduct.includes('R-') && harnessProduct.includes('peso'));
 const harnessFront = ler('modelos/agentes/frontend.md');
-checar('agentes/frontend: identidade e todas as telas no Figma antes de qualquer código, registradas em docs/telas/', ['use_figma', 'docs/telas/', 'antes de qualquer código', 'get_variable_defs'].every((t) => harnessFront.includes(t)));
+checar('agentes/frontend: identidade e todas as telas no Figma antes de qualquer código, registradas em processo/telas/', ['use_figma', 'processo/telas/', 'antes de qualquer código', 'get_variable_defs'].every((t) => harnessFront.includes(t)));
 for (const form of ['modelos/issue-tarefa.yml', 'modelos/issue-bug.yml'])
   checar(`${form}: campo obrigatório requisitos`, ler(form).split('  - type:').some((b) => b.includes('id: requisitos\n') && b.includes('required: true')));
-checar('modelo de PR: requisitos atendidos e telas conferidas', ler('modelos/pull_request_template.md').includes('Requisitos atendidos') && ler('modelos/pull_request_template.md').includes('docs/telas/'));
+checar('modelo de PR: requisitos atendidos e telas conferidas', ler('modelos/pull_request_template.md').includes('Requisitos atendidos') && ler('modelos/pull_request_template.md').includes('processo/telas/'));
 for (const p of ['modelos/CLAUDE-projeto.md', 'modelos/AGENTS-projeto.md'])
-  checar(`${p}: nenhuma tela codada sem estar aprovada em docs/telas/; mudança começa no Figma`, ler(p).includes('docs/telas/') && ler(p).includes('Figma'));
-checar('atualizar-projeto: acrescenta docs/requisitos.md, docs/telas/ e a linha Telas:', ['docs/requisitos.md', 'docs/telas/', 'Telas:'].every((t) => ler('skills/atualizar-projeto/SKILL.md').includes(t)));
+  checar(`${p}: nenhuma tela codada sem estar aprovada em processo/telas/; mudança começa no Figma`, ler(p).includes('processo/telas/') && ler(p).includes('Figma'));
+checar('atualizar-projeto: acrescenta processo/requisitos.md, processo/telas/ e a linha Telas:', ['processo/requisitos.md', 'processo/telas/', 'Telas:'].every((t) => ler('skills/atualizar-projeto/SKILL.md').includes(t)));
 checar('README: instala o MCP do Figma no Codex', ler('README.md').includes('codex mcp add figma --url https://mcp.figma.com/mcp'));
 for (const c of ['site-estatico', 'aplicacao-web-full-stack', 'aplicativo-mobile'])
-  checar(`cenário ${c}: identidade e telas aprovadas em docs/telas/ antes do código`, ler(`cenarios/${c}.md`).includes('docs/telas/'));
+  checar(`cenário ${c}: identidade e telas aprovadas em processo/telas/ antes do código`, ler(`cenarios/${c}.md`).includes('processo/telas/'));
 checar('decisão 015: aceita sem caso real', ler('decisoes/015-requisitos-e-telas-antes-do-codigo.md').includes('sem caso real'));
 // Revisão do Codex da 5.0.0
 const atualizar015 = ler('skills/atualizar-projeto/SKILL.md');
 checar('atualizar-projeto: copia requisitos e telas só o que falta, cada um por si', atualizar015.includes('cada um só se faltar'));
 checar('atualizar-projeto: acrescenta o campo de requisitos aos formulários e ao PR que o projeto já tem', atualizar015.includes('id: requisitos') && atualizar015.includes('Requisitos atendidos'));
 for (const p of ['modelos/prompt-lead.md', 'modelos/prompt-lead-orca.md', 'modelos/prompt-builder.md'])
-  checar(`${p}: requisitos e telas aprovadas (decisão 015)`, ler(p).includes('docs/requisitos.md') && ler(p).includes('docs/telas/'));
+  checar(`${p}: requisitos e telas aprovadas (decisão 015)`, ler(p).includes('processo/requisitos.md') && ler(p).includes('processo/telas/'));
 checar('sessões: a especificação da tarefa leva os requisitos e as telas', (sessoes.split('**Ciclo de uma tarefa:**')[1] || '').slice(0, 600).includes('requisitos (R-xx)'));
 checar('fluxo: o portão da Fase 2 só exige identidade e telas com interface', /\(com interface\)/.test((fase2.split('- **Portão:**')[1] || '').split('\n')[0]));
 checar('sessões: Frontend presente só com interface', /\| Frontend \|.*\| sempre que há interface \|/.test(sessoes));
-checar('modelo de requisitos: sem link relativo (é copiado para docs/requisitos.md)', !/\]\((?!https?:)[^)]+\)/.test(modReq));
+checar('modelo de requisitos: sem link relativo (é copiado para processo/requisitos.md)', !/\]\((?!https?:)[^)]+\)/.test(modReq));
 checar('VERSION: 5.0.0 ou maior (decisão 015)', Number(versao.split('.')[0]) >= 5, versao);
 checar('VERSION: 3.0.0 ou maior (um agente principal por projeto, decisão 010)', versao.split('.').map(Number).reduce((acc, n, i) => acc || (n !== [3, 0, 0][i] ? (n > [3, 0, 0][i] ? 'maior' : 'menor') : ''), '') !== 'menor', versao);
 
@@ -557,7 +557,7 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     checar('novo-projeto.sh recusa cenário inexistente', rodar(alvo, 'cenario-que-nao-existe').status !== 0);
     const ok = rodar(alvo, 'site-estatico', 'api-backend');
     checar('novo-projeto.sh conclui com cenários válidos', ok.status === 0, ok.stderr);
-    for (const arq of ['CLAUDE.md', 'AGENTS.md', '.github/ISSUE_TEMPLATE/tarefa.yml', '.github/ISSUE_TEMPLATE/bug.yml', '.github/pull_request_template.md', '.github/workflows/ci.yml', 'scripts/nova-tarefa.sh', 'scripts/remover-tarefa.sh', 'docs/DESENVOLVIMENTO.md', 'docs/memoria-do-projeto.md'])
+    for (const arq of ['CLAUDE.md', 'AGENTS.md', '.github/ISSUE_TEMPLATE/tarefa.yml', '.github/ISSUE_TEMPLATE/bug.yml', '.github/pull_request_template.md', '.github/workflows/ci.yml', 'processo/scripts/nova-tarefa.sh', 'processo/scripts/remover-tarefa.sh', 'processo/DESENVOLVIMENTO.md', 'processo/memoria-do-projeto.md'])
       checar(`novo-projeto.sh cria ${arq}`, existsSync(join(alvo, arq)));
     // Decisão 016: o processo mora em processo/; a raiz do projeto é do código
     checar('016: a raiz do projeto novo só tem .github, AGENTS.md, CLAUDE.md e processo', JSON.stringify(readdirSync(alvo).sort()) === JSON.stringify(['.github', 'AGENTS.md', 'CLAUDE.md', 'processo']), readdirSync(alvo).join(','));
@@ -569,7 +569,7 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     mkdirSync(alvo_esp016);
     rodar(alvo_esp016, 'site-estatico', '--especialistas');
     checar('016: --especialistas põe os harnesses em processo/agentes/', existsSync(join(alvo_esp016, 'processo/agentes/lead.md')));
-    const dev = existsSync(join(alvo, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
+    const dev = existsSync(join(alvo, 'processo/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo, 'processo/DESENVOLVIMENTO.md'), 'utf8') : '';
     checar('novo-projeto.sh carimba a versão do método', dev.includes(`Versão do método: ${versao}`));
     checar('novo-projeto.sh registra os cenários escolhidos', dev.includes('site-estatico') && dev.includes('api-backend'));
     checar('novo-projeto.sh: DESENVOLVIMENTO.md explica o modo Orca', dev.includes('Orca'));
@@ -579,24 +579,24 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     checar('novo-projeto.sh: sem --agente, Lead no Claude Code e a tabela Ferramenta por papel (Backend, Security e Ops no Codex)', dev.includes('Lead: Claude Code') && dev.includes('## Ferramenta por papel') && PAPEIS.every((p) => linhaPapel(dev, p) === (['Backend', 'Security', 'Ops'].includes(p) ? 'Codex' : 'Claude Code')), PAPEIS.map((p) => `${p}=${linhaPapel(dev, p)}`).join(' '));
     checar('novo-projeto.sh: DESENVOLVIMENTO.md sem o back no Codex e o front no Claude', !dev.includes('Back com o Codex e front com o Claude'));
     checar('novo-projeto.sh: DESENVOLVIMENTO.md tem a seção Aprovações com os seis gatilhos', dev.includes('## Aprovações') && ['o que** será construído', 'desfazer', 'usuários reais', 'dinheiro ou muita cota', 'aceita um risco', 'regras do jogo'].every((g) => (dev.split('## Aprovações')[1] || '').includes(g)));
-    const memProj = existsSync(join(alvo, 'docs/memoria-do-projeto.md')) ? readFileSync(join(alvo, 'docs/memoria-do-projeto.md'), 'utf8') : '';
+    const memProj = existsSync(join(alvo, 'processo/memoria-do-projeto.md')) ? readFileSync(join(alvo, 'processo/memoria-do-projeto.md'), 'utf8') : '';
     checar('novo-projeto.sh: memória anota agente e retrabalho por tarefa', memProj.includes('retrabalho'));
     // AGENTS.md do projeto: o Codex lê este arquivo, não o CLAUDE.md (decisão 007)
     const agentsProj = existsSync(join(alvo, 'AGENTS.md')) ? readFileSync(join(alvo, 'AGENTS.md'), 'utf8') : '';
     checar('novo-projeto.sh: AGENTS.md carimba a versão do método', agentsProj.includes(`Versão do método: ${versao}`));
-    for (const termo of ['CLAUDE.md', 'docs/DESENVOLVIMENTO.md', 'docs/memoria-do-projeto.md', 'superpowers:test-driven-development', 'superpowers:verification-before-completion', 'orca orchestration ask'])
+    for (const termo of ['CLAUDE.md', 'processo/DESENVOLVIMENTO.md', 'processo/memoria-do-projeto.md', 'superpowers:test-driven-development', 'superpowers:verification-before-completion', 'orca orchestration ask'])
       checar(`novo-projeto.sh: AGENTS.md cita ${termo}`, agentsProj.includes(termo));
-    checar('novo-projeto.sh: cria docs/requisitos.md, docs/telas/ e a linha Telas:', existsSync(join(alvo, 'docs/requisitos.md')) && existsSync(join(alvo, 'docs/telas')) && dev.includes('Telas:'));
+    checar('novo-projeto.sh: cria processo/requisitos.md, processo/telas/ e a linha Telas:', existsSync(join(alvo, 'processo/requisitos.md')) && existsSync(join(alvo, 'processo/telas')) && dev.includes('Telas:'));
     checar('novo-projeto.sh: AGENTS.md diz que a ferramenta vem do papel (Ferramenta por papel, prompt da Lead)', agentsProj.includes('Ferramenta por papel') && agentsProj.includes('prompt-lead-orca.md'));
     const alvo_codex = join(base, 'projeto-codex');
     mkdirSync(alvo_codex);
     const codex = rodar(alvo_codex, '--agente', 'codex', 'site-estatico');
-    const devCodex = existsSync(join(alvo_codex, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo_codex, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
+    const devCodex = existsSync(join(alvo_codex, 'processo/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo_codex, 'processo/DESENVOLVIMENTO.md'), 'utf8') : '';
     checar('novo-projeto.sh --agente codex põe a Lead e todos os papéis no Codex', codex.status === 0 && devCodex.includes('Lead: Codex') && PAPEIS.every((p) => linhaPapel(devCodex, p) === 'Codex') && devCodex.includes('site-estatico') && !devCodex.includes('codex ('), codex.stderr);
     const alvo_claude = join(base, 'projeto-claude');
     mkdirSync(alvo_claude);
     const soClaude = rodar(alvo_claude, '--agente', 'claude', 'site-estatico');
-    const devClaude = existsSync(join(alvo_claude, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo_claude, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
+    const devClaude = existsSync(join(alvo_claude, 'processo/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo_claude, 'processo/DESENVOLVIMENTO.md'), 'utf8') : '';
     checar('novo-projeto.sh --agente claude põe todos os papéis no Claude Code', soClaude.status === 0 && devClaude.includes('Lead: Claude Code') && PAPEIS.every((p) => linhaPapel(devClaude, p) === 'Claude Code'), soClaude.stderr);
     for (const vazio of [['--agente', ''], ['--agente=']]) {
       const alvo_vazio = join(base, `projeto-agente-vazio-${vazio.length}`);
@@ -618,7 +618,7 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     // CLAUDE.md do projeto: toda sessão já nasce com o contexto; nunca sobrescreve um que já exista
     const claudeProj = existsSync(join(alvo, 'CLAUDE.md')) ? readFileSync(join(alvo, 'CLAUDE.md'), 'utf8') : '';
     checar('novo-projeto.sh: CLAUDE.md carimba a versão do método', claudeProj.includes(`Versão do método: ${versao}`));
-    checar('novo-projeto.sh: CLAUDE.md importa o DESENVOLVIMENTO.md e a memória', claudeProj.includes('@docs/DESENVOLVIMENTO.md') && claudeProj.includes('@docs/memoria-do-projeto.md'));
+    checar('novo-projeto.sh: CLAUDE.md importa o DESENVOLVIMENTO.md e a memória', claudeProj.includes('@processo/DESENVOLVIMENTO.md') && claudeProj.includes('@processo/memoria-do-projeto.md'));
     checar('novo-projeto.sh: CLAUDE.md manda consultar o método pela skill metodo:consultar', claudeProj.includes('metodo:consultar'));
     checar('novo-projeto.sh: CLAUDE.md explica o modo Orca e a atualização do projeto', claudeProj.includes('Orca') && claudeProj.includes('/metodo:atualizar-projeto'));
     checar('novo-projeto.sh: CLAUDE.md diz que a ferramenta vem do papel (--agent claude ou --agent codex)', claudeProj.includes('Ferramenta por papel') && claudeProj.includes('--agent claude') && claudeProj.includes('--agent codex') && claudeProj.includes('AGENTS.md') && !/sempre Claude/i.test(claudeProj));
@@ -627,7 +627,7 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     mkdirSync(alvo_com_claude);
     writeFileSync(join(alvo_com_claude, 'CLAUDE.md'), 'meu claude\n');
     const com_claude = rodar(alvo_com_claude, 'site-estatico');
-    checar('novo-projeto.sh com CLAUDE.md existente conclui, avisa e não o altera', com_claude.status === 0 && com_claude.stderr.includes('CLAUDE.md') && readFileSync(join(alvo_com_claude, 'CLAUDE.md'), 'utf8') === 'meu claude\n' && existsSync(join(alvo_com_claude, 'docs/DESENVOLVIMENTO.md')), com_claude.stderr);
+    checar('novo-projeto.sh com CLAUDE.md existente conclui, avisa e não o altera', com_claude.status === 0 && com_claude.stderr.includes('CLAUDE.md') && readFileSync(join(alvo_com_claude, 'CLAUDE.md'), 'utf8') === 'meu claude\n' && existsSync(join(alvo_com_claude, 'processo/DESENVOLVIMENTO.md')), com_claude.stderr);
     const alvo_com_agents = join(base, 'projeto-com-agents');
     mkdirSync(alvo_com_agents);
     writeFileSync(join(alvo_com_agents, 'AGENTS.md'), 'meu agents\n');
@@ -637,46 +637,46 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     mkdirSync(alvo_testado);
     const so_testado = rodar(alvo_testado, 'site-estatico');
     checar('novo-projeto.sh só com cenário testado conclui sem aviso', so_testado.status === 0 && !so_testado.stderr.includes('AVISO'), so_testado.stderr);
-    // Modo com agentes especialistas (decisão 008): só com --especialistas o projeto recebe os harnesses em docs/agentes/
-    checar('novo-projeto.sh sem --especialistas não cria docs/agentes/', !existsSync(join(alvo, 'docs/agentes')));
-    checar('novo-projeto.sh: CLAUDE.md cita os harnesses em docs/agentes/', claudeProj.includes('docs/agentes/'));
-    checar('novo-projeto.sh: AGENTS.md cita os harnesses em docs/agentes/', agentsProj.includes('docs/agentes/'));
+    // Modo com agentes especialistas (decisão 008): só com --especialistas o projeto recebe os harnesses em processo/agentes/
+    checar('novo-projeto.sh sem --especialistas não cria processo/agentes/', !existsSync(join(alvo, 'processo/agentes')));
+    checar('novo-projeto.sh: CLAUDE.md cita os harnesses em processo/agentes/', claudeProj.includes('processo/agentes/'));
+    checar('novo-projeto.sh: AGENTS.md cita os harnesses em processo/agentes/', agentsProj.includes('processo/agentes/'));
     checar('novo-projeto.sh: memória anota o consumo por tarefa', memProj.includes('consumo'));
     const alvo_esp = join(base, 'projeto-especialistas');
     mkdirSync(alvo_esp);
     const esp = rodar(alvo_esp, 'site-estatico', '--especialistas');
     checar('novo-projeto.sh com --especialistas conclui', esp.status === 0, esp.stderr);
-    const copiados = existsSync(join(alvo_esp, 'docs/agentes')) ? readdirSync(join(alvo_esp, 'docs/agentes')).sort() : [];
+    const copiados = existsSync(join(alvo_esp, 'processo/agentes')) ? readdirSync(join(alvo_esp, 'processo/agentes')).sort() : [];
     checar('novo-projeto.sh com --especialistas copia os 7 harnesses, sem o modelo', JSON.stringify(copiados) === JSON.stringify(HARNESSES.map((n) => `${n}.md`).sort()), copiados.join(', '));
     for (const nome of HARNESSES)
-      checar(`novo-projeto.sh com --especialistas: docs/agentes/${nome}.md igual ao do método`, copiados.includes(`${nome}.md`) && readFileSync(join(alvo_esp, 'docs/agentes', `${nome}.md`), 'utf8') === ler(`modelos/agentes/${nome}.md`));
-    const devEsp = existsSync(join(alvo_esp, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo_esp, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
-    checar('novo-projeto.sh com --especialistas: DESENVOLVIMENTO.md cita docs/agentes/ e o Nested worker depth', devEsp.includes('docs/agentes/') && devEsp.includes('Nested worker depth'));
+      checar(`novo-projeto.sh com --especialistas: processo/agentes/${nome}.md igual ao do método`, copiados.includes(`${nome}.md`) && readFileSync(join(alvo_esp, 'processo/agentes', `${nome}.md`), 'utf8') === ler(`modelos/agentes/${nome}.md`));
+    const devEsp = existsSync(join(alvo_esp, 'processo/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo_esp, 'processo/DESENVOLVIMENTO.md'), 'utf8') : '';
+    checar('novo-projeto.sh com --especialistas: DESENVOLVIMENTO.md cita processo/agentes/ e o Nested worker depth', devEsp.includes('processo/agentes/') && devEsp.includes('Nested worker depth'));
     checar('novo-projeto.sh com --especialistas não confunde a opção com um cenário', devEsp.includes('site-estatico') && !devEsp.includes('--especialistas ('));
     const alvo_esp_antes = join(base, 'projeto-opcao-antes');
     mkdirSync(alvo_esp_antes);
     const espAntes = rodar('--especialistas', alvo_esp_antes, 'site-estatico');
-    checar('novo-projeto.sh aceita --especialistas antes da pasta', espAntes.status === 0 && existsSync(join(alvo_esp_antes, 'docs/agentes/lead.md')), espAntes.stderr);
+    checar('novo-projeto.sh aceita --especialistas antes da pasta', espAntes.status === 0 && existsSync(join(alvo_esp_antes, 'processo/agentes/lead.md')), espAntes.stderr);
     checar('novo-projeto.sh: AGENTS.md não manda o Codex falar com a pessoa (pede pela Lead)', agentsProj.length > 0 && !agentsProj.includes('peça à pessoa'));
     const alvo_com_agentes = join(base, 'projeto-com-docs-agentes');
-    mkdirSync(join(alvo_com_agentes, 'docs/agentes'), { recursive: true });
+    mkdirSync(join(alvo_com_agentes, 'processo/agentes'), { recursive: true });
     const conf = rodar(alvo_com_agentes, '--especialistas');
-    checar('novo-projeto.sh --especialistas com docs/agentes/ existente recusa sem alterar nada', conf.status !== 0 && conf.stderr.includes('docs/agentes') && !existsSync(join(alvo_com_agentes, 'CLAUDE.md')), conf.stderr);
+    checar('novo-projeto.sh --especialistas com processo/agentes/ existente recusa sem alterar nada', conf.status !== 0 && conf.stderr.includes('processo/agentes') && !existsSync(join(alvo_com_agentes, 'CLAUDE.md')), conf.stderr);
     try {
-      accessSync(join(alvo, 'scripts/nova-tarefa.sh'), constants.X_OK);
+      accessSync(join(alvo, 'processo/scripts/nova-tarefa.sh'), constants.X_OK);
       checar('novo-projeto.sh mantém os scripts executáveis', true);
     } catch {
       checar('novo-projeto.sh mantém os scripts executáveis', false);
     }
-    const antes = existsSync(join(alvo, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
-    writeFileSync(join(alvo, 'docs/DESENVOLVIMENTO.md'), `${antes}\nminha edição\n`);
+    const antes = existsSync(join(alvo, 'processo/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo, 'processo/DESENVOLVIMENTO.md'), 'utf8') : '';
+    writeFileSync(join(alvo, 'processo/DESENVOLVIMENTO.md'), `${antes}\nminha edição\n`);
     const alvo_telas = join(base, 'projeto-com-telas');
-    mkdirSync(join(alvo_telas, 'docs/telas'), { recursive: true });
-    writeFileSync(join(alvo_telas, 'docs/telas/README.md'), 'minhas telas\n');
+    mkdirSync(join(alvo_telas, 'processo/telas'), { recursive: true });
+    writeFileSync(join(alvo_telas, 'processo/telas/README.md'), 'minhas telas\n');
     const comTelas = rodar(alvo_telas, 'site-estatico');
-    checar('novo-projeto.sh recusa docs/telas/ existente e não cria nada', comTelas.status !== 0 && readFileSync(join(alvo_telas, 'docs/telas/README.md'), 'utf8') === 'minhas telas\n' && !existsSync(join(alvo_telas, 'CLAUDE.md')));
+    checar('novo-projeto.sh recusa processo/telas/ existente e não cria nada', comTelas.status !== 0 && readFileSync(join(alvo_telas, 'processo/telas/README.md'), 'utf8') === 'minhas telas\n' && !existsSync(join(alvo_telas, 'CLAUDE.md')));
     const de_novo = rodar(alvo, 'site-estatico');
-    checar('novo-projeto.sh não sobrescreve arquivos que já existem', de_novo.status !== 0 && readFileSync(join(alvo, 'docs/DESENVOLVIMENTO.md'), 'utf8').includes('minha edição'));
+    checar('novo-projeto.sh não sobrescreve arquivos que já existem', de_novo.status !== 0 && readFileSync(join(alvo, 'processo/DESENVOLVIMENTO.md'), 'utf8').includes('minha edição'));
   } catch (erro) {
     checar('novo-projeto.sh: teste funcional rodou até o fim', false, String(erro).slice(0, 160));
   } finally {
@@ -722,7 +722,7 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
   // Decisão 013: projetos 3.x passam para a Lead e a ferramenta por papel, com os harnesses renomeados
   checar('skills/atualizar-projeto: troca a linha Agente principal pela linha Lead e a tabela Ferramenta por papel', atualizar.includes('Agente principal:') && atualizar.includes('Lead:') && atualizar.includes('Ferramenta por papel') && atualizar.includes('--agente'));
   for (const [antigo, novo] of [['integradora', 'lead'], ['arquitetura', 'architect'], ['back-e-dados', 'backend'], ['design-e-front', 'frontend'], ['seguranca', 'security'], ['produto', 'product'], ['devops', 'ops']])
-    checar(`skills/atualizar-projeto: renomeia docs/agentes/${antigo}.md para ${novo}.md`, atualizar.includes(`| \`${antigo}.md\` | \`${novo}.md\` |`));
+    checar(`skills/atualizar-projeto: renomeia processo/agentes/${antigo}.md para ${novo}.md`, atualizar.includes(`| \`${antigo}.md\` | \`${novo}.md\` |`));
   checar('skills/atualizar-projeto: renomeia com git mv, sem perder a personalização, e lista a diferença', atualizar.includes('git mv') && atualizar.includes('personaliza'));
   checar('skills/atualizar-projeto: acrescenta a seção Aprovações', atualizar.includes('## Aprovações'));
   checar('skills/atualizar-projeto: o git diff permite só as remoções das duas exceções', (atualizar.split('## Passo 4')[1] || '').includes('Agente principal:') && (atualizar.split('## Passo 4')[1] || '').includes('renomeados'));
@@ -860,7 +860,7 @@ for (const arquivo of arquivosTexto) {
 }
 
 // Decisão 016: o processo mora em processo/; fora do histórico, nenhum caminho antigo
-const CAMINHO_ANTIGO = /\bdocs\/(DESENVOLVIMENTO|memoria-do-projeto|requisitos|telas|agentes|referencias|seguranca|contrato-api|arquitetura|specs?)\b|\bscripts\/(nova|remover)-tarefa/;
+const CAMINHO_ANTIGO = /\bdocs\/(DESENVOLVIMENTO|memoria-do-projeto|requisitos|telas|agentes|referencias|seguranca|contrato-api|arquitetura|specs?)\b|(?<!processo\/)\bscripts\/(nova|remover)-tarefa/;
 const comCaminhoAntigo = ARQUIVOS_VIVOS.flatMap((f) => readFileSync(f, 'utf8').split('\n').map((l, i) => (CAMINHO_ANTIGO.test(l) && !(f.endsWith('/skills/atualizar-projeto/SKILL.md') && l.includes('processo/')) ? `${f.slice(RAIZ.length + 1)}:${i + 1}` : null)).filter(Boolean));
 checar('016: nenhum caminho antigo (docs/…, scripts/nova-tarefa) fora do histórico', comCaminhoAntigo.length === 0, comCaminhoAntigo.slice(0, 5).join(', '));
 const comDuplo = ARQUIVOS_VIVOS.filter((f) => readFileSync(f, 'utf8').includes('processo/processo'));

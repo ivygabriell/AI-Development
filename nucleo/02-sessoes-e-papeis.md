@@ -116,7 +116,7 @@ O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, 
 
 **Ciclo de uma tarefa:**
 
-1. A Lead abre a issue com o formulário de tarefa e cria a tarefa no Orca com a especificação padrão do [prompt da Lead](../modelos/prompt-lead-orca.md) (objetivo, requisitos (R-xx) e, com interface, as telas aprovadas em `docs/telas/`, critérios de aceite, arquivos permitidos e proibidos, Skills, testes micro e macro, `Closes #N`).
+1. A Lead abre a issue com o formulário de tarefa e cria a tarefa no Orca com a especificação padrão do [prompt da Lead](../modelos/prompt-lead-orca.md) (objetivo, requisitos (R-xx) e, com interface, as telas aprovadas em `processo/telas/`, critérios de aceite, arquivos permitidos e proibidos, Skills, testes micro e macro, `Closes #N`).
 2. O agente constrói com TDD, traz a `main`, roda os testes macro, envia a branch, abre o PR e avisa o fim (`worker_done`). Dúvidas vão para a Lead com `ask`.
 3. A Lead valida o PR (checklist do [03](03-skills-e-testes.md)) e confere os gatilhos de aprovação. Sem gatilho, integra com `gh pr merge N --merge` e registra no resumo por marco; com gatilho, cria o portão do merge e pergunta à pessoa.
 4. Com o "pode integrar" (quando havia gatilho), resolve o portão e integra; em qualquer caso, confere a `main` e o CI e libera o agente.
@@ -129,7 +129,7 @@ O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, 
 
 ### Lead e ferramenta por papel
 
-O projeto usa **o Claude Code e o Codex juntos**, para dividir o consumo entre as duas assinaturas ([decisão 013](../decisoes/013-lead-e-builders-com-codex-e-claude.md), aprovada pela pessoa sem caso real; substitui a regra de uma ferramenta só da [decisão 010](../decisoes/010-um-agente-principal-por-projeto.md)). A **Lead fica fixa no Claude Code**; cada outro papel tem uma **ferramenta padrão**, registrada no `docs/DESENVOLVIMENTO.md` na linha `Lead: Claude Code` e na tabela **Ferramenta por papel**:
+O projeto usa **o Claude Code e o Codex juntos**, para dividir o consumo entre as duas assinaturas ([decisão 013](../decisoes/013-lead-e-builders-com-codex-e-claude.md), aprovada pela pessoa sem caso real; substitui a regra de uma ferramenta só da [decisão 010](../decisoes/010-um-agente-principal-por-projeto.md)). A **Lead fica fixa no Claude Code**; cada outro papel tem uma **ferramenta padrão**, registrada no `processo/DESENVOLVIMENTO.md` na linha `Lead: Claude Code` e na tabela **Ferramenta por papel**:
 
 | Claude Code | Codex |
 |---|---|
@@ -138,7 +138,7 @@ O projeto usa **o Claude Code e o Codex juntos**, para dividir o consumo entre a
 | Ferramenta | No `worker-start` | Lê no início |
 |---|---|---|
 | Claude Code | `--agent claude --model claude-opus-5-5` | `CLAUDE.md` |
-| Codex | `--agent codex --model gpt-6.1-sol` | `AGENTS.md`, que manda ler o `CLAUDE.md`, o `docs/DESENVOLVIMENTO.md` e a memória |
+| Codex | `--agent codex --model gpt-6.1-sol` | `AGENTS.md`, que manda ler o `CLAUDE.md`, o `processo/DESENVOLVIMENTO.md` e a memória |
 
 - **Uma ferramenta só continua possível:** `novo-projeto.sh --agente <claude|codex>` põe todos os papéis, inclusive a Lead, na mesma ferramenta. Mudar a tabela depois é uma decisão da pessoa, anotada na memória do projeto.
 - **Os mesmos princípios nas duas.** TDD visto falhar, testes micro e macro, verificação antes de dizer "pronto", uma tarefa por branch e por PR, só a Lead integra, dúvidas sobem com `ask`. Por isso as duas ferramentas de cada computador têm os mesmos plugins (README, "Antes de começar"), e todo projeto tem o `CLAUDE.md` e o `AGENTS.md`.
@@ -146,7 +146,7 @@ O projeto usa **o Claude Code e o Codex juntos**, para dividir o consumo entre a
 - **Passagem quando a cota acaba no meio da tarefa:** a Builder faz commit, envia a branch e **comenta na issue onde parou** e qual é o próximo passo. O especialista abre outra Builder, na outra ferramenta, na **mesma branch**, e ela continua a partir do comentário e do campo "Plano e passo" da issue. O estado vive no Git e na issue, nunca só na conversa.
 - **Revisão cruzada:** todo PR recebe **ao menos uma revisão da outra ferramenta**. Com uma ferramenta só (`--agente`), a revisão cruzada não se aplica; a revisão independente da Lead continua. O PR feito no Codex já passa pela Lead, no Claude; o PR feito no Claude recebe a revisão de um agente Codex: o Security nos PRs sensíveis e, nos outros, uma sessão Codex de revisão aberta pela Lead.
 - **A Lead Codex** (só com `--agente codex`) usa o mesmo [prompt da Lead](../modelos/prompt-lead-orca.md) ou o mesmo harness e valida no navegador com um navegador automatizado ([03](03-skills-e-testes.md)).
-- **Contrato primeiro, quando back e front correm em paralelo.** Antes da primeira tarefa de construção, uma tarefa fecha o **contrato da API** num arquivo do repositório (`docs/contrato-api.md`, ou o formato que a stack pedir, como OpenAPI), e a pessoa aprova num portão. Depois, o contrato só muda por uma tarefa própria: a mudança que quebra quem usa passa por um portão da pessoa; a aditiva (um campo novo opcional), pela Lead. Cada lado tem a sua pasta (por exemplo, `back/` e `front/`, decididas na Fase 2), e os **arquivos comuns** (CI, dependências da raiz, contrato, memória do projeto) têm um dono só, nunca duas tarefas ao mesmo tempo, nem de ferramentas diferentes.
+- **Contrato primeiro, quando back e front correm em paralelo.** Antes da primeira tarefa de construção, uma tarefa fecha o **contrato da API** num arquivo do repositório (`processo/contrato-api.md`, ou o formato que a stack pedir, como OpenAPI), e a pessoa aprova num portão. Depois, o contrato só muda por uma tarefa própria: a mudança que quebra quem usa passa por um portão da pessoa; a aditiva (um campo novo opcional), pela Lead. Cada lado tem a sua pasta (por exemplo, `back/` e `front/`, decididas na Fase 2), e os **arquivos comuns** (CI, dependências da raiz, contrato, memória do projeto) têm um dono só, nunca duas tarefas ao mesmo tempo, nem de ferramentas diferentes.
 - **Medição.** A memória do projeto anota, por tarefa, a ferramenta, as passagens, se houve retrabalho e por quê, e o consumo; a Fase 9 compara as duas ferramentas.
 
 **O que observar no primeiro projeto:** quantas passagens houve e se alguma perdeu trabalho; se a revisão cruzada achou algo; se a cota deixou de parar o projeto; se os agentes Codex seguiram o TDD, a verificação e as skills do método.
@@ -162,12 +162,12 @@ Cada agente usa a **ferramenta do seu papel** (Claude Code ou Codex, seção aci
 | Lead | coordenação, validação final (QA) e integração | não; coordena os especialistas | sempre |
 | Architect | estrutura, contrato da API, dados, confiabilidade, observabilidade, custo | não | sempre |
 | Backend | regras de negócio, APIs, autenticação, banco de dados | até 2 | sempre |
-| Frontend | identidade e todas as telas no Figma (Fase 2, antes do código), registro em `docs/telas/`, design system, interface | até 2 | sempre que há interface |
+| Frontend | identidade e todas as telas no Figma (Fase 2, antes do código), registro em `processo/telas/`, design system, interface | até 2 | sempre que há interface |
 | Security | mapa de riscos no começo, revisão dos PRs sensíveis e auditoria completa antes da primeira publicação, com a `security-audit` desde o primeiro mapa | não; entrega a correção ao dono da pasta | sempre |
-| Product | requisitos (fichas R-xx com o peso, em `docs/requisitos.md`), pesquisa com usuários, critérios de aceite | não | sob demanda (Fases 0 a 2) |
+| Product | requisitos (fichas R-xx com o peso, em `processo/requisitos.md`), pesquisa com usuários, critérios de aceite | não | sob demanda (Fases 0 a 2) |
 | Ops | deploy, CI/CD, nuvem, monitoramento; dono do CI enquanto ativo | 1 por vez | sob demanda |
 
-- **Harnesses:** os modelos ficam em [`modelos/agentes/`](../modelos/agentes/) e vão para `docs/agentes/` do projeto com `novo-projeto.sh --especialistas`. Cada um tem as mesmas 10 partes (missão, quando é chamado, o que lê, o que pode e o que não pode, Skills, checklist, formato da resposta, quando sobe a decisão, memória, economia), as referências escolhidas pela pessoa e o passo a passo "Como pesquisa".
+- **Harnesses:** os modelos ficam em [`modelos/agentes/`](../modelos/agentes/) e vão para `processo/agentes/` do projeto com `novo-projeto.sh --especialistas`. Cada um tem as mesmas 10 partes (missão, quando é chamado, o que lê, o que pode e o que não pode, Skills, checklist, formato da resposta, quando sobe a decisão, memória, economia), as referências escolhidas pela pessoa e o passo a passo "Como pesquisa".
 - **O harness manda:** o agente pode consultar o que precisar (referências, web, Skills, método), mas atua dentro do harness. Ordem de precedência: o harness, o que o projeto decidiu, as Skills e o método, o que foi consultado. Se acha o harness errado ou incompleto, não desvia: para e sobe a questão.
 - **Modelos:** os da ferramenta de cada papel (`claude-opus-5-5` no Claude Code, `gpt-6.1-sol` no Codex); o esforço varia por papel e vai em todo `worker-start` (`--agent <agente> --model <modelo> --effort`).
 - **No Orca:** a Lead abre os especialistas; cada especialista abre as suas Builders com `worker-start --worktree new-child`, e o Orca as pendura nele (`--parent`). A dúvida da Builder (`ask`) chega ao especialista; só sobe para a Lead o que ele não pode decidir. **Exige o ajuste Settings → Orchestration → Nested worker depth = 2** (o padrão é 1; testado no Orca 1.4.241). Nem mais nem menos: com 2, uma Builder não abre agentes próprios.

@@ -4,10 +4,10 @@
 #   <pasta-do-projeto>  pasta que já existe (de preferência um repositório Git novo)
 #   --agente            põe todos os papéis, inclusive a Lead, numa ferramenta só: claude ou codex (decisão 013);
 #                       sem ele, a Lead e Product, Architect e Frontend ficam no Claude Code, e Backend, Security e Ops no Codex
-#   --especialistas     modo com agentes especialistas: copia os harnesses para docs/agentes/
+#   --especialistas     modo com agentes especialistas: copia os harnesses para processo/agentes/
 #   cenario             um ou mais nomes de arquivos em cenarios/ (sem .md), por exemplo: site-estatico api-backend
 # Copia: formulário de tarefa, modelo de PR, CI, scripts de worktree, e cria CLAUDE.md, AGENTS.md (para o Codex),
-# docs/DESENVOLVIMENTO.md e docs/memoria-do-projeto.md carimbados com a versão do método. Nunca sobrescreve arquivos existentes.
+# processo/DESENVOLVIMENTO.md e processo/memoria-do-projeto.md carimbados com a versão do método. Nunca sobrescreve arquivos existentes.
 # Avisa no stderr (sem interromper) quando um cenário escolhido é rascunho.
 # Se o projeto já tem CLAUDE.md ou AGENTS.md, não os toca: só avisa.
 set -euo pipefail
@@ -80,13 +80,13 @@ copias=(
   "modelos/issue-bug.yml|.github/ISSUE_TEMPLATE/bug.yml"
   "modelos/pull_request_template.md|.github/pull_request_template.md"
   "modelos/ci-node.yml|.github/workflows/ci.yml"
-  "modelos/nova-tarefa.sh|scripts/nova-tarefa.sh"
-  "modelos/remover-tarefa.sh|scripts/remover-tarefa.sh"
-  "modelos/memoria-do-projeto.md|docs/memoria-do-projeto.md"
-  "modelos/modelo-requisitos.md|docs/requisitos.md"
+  "modelos/nova-tarefa.sh|processo/scripts/nova-tarefa.sh"
+  "modelos/remover-tarefa.sh|processo/scripts/remover-tarefa.sh"
+  "modelos/memoria-do-projeto.md|processo/memoria-do-projeto.md"
+  "modelos/modelo-requisitos.md|processo/requisitos.md"
 )
-gerados=("docs/DESENVOLVIMENTO.md" "docs/telas")
-[[ $especialistas -eq 1 ]] && gerados+=("docs/agentes")
+gerados=("processo/DESENVOLVIMENTO.md" "processo/telas")
+[[ $especialistas -eq 1 ]] && gerados+=("processo/agentes")
 
 # Antes de escrever qualquer coisa, garante que nada será sobrescrito
 conflitos=()
@@ -109,27 +109,27 @@ for item in "${copias[@]}"; do
   mkdir -p "$alvo/$(dirname "$destino")"
   cp "$raiz/$origem" "$alvo/$destino"
 done
-chmod +x "$alvo/scripts/nova-tarefa.sh" "$alvo/scripts/remover-tarefa.sh"
+chmod +x "$alvo/processo/scripts/nova-tarefa.sh" "$alvo/processo/scripts/remover-tarefa.sh"
 
-# Modo com agentes especialistas (decisão 008): os harnesses vão para docs/agentes/, sem o modelo
+# Modo com agentes especialistas (decisão 008): os harnesses vão para processo/agentes/, sem o modelo
 if [[ $especialistas -eq 1 ]]; then
-  mkdir -p "$alvo/docs/agentes"
+  mkdir -p "$alvo/processo/agentes"
   for h in "$raiz"/modelos/agentes/*.md; do
     [[ "$(basename "$h")" == _* ]] && continue
-    cp "$h" "$alvo/docs/agentes/"
+    cp "$h" "$alvo/processo/agentes/"
   done
 fi
 
 # CLAUDE.md do projeto: toda sessão já nasce com o contexto
 if [[ -e "$alvo/CLAUDE.md" ]]; then
-  echo "AVISO: o CLAUDE.md já existe e não foi alterado; acrescente a ele as linhas @docs/DESENVOLVIMENTO.md e @docs/memoria-do-projeto.md." >&2
+  echo "AVISO: o CLAUDE.md já existe e não foi alterado; acrescente a ele as linhas @processo/DESENVOLVIMENTO.md e @processo/memoria-do-projeto.md." >&2
 else
   sed -e "s|{{VERSAO}}|$versao|g" "$raiz/modelos/CLAUDE-projeto.md" > "$alvo/CLAUDE.md"
 fi
 
 # AGENTS.md do projeto: o Codex lê este arquivo, não o CLAUDE.md (decisão 007)
 if [[ -e "$alvo/AGENTS.md" ]]; then
-  echo "AVISO: o AGENTS.md já existe e não foi alterado; acrescente a ele a leitura do CLAUDE.md, do docs/DESENVOLVIMENTO.md e da memória (modelo: modelos/AGENTS-projeto.md do método)." >&2
+  echo "AVISO: o AGENTS.md já existe e não foi alterado; acrescente a ele a leitura do CLAUDE.md, do processo/DESENVOLVIMENTO.md e da memória (modelo: modelos/AGENTS-projeto.md do método)." >&2
 else
   sed -e "s|{{VERSAO}}|$versao|g" "$raiz/modelos/AGENTS-projeto.md" > "$alvo/AGENTS.md"
 fi
@@ -152,7 +152,7 @@ fi
 
 linha_especialistas=""
 if [[ $especialistas -eq 1 ]]; then
-  linha_especialistas="- Com agentes especialistas: cada agente lê primeiro o seu harness em \`docs/agentes/\` e atua dentro dele. A Lead coordena os especialistas, e cada especialista abre as suas Builders. Exige no Orca: Settings → Orchestration → Nested worker depth = 2."
+  linha_especialistas="- Com agentes especialistas: cada agente lê primeiro o seu harness em \`processo/agentes/\` e atua dentro dele. A Lead coordena os especialistas, e cada especialista abre as suas Builders. Exige no Orca: Settings → Orchestration → Nested worker depth = 2."
 fi
 
 # Ferramenta padrão de cada papel (decisão 013): a mista, ou uma só com --agente
@@ -161,8 +161,8 @@ tabela_papeis=""
 for papel in Lead Product Architect Frontend Backend Security Ops; do tabela_papeis+="| $papel | $(ferramenta "$papel") |"$'\n'; done
 lead="$(ferramenta Lead)"
 
-mkdir -p "$alvo/docs/telas"
-cat > "$alvo/docs/telas/README.md" <<'DOC'
+mkdir -p "$alvo/processo/telas"
+cat > "$alvo/processo/telas/README.md" <<'DOC'
 # Telas aprovadas
 
 O registro das telas aprovadas pela pessoa no Figma (decisão 015 do método). A cada aprovação, o Frontend acrescenta, num PR: uma captura por tela e estado (`R-NN-nome-estado.png`), a data e o link do frame, e atualiza `tokens.json` com os tokens do Figma. O código segue só a versão registrada aqui; toda mudança de tela começa no Figma. Projeto sem interface: escreva "sem interface" nesta linha e deixe a pasta assim.
@@ -170,12 +170,12 @@ O registro das telas aprovadas pela pessoa no Figma (decisão 015 do método). A
 | Tela (frame) | Requisitos | Estados | Aprovada em | Link do frame |
 |---|---|---|---|---|
 DOC
-cat > "$alvo/docs/DESENVOLVIMENTO.md" <<DOC
+cat > "$alvo/processo/DESENVOLVIMENTO.md" <<DOC
 # Como desenvolvemos este projeto
 
 Versão do método: $versao
 Lead: $lead
-Telas: (link do arquivo do Figma; registro em docs/telas/; "sem interface" se não houver)
+Telas: (link do arquivo do Figma; registro em processo/telas/; "sem interface" se não houver)
 Cenários aplicados:
 $lista_cenarios
 
@@ -213,13 +213,13 @@ Uma decisão é da pessoa quando aciona pelo menos um gatilho: muda **o que** se
 ## Tarefas e sessões
 
 - Tarefas: issues com o formulário de tarefa (\`.github/ISSUE_TEMPLATE/tarefa.yml\`). Bugs: o formulário de bug (\`.github/ISSUE_TEMPLATE/bug.yml\`) e o "Ciclo de um bug" do método.
-- Worktrees: \`scripts/nova-tarefa.sh <tipo> <slug>\` e \`scripts/remover-tarefa.sh <tipo> <slug>\`.
+- Worktrees: \`processo/scripts/nova-tarefa.sh <tipo> <slug>\` e \`processo/scripts/remover-tarefa.sh <tipo> <slug>\`.
 - Com o Orca: a Lead distribui as tarefas aos agentes (\`orca orchestration worker-start\`); o Orca cria e remove as worktrees, e os scripts acima ficam para quem trabalha sem ele. Prompt: \`modelos/prompt-lead-orca.md\` do método.
 - Ferramentas: cada papel usa a sua (seção Ferramenta por papel, acima). O Claude Code lê o \`CLAUDE.md\`; o Codex lê o \`AGENTS.md\`, que manda ler o \`CLAUDE.md\`. Todo PR recebe ao menos uma revisão da outra ferramenta. Quando a cota acaba no meio da tarefa, a Builder faz commit, envia a branch e comenta na issue onde parou; outra Builder, na outra ferramenta, continua na mesma branch. Com back e front em tarefas paralelas, o contrato da API é aprovado antes de qualquer tarefa de construção.
 ${linha_especialistas:+$linha_especialistas
 }- Para trazer este projeto à versão mais nova do método: \`/metodo:atualizar-projeto\`.
-- Requisitos: \`docs/requisitos.md\` (fichas R-xx com o peso). Com interface, a identidade e todas as telas são aprovadas no Figma e registradas em \`docs/telas/\` antes do plano; o código segue a versão registrada.
-- Memória do projeto: \`docs/memoria-do-projeto.md\`.
+- Requisitos: \`processo/requisitos.md\` (fichas R-xx com o peso). Com interface, a identidade e todas as telas são aprovadas no Figma e registradas em \`processo/telas/\` antes do plano; o código segue a versão registrada.
+- Memória do projeto: \`processo/memoria-do-projeto.md\`.
 
 ## Antes do primeiro push para um repositório público
 
@@ -229,5 +229,5 @@ DOC
 echo "Projeto preparado em: $alvo (método $versao, Lead: $lead)"
 echo "Próximos passos:"
 echo "  1. Faça o primeiro push da main, deixe o CI rodar e só depois ative a proteção da main."
-echo "  2. Preencha docs/DESENVOLVIMENTO.md (comandos) e docs/memoria-do-projeto.md."
+echo "  2. Preencha processo/DESENVOLVIMENTO.md (comandos) e processo/memoria-do-projeto.md."
 echo "  3. Defina o alvo da primeira entrega e abra a primeira issue com o formulário de tarefa."

@@ -1,8 +1,8 @@
 # Prompt da Lead no Orca
 
-Como usar: no [Orca](https://github.com/stablyai/orca), abra um agente da ferramenta da Lead (a linha `Lead:` do `docs/DESENVOLVIMENTO.md`, em geral o Claude Code; [decisão 013](../decisoes/013-lead-e-builders-com-codex-e-claude.md)) na pasta principal do projeto e cole o texto abaixo no início. Ele substitui os prompts da Lead e da Builder: a Lead coordena e cada agente que ela inicia é uma Builder ([02](../nucleo/02-sessoes-e-papeis.md), seção "Com o Orca"). Modo aprovado pela pessoa sem caso real ([decisão 006](../decisoes/006-desenvolvimento-orquestrado-com-o-orca.md)): anote na memória do projeto o que funcionar e o que atrapalhar.
+Como usar: no [Orca](https://github.com/stablyai/orca), abra um agente da ferramenta da Lead (a linha `Lead:` do `processo/DESENVOLVIMENTO.md`, em geral o Claude Code; [decisão 013](../decisoes/013-lead-e-builders-com-codex-e-claude.md)) na pasta principal do projeto e cole o texto abaixo no início. Ele substitui os prompts da Lead e da Builder: a Lead coordena e cada agente que ela inicia é uma Builder ([02](../nucleo/02-sessoes-e-papeis.md), seção "Com o Orca"). Modo aprovado pela pessoa sem caso real ([decisão 006](../decisoes/006-desenvolvimento-orquestrado-com-o-orca.md)): anote na memória do projeto o que funcionar e o que atrapalhar.
 
-**No modo com agentes especialistas** (o projeto tem `docs/agentes/`), não use este prompt: a Lead segue o harness dela, `docs/agentes/lead.md` (modelo em [`agentes/lead.md`](agentes/lead.md)).
+**No modo com agentes especialistas** (o projeto tem `processo/agentes/`), não use este prompt: a Lead segue o harness dela, `processo/agentes/lead.md` (modelo em [`agentes/lead.md`](agentes/lead.md)).
 
 Antes, instale as skills do Orca uma vez por computador: `orca skills install --skill orca-cli --skill orchestration`.
 
@@ -24,7 +24,7 @@ Regras:
   proibidos, Skills, testes micro e macro) e uma tarefa no Orca com a especificação padrão;
 - duas tarefas abertas não tocam o mesmo arquivo; tarefas que se cruzam vão em sequência (dependências);
 - no máximo 3 agentes ao mesmo tempo;
-- Ferramenta por papel: leia a tabela "Ferramenta por papel" do docs/DESENVOLVIMENTO.md. Cada agente
+- Ferramenta por papel: leia a tabela "Ferramenta por papel" do processo/DESENVOLVIMENTO.md. Cada agente
   abre na ferramenta do papel da tarefa: --agent claude --model claude-opus-5-5 no Claude Code, ou
   --agent codex --model gpt-6.1-sol no Codex (o Codex lê o AGENTS.md, que manda ler o CLAUDE.md, e segue
   as mesmas regras e Skills). Se a cota da ferramenta padrão estiver apertada, abra na outra e anote no
@@ -42,10 +42,10 @@ Regras:
   pela skill metodo:auditoria-de-seguranca: a pessoa aprova o tamanho ou a dispensa; com a aprovação,
   rode você mesma (ou o Security, no modo com especialistas) e só publique com os achados confirmados
   críticos e altos corrigidos;
-- o que aciona um gatilho de aprovação (os gatilhos de aprovação (núcleo 01, "Portões de aprovação"; seção Aprovações do docs/DESENVOLVIMENTO.md); deploy e ação irreversível
+- o que aciona um gatilho de aprovação (os gatilhos de aprovação (núcleo 01, "Portões de aprovação"; seção Aprovações do processo/DESENVOLVIMENTO.md); deploy e ação irreversível
   sempre acionam) passa por um portão: crie com orca orchestration gate-create, pergunte à pessoa e só
   resolva (gate-resolve) com a resposta dela. Na dúvida, é gatilho;
-- registre em docs/memoria-do-projeto.md, ao fim de cada fase, onde o trabalho parou e o que foi decidido,
+- registre em processo/memoria-do-projeto.md, ao fim de cada fase, onde o trabalho parou e o que foi decidido,
   e anote como lição para o método cada correção que a pessoa fizer; anote também, por tarefa, se houve
   retrabalho e por quê, e o consumo.
 
@@ -55,7 +55,7 @@ Ciclo:
    branch por tarefa). Nunca agentes que não leem o CLAUDE.md nem o AGENTS.md.
 2. Espere com check --wait (worker_done, escalation, question); responda às perguntas.
 3. Para cada PR entregue, valide com evidência: compare com os critérios de aceite e os
-   requisitos (R-xx) de docs/requisitos.md; com interface, a tela igual à captura aprovada em docs/telas/; refaça os testes
+   requisitos (R-xx) de processo/requisitos.md; com interface, a tela igual à captura aprovada em processo/telas/; refaça os testes
    (suíte, tipos, build) na branch; releia os testes novos (falhariam sem o código?); abra o
    NAVEGADOR e explore (micro: cada elemento alterado em todos os estados; macro: a página inteira
    no desktop, tablet e celular); procure regressões; confira o CI.

@@ -4,7 +4,7 @@
 **Agente:** Backend (harness em `modelos/agentes/backend.md`)
 **Skills que saem daqui:** `metodo:api-conforme-contrato`, `metodo:migracao-sem-parada`, `metodo:transacoes-e-consultas` e `metodo:trabalho-em-segundo-plano`
 
-O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: o princípio, a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `docs/referencias/backend.md` do projeto e antes dos sites. O que já virou passo de uma skill aparece aqui só com a regra curta; o resto fica aqui para consulta.
+O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: o princípio, a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `processo/referencias/backend.md` do projeto e antes dos sites. O que já virou passo de uma skill aparece aqui só com a regra curta; o resto fica aqui para consulta.
 
 ## APIs (Zalando e Google AIP)
 

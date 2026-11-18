@@ -1,6 +1,6 @@
 # Modelo de requisitos
 
-Gabarito para `docs/requisitos.md` (Fase 2, antes da identidade, das telas e da spec). Quem escreve é o Product, no papel de engenheiro de requisitos ou PO; sem o modo com especialistas, a Lead. Um requisito é **descrito**, não desenhado: a tela vem depois, ligada a ele. A pessoa aprova a lista, os pesos e a ordem.
+Gabarito para `processo/requisitos.md` (Fase 2, antes da identidade, das telas e da spec). Quem escreve é o Product, no papel de engenheiro de requisitos ou PO; sem o modo com especialistas, a Lead. Um requisito é **descrito**, não desenhado: a tela vem depois, ligada a ele. A pessoa aprova a lista, os pesos e a ordem.
 
 ## Como escrever bem
 
@@ -26,7 +26,7 @@ Gabarito para `docs/requisitos.md` (Fase 2, antes da identidade, das telas e da 
 - **Critérios de aceite:**
   - [ ] observável e medível
 - **Dependências:** os requisitos que precisam vir antes (R-xx), ou "nenhuma".
-- **Telas:** os frames do Figma ligados a ele (o nome do frame e o registro em `docs/telas/`), ou "sem interface".
+- **Telas:** os frames do Figma ligados a ele (o nome do frame e o registro em `processo/telas/`), ou "sem interface".
 - **Peso:**
   - Valor (alto, médio, baixo): o quanto importa para quem usa e para o negócio, e por quê.
   - Esforço (P, M, G): o tamanho da construção e a cota de tokens que deve consumir, e por quê.
