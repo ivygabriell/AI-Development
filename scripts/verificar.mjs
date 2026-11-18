@@ -373,6 +373,12 @@ arquivosDecisao.forEach((nome, i) => {
 const versao = ler('VERSION').trim();
 checar('VERSION: semver X.Y.Z', /^\d+\.\d+\.\d+$/.test(versao), versao);
 checar('CHANGELOG: tem a versão atual', ler('CHANGELOG.md').includes(`## ${versao}`));
+// Decisão 013: versão 4.0.0, a decisão registrada e as decisões antigas apontando para ela
+const d013 = ler('decisoes/013-lead-e-builders-com-codex-e-claude.md');
+checar('decisão 013: existe, aceita sem caso real', d013.includes('**Status:** aceita') && d013.includes('sem caso real'));
+for (const n of ['001-sessoes-divididas-integradora-e-trabalhadoras', '007-back-com-codex-e-front-com-claude', '008-agentes-especialistas', '010-um-agente-principal-por-projeto'])
+  checar(`decisão ${n.slice(0, 3)}: o status aponta para a decisão 013`, ((ler(`decisoes/${n}.md`).match(/^\*\*Status:\*\*.*$/m) || [''])[0]).includes('013-lead-e-builders-com-codex-e-claude.md'));
+checar('VERSION: 4.0.0 ou maior (decisão 013)', Number(versao.split('.')[0]) >= 4, versao);
 checar('VERSION: 3.0.0 ou maior (um agente principal por projeto, decisão 010)', versao.split('.').map(Number).reduce((acc, n, i) => acc || (n !== [3, 0, 0][i] ? (n > [3, 0, 0][i] ? 'maior' : 'menor') : ''), '') !== 'menor', versao);
 
 const claude = ler('CLAUDE.md').toLowerCase();

@@ -1,7 +1,7 @@
 # Lead e Builders, com Codex e Claude no mesmo projeto: desenho
 
 **Data:** 2026-11-17
-**Status:** aprovado pela pessoa em 2026-11-17, em partes, na conversa (nomes, nome das Builders, Lead no Claude, tabela de ferramentas, planejamento e aprovações por gatilho)
+**Status:** aprovado pela pessoa em 2026-11-17, em partes, na conversa (nomes, nome das Builders, Lead no Claude, tabela de ferramentas, planejamento e aprovações por gatilho); implementado na 4.0.0 ([decisão 013](../decisoes/013-lead-e-builders-com-codex-e-claude.md))
 **Caso de origem:** nenhum. Como as decisões 007, 008 e 010, entra **aprovado pela pessoa sem caso real**, por pedido explícito dela; o primeiro projeto feito assim vira o caso que confirma ou corrige.
 
 ## Intenção

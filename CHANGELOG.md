@@ -2,6 +2,18 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 4.0.0 (2026-11-17)
+
+Lead e Builders, Claude Code e Codex no mesmo projeto e aprovações por gatilho. Ver a [decisão 013](decisoes/013-lead-e-builders-com-codex-e-claude.md), o [desenho](planos/2026-11-17-lead-e-builders-com-codex-e-claude-desenho.md) e o [plano](planos/2026-11-17-lead-e-builders-com-codex-e-claude.md).
+
+- **Nomes em inglês:** a integradora (e a coordenadora do Orca) passa a ser a **Lead**, as trabalhadoras são as **Builders**, e os especialistas são **Product, Architect, Backend, Frontend, Security e Ops**. Os harnesses, as referências e os prompts foram renomeados (`modelos/agentes/lead.md`, `modelos/prompt-lead.md`, `modelos/prompt-builder.md`, `modelos/prompt-lead-orca.md`...).
+- **Nome de cada Builder:** `<Papel> Builder #<issue> · <resumo> · <ferramenta>` no `--display-name` do Orca, no título do PR e na issue; a worktree e a branch ficam curtas (`backend-12-login`).
+- **Claude Code e Codex juntos:** a Lead fica no Claude Code; Product, Architect e Frontend também; Backend, Security e Ops no Codex. A Builder vai para a outra ferramenta quando a cota aperta, com **passagem** pela issue (commit, branch enviada, comentário de onde parou), e todo PR recebe **ao menos uma revisão da outra ferramenta**. O `DESENVOLVIMENTO.md` gerado traz a linha `Lead:` e a tabela **Ferramenta por papel** no lugar da linha `Agente principal:`; `--agente <claude|codex>` põe todos os papéis numa ferramenta só.
+- **Aprovações por gatilho:** a pessoa decide só o que muda o que será construído, é difícil de desfazer, atinge usuários reais, custa dinheiro ou muita cota, aceita um risco ou muda as regras do jogo. O resto a Lead decide e registra, inclusive os merges sem gatilho, e escreve um **resumo por marco**. Os projetos ganham a seção `## Aprovações` no `DESENVOLVIMENTO.md`. Não vale para o repositório do método.
+- **Issue:** campos "Plano e passo" e "Ferramenta". **PR:** campo "Gatilhos de aprovação". **Memória:** ferramenta e passagens por tarefa.
+- **`/metodo:atualizar-projeto`:** renomeia os harnesses de `docs/agentes/` com `git mv` (sem perder a personalização) e troca a linha `Agente principal:` pela linha `Lead:` e a tabela.
+- **Verificador:** acusa nome antigo de papel fora do histórico, a regra de uma ferramenta só, um harness sem a ferramenta por papel, uma Builder sem o nome completo e um portão sem os gatilhos.
+
 ## 3.1.0 (2026-11-02)
 
 Revalidação completa das lacunas do método e o ponytail. Ver a [decisão 012](decisoes/012-revalidacao-de-lacunas-e-ponytail.md).

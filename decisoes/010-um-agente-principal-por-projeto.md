@@ -1,7 +1,7 @@
 # 010 · Um agente principal por projeto: Claude Code ou Codex
 
 **Data:** 2026-11-02
-**Status:** aceita pela pessoa **sem caso real** (exceção à regra de ouro, pedida por ela, como nas decisões [007](007-back-com-codex-e-front-com-claude.md) e [008](008-agentes-especialistas.md)); o selo de `rascunho` que ela previa saiu pela [decisão 011](011-sem-rascunho-fora-dos-cenarios.md). Substitui a [decisão 007](007-back-com-codex-e-front-com-claude.md) e o item 2 da [decisão 008](008-agentes-especialistas.md).
+**Status:** aceita pela pessoa **sem caso real** (exceção à regra de ouro, pedida por ela, como nas decisões [007](007-back-com-codex-e-front-com-claude.md) e [008](008-agentes-especialistas.md)); o selo de `rascunho` que ela previa saiu pela [decisão 011](011-sem-rascunho-fora-dos-cenarios.md). Substitui a [decisão 007](007-back-com-codex-e-front-com-claude.md) e o item 2 da [decisão 008](008-agentes-especialistas.md). Os itens 1 e 2 foram substituídos pela [decisão 013](013-lead-e-builders-com-codex-e-claude.md) em 2026-11-17 (Claude Code e Codex no mesmo projeto, com a Lead no Claude Code e uma ferramenta padrão por papel); os itens 3 a 6 continuam.
 **Caso de origem:** nenhum ainda. O primeiro projeto com o Codex como agente principal, e o primeiro com o Claude Code no modo com especialistas, serão registrados em `casos/` e confirmam ou corrigem esta decisão.
 
 ## Contexto

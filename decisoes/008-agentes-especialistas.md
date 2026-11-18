@@ -1,7 +1,7 @@
 # 008 · Agentes especialistas ao lado da integradora
 
 **Data:** 2026-10-28
-**Status:** aceita pela pessoa **sem caso real** (exceção à regra de ouro, pedida por ela, como nas decisões [006](006-desenvolvimento-orquestrado-com-o-orca.md) e [007](007-back-com-codex-e-front-com-claude.md)); tudo o que esta decisão acrescenta fica como `rascunho` até o primeiro projeto feito assim virar caso
+**Status:** aceita pela pessoa **sem caso real** (exceção à regra de ouro, pedida por ela, como nas decisões [006](006-desenvolvimento-orquestrado-com-o-orca.md) e [007](007-back-com-codex-e-front-com-claude.md)); tudo o que esta decisão acrescenta fica como `rascunho` até o primeiro projeto feito assim virar caso. Os nomes dos agentes e a ferramenta de cada um mudaram pela [decisão 013](013-lead-e-builders-com-codex-e-claude.md) (2026-11-17): Lead, Architect, Backend, Frontend, Security, Product e Ops.
 **Caso de origem:** nenhum ainda. O primeiro projeto com agentes especialistas será registrado em `casos/` e confirma ou corrige esta decisão.
 
 ## Contexto
