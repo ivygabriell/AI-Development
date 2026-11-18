@@ -442,6 +442,16 @@ checar('README: instala o MCP do Figma no Codex', ler('README.md').includes('cod
 for (const c of ['site-estatico', 'aplicacao-web-full-stack', 'aplicativo-mobile'])
   checar(`cenário ${c}: identidade e telas aprovadas em docs/telas/ antes do código`, ler(`cenarios/${c}.md`).includes('docs/telas/'));
 checar('decisão 015: aceita sem caso real', ler('decisoes/015-requisitos-e-telas-antes-do-codigo.md').includes('sem caso real'));
+// Revisão do Codex da 5.0.0
+const atualizar015 = ler('skills/atualizar-projeto/SKILL.md');
+checar('atualizar-projeto: copia requisitos e telas só o que falta, cada um por si', atualizar015.includes('cada um só se faltar'));
+checar('atualizar-projeto: acrescenta o campo de requisitos aos formulários e ao PR que o projeto já tem', atualizar015.includes('id: requisitos') && atualizar015.includes('Requisitos atendidos'));
+for (const p of ['modelos/prompt-lead.md', 'modelos/prompt-lead-orca.md', 'modelos/prompt-builder.md'])
+  checar(`${p}: requisitos e telas aprovadas (decisão 015)`, ler(p).includes('docs/requisitos.md') && ler(p).includes('docs/telas/'));
+checar('sessões: a especificação da tarefa leva os requisitos e as telas', (sessoes.split('**Ciclo de uma tarefa:**')[1] || '').slice(0, 600).includes('requisitos (R-xx)'));
+checar('fluxo: o portão da Fase 2 só exige identidade e telas com interface', /\(com interface\)/.test((fase2.split('- **Portão:**')[1] || '').split('\n')[0]));
+checar('sessões: Frontend presente só com interface', /\| Frontend \|.*\| sempre que há interface \|/.test(sessoes));
+checar('modelo de requisitos: sem link relativo (é copiado para docs/requisitos.md)', !/\]\((?!https?:)[^)]+\)/.test(modReq));
 checar('VERSION: 5.0.0 ou maior (decisão 015)', Number(versao.split('.')[0]) >= 5, versao);
 checar('VERSION: 3.0.0 ou maior (um agente principal por projeto, decisão 010)', versao.split('.').map(Number).reduce((acc, n, i) => acc || (n !== [3, 0, 0][i] ? (n > [3, 0, 0][i] ? 'maior' : 'menor') : ''), '') !== 'menor', versao);
 
@@ -650,6 +660,11 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     }
     const antes = existsSync(join(alvo, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
     writeFileSync(join(alvo, 'docs/DESENVOLVIMENTO.md'), `${antes}\nminha edição\n`);
+    const alvo_telas = join(base, 'projeto-com-telas');
+    mkdirSync(join(alvo_telas, 'docs/telas'), { recursive: true });
+    writeFileSync(join(alvo_telas, 'docs/telas/README.md'), 'minhas telas\n');
+    const comTelas = rodar(alvo_telas, 'site-estatico');
+    checar('novo-projeto.sh recusa docs/telas/ existente e não cria nada', comTelas.status !== 0 && readFileSync(join(alvo_telas, 'docs/telas/README.md'), 'utf8') === 'minhas telas\n' && !existsSync(join(alvo_telas, 'CLAUDE.md')));
     const de_novo = rodar(alvo, 'site-estatico');
     checar('novo-projeto.sh não sobrescreve arquivos que já existem', de_novo.status !== 0 && readFileSync(join(alvo, 'docs/DESENVOLVIMENTO.md'), 'utf8').includes('minha edição'));
   } catch (erro) {

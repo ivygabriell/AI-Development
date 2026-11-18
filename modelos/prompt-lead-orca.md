@@ -54,7 +54,8 @@ Ciclo:
    a ferramenta do papel (--agent e --model, pela regra acima) e --worktree new-child (uma worktree e uma
    branch por tarefa). Nunca agentes que não leem o CLAUDE.md nem o AGENTS.md.
 2. Espere com check --wait (worker_done, escalation, question); responda às perguntas.
-3. Para cada PR entregue, valide com evidência: compare com os critérios de aceite; refaça os testes
+3. Para cada PR entregue, valide com evidência: compare com os critérios de aceite e os
+   requisitos (R-xx) de docs/requisitos.md; com interface, a tela igual à captura aprovada em docs/telas/; refaça os testes
    (suíte, tipos, build) na branch; releia os testes novos (falhariam sem o código?); abra o
    NAVEGADOR e explore (micro: cada elemento alterado em todos os estados; macro: a página inteira
    no desktop, tablet e celular); procure regressões; confira o CI.

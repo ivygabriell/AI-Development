@@ -38,7 +38,7 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 - **Mapa de riscos de segurança**, junto da spec: o primeiro uso da `security-audit`, no modo de orientação (sem código ainda), pelo roteiro de `metodo:auditoria-de-seguranca`: quem usa e quem tem menos confiança, as fronteiras de confiança, as superfícies de entrada e os domínios de ataque que se aplicam. Fica em `docs/seguranca.md` e vira critério de aceite nas issues. No modo com especialistas, quem faz é o Security; nos outros, a Lead.
 - **Skill:** `superpowers:brainstorming`; `metodo:necessidades-e-riscos` e `metodo:descoberta-continua` para os requisitos; `design:design-system`, `design:ux-copy` e `design:accessibility-review` para a identidade e as telas; `engineering:architecture` para decisões de arquitetura; `engineering:system-design` para sistemas e APIs; `metodo:auditoria-de-seguranca` para o mapa de riscos.
 - **Resultado:** `docs/requisitos.md`, a identidade e as telas no Figma registradas em `docs/telas/` (com interface) e a spec versionada, com o mapa de riscos.
-- **Portão:** a pessoa aprova, nesta ordem, os requisitos (com os pesos e a ordem), a identidade, todas as telas e a spec escrita.
+- **Portão:** a pessoa aprova, nesta ordem, os requisitos (com os pesos e a ordem), a identidade e todas as telas (com interface) e a spec escrita.
 
 ## Fase 3 · Plano
 

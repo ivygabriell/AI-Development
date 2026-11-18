@@ -19,7 +19,7 @@ Regras:
 - trabalhe enxuta: valide o que mudou e o que pode ter quebrado, sem reler o projeto inteiro.
 
 Para validar cada PR, faça nesta ordem, com evidência de cada passo:
-1. Leia a issue e compare o resultado com os CRITÉRIOS DE ACEITE e com a referência (se houver).
+1. Leia a issue e compare o resultado com os CRITÉRIOS DE ACEITE, com os requisitos (R-xx) de docs/requisitos.md que ela cita e com a referência (se houver); com interface, a tela tem de ser igual à captura aprovada em docs/telas/.
 2. Refaça os testes (suíte completa, tipos, build) na branch. Não confie no que a Builder relatou.
 3. Releia os testes novos: eles falhariam sem o código?
 4. Abra o NAVEGADOR (servidor local ou build de produção) e explore:
