@@ -559,6 +559,16 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     checar('novo-projeto.sh conclui com cenários válidos', ok.status === 0, ok.stderr);
     for (const arq of ['CLAUDE.md', 'AGENTS.md', '.github/ISSUE_TEMPLATE/tarefa.yml', '.github/ISSUE_TEMPLATE/bug.yml', '.github/pull_request_template.md', '.github/workflows/ci.yml', 'scripts/nova-tarefa.sh', 'scripts/remover-tarefa.sh', 'docs/DESENVOLVIMENTO.md', 'docs/memoria-do-projeto.md'])
       checar(`novo-projeto.sh cria ${arq}`, existsSync(join(alvo, arq)));
+    // Decisão 016: o processo mora em processo/; a raiz do projeto é do código
+    checar('016: a raiz do projeto novo só tem .github, AGENTS.md, CLAUDE.md e processo', JSON.stringify(readdirSync(alvo).sort()) === JSON.stringify(['.github', 'AGENTS.md', 'CLAUDE.md', 'processo']), readdirSync(alvo).join(','));
+    const claude016 = existsSync(join(alvo, 'CLAUDE.md')) ? readFileSync(join(alvo, 'CLAUDE.md'), 'utf8') : '';
+    checar('016: o CLAUDE.md do projeto importa @processo/ e diz que a raiz é do código', claude016.includes('@processo/DESENVOLVIMENTO.md') && claude016.includes('@processo/memoria-do-projeto.md') && claude016.includes('a raiz é do código'));
+    const segunda = rodar(alvo, 'site-estatico');
+    checar('016: segunda execução recusa e cita processo/DESENVOLVIMENTO.md sem sobrescrever', segunda.status !== 0 && segunda.stderr.includes('processo/DESENVOLVIMENTO.md'), segunda.stderr);
+    const alvo_esp016 = join(base, 'projeto-016-especialistas');
+    mkdirSync(alvo_esp016);
+    rodar(alvo_esp016, 'site-estatico', '--especialistas');
+    checar('016: --especialistas põe os harnesses em processo/agentes/', existsSync(join(alvo_esp016, 'processo/agentes/lead.md')));
     const dev = existsSync(join(alvo, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
     checar('novo-projeto.sh carimba a versão do método', dev.includes(`Versão do método: ${versao}`));
     checar('novo-projeto.sh registra os cenários escolhidos', dev.includes('site-estatico') && dev.includes('api-backend'));
@@ -848,6 +858,19 @@ for (const arquivo of arquivosTexto) {
     }
   }
 }
+
+// Decisão 016: o processo mora em processo/; fora do histórico, nenhum caminho antigo
+const CAMINHO_ANTIGO = /\bdocs\/(DESENVOLVIMENTO|memoria-do-projeto|requisitos|telas|agentes|referencias|seguranca|contrato-api|arquitetura|specs?)\b|\bscripts\/(nova|remover)-tarefa/;
+const comCaminhoAntigo = ARQUIVOS_VIVOS.flatMap((f) => readFileSync(f, 'utf8').split('\n').map((l, i) => (CAMINHO_ANTIGO.test(l) && !(f.endsWith('/skills/atualizar-projeto/SKILL.md') && l.includes('processo/')) ? `${f.slice(RAIZ.length + 1)}:${i + 1}` : null)).filter(Boolean));
+checar('016: nenhum caminho antigo (docs/…, scripts/nova-tarefa) fora do histórico', comCaminhoAntigo.length === 0, comCaminhoAntigo.slice(0, 5).join(', '));
+const comDuplo = ARQUIVOS_VIVOS.filter((f) => readFileSync(f, 'utf8').includes('processo/processo'));
+checar('016: nenhum processo/processo', comDuplo.length === 0, comDuplo.slice(0, 3).join(', '));
+checar('016: o prefixo de branch docs/ continua em nucleo/05', ler('nucleo/05-git-github-e-ci.md').includes('`docs/` (documentação)'));
+checar('016: nova-tarefa.sh ainda aceita o tipo docs', ler('modelos/nova-tarefa.sh').includes('feat|fix|chore|docs'));
+checar('016: VERSION é 6.0.0 ou maior', Number(versao.split('.')[0]) >= 6, versao);
+checar('016: decisão 016 existe e o CHANGELOG tem a 6.0.0', existsSync(join(RAIZ, 'decisoes/016-processo-fora-da-raiz.md')) && ler('CHANGELOG.md').includes('## 6.0.0'));
+const atualizar016 = ler('skills/atualizar-projeto/SKILL.md');
+checar('016: a skill atualizar-projeto migra docs/ e scripts/ para processo/', ['git mv', 'processo/scripts/', 'só os itens listados', 'processo/DESENVOLVIMENTO.md', 'docs/DESENVOLVIMENTO.md'].every((t) => atualizar016.includes(t)));
 
 // Resultado
 if (falhas.length) {
