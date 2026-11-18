@@ -80,6 +80,19 @@ Notas: troque `"Testes, tipos e build"` pelo nome do seu job; `strict: true` obr
 - O formulário de tarefa ([issue-tarefa.yml](../modelos/issue-tarefa.yml)) e o de bug ([issue-bug.yml](../modelos/issue-bug.yml)) vão em `.github/ISSUE_TEMPLATE/`, junto com um `config.yml` que desliga a issue em branco (`blank_issues_enabled: false`).
 - Abra tarefas pelo terminal com `gh issue create --label tarefa --body-file corpo.md`.
 
+## Estrutura do projeto
+
+O método mantém a raiz do projeto limpa (decisão 016). Tudo o que ele cria fica em `processo/`; na raiz só ficam o que as ferramentas e o GitHub exigem ali e o código:
+
+```text
+README.md  CLAUDE.md  AGENTS.md   (o CLAUDE.md e o AGENTS.md são curtos e importam processo/)
+.github/                          (CI, formulários de issue e modelo de PR)
+processo/                         (DESENVOLVIMENTO.md, memoria-do-projeto.md, requisitos.md, telas/, agentes/, referencias/, scripts/, seguranca.md...)
+src/ ...                          (o código)
+```
+
+A pasta `docs/` fica livre para a documentação do produto. Tudo continua versionado e sobe junto para o GitHub, para que as worktrees e os agentes enxerguem o processo.
+
 ## Worktrees
 
 Uma worktree é outra pasta do mesmo repositório, em outra branch. É o que permite sessões paralelas sem pisar nos arquivos umas das outras.

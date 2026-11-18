@@ -57,6 +57,7 @@ const OBRIGATORIOS = [
   'decisoes/014-fluxo-de-correcao-de-bugs.md',
   'modelos/modelo-requisitos.md',
   'decisoes/015-requisitos-e-telas-antes-do-codigo.md',
+  'decisoes/016-processo-fora-da-raiz.md',
   'modelos/pull_request_template.md',
   'modelos/ci-node.yml',
   'modelos/nova-tarefa.sh',
