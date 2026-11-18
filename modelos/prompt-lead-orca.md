@@ -1,6 +1,6 @@
 # Prompt da Lead no Orca
 
-Como usar: no [Orca](https://github.com/stablyai/orca), abra um agente da ferramenta do projeto (a linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`: Claude Code ou Codex, nunca as duas; [decisão 010](../decisoes/010-um-agente-principal-por-projeto.md)) na pasta principal do projeto e cole o texto abaixo no início. Ele substitui os prompts da Lead e da Builder: a Lead faz o papel da Lead e cada agente que ela inicia é uma Builder ([02](../nucleo/02-sessoes-e-papeis.md), seção "Com o Orca"). Modo aprovado pela pessoa sem caso real ([decisão 006](../decisoes/006-desenvolvimento-orquestrado-com-o-orca.md)): anote na memória do projeto o que funcionar e o que atrapalhar.
+Como usar: no [Orca](https://github.com/stablyai/orca), abra um agente da ferramenta da Lead (a linha `Lead:` do `docs/DESENVOLVIMENTO.md`, em geral o Claude Code; [decisão 013](../decisoes/013-lead-e-builders-com-codex-e-claude.md)) na pasta principal do projeto e cole o texto abaixo no início. Ele substitui os prompts da Lead e da Builder: a Lead coordena e cada agente que ela inicia é uma Builder ([02](../nucleo/02-sessoes-e-papeis.md), seção "Com o Orca"). Modo aprovado pela pessoa sem caso real ([decisão 006](../decisoes/006-desenvolvimento-orquestrado-com-o-orca.md)): anote na memória do projeto o que funcionar e o que atrapalhar.
 
 **No modo com agentes especialistas** (o projeto tem `docs/agentes/`), não use este prompt: a Lead segue o harness dela, `docs/agentes/lead.md` (modelo em [`agentes/lead.md`](agentes/lead.md)).
 
@@ -23,10 +23,15 @@ Regras:
   proibidos, Skills, testes micro e macro) e uma tarefa no Orca com a especificação padrão;
 - duas tarefas abertas não tocam o mesmo arquivo; tarefas que se cruzam vão em sequência (dependências);
 - no máximo 3 agentes ao mesmo tempo;
-- Agente principal: leia a linha "Agente principal:" do docs/DESENVOLVIMENTO.md. Você e todos os agentes
-  usam essa ferramenta, nunca as duas: --agent claude --model claude-opus-5-5 no Claude Code, ou
+- Ferramenta por papel: leia a tabela "Ferramenta por papel" do docs/DESENVOLVIMENTO.md. Cada agente
+  abre na ferramenta do papel da tarefa: --agent claude --model claude-opus-5-5 no Claude Code, ou
   --agent codex --model gpt-6.1-sol no Codex (o Codex lê o AGENTS.md, que manda ler o CLAUDE.md, e segue
-  as mesmas regras e Skills). Sem a linha, pergunte à pessoa antes de iniciar qualquer agente;
+  as mesmas regras e Skills). Se a cota da ferramenta padrão estiver apertada, abra na outra e anote no
+  campo Ferramenta da issue. Sem a tabela, pergunte à pessoa antes de iniciar qualquer agente;
+- passagem: se um agente para por cota no meio da tarefa, ele faz commit, envia a branch e comenta na
+  issue onde parou; abra outro, na outra ferramenta, na mesma branch, para continuar dali;
+- revisão cruzada: todo PR recebe ao menos uma revisão da outra ferramenta (o PR feito no Claude, uma
+  sessão Codex de revisão);
 - com back e front em tarefas paralelas: antes de qualquer tarefa de construção, uma tarefa fecha o
   contrato da API num arquivo do repositório e a pessoa aprova num portão; o contrato só muda por uma
   tarefa própria, com portão; cada tarefa lista só as pastas do seu lado; CI, dependências da raiz,
@@ -44,9 +49,8 @@ Regras:
 
 Ciclo:
 1. run-create com o objetivo da entrega; para cada tarefa, worker-start com a especificação,
-   o agente principal (--agent e --model, pela regra acima) e --worktree new-child (uma worktree e uma
-   branch por tarefa). Nunca outra ferramenta: nem a outra das duas, nem agentes que não leem o CLAUDE.md
-   nem o AGENTS.md.
+   a ferramenta do papel (--agent e --model, pela regra acima) e --worktree new-child (uma worktree e uma
+   branch por tarefa). Nunca agentes que não leem o CLAUDE.md nem o AGENTS.md.
 2. Espere com check --wait (worker_done, escalation, question); responda às perguntas.
 3. Para cada PR entregue, valide com evidência: compare com os critérios de aceite; refaça os testes
    (suíte, tipos, build) na branch; releia os testes novos (falhariam sem o código?); abra o

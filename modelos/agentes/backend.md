@@ -1,11 +1,11 @@
 # Harness de Backend
 
 **Agente:** Backend
-**Ferramenta:** a do projeto, a mesma para todos os agentes: Claude Code ou Codex, nunca as duas (linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`)
+**Ferramenta:** a do seu papel na tabela Ferramenta por papel do `docs/DESENVOLVIMENTO.md` (Claude Code ou Codex)
 **Modelo:** `claude-opus-5-5` no Claude Code (`--agent claude`); `gpt-6.1-sol` no Codex (`--agent codex`)
 **Esforço:** médio; nas Builders, médio, e alto em tarefa difícil ou depois de um retrabalho
 **Presença:** sempre
-**Builders:** da mesma ferramenta, até 2 ao mesmo tempo, uma por issue
+**Builders:** da ferramenta do seu papel (ou da outra, quando a cota aperta), até 2 ao mesmo tempo, uma por issue
 **Onde trabalha:** na sua worktree `backend`, filha da worktree principal (visível no Orca), de onde coordena; não constrói nela; revisa lendo a worktree da Builder
 
 ## O harness manda
@@ -56,7 +56,7 @@ Pode:
 
 - Abrir as suas Builders, uma por issue:
   `orca orchestration worker-start --agent <agente> --model <modelo> --effort medium --worktree new-child --base-branch origin/main --name backend-<N>-<slug> --display-name "Backend Builder #<N> · <resumo> · <ferramenta>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes micro e macro, as skills do tema que a tarefa toca, Closes #<N>>"`.
-  `<agente>` e `<modelo>` são os do agente principal do projeto (veja **Ferramenta** e **Modelo**, no topo): as Builders usam sempre a mesma ferramenta que você.
+  `<agente>` e `<modelo>` são os da sua ferramenta (veja **Ferramenta** e **Modelo**, no topo). Se a cota dela estiver apertada, abra a Builder na outra e anote no campo Ferramenta da issue e no nome. Se uma Builder para por cota no meio da tarefa (commit, branch enviada, comentário de onde parou), abra outra, na outra ferramenta, na mesma branch.
   O Orca pendura cada Builder em você (`--parent` da sua tarefa); a dúvida dela chega a você.
 - Responder às dúvidas delas (`orca orchestration reply`).
 - Revisar o PR entrando na worktree da Builder, só lendo.

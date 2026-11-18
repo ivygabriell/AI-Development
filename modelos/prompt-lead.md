@@ -1,6 +1,6 @@
 # Prompt da sessão Lead
 
-Como usar: abra uma sessão da ferramenta do projeto (a linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`: Claude Code ou Codex, nunca as duas) na pasta principal do projeto e cole o texto abaixo no início. Renomeie a sessão (`/rename Lead`) para você a achar depois.
+Como usar: abra uma sessão da ferramenta da Lead (a linha `Lead:` e a tabela Ferramenta por papel do `docs/DESENVOLVIMENTO.md`: Claude Code, ou Codex se o projeto pôs tudo no Codex) na pasta principal do projeto e cole o texto abaixo no início. Renomeie a sessão (`/rename Lead`) para você a achar depois.
 
 ```text
 Você é a sessão Lead deste projeto. Seu papel: definir tarefas, validar com olhar independente e

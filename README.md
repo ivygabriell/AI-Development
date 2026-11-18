@@ -28,7 +28,7 @@ A arquitetura nasceu de um projeto real (um portfólio com animações, vídeos,
 
 | Peça | O que é | Onde está |
 |---|---|---|
-| **Agente principal** | A ferramenta do projeto: Claude Code ou Codex, a mesma para todos os agentes, nunca as duas | [02, "Um agente principal por projeto"](nucleo/02-sessoes-e-papeis.md) |
+| **Ferramenta por papel** | Claude Code e Codex no mesmo projeto: a Lead, Product, Architect e Frontend no Claude Code; Backend, Security e Ops no Codex; a Builder vai para a outra quando a cota aperta | [02, "Lead e ferramenta por papel"](nucleo/02-sessoes-e-papeis.md) |
 | **Lead** | A Lead: abre as issues, distribui aos especialistas, valida e integra com a sua aprovação | [harness da Lead](modelos/agentes/lead.md) |
 | **Especialistas** | Um agente por tema, cada um com um **harness**: missão, o que pode e o que não pode, Skills, checklist, quando sobe a decisão | [`modelos/agentes/`](modelos/agentes/) |
 | **Builders** | Constroem uma tarefa por vez, numa worktree e numa branch próprias, com TDD; nunca integram | [02, "Com agentes especialistas"](nucleo/02-sessoes-e-papeis.md) |
@@ -49,7 +49,7 @@ Tudo o que a arquitetura usa, com o link de onde cada coisa é explicada.
 
 | Conceito | O que é | Onde está |
 |---|---|---|
-| **Agente principal** | A ferramenta do projeto: Claude Code ou Codex, a mesma para todas as sessões, registrada na linha `Agente principal:` do `docs/DESENVOLVIMENTO.md` | [02](nucleo/02-sessoes-e-papeis.md), [decisão 010](decisoes/010-um-agente-principal-por-projeto.md) |
+| **Ferramenta por papel** | A ferramenta de cada papel, registrada na linha `Lead:` e na tabela Ferramenta por papel do `docs/DESENVOLVIMENTO.md`; todo PR recebe ao menos uma revisão da outra ferramenta | [02](nucleo/02-sessoes-e-papeis.md), [decisão 013](decisoes/013-lead-e-builders-com-codex-e-claude.md) |
 | **Lead** | A sessão que coordena, valida com olhar independente e é a única que integra na `main`. No Orca, é a Lead | [02](nucleo/02-sessoes-e-papeis.md) |
 | **Builder** | A sessão que constrói uma tarefa isolada, numa worktree e numa branch próprias, e termina com o PR aberto | [02](nucleo/02-sessoes-e-papeis.md) |
 | **Especialista** | O agente de um tema (Architect, Backend, Frontend, Security, Product, Ops), que decide e revisa o tema e coordena as próprias Builders | [02, "Com agentes especialistas"](nucleo/02-sessoes-e-papeis.md), [decisão 008](decisoes/008-agentes-especialistas.md) |
@@ -107,7 +107,7 @@ Quando usar cada uma está no [mapa de skills do 03](nucleo/03-skills-e-testes.m
 
 ### Ferramentas
 
-Claude Code ou Codex (o agente principal), Orca (orquestração), GitHub e GitHub CLI (`gh`), Git, Node.js, os plugins Superpowers, engineering, design, `metodo` e ponytail (rascunho), o REA e a skill `security-audit`. A instalação de cada uma, com o link oficial, está em [Antes de começar](#antes-de-começar-uma-vez-por-computador).
+Claude Code e Codex (cada papel com a sua), Orca (orquestração), GitHub e GitHub CLI (`gh`), Git, Node.js, os plugins Superpowers, engineering, design, `metodo` e ponytail (rascunho), o REA e a skill `security-audit`. A instalação de cada uma, com o link oficial, está em [Antes de começar](#antes-de-começar-uma-vez-por-computador).
 
 ## Os 7 princípios
 
@@ -134,7 +134,7 @@ O repositório tem três camadas, com ritmos diferentes:
 | Documento | Para que serve |
 |---|---|
 | [01 · Fluxo de ponta a ponta](nucleo/01-fluxo-de-ponta-a-ponta.md) | As fases da ideia à manutenção e ao fechamento, com portões de aprovação |
-| [02 · Sessões e papéis](nucleo/02-sessoes-e-papeis.md) | A arquitetura de agentes: uma sessão ou várias, Lead, especialistas e Builders, o Orca e o agente principal |
+| [02 · Sessões e papéis](nucleo/02-sessoes-e-papeis.md) | A arquitetura de agentes: uma sessão ou várias, Lead, especialistas e Builders, o Orca e a ferramenta por papel |
 | [03 · Skills e testes](nucleo/03-skills-e-testes.md) | Qual Skill usar em cada cenário; testes micro e macro; verificação no navegador |
 | [04 · Referências e engenharia reversa](nucleo/04-referencias-e-engenharia-reversa.md) | Como estudar um site ou app de referência e quando usar engenharia reversa |
 | [05 · Git, GitHub e CI](nucleo/05-git-github-e-ci.md) | Branches, PRs, verificação automática, proteção da `main`, worktrees |
@@ -177,7 +177,7 @@ O método usa, além do plugin `metodo`, três plugins, uma ferramenta de engenh
 | Plugin **design** | Revisão de acessibilidade, crítica de design, entrega para desenvolvimento e textos de interface | [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins/tree/main/design) |
 | **REA** (skill `reverse-engineer-anything` e servidor `rea`) | Engenharia reversa de artefatos fechados, quando uma referência não tem código-fonte ([04](nucleo/04-referencias-e-engenharia-reversa.md)) | [morluto/rea](https://github.com/morluto/rea) |
 | **Orca** (aplicativo e as skills `orca-cli` e `orchestration`) | Orquestração dos agentes: a Lead coordena e os agentes são as Builders ([02](nucleo/02-sessoes-e-papeis.md)) | [stablyai/orca](https://github.com/stablyai/orca) |
-| **Codex** (opcional) | O agente principal dos projetos que escolhem o Codex no lugar do Claude Code: todas as sessões do projeto usam a mesma ferramenta, com as mesmas regras e Skills ([02](nucleo/02-sessoes-e-papeis.md), "Um agente principal por projeto") | [openai/codex](https://github.com/openai/codex) |
+| **Codex** | A ferramenta de Backend, Security e Ops e a outra metade da cota: as mesmas regras e Skills que o Claude ([02](nucleo/02-sessoes-e-papeis.md), "Lead e ferramenta por papel") | [openai/codex](https://github.com/openai/codex) |
 | Plugin **ponytail** (rascunho) | Menos tokens e menos custo no Claude Code (a menor mudança que resolve a tarefa inteira, respostas curtas) e a medida do consumo por tarefa; a revisão `/ponytail-review` dos especialistas e a auditoria de qualidade da Fase 8. No Codex, só sob demanda. O TDD do método vale por cima | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
 | Skill **security-audit** | Auditoria completa de segurança do código, feita pelo agente de Security antes da primeira publicação, com a sua aprovação | [cloudflare/security-audit-skill](https://github.com/cloudflare/security-audit-skill) |
 | Plugin **metodo** | Este repositório: `/metodo:novo-projeto`, `/metodo:atualizar-projeto`, a consulta ao método nas sessões do projeto e as skills dos agentes especialistas (as de cada especialista) | este repositório |
@@ -245,7 +245,7 @@ claude mcp list        # deve mostrar "rea" com ✔ Connected
 orca status            # deve mostrar runtimeState: ready com o Orca aberto
 ```
 
-**8. Codex (opcional, só para projetos com o Codex como agente principal).** O Codex segue as mesmas regras e Skills que o Claude, então precisa das mesmas ferramentas. No terminal:
+**8. Codex.** Os projetos usam o Codex ao lado do Claude Code (Backend, Security e Ops, e as Builders quando a cota do Claude aperta). Ele segue as mesmas regras e Skills que o Claude, então precisa das mesmas ferramentas, inclusive o engineering e o design. No terminal:
 
 ```bash
 codex plugin marketplace add anthropics/claude-plugins-official
@@ -308,13 +308,13 @@ mkdir ~/Projetos/meu-site && cd ~/Projetos/meu-site && claude
 /metodo:novo-projeto Quero um portfólio bilíngue para mostrar meus trabalhos de vídeo. site-estatico
 ```
 
-**Agente principal:** a skill pergunta qual ferramenta o projeto vai usar, Claude Code (padrão) ou Codex. Todas as sessões do projeto (a Lead, os especialistas e as Builders) usam a mesma, nunca as duas. No caminho manual, passe `--agente codex` ao `novo-projeto.sh` para escolher o Codex ([decisão 010](decisoes/010-um-agente-principal-por-projeto.md)).
+**Ferramenta por papel:** por padrão o projeto usa as duas: a Lead, Product, Architect e Frontend no Claude Code; Backend, Security e Ops no Codex. Se preferir uma só, a skill aceita, e no caminho manual passe `--agente claude` ou `--agente codex` ao `novo-projeto.sh` ([decisão 013](decisoes/013-lead-e-builders-com-codex-e-claude.md)).
 
 A skill confere o ambiente, propõe o cenário (e avisa se ele é `rascunho`), pede **uma** confirmação antes de criar o repositório no GitHub, prepara tudo com o `novo-projeto.sh` (inclusive o `CLAUDE.md` do projeto, que dá o contexto a toda sessão futura), espera o primeiro CI e começa a Fase 0. Daí em diante, ela para em cada portão: spec, plano, cada merge e deploy. Qualquer sessão do projeto consulta o método pela skill `metodo:consultar`.
 
-**Para trabalhar com vários agentes no Orca**, abra o projeto no Orca e use o [prompt da Lead](modelos/prompt-lead-orca.md) no agente principal: ela distribui as tarefas aos agentes, valida e só integra com a sua aprovação ([02](nucleo/02-sessoes-e-papeis.md), seção "Com o Orca").
+**Para trabalhar com vários agentes no Orca**, abra o projeto no Orca e use o [prompt da Lead](modelos/prompt-lead-orca.md) num agente Claude Code: ela distribui as tarefas aos agentes, valida e só integra com a sua aprovação ([02](nucleo/02-sessoes-e-papeis.md), seção "Com o Orca").
 
-**Num projeto Codex**, abra a Lead como um agente Codex no Orca: ela lê o `AGENTS.md`, usa o mesmo prompt e abre todos os agentes com `--agent codex`. Quando back e front são construídos em paralelo, o contrato da API é aprovado por você antes de qualquer tarefa de construção ([02](nucleo/02-sessoes-e-papeis.md), "Um agente principal por projeto").
+**Com as duas ferramentas**, a Lead abre cada agente na ferramenta do papel (`--agent claude` ou `--agent codex`); o Codex lê o `AGENTS.md`. Quando a cota acaba no meio de uma tarefa, a Builder deixa a passagem na issue e outra, na outra ferramenta, continua na mesma branch. Quando back e front são construídos em paralelo, o contrato da API é aprovado por você antes de qualquer tarefa de construção ([02](nucleo/02-sessoes-e-papeis.md), "Lead e ferramenta por papel").
 
 **Para trabalhar com agentes especialistas**, a Lead coordena um especialista por tema (Architect, Backend, Frontend, Security e, quando preciso, Product e Ops), e cada especialista abre as próprias Builders. Cada agente atua dentro de um harness escrito com você, em [`modelos/agentes/`](modelos/agentes/), que vai para o projeto com `scripts/novo-projeto.sh <pasta> --especialistas`. No Orca, ajuste antes **Settings → Orchestration → Nested worker depth = 2** ([02](nucleo/02-sessoes-e-papeis.md), "Com agentes especialistas").
 

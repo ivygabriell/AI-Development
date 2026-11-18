@@ -84,7 +84,7 @@ for (const arquivo of OBRIGATORIOS) checar(`existe ${arquivo}`, existsSync(join(
 const ANTIGOS = ['integradora', 'arquitetura', 'back-e-dados', 'design-e-front', 'seguranca', 'produto', 'devops'].flatMap((n) => [`modelos/agentes/${n}.md`, `modelos/referencias/${n}.md`]).concat(['modelos/prompt-sessao-integradora.md', 'modelos/prompt-sessao-trabalhadora.md', 'modelos/prompt-coordenadora-orca.md']);
 for (const arquivo of ANTIGOS) checar(`nome antigo não existe: ${arquivo}`, !existsSync(join(RAIZ, arquivo)));
 // Decisão 013: fora do histórico, os papéis só têm os nomes novos (Lead, Builders, Architect, Backend, Frontend...)
-const HISTORICO = /\/(casos|planos|licoes|decisoes|\.superpowers)\/|\/CHANGELOG\.md$/;
+const HISTORICO = /\/(casos|planos|licoes|decisoes|\.superpowers)\/|\/CHANGELOG\.md$|\/skills\/atualizar-projeto\/SKILL\.md$/; // a skill de atualização cita os nomes antigos para trocá-los
 const ARQUIVOS_VIVOS = [...todosMd(), ...['scripts/novo-projeto.sh', 'modelos/nova-tarefa.sh', 'modelos/remover-tarefa.sh', 'modelos/issue-tarefa.yml'].map((f) => join(RAIZ, f))].filter((f) => !HISTORICO.test(f));
 const NOMES_ANTIGOS = /\b(integradoras?|trabalhadoras?|coordenadoras?|Back e Dados|Design e Front)\b/i;
 const comNomeAntigo = ARQUIVOS_VIVOS.flatMap((f) => readFileSync(f, 'utf8').split('\n').map((l, i) => (NOMES_ANTIGOS.test(l) ? `${f.slice(RAIZ.length + 1)}:${i + 1}` : null)).filter(Boolean));
@@ -109,8 +109,8 @@ checar('README: adoção explica como atualizar um projeto existente', adocao.in
 // Back com o Codex e front com o Claude (decisão 007, rascunho): o Codex com as mesmas ferramentas
 for (const termo of ['codex plugin marketplace add', 'codex plugin add', 'codex plugin marketplace upgrade', 'codex mcp list', 'AGENTS.md'])
   checar(`README: adoção prepara o Codex (${termo})`, adocao.includes(termo));
-// Um agente principal por projeto (decisão 010): Claude Code ou Codex, nunca os dois
-checar('README: adoção explica o agente principal (Claude Code ou Codex, nunca os dois)', adocao.includes('Agente principal') && adocao.includes('--agente codex'));
+// Decisão 013: Lead no Claude e ferramenta padrão por papel; --agente põe todos numa ferramenta só
+checar('README: adoção explica a ferramenta por papel (Lead no Claude, --agente para uma ferramenta só)', adocao.includes('Ferramenta por papel') && adocao.includes('--agente codex'));
 checar('README: adoção sem o back no Codex e o front no Claude (substituído pela decisão 010)', !adocao.includes('Para dividir o back (Codex) e o front (Claude)'));
 // security-audit da Cloudflare (decisão 010, rascunho): instalada para a ferramenta do projeto, usada pelo Security
 checar('README: adoção instala a skill security-audit pelo repositório oficial, para o Claude Code e o Codex', adocao.includes('https://github.com/cloudflare/security-audit-skill') && adocao.includes('npx skills add https://github.com/cloudflare/security-audit-skill --skill security-audit --global --agent claude-code codex'));
@@ -139,13 +139,18 @@ checar('git/GitHub/CI: worktrees pelo Orca', ler('nucleo/05-git-github-e-ci.md')
 const promptCoord = ler('modelos/prompt-lead-orca.md');
 for (const termo of ['orca skills get orchestration', 'gate-create', 'pode integrar', 'superpowers:verification-before-completion', 'critérios de aceite', 'arquivos permitidos'])
   checar(`prompt da Lead do Orca: ${termo}`, promptCoord.includes(termo));
-// Um agente principal por projeto (decisão 010): a Lead e todos os agentes usam a mesma ferramenta
-for (const termo of ['Agente principal', '--agent claude', '--agent codex', 'contrato da API', 'AGENTS.md', 'retrabalho'])
-  checar(`prompt da Lead do Orca: agente principal do projeto (${termo})`, promptCoord.includes(termo));
+// Decisão 013: cada agente usa a ferramenta do seu papel (tabela do DESENVOLVIMENTO.md)
+for (const termo of ['Ferramenta por papel', '--agent claude', '--agent codex', 'contrato da API', 'AGENTS.md', 'retrabalho', 'passagem'])
+  checar(`prompt da Lead do Orca: ferramenta por papel (${termo})`, promptCoord.includes(termo));
 checar('prompt da Lead do Orca: não diz que a Lead é sempre Claude', !/sempre Claude/i.test(promptCoord));
-const secaoAgentePrincipal = (sessoes.split('### Um agente principal por projeto')[1] || '').split('\n### ')[0];
-for (const termo of ['Agente principal', '--agent claude', '--agent codex', 'AGENTS.md', 'nunca as duas', 'claude-opus-5-5', 'gpt-6.1-sol', 'contrato da API'])
-  checar(`sessões: um agente principal por projeto (${termo})`, secaoAgentePrincipal.includes(termo));
+const secaoFerramentas = (sessoes.split('### Lead e ferramenta por papel')[1] || '').split('\n### ')[0];
+for (const termo of ['Ferramenta por papel', 'Lead: Claude Code', 'Backend, Security e Ops', '--agent claude', '--agent codex', 'AGENTS.md', 'claude-opus-5-5', 'gpt-6.1-sol', 'contrato da API', 'cota', 'comenta na issue onde parou', 'mesma branch', 'ao menos uma revisão da outra ferramenta', '--agente'])
+  checar(`sessões: Lead e ferramenta por papel (${termo})`, secaoFerramentas.includes(termo));
+const regraAntiga = ARQUIVOS_VIVOS.flatMap((f) => readFileSync(f, 'utf8').split('\n').map((l, i) => (/nunca as duas|nunca os dois|Agente principal:|um agente principal/i.test(l) ? `${f.slice(RAIZ.length + 1)}:${i + 1}` : null)).filter(Boolean));
+checar('regra de um agente principal fora do histórico (decisão 013)', regraAntiga.length === 0, regraAntiga.slice(0, 5).join(', '));
+const issueModelo = ler('modelos/issue-tarefa.yml');
+checar('issue: campos "Plano e passo" e "Ferramenta" (a issue basta numa passagem)', issueModelo.includes('label: Plano e passo') && issueModelo.includes('label: Ferramenta'));
+checar('memória do projeto: anota a ferramenta e as passagens por tarefa', ler('modelos/memoria-do-projeto.md').includes('passagens'));
 checar('sessões: sem o modo back no Codex e front no Claude (substituído pela decisão 010)', !sessoes.includes('### Back e front com agentes diferentes'));
 checar('sessões: não diz que a Lead é sempre Claude', !/sempre Claude/i.test(sessoes) && !sessoes.includes('A Lead e os agentes são Claude Code'));
 checar('decisão 007 substituída pela 010', ler('decisoes/007-back-com-codex-e-front-com-claude.md').includes('substituída por [010]'));
@@ -175,7 +180,7 @@ checar('agentes: modelo do harness tem as 10 partes em ordem', partesEmOrdem(mod
 checar('agentes: modelo do harness diz as diferenças do bloco "O harness manda" entre os papéis', modeloHarness.includes('duas diferenças'));
 checar('agentes: modelo do harness ensina a pesquisar (guardado primeiro, depois os sites, adaptar, guardar)', modeloHarness.includes('Como pesquisa') && modeloHarness.includes('docs/referencias/'));
 checar('agentes: modelo do harness tem "O harness manda" (precedência, não desvia)', modeloHarness.includes('## O harness manda') && modeloHarness.includes('precedência') && modeloHarness.includes('não desvia'));
-for (const termo of ['claude-opus-5-5', 'gpt-6.1-sol', '--effort', 'Agente principal', '--agent <agente> --model <modelo>'])
+for (const termo of ['claude-opus-5-5', 'gpt-6.1-sol', '--effort', 'Ferramenta por papel', '--agent <agente> --model <modelo>'])
   checar(`agentes: modelo do harness cita ${termo}`, modeloHarness.includes(termo));
 function checarHarness(nome) {
   const arquivo = `modelos/agentes/${nome}.md`;
@@ -186,7 +191,7 @@ function checarHarness(nome) {
   for (const termo of ['**Ferramenta:**', '**Esforço:**', '## O harness manda', 'superpowers:verification-before-completion', 'Como pesquisa', `docs/referencias/${nome}.md`])
     checar(`agentes/${nome}: ${termo}`, texto.includes(termo));
   const cabecalho = texto.split('\n## ')[0];
-  checar(`agentes/${nome}: a ferramenta é a do projeto (Agente principal), com o modelo de cada uma`, cabecalho.includes('Agente principal') && cabecalho.includes('claude-opus-5-5') && cabecalho.includes('gpt-6.1-sol'));
+  checar(`agentes/${nome}: a ferramenta é a do papel (Ferramenta por papel), com o modelo de cada uma`, cabecalho.includes('Ferramenta por papel') && cabecalho.includes('claude-opus-5-5') && cabecalho.includes('gpt-6.1-sol'));
   checar(`agentes/${nome}: lê o arquivo da sua ferramenta (CLAUDE.md ou AGENTS.md)`, texto.includes('CLAUDE.md') && texto.includes('AGENTS.md'));
   const comandos = texto.split('\n').filter((l) => l.includes('worker-start --') || /^\s*\| .* \| `--agent/.test(l));
   checar(`agentes/${nome}: não fixa a ferramenta no worker-start (usa --agent <agente> --model <modelo>)`, comandos.every((l) => l.includes('--agent <agente> --model <modelo>') && !/--agent (claude|codex)\b/.test(l)), comandos.find((l) => !l.includes('--agent <agente>')) || '');
@@ -467,7 +472,9 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     checar('novo-projeto.sh registra os cenários escolhidos', dev.includes('site-estatico') && dev.includes('api-backend'));
     checar('novo-projeto.sh: DESENVOLVIMENTO.md explica o modo Orca', dev.includes('Orca'));
     checar('novo-projeto.sh: DESENVOLVIMENTO.md cita o AGENTS.md', dev.includes('AGENTS.md'));
-    checar('novo-projeto.sh: sem --agente, o agente principal é o Claude Code', dev.includes('Agente principal: Claude Code'));
+    const linhaPapel = (texto, papel) => (texto.match(new RegExp(`^\\| ${papel} \\| ([^|]+) \\|`, 'm')) || [])[1]?.trim();
+    const PAPEIS = ['Lead', 'Product', 'Architect', 'Frontend', 'Backend', 'Security', 'Ops'];
+    checar('novo-projeto.sh: sem --agente, Lead no Claude Code e a tabela Ferramenta por papel (Backend, Security e Ops no Codex)', dev.includes('Lead: Claude Code') && dev.includes('## Ferramenta por papel') && PAPEIS.every((p) => linhaPapel(dev, p) === (['Backend', 'Security', 'Ops'].includes(p) ? 'Codex' : 'Claude Code')), PAPEIS.map((p) => `${p}=${linhaPapel(dev, p)}`).join(' '));
     checar('novo-projeto.sh: DESENVOLVIMENTO.md sem o back no Codex e o front no Claude', !dev.includes('Back com o Codex e front com o Claude'));
     const memProj = existsSync(join(alvo, 'docs/memoria-do-projeto.md')) ? readFileSync(join(alvo, 'docs/memoria-do-projeto.md'), 'utf8') : '';
     checar('novo-projeto.sh: memória anota agente e retrabalho por tarefa', memProj.includes('retrabalho'));
@@ -476,12 +483,17 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     checar('novo-projeto.sh: AGENTS.md carimba a versão do método', agentsProj.includes(`Versão do método: ${versao}`));
     for (const termo of ['CLAUDE.md', 'docs/DESENVOLVIMENTO.md', 'docs/memoria-do-projeto.md', 'superpowers:test-driven-development', 'superpowers:verification-before-completion', 'orca orchestration ask'])
       checar(`novo-projeto.sh: AGENTS.md cita ${termo}`, agentsProj.includes(termo));
-    checar('novo-projeto.sh: AGENTS.md serve ao Codex como Lead também (Agente principal, prompt da Lead)', agentsProj.includes('Agente principal') && agentsProj.includes('prompt-lead-orca.md'));
+    checar('novo-projeto.sh: AGENTS.md diz que a ferramenta vem do papel (Ferramenta por papel, prompt da Lead)', agentsProj.includes('Ferramenta por papel') && agentsProj.includes('prompt-lead-orca.md'));
     const alvo_codex = join(base, 'projeto-codex');
     mkdirSync(alvo_codex);
     const codex = rodar(alvo_codex, '--agente', 'codex', 'site-estatico');
     const devCodex = existsSync(join(alvo_codex, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo_codex, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
-    checar('novo-projeto.sh --agente codex registra o Codex como agente principal', codex.status === 0 && devCodex.includes('Agente principal: Codex') && devCodex.includes('site-estatico') && !devCodex.includes('codex ('), codex.stderr);
+    checar('novo-projeto.sh --agente codex põe a Lead e todos os papéis no Codex', codex.status === 0 && devCodex.includes('Lead: Codex') && PAPEIS.every((p) => linhaPapel(devCodex, p) === 'Codex') && devCodex.includes('site-estatico') && !devCodex.includes('codex ('), codex.stderr);
+    const alvo_claude = join(base, 'projeto-claude');
+    mkdirSync(alvo_claude);
+    const soClaude = rodar(alvo_claude, '--agente', 'claude', 'site-estatico');
+    const devClaude = existsSync(join(alvo_claude, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo_claude, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
+    checar('novo-projeto.sh --agente claude põe todos os papéis no Claude Code', soClaude.status === 0 && devClaude.includes('Lead: Claude Code') && PAPEIS.every((p) => linhaPapel(devClaude, p) === 'Claude Code'), soClaude.stderr);
     const alvo_invalido = join(base, 'projeto-agente-invalido');
     mkdirSync(alvo_invalido);
     const invalidoAg = rodar(alvo_invalido, '--agente', 'cursor', 'site-estatico');
@@ -499,7 +511,7 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     checar('novo-projeto.sh: CLAUDE.md importa o DESENVOLVIMENTO.md e a memória', claudeProj.includes('@docs/DESENVOLVIMENTO.md') && claudeProj.includes('@docs/memoria-do-projeto.md'));
     checar('novo-projeto.sh: CLAUDE.md manda consultar o método pela skill metodo:consultar', claudeProj.includes('metodo:consultar'));
     checar('novo-projeto.sh: CLAUDE.md explica o modo Orca e a atualização do projeto', claudeProj.includes('Orca') && claudeProj.includes('/metodo:atualizar-projeto'));
-    checar('novo-projeto.sh: CLAUDE.md diz que o projeto tem um agente principal só (--agent claude ou --agent codex)', claudeProj.includes('Agente principal') && claudeProj.includes('--agent claude') && claudeProj.includes('--agent codex') && claudeProj.includes('AGENTS.md') && !/sempre Claude/i.test(claudeProj));
+    checar('novo-projeto.sh: CLAUDE.md diz que a ferramenta vem do papel (--agent claude ou --agent codex)', claudeProj.includes('Ferramenta por papel') && claudeProj.includes('--agent claude') && claudeProj.includes('--agent codex') && claudeProj.includes('AGENTS.md') && !/sempre Claude/i.test(claudeProj));
     checar('novo-projeto.sh: CLAUDE.md sem marcadores nem caminhos de pasta', claudeProj.length > 0 && !claudeProj.includes('{{') && !claudeProj.includes(RAIZ));
     const alvo_com_claude = join(base, 'projeto-com-claude');
     mkdirSync(alvo_com_claude);
@@ -590,8 +602,8 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
   for (const termo of ['${CLAUDE_PLUGIN_ROOT}/CHANGELOG.md', 'Versão do método', 'Pode atualizar?', 'orca repo add', 'bash "${CLAUDE_PLUGIN_ROOT}/scripts/novo-projeto.sh"', 'nunca apague'])
     checar(`skills/atualizar-projeto: ${termo}`, atualizar.includes(termo));
   checar('skills/atualizar-projeto: cria o AGENTS.md que falta', atualizar.includes('AGENTS.md'));
-  checar('skills/novo-projeto: pergunta o agente principal e o passa ao script (--agente)', inicio.includes('Agente principal') && inicio.includes('--agente <claude|codex>') && !inicio.includes('Back e front com agentes diferentes'));
-  checar('skills/consultar: aponta para o agente principal por projeto', ler('skills/consultar/SKILL.md').includes('Um agente principal por projeto') && !ler('skills/consultar/SKILL.md').includes('Back e front com agentes diferentes'));
+  checar('skills/novo-projeto: explica a ferramenta por papel e passa --agente só para uma ferramenta só', inicio.includes('Ferramenta por papel') && inicio.includes('--agente <claude|codex>') && !inicio.includes('Back e front com agentes diferentes'));
+  checar('skills/consultar: aponta para a ferramenta por papel', ler('skills/consultar/SKILL.md').includes('Lead e ferramenta por papel') && !ler('skills/consultar/SKILL.md').includes('Back e front com agentes diferentes'));
   checar('skills/atualizar-projeto: pergunta o agente principal e acrescenta a linha no DESENVOLVIMENTO.md', atualizar.includes('Agente principal') && atualizar.includes('--agente'));
 }
 
@@ -642,7 +654,7 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
   for (const nome of listar('cenarios'))
     checar(`cenarios/${nome}: "Skills úteis" aponta para as skills dos agentes (metodo:)`, ((ler(`cenarios/${nome}`).split('## Skills úteis')[1] || '').split('\n## ')[0]).includes('`metodo:'));
   for (const prompt of ['modelos/prompt-lead.md', 'modelos/prompt-builder.md'])
-    checar(`${prompt}: vale para o agente principal (Claude Code ou Codex)`, ler(prompt).includes('Codex') && ler(prompt).includes('Agente principal'));
+    checar(`${prompt}: vale para as duas ferramentas (Ferramenta por papel)`, ler(prompt).includes('Codex') && ler(prompt).includes('Ferramenta por papel'));
   for (const skill of ['design:design-system', 'design:user-research', 'design:research-synthesis', 'superpowers:writing-skills', '/ponytail-review'])
     checar(`README: lista de skills cita ${skill}`, readme.includes(skill));
   // Removidas do método por decisão da pessoa (decisão 012): repetiam o Superpowers ou o ponytail, ou não tinham papel

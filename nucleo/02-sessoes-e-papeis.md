@@ -1,6 +1,6 @@
 # 02 · Sessões e papéis
 
-Como dividir o trabalho entre sessões do agente principal do projeto (Claude Code ou Codex) sem perder qualidade. A ideia central: **separar quem constrói de quem valida**. Uma sessão **Lead** define, valida e integra; uma ou mais sessões **Builders** constroem tarefas isoladas.
+Como dividir o trabalho entre sessões do Claude Code e do Codex sem perder qualidade. A ideia central: **separar quem constrói de quem valida**. Uma sessão **Lead** define, valida e integra; uma ou mais sessões **Builders** constroem tarefas isoladas.
 
 ## Quando dividir
 
@@ -85,16 +85,16 @@ O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, 
 
 | Sessões abertas à mão | Com o Orca |
 |---|---|
-| A pessoa abre uma sessão por tarefa e cola o [prompt da Builder](../modelos/prompt-builder.md) | A Lead abre o agente na worktree com `orca orchestration worker-start --agent <agente>` (o agente principal do projeto), passando a especificação da tarefa |
+| A pessoa abre uma sessão por tarefa e cola o [prompt da Builder](../modelos/prompt-builder.md) | A Lead abre o agente na worktree com `orca orchestration worker-start --agent <agente>` (a ferramenta do papel, na tabela Ferramenta por papel), passando a especificação da tarefa |
 | `nova-tarefa.sh` cria a worktree | O Orca cria a worktree (`worker-start --worktree new-child`, ou `orca worktree create`) |
 | A Builder comenta na issue e a pessoa avisa a Lead | O agente pergunta com `orca orchestration ask` e espera; a Lead responde com `orca orchestration reply` |
 | A pessoa acompanha cada terminal | A Lead espera com `orca orchestration check --wait` e o painel do Orca avisa quando um agente termina |
 | Portão humano: a sessão para e espera no chat | A Lead cria um portão (`orca orchestration gate-create`) e só o resolve (`gate-resolve`) com a resposta da pessoa |
 | `remover-tarefa.sh` remove a worktree | A Lead libera o agente (`worker-release`) e o Orca remove a worktree (`orca worktree rm`) |
 
-**O que não muda:** quem constrói não valida (a Lead refaz os testes e abre o navegador); os agentes **nunca** integram e terminam com o PR aberto e o CI verde; uma tarefa, uma branch, um PR; merge, deploy e o que é irreversível só com a aprovação da pessoa; a issue continua sendo o registro da tarefa. A Lead não escreve código, como a Lead.
+**O que não muda:** quem constrói não valida (a Lead refaz os testes e abre o navegador); os agentes **nunca** integram e terminam com o PR aberto e o CI verde; uma tarefa, uma branch, um PR; merge, deploy e o que é irreversível só com a aprovação da pessoa; a issue continua sendo o registro da tarefa. A Lead não escreve código.
 
-**A Lead e os agentes usam a ferramenta do projeto** (seção "Um agente principal por projeto", abaixo): todos Claude Code ou todos Codex. O Orca também abre outros agentes (Cursor e outros), mas eles não leem o `CLAUDE.md` nem o `AGENTS.md` do projeto nem os plugins do método e trabalhariam sem ele.
+**Cada agente usa a ferramenta do seu papel** (seção "Lead e ferramenta por papel", abaixo): Claude Code ou Codex. O Orca também abre outros agentes (Cursor e outros), mas eles não leem o `CLAUDE.md` nem o `AGENTS.md` do projeto nem os plugins do método e trabalhariam sem ele.
 
 **Ciclo de uma tarefa:**
 
@@ -109,28 +109,35 @@ O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, 
 
 **O que observar no primeiro projeto:** se algum agente perguntou direto à pessoa em vez de usar `ask`; se os portões seguraram de fato o merge e o deploy; quantos agentes deu para acompanhar; se os scripts de worktree ainda fazem falta.
 
-### Um agente principal por projeto
+### Lead e ferramenta por papel
 
-Dentro de um projeto atua **um agente principal só: o Claude Code ou o Codex, nunca as duas ferramentas ao mesmo tempo** ([decisão 010](../decisoes/010-um-agente-principal-por-projeto.md), aprovada pela pessoa sem caso real; substitui o back no Codex e o front no Claude da [decisão 007](../decisoes/007-back-com-codex-e-front-com-claude.md)). Vale para todas as sessões: a Lead (a Lead do Orca), os especialistas e as Builders.
+O projeto usa **o Claude Code e o Codex juntos**, para dividir o consumo entre as duas assinaturas ([decisão 013](../decisoes/013-lead-e-builders-com-codex-e-claude.md), aprovada pela pessoa sem caso real; substitui a regra de uma ferramenta só da [decisão 010](../decisoes/010-um-agente-principal-por-projeto.md)). A **Lead fica fixa no Claude Code**; cada outro papel tem uma **ferramenta padrão**, registrada no `docs/DESENVOLVIMENTO.md` na linha `Lead: Claude Code` e na tabela **Ferramenta por papel**:
 
-| Agente principal | No `worker-start` | Lê no início |
+| Claude Code | Codex |
+|---|---|
+| Lead, Product, Architect, Frontend | Backend, Security e Ops |
+
+| Ferramenta | No `worker-start` | Lê no início |
 |---|---|---|
-| Claude Code (padrão) | `--agent claude --model claude-opus-5-5` | `CLAUDE.md` |
+| Claude Code | `--agent claude --model claude-opus-5-5` | `CLAUDE.md` |
 | Codex | `--agent codex --model gpt-6.1-sol` | `AGENTS.md`, que manda ler o `CLAUDE.md`, o `docs/DESENVOLVIMENTO.md` e a memória |
 
-- **Escolha no começo do projeto.** O `/metodo:novo-projeto` pergunta, e o `novo-projeto.sh --agente <claude|codex>` registra em `docs/DESENVOLVIMENTO.md` a linha `Agente principal:`. Trocar depois é uma decisão da pessoa, anotada na memória do projeto.
-- **Os mesmos princípios nas duas.** TDD visto falhar, testes micro e macro, verificação antes de dizer "pronto", uma tarefa por branch e por PR, só a Lead integra, dúvidas sobem à Lead com `ask`. Por isso o Codex de cada computador tem os mesmos plugins e ferramentas que o Claude (README, "Antes de começar"), e todo projeto tem o `CLAUDE.md` e o `AGENTS.md`.
-- **A Lead Codex** usa o mesmo [prompt da Lead](../modelos/prompt-lead-orca.md) ou o mesmo harness, valida no navegador com um navegador automatizado ([03](03-skills-e-testes.md)) e só integra com o "pode integrar" da pessoa.
-- **Contrato primeiro, quando back e front correm em paralelo.** Antes da primeira tarefa de construção, uma tarefa fecha o **contrato da API** num arquivo do repositório (`docs/contrato-api.md`, ou o formato que a stack pedir, como OpenAPI), e a pessoa aprova num portão. Depois, o contrato só muda por uma tarefa própria, com portão. Cada lado tem a sua pasta (por exemplo, `back/` e `front/`, decididas na Fase 2), e os **arquivos comuns** (CI, dependências da raiz, contrato, memória do projeto) têm um dono só, nunca duas tarefas ao mesmo tempo.
-- **Medição.** A memória do projeto registra o agente principal e anota, por tarefa, se houve retrabalho e por quê, e o consumo.
+- **Uma ferramenta só continua possível:** `novo-projeto.sh --agente <claude|codex>` põe todos os papéis, inclusive a Lead, na mesma ferramenta. Mudar a tabela depois é uma decisão da pessoa, anotada na memória do projeto.
+- **Os mesmos princípios nas duas.** TDD visto falhar, testes micro e macro, verificação antes de dizer "pronto", uma tarefa por branch e por PR, só a Lead integra, dúvidas sobem com `ask`. Por isso as duas ferramentas de cada computador têm os mesmos plugins (README, "Antes de começar"), e todo projeto tem o `CLAUDE.md` e o `AGENTS.md`.
+- **A Builder usa a ferramenta padrão do papel de quem a abre.** Se a **cota** dessa ferramenta estiver apertada, o especialista abre a Builder na outra e registra a escolha no campo "Ferramenta" da issue e no nome da Builder (`Backend Builder #12 · login · Claude`).
+- **Passagem quando a cota acaba no meio da tarefa:** a Builder faz commit, envia a branch e **comenta na issue onde parou** e qual é o próximo passo. O especialista abre outra Builder, na outra ferramenta, na **mesma branch**, e ela continua a partir do comentário e do campo "Plano e passo" da issue. O estado vive no Git e na issue, nunca só na conversa.
+- **Revisão cruzada:** todo PR recebe **ao menos uma revisão da outra ferramenta**. O PR feito no Codex já passa pela Lead, no Claude; o PR feito no Claude recebe a revisão de um agente Codex: o Security nos PRs sensíveis e, nos outros, uma sessão Codex de revisão aberta pela Lead.
+- **A Lead Codex** (só com `--agente codex`) usa o mesmo [prompt da Lead](../modelos/prompt-lead-orca.md) ou o mesmo harness e valida no navegador com um navegador automatizado ([03](03-skills-e-testes.md)).
+- **Contrato primeiro, quando back e front correm em paralelo.** Antes da primeira tarefa de construção, uma tarefa fecha o **contrato da API** num arquivo do repositório (`docs/contrato-api.md`, ou o formato que a stack pedir, como OpenAPI), e a pessoa aprova num portão. Depois, o contrato só muda por uma tarefa própria, com portão. Cada lado tem a sua pasta (por exemplo, `back/` e `front/`, decididas na Fase 2), e os **arquivos comuns** (CI, dependências da raiz, contrato, memória do projeto) têm um dono só, nunca duas tarefas ao mesmo tempo, nem de ferramentas diferentes.
+- **Medição.** A memória do projeto anota, por tarefa, a ferramenta, as passagens, se houve retrabalho e por quê, e o consumo; a Fase 9 compara as duas ferramentas.
 
-**O que observar no primeiro projeto Codex:** se a Lead Codex segurou os portões e validou no navegador; se algum agente Codex pulou o TDD ou a verificação; se as skills do método funcionaram no Codex; quanto a cota rendeu com uma ferramenta só.
+**O que observar no primeiro projeto:** quantas passagens houve e se alguma perdeu trabalho; se a revisão cruzada achou algo; se a cota deixou de parar o projeto; se os agentes Codex seguiram o TDD, a verificação e as skills do método.
 
 ### Com agentes especialistas
 
 A Lead deixa de carregar tudo sozinha: ao lado dela trabalham **agentes especialistas por tema**, cada um com um **harness** escrito com a pessoa ([decisão 008](../decisoes/008-agentes-especialistas.md), aprovada sem caso real). O modelo continua o de Lead e Builders, com uma camada no meio: as Builders passam a ser abertas e coordenadas pelo especialista do tema.
 
-Todos os agentes usam o **agente principal do projeto** (Claude Code ou Codex, seção acima).
+Cada agente usa a **ferramenta do seu papel** (Claude Code ou Codex, seção acima).
 
 | Agente | Tema | Builders | Presença |
 |---|---|---|---|
@@ -144,14 +151,14 @@ Todos os agentes usam o **agente principal do projeto** (Claude Code ou Codex, s
 
 - **Harnesses:** os modelos ficam em [`modelos/agentes/`](../modelos/agentes/) e vão para `docs/agentes/` do projeto com `novo-projeto.sh --especialistas`. Cada um tem as mesmas 10 partes (missão, quando é chamado, o que lê, o que pode e o que não pode, Skills, checklist, formato da resposta, quando sobe a decisão, memória, economia), as referências escolhidas pela pessoa e o passo a passo "Como pesquisa".
 - **O harness manda:** o agente pode consultar o que precisar (referências, web, Skills, método), mas atua dentro do harness. Ordem de precedência: o harness, o que o projeto decidiu, as Skills e o método, o que foi consultado. Se acha o harness errado ou incompleto, não desvia: para e sobe a questão.
-- **Modelos:** os do agente principal (`claude-opus-5-5` no Claude Code, `gpt-6.1-sol` no Codex); o esforço varia por papel e vai em todo `worker-start` (`--agent <agente> --model <modelo> --effort`).
+- **Modelos:** os da ferramenta de cada papel (`claude-opus-5-5` no Claude Code, `gpt-6.1-sol` no Codex); o esforço varia por papel e vai em todo `worker-start` (`--agent <agente> --model <modelo> --effort`).
 - **No Orca:** a Lead abre os especialistas; cada especialista abre as suas Builders com `worker-start --worktree new-child`, e o Orca as pendura nele (`--parent`). A dúvida da Builder (`ask`) chega ao especialista; só sobe para a Lead o que ele não pode decidir. **Exige o ajuste Settings → Orchestration → Nested worker depth = 2** (o padrão é 1; testado no Orca 1.4.241). Nem mais nem menos: com 2, uma Builder não abre agentes próprios.
 - **Worktrees e visibilidade:** a pessoa vê cada agente no Orca, na sua worktree. Cada especialista abre numa worktree com o nome do tema, **filha da worktree principal** (`worker-start --worktree new-child --name <tema>`, da pasta principal); cada Builder, numa worktree por issue, filha da do especialista (`backend-12-login`, branch `backend/12-login`). **Nome da Builder:** `<Papel> Builder #<issue> · <resumo> · <ferramenta>` no `--display-name` (por exemplo, `Backend Builder #12 · login · Codex`): o papel diz quem responde por ela, a issue é a identidade única (leva à issue, à branch e ao PR), o resumo dá o assunto e a ferramenta diz que cota ela gasta. O mesmo nome vai no título do PR e nos comentários da issue; o especialista aparece só com o nome do papel (`--display-name Backend`). Sem o Orca, a branch segue o `nova-tarefa.sh` (`feat/12-login`) e o nome vai na issue e no PR. Quem só coordena ou revisa lê a worktree do trabalho; numa worktree, só a dona da tarefa escreve. Testado no Orca 1.4.241.
 - **Limite:** no máximo 9 sessões ao mesmo tempo (a Lead, os 4 fixos e até 2 Builders de Backend e 2 de Frontend); Product e Ops abrem e fecham com a fase deles. Product e Ops (e a Builder do Ops) contam dentro das 9: quando um deles abre, a Lead segura uma Builder até caber. Neste modo, isso substitui o limite de "1 Lead e até 3 agentes" do modo Orca.
 - **Arquivos comuns mudam de dono:** o contrato da API passa para o Architect, e o CI passa para o Ops enquanto ele está ativo; a Lead fica com as dependências da raiz, a memória do projeto e o CI quando não há Ops. Os especialistas que só coordenam mandam as notas da memória e das referências à Lead (`orca orchestration send --type status`), e ela grava.
 - **O que não muda:** só a Lead integra e só ela fala com a pessoa e resolve os portões; quem constrói não valida; uma tarefa, uma branch, um PR.
 
-**O que observar no primeiro projeto:** se as dúvidas pararam no especialista; quantas sessões a cota aguentou; se dois especialistas cruzaram arquivos; se o Security achou o que a Lead não acharia; se o ida e volta custou mais do que economizou; se o agente principal leu e seguiu o harness; o consumo por tarefa.
+**O que observar no primeiro projeto:** se as dúvidas pararam no especialista; quantas sessões a cota aguentou; se dois especialistas cruzaram arquivos; se o Security achou o que a Lead não acharia; se o ida e volta custou mais do que economizou; se cada agente, nas duas ferramentas, leu e seguiu o harness; o consumo por tarefa e por ferramenta.
 
 ## Como iniciar
 

@@ -1,7 +1,7 @@
 # Harness de Product
 
 **Agente:** Product
-**Ferramenta:** a do projeto, a mesma para todos os agentes: Claude Code ou Codex, nunca as duas (linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`)
+**Ferramenta:** a do seu papel na tabela Ferramenta por papel do `docs/DESENVOLVIMENTO.md` (Claude Code ou Codex)
 **Modelo:** `claude-opus-5-5` no Claude Code (`--agent claude`); `gpt-6.1-sol` no Codex (`--agent codex`)
 **Esforço:** médio
 **Presença:** sob demanda, nas Fases 0 a 2 e quando uma prioridade muda

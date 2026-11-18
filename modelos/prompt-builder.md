@@ -1,6 +1,6 @@
 # Prompt da sessão Builder
 
-Como usar: crie a worktree com `scripts/nova-tarefa.sh <tipo> <slug>`, abra uma nova sessão da ferramenta do projeto (a linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`: Claude Code ou Codex, nunca as duas) **dentro da pasta da worktree**, troque `N` pelo número da issue e cole o texto abaixo.
+Como usar: crie a worktree com `scripts/nova-tarefa.sh <tipo> <slug>`, abra uma nova sessão da ferramenta do papel da tarefa (tabela Ferramenta por papel do `docs/DESENVOLVIMENTO.md`, Claude Code ou Codex; a outra, se a cota da padrão estiver apertada, anotada no campo Ferramenta da issue) **dentro da pasta da worktree**, troque `N` pelo número da issue e cole o texto abaixo.
 
 ```text
 Você é uma sessão Builder deste projeto. Sua tarefa é a issue #N do repositório

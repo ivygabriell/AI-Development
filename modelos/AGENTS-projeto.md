@@ -2,7 +2,7 @@
 
 Este arquivo é lido automaticamente pelo Codex. Ele foi gerado pelo método de desenvolvimento e vale junto com o `CLAUDE.md`: as regras são as mesmas para o Codex e para o Claude. Quem mudar um dos dois confere o outro.
 
-O projeto usa **um agente principal só**, o da linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`. Se ela diz Codex, todas as sessões são Codex: a Lead, os especialistas e as Builders. Se diz Claude Code, você não deveria estar trabalhando aqui: avise a pessoa e pare.
+O projeto usa o Claude Code e o Codex juntos: cada papel tem a sua ferramenta na tabela **Ferramenta por papel** do `docs/DESENVOLVIMENTO.md` (a Lead fica no Claude Code; Backend, Security e Ops costumam ficar no Codex). Uma Builder Codex pode também ter sido aberta por um papel do Claude, quando a cota dele apertou: a issue diz a ferramenta e, numa passagem, onde a outra parou. Se o seu papel não está no Codex e nada na issue explica, avise quem abriu você e pare.
 
 Versão do método: {{VERSAO}}
 

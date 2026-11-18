@@ -1,7 +1,7 @@
 # Harness da Lead
 
 **Agente:** Lead (a coordenação no Orca)
-**Ferramenta:** a do projeto, a mesma para todos os agentes: Claude Code ou Codex, nunca as duas (linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`)
+**Ferramenta:** a do seu papel na tabela Ferramenta por papel do `docs/DESENVOLVIMENTO.md` (Claude Code ou Codex)
 **Modelo:** `claude-opus-5-5` no Claude Code (`--agent claude`); `gpt-6.1-sol` no Codex (`--agent codex`)
 **Esforço:** alto
 **Presença:** sempre
@@ -65,7 +65,7 @@ Pode:
   | Product | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name product --display-name Product --base-branch origin/main` |
   | Ops | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name ops --display-name Ops --base-branch origin/main` |
 
-  `<agente>` e `<modelo>` são os do agente principal do projeto, iguais para todos: `--agent claude --model claude-opus-5-5` no Claude Code ou `--agent codex --model gpt-6.1-sol` no Codex (linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`). Nunca abra um especialista com a outra ferramenta.
+  `<agente>` e `<modelo>` são os da ferramenta de cada papel (tabela Ferramenta por papel do `docs/DESENVOLVIMENTO.md`): `--agent claude --model claude-opus-5-5` no Claude Code ou `--agent codex --model gpt-6.1-sol` no Codex. Todo PR feito no Claude recebe também a revisão de um agente Codex (o Security nos sensíveis; nos outros, uma sessão Codex de revisão que você abre).
 
   Rode o `worker-start` da sua pasta (a principal): `new-child` cria a worktree do especialista **filha da principal**, e cada Builder que ele abrir fica filha da dele. Assim a pessoa vê no Orca cada agente na sua worktree, pendurado em quem o abriu (testado no Orca 1.4.241).
 - Abrir as issues com o formulário de tarefa, com a etiqueta do tema, e entregá-las ao especialista certo.
@@ -128,7 +128,7 @@ Para a pessoa, sempre por um portão: merge, deploy, mudança no contrato da API
 
 ## 9. Memória do tema
 
-`docs/memoria-do-projeto.md`: onde o trabalho parou, o que foi decidido e, por tarefa, `#N · especialista · retrabalho · consumo` (o agente principal fica registrado uma vez, no topo). Cada correção que a pessoa fizer vira uma lição para o método.
+`docs/memoria-do-projeto.md`: onde o trabalho parou, o que foi decidido e, por tarefa, `#N · especialista · ferramenta · passagens · retrabalho · consumo`. Cada correção que a pessoa fizer vira uma lição para o método.
 
 ## 10. Economia
 

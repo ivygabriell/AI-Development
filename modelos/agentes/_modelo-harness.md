@@ -4,7 +4,7 @@ Copie este arquivo para `modelos/agentes/<agente>.md` e preencha cada parte. O h
 
 ```text
 **Agente:** <nome>
-**Ferramenta:** a do projeto, a mesma para todos os agentes: Claude Code ou Codex, nunca as duas (linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`)
+**Ferramenta:** a do seu papel na tabela Ferramenta por papel do `docs/DESENVOLVIMENTO.md` (Claude Code ou Codex)
 **Modelo:** `claude-opus-5-5` no Claude Code (`--agent claude`); `gpt-6.1-sol` no Codex (`--agent codex`)
 **Esforço:** <baixo | médio | alto>, passado em todo worker-start com --model e --effort
 **Presença:** sempre | sob demanda (<quando>)
@@ -12,7 +12,7 @@ Copie este arquivo para `modelos/agentes/<agente>.md` e preencha cada parte. O h
 **Onde trabalha:** na sua worktree `<agente>`, filha da worktree principal (visível no Orca); <o que faz nela>
 ```
 
-O harness serve às duas ferramentas ([decisão 010](../../decisoes/010-um-agente-principal-por-projeto.md)): nunca fixe `--agent claude` nem `--agent codex` num comando. Todo `worker-start` usa `--agent <agente> --model <modelo>`, e o agente lê qual é a ferramenta na linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`.
+O harness serve às duas ferramentas ([decisão 013](../../decisoes/013-lead-e-builders-com-codex-e-claude.md)): nunca fixe `--agent claude` nem `--agent codex` num comando. Todo `worker-start` usa `--agent <agente> --model <modelo>`, e o agente lê qual é a ferramenta na tabela Ferramenta por papel do `docs/DESENVOLVIMENTO.md`.
 
 ## O harness manda
 
