@@ -1,6 +1,6 @@
 # 03 · Skills e testes
 
-Duas regras valem para **todas as sessões**, integradora ou trabalhadora: usar a Skill certa para cada cenário e provar com testes e com evidência. Dizer qual Skill está em uso faz parte do trabalho.
+Duas regras valem para **todas as sessões**, Lead ou Builder: usar a Skill certa para cada cenário e provar com testes e com evidência. Dizer qual Skill está em uso faz parte do trabalho.
 
 ## Mapa de skills
 
@@ -16,21 +16,21 @@ Duas regras valem para **todas as sessões**, integradora ou trabalhadora: usar 
 | Front: formulário, validação e mensagens de erro | `metodo:formularios-e-erros` |
 | Front: tela lenta ou que pula (LCP, INP, CLS, imagens, fontes) | `metodo:desempenho-na-tela` |
 | Front: carregando, vazio, erro do serviço, ação demorada | `metodo:estados-da-tela` |
-| DevOps: como publicar código e configuração (canário, reversão) | `metodo:publicacao-gradual` |
-| DevOps: metas de confiabilidade e alertas | `metodo:metas-e-alertas` |
-| DevOps: workflows do GitHub Actions, segredos, PRs de fora | `metodo:ci-seguro` |
-| Segurança: login, senha, sessão | `metodo:autenticacao-e-sessao` |
-| Segurança: quem pode ver ou mudar o quê | `metodo:controle-de-acesso` |
-| Segurança: SQL, HTML, links e URL buscada pelo servidor | `metodo:entrada-nao-confiavel` |
-| Segurança: vazamento de dados pessoais (LGPD, ANPD) | `metodo:incidente-com-dados-pessoais` |
-| Segurança: auditoria completa do código antes da primeira publicação ou depois de mudança grande (só com o portão da pessoa) | `metodo:auditoria-de-seguranca`, que roda a `security-audit` (da Cloudflare; instalação no README) |
-| Arquitetura: escrever ou mudar o contrato da API | `metodo:contrato-de-api` |
-| Arquitetura: o que acontece quando uma parte falha | `metodo:analise-de-falhas` |
-| Arquitetura: mudança grande com o sistema no ar | `metodo:migracao-de-sistema` |
-| Produto: pedido que chega como solução; os quatro riscos | `metodo:necessidades-e-riscos` |
-| Produto: entrevistas, oportunidades e escolha da solução | `metodo:descoberta-continua` |
-| Integradora: validação final do PR (os testes provam?) | `metodo:validacao-final` |
-| Integradora: "estamos entregando bem?" | `metodo:metricas-de-entrega` |
+| Ops: como publicar código e configuração (canário, reversão) | `metodo:publicacao-gradual` |
+| Ops: metas de confiabilidade e alertas | `metodo:metas-e-alertas` |
+| Ops: workflows do GitHub Actions, segredos, PRs de fora | `metodo:ci-seguro` |
+| Security: login, senha, sessão | `metodo:autenticacao-e-sessao` |
+| Security: quem pode ver ou mudar o quê | `metodo:controle-de-acesso` |
+| Security: SQL, HTML, links e URL buscada pelo servidor | `metodo:entrada-nao-confiavel` |
+| Security: vazamento de dados pessoais (LGPD, ANPD) | `metodo:incidente-com-dados-pessoais` |
+| Security: auditoria completa do código antes da primeira publicação ou depois de mudança grande (só com o portão da pessoa) | `metodo:auditoria-de-seguranca`, que roda a `security-audit` (da Cloudflare; instalação no README) |
+| Architect: escrever ou mudar o contrato da API | `metodo:contrato-de-api` |
+| Architect: o que acontece quando uma parte falha | `metodo:analise-de-falhas` |
+| Architect: mudança grande com o sistema no ar | `metodo:migracao-de-sistema` |
+| Product: pedido que chega como solução; os quatro riscos | `metodo:necessidades-e-riscos` |
+| Product: entrevistas, oportunidades e escolha da solução | `metodo:descoberta-continua` |
+| Lead: validação final do PR (os testes provam?) | `metodo:validacao-final` |
+| Lead: "estamos entregando bem?" | `metodo:metricas-de-entrega` |
 | Plano com vários passos a partir de uma spec | `superpowers:writing-plans` |
 | Executar um plano na sessão atual | `superpowers:executing-plans` |
 | Plano com tarefas independentes, com uma revisão a cada tarefa | `superpowers:subagent-driven-development` |
@@ -55,7 +55,7 @@ Duas regras valem para **todas as sessões**, integradora ou trabalhadora: usar 
 | Fim de uma branch (integrar ou manter) | `superpowers:finishing-a-development-branch` |
 | Antes de publicar | `engineering:deploy-checklist` |
 | Incidente em produção | `engineering:incident-response` |
-| Dívida técnica | `/ponytail-audit` e `/ponytail-debt` (rascunho), e a ordem por impacto, risco e esforço do harness da integradora |
+| Dívida técnica | `/ponytail-audit` e `/ponytail-debt` (rascunho), e a ordem por impacto, risco e esforço do harness da Lead |
 | Documentação, README, runbook | `engineering:documentation` |
 | Analisar um artefato fechado (binário, app empacotado) | `reverse-engineer-anything` |
 | Uma sessão deu errado e você quer entender por quê | `superpowers:diagnosing-superpowers` |
@@ -68,7 +68,7 @@ No modo com agentes especialistas, cada agente usa as skills da parte 5 do seu h
 
 | Skill | Por que fica fora dos agentes |
 |---|---|
-| `superpowers:executing-plans`, `superpowers:subagent-driven-development`, `superpowers:dispatching-parallel-agents` | Servem aos modos sem o Orca (uma sessão executando o plano, ou subagentes dentro de uma sessão). No Orca, quem distribui o trabalho é a integradora e o especialista, com `worker-start` |
+| `superpowers:executing-plans`, `superpowers:subagent-driven-development`, `superpowers:dispatching-parallel-agents` | Servem aos modos sem o Orca (uma sessão executando o plano, ou subagentes dentro de uma sessão). No Orca, quem distribui o trabalho é a Lead e o especialista, com `worker-start` |
 | `superpowers:using-git-worktrees` | Serve às sessões abertas à mão (`scripts/nova-tarefa.sh`). No Orca, a worktree é criada por ele |
 | `superpowers:writing-skills` | É da sessão do método, ao criar ou mudar uma skill do plugin `metodo` ([CLAUDE.md](../CLAUDE.md)); os projetos não criam skills do método |
 | `superpowers:using-superpowers` | Carrega sozinha em toda sessão; ninguém precisa chamar |
@@ -110,14 +110,14 @@ O [ponytail](https://github.com/DietrichGebert/ponytail) é um plugin que fica a
 **Regras de convivência com o método** (o `CLAUDE.md` e o `AGENTS.md` do projeto repetem, e o ponytail segue o que o projeto declara):
 
 1. **O TDD do método vale sobre o ponytail.** O teste novo é escrito antes e visto falhar (micro), e a suíte, os tipos e o build fecham a tarefa (macro). O "um teste pequeno, se houver lógica" do ponytail é o mínimo dele, não o do método.
-2. **A escada vale para a solução, não para o processo.** Spec, critérios de aceite, portões, revisão do especialista e validação da integradora não são "código a cortar".
-3. **Nível `full`** (o padrão) para quem constrói. O `lite` serve quando a pessoa quer ver a opção menor e escolher. O **`ultra` não é usado**: questionar o pedido é do Produto e da pessoa, nos portões.
+2. **A escada vale para a solução, não para o processo.** Spec, critérios de aceite, portões, revisão do especialista e validação da Lead não são "código a cortar".
+3. **Nível `full`** (o padrão) para quem constrói. O `lite` serve quando a pessoa quer ver a opção menor e escolher. O **`ultra` não é usado**: questionar o pedido é do Product e da pessoa, nos portões.
 4. **Atalho deliberado** leva o comentário `shortcut: <o limite>, <quando melhorar>` e entra como pendência na memória do projeto; a lista sai com `/ponytail-debt` na Fase 8.
-5. **Revisão:** o especialista revisa os PRs das trabalhadoras com `/ponytail-review` (ele lê o código ligado à mudança, não só o diff, e cada achado traz um caso concreto); sem o ponytail, com `superpowers:requesting-code-review`. A validação final continua da integradora (`metodo:validacao-final`).
-6. **Auditoria de qualidade** do repositório inteiro, na Fase 8, com `/ponytail-audit`; a integradora completa com o que ele não olha (dependências, infraestrutura, documentação). Ela não substitui a auditoria de segurança (`metodo:auditoria-de-seguranca`).
+5. **Revisão:** o especialista revisa os PRs das Builders com `/ponytail-review` (ele lê o código ligado à mudança, não só o diff, e cada achado traz um caso concreto); sem o ponytail, com `superpowers:requesting-code-review`. A validação final continua da Lead (`metodo:validacao-final`).
+6. **Auditoria de qualidade** do repositório inteiro, na Fase 8, com `/ponytail-audit`; a Lead completa com o que ele não olha (dependências, infraestrutura, documentação). Ela não substitui a auditoria de segurança (`metodo:auditoria-de-seguranca`).
 7. **Pedido vago não vira "a menor versão".** A regra do ponytail manda entregar a menor versão quando o pedido é vago ("faça um X"). No método, isso vem antes: o alvo é definido antes de construir, um pedido ambíguo passa pelo `superpowers:brainstorming` ou por uma pergunta, e só a spec aprovada diz o que é "o pedido" (princípio 1 e lição 015).
 8. **O que o método exige conta como pedido.** O ponytail nunca corta "o que foi pedido". Os critérios de aceite, o contrato da API, o harness e as skills do método (por exemplo, a migração com volta, a chave de pedido repetido, os quatro estados da tela, a publicação gradual, os alertas) são parte do pedido, e não abstração "que ninguém pediu". Se o ponytail sugerir cortar um deles, vale a skill do método.
-9. **Segurança:** o `/ponytail-review` também aponta falhas de segurança, mas o veredito da Segurança é o que vale num PR sensível. A `security-audit`, as skills de segurança do método e o REA não mudam com o ponytail; a única interação é o custo da injeção nos subagentes da auditoria completa, resolvido pela worktree própria com o ponytail desligado.
+9. **Security:** o `/ponytail-review` também aponta falhas de segurança, mas o veredito do Security é o que vale num PR sensível. A `security-audit`, as skills de segurança do método e o REA não mudam com o ponytail; a única interação é o custo da injeção nos subagentes da auditoria completa, resolvido pela worktree própria com o ponytail desligado.
 
 ## Testes: micro e macro
 
@@ -126,12 +126,12 @@ Duas camadas com responsabilidades diferentes. Nenhuma sessão pula testes.
 - **micro** = o menor pedaço que mudou: uma função, um componente, um estado (hover, foco, erro), uma regra de CSS. O teste é escrito **antes** do código.
 - **macro** = o projeto e a página inteiros: a suíte completa, o build, a checagem de tipos, o desempenho e as outras seções (regressão).
 
-| Camada | Trabalhadora | Integradora |
+| Camada | Builder | Lead |
 |---|---|---|
 | micro | TDD: escreve o teste, vê falhar, faz passar | Relê os testes novos (eles falhariam sem o código?) e **explora** cada elemento alterado no navegador, em todos os estados |
 | macro | Antes do PR: suíte completa, tipos, build e testes do build, tudo verde | Refaz tudo na branch **e na `main`**; confere o CI; **explora** a página inteira, as outras seções, idiomas, telas e acessibilidade |
 
-A trabalhadora entrega com os macro verdes, e a integradora não confia nisso: refaz.
+A Builder entrega com os macro verdes, e a Lead não confia nisso: refaz.
 
 ## TDD na prática
 
@@ -156,7 +156,7 @@ Testes que não verificam uma funcionalidade, mas **protegem uma decisão**:
 
 ## Verificação no navegador
 
-Testes verdes não substituem **olhar**. A integradora abre o resultado de verdade:
+Testes verdes não substituem **olhar**. A Lead abre o resultado de verdade:
 
 - **Servidor local ou build de produção** (o build mostra o que vai ao ar; use `npm run build` e `npm run preview`).
 - **Medir com um navegador automatizado**, não só olhar: com `puppeteer-core` e o Chrome instalado dá para emular o celular, rolar a página, passar o mouse, ler estilos calculados e amostrar valores ao longo do tempo (por exemplo, a opacidade de um elemento a cada 200 ms para provar uma animação).

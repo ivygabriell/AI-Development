@@ -83,6 +83,12 @@ for (const arquivo of OBRIGATORIOS) checar(`existe ${arquivo}`, existsSync(join(
 // Decisão 013: os arquivos dos papéis têm os nomes em inglês; os antigos não voltam
 const ANTIGOS = ['integradora', 'arquitetura', 'back-e-dados', 'design-e-front', 'seguranca', 'produto', 'devops'].flatMap((n) => [`modelos/agentes/${n}.md`, `modelos/referencias/${n}.md`]).concat(['modelos/prompt-sessao-integradora.md', 'modelos/prompt-sessao-trabalhadora.md', 'modelos/prompt-coordenadora-orca.md']);
 for (const arquivo of ANTIGOS) checar(`nome antigo não existe: ${arquivo}`, !existsSync(join(RAIZ, arquivo)));
+// Decisão 013: fora do histórico, os papéis só têm os nomes novos (Lead, Builders, Architect, Backend, Frontend...)
+const HISTORICO = /\/(casos|planos|licoes|decisoes|\.superpowers)\/|\/CHANGELOG\.md$/;
+const ARQUIVOS_VIVOS = [...todosMd(), ...['scripts/novo-projeto.sh', 'modelos/nova-tarefa.sh', 'modelos/remover-tarefa.sh', 'modelos/issue-tarefa.yml'].map((f) => join(RAIZ, f))].filter((f) => !HISTORICO.test(f));
+const NOMES_ANTIGOS = /\b(integradoras?|trabalhadoras?|coordenadoras?|Back e Dados|Design e Front)\b/i;
+const comNomeAntigo = ARQUIVOS_VIVOS.flatMap((f) => readFileSync(f, 'utf8').split('\n').map((l, i) => (NOMES_ANTIGOS.test(l) ? `${f.slice(RAIZ.length + 1)}:${i + 1}` : null)).filter(Boolean));
+checar('nomes antigos dos papéis fora do histórico', comNomeAntigo.length === 0, comNomeAntigo.slice(0, 5).join(', '));
 
 // 2) Conteúdo mínimo de cada documento
 const readme = ler('README.md');
@@ -106,7 +112,7 @@ for (const termo of ['codex plugin marketplace add', 'codex plugin add', 'codex 
 // Um agente principal por projeto (decisão 010): Claude Code ou Codex, nunca os dois
 checar('README: adoção explica o agente principal (Claude Code ou Codex, nunca os dois)', adocao.includes('Agente principal') && adocao.includes('--agente codex'));
 checar('README: adoção sem o back no Codex e o front no Claude (substituído pela decisão 010)', !adocao.includes('Para dividir o back (Codex) e o front (Claude)'));
-// security-audit da Cloudflare (decisão 010, rascunho): instalada para a ferramenta do projeto, usada pela Segurança
+// security-audit da Cloudflare (decisão 010, rascunho): instalada para a ferramenta do projeto, usada pelo Security
 checar('README: adoção instala a skill security-audit pelo repositório oficial, para o Claude Code e o Codex', adocao.includes('https://github.com/cloudflare/security-audit-skill') && adocao.includes('npx skills add https://github.com/cloudflare/security-audit-skill --skill security-audit --global --agent claude-code codex'));
 checar('README: como o repositório cresce', readme.includes('## Como este repositório cresce'));
 for (const arquivo of NUCLEO) checar(`README aponta para ${arquivo}`, readme.includes(arquivo));
@@ -119,29 +125,29 @@ checar('fluxo: classificação spike/delimitada/arquitetural', /spike/i.test(flu
 checar('fluxo: portões de aprovação humana', fluxo.includes('## Portões de aprovação'));
 checar('fluxo: Fase 7 pede a auditoria de segurança antes da primeira publicação, em qualquer modo', ((fluxo.split('## Fase 7')[1] || '').split('## Fase 8')[0]).includes('metodo:auditoria-de-seguranca'));
 checar('fluxo: Fase 2 já usa a security-audit no primeiro mapa de riscos (modo de orientação)', ((fluxo.split('## Fase 2')[1] || '').split('## Fase 3')[0]).includes('metodo:auditoria-de-seguranca') && ((fluxo.split('## Fase 2')[1] || '').split('## Fase 3')[0]).includes('mapa de riscos'));
-checar('prompt da coordenadora do Orca: auditoria de segurança antes da primeira publicação', ler('modelos/prompt-lead-orca.md').includes('metodo:auditoria-de-seguranca'));
+checar('prompt da Lead do Orca: auditoria de segurança antes da primeira publicação', ler('modelos/prompt-lead-orca.md').includes('metodo:auditoria-de-seguranca'));
 
 const sessoes = ler('nucleo/02-sessoes-e-papeis.md');
-for (const termo of ['## Quando dividir', '## Quando NÃO dividir', 'integradora', 'trabalhadora', '## Modos de falha'])
+for (const termo of ['## Quando dividir', '## Quando NÃO dividir', 'Lead', 'Builder', '## Modos de falha'])
   checar(`sessões: ${termo}`, sessoes.includes(termo));
-checar('sessões: limite de sessões em paralelo (no máximo 1 integradora e 2 trabalhadoras)', /no máximo\s+\*{0,2}1 integradora e 2 trabalhadoras/i.test(sessoes));
-for (const termo of ['## Com o Orca', 'coordenadora', 'orchestration worker-start', 'gate-create', 'orchestration ask'])
+checar('sessões: limite de sessões em paralelo (no máximo 1 Lead e 2 Builders)', /no máximo\s+\*{0,2}1 Lead e 2 Builders/i.test(sessoes));
+for (const termo of ['## Com o Orca', 'Lead', 'orchestration worker-start', 'gate-create', 'orchestration ask'])
   checar(`sessões: modo Orca (${termo})`, sessoes.includes(termo));
 checar('fluxo: Orca como modo de execução na Fase 3', (fluxo.split('## Fase 3')[1] || '').split('## Fase 4')[0].includes('Orca'));
 checar('fluxo: Fase 9 consulta as conversas do Orca', (fluxo.split('## Fase 9')[1] || '').includes('orca search'));
 checar('git/GitHub/CI: worktrees pelo Orca', ler('nucleo/05-git-github-e-ci.md').includes('orca worktree create'));
 const promptCoord = ler('modelos/prompt-lead-orca.md');
 for (const termo of ['orca skills get orchestration', 'gate-create', 'pode integrar', 'superpowers:verification-before-completion', 'critérios de aceite', 'arquivos permitidos'])
-  checar(`prompt da coordenadora do Orca: ${termo}`, promptCoord.includes(termo));
-// Um agente principal por projeto (decisão 010): a coordenadora e todos os agentes usam a mesma ferramenta
+  checar(`prompt da Lead do Orca: ${termo}`, promptCoord.includes(termo));
+// Um agente principal por projeto (decisão 010): a Lead e todos os agentes usam a mesma ferramenta
 for (const termo of ['Agente principal', '--agent claude', '--agent codex', 'contrato da API', 'AGENTS.md', 'retrabalho'])
-  checar(`prompt da coordenadora do Orca: agente principal do projeto (${termo})`, promptCoord.includes(termo));
-checar('prompt da coordenadora do Orca: não diz que a coordenadora é sempre Claude', !/sempre Claude/i.test(promptCoord));
+  checar(`prompt da Lead do Orca: agente principal do projeto (${termo})`, promptCoord.includes(termo));
+checar('prompt da Lead do Orca: não diz que a Lead é sempre Claude', !/sempre Claude/i.test(promptCoord));
 const secaoAgentePrincipal = (sessoes.split('### Um agente principal por projeto')[1] || '').split('\n### ')[0];
 for (const termo of ['Agente principal', '--agent claude', '--agent codex', 'AGENTS.md', 'nunca as duas', 'claude-opus-5-5', 'gpt-6.1-sol', 'contrato da API'])
   checar(`sessões: um agente principal por projeto (${termo})`, secaoAgentePrincipal.includes(termo));
 checar('sessões: sem o modo back no Codex e front no Claude (substituído pela decisão 010)', !sessoes.includes('### Back e front com agentes diferentes'));
-checar('sessões: não diz que a coordenadora é sempre Claude', !/sempre Claude/i.test(sessoes) && !sessoes.includes('A coordenadora e os agentes são Claude Code'));
+checar('sessões: não diz que a Lead é sempre Claude', !/sempre Claude/i.test(sessoes) && !sessoes.includes('A Lead e os agentes são Claude Code'));
 checar('decisão 007 substituída pela 010', ler('decisoes/007-back-com-codex-e-front-com-claude.md').includes('substituída por [010]'));
 checar('decisão 008: a ferramenta por tema substituída pela 010', ler('decisoes/008-agentes-especialistas.md').includes('decisão 010'));
 
@@ -157,7 +163,7 @@ const HARNESS_PROPRIO = {
   'frontend': ['worker-start', '--parent', '--worktree new-child', 'design system'],
   security: ['mapa de riscos', 'entrega a correção', 'aprovar com ressalva', 'metodo:auditoria-de-seguranca', 'modo de orientação', '**Onde trabalha:** na sua worktree `security`, filha da worktree principal', 'MCP `rea`', '`security-audit`', '~/security-audit-skill/', 'antes da primeira publicação'],
   product: ['critérios de aceite'],
-  ops: ['worker-start', '--parent', 'portão', 'merge_ready', 'a mudança do CI é uma tarefa da sua trabalhadora'],
+  ops: ['worker-start', '--parent', 'portão', 'merge_ready', 'a mudança do CI é uma tarefa da sua Builder'],
 };
 const partesEmOrdem = (texto) => {
   const posicoes = HARNESS_PARTES.map((parte) => texto.indexOf(`\n${parte}\n`));
@@ -184,7 +190,7 @@ function checarHarness(nome) {
   checar(`agentes/${nome}: lê o arquivo da sua ferramenta (CLAUDE.md ou AGENTS.md)`, texto.includes('CLAUDE.md') && texto.includes('AGENTS.md'));
   const comandos = texto.split('\n').filter((l) => l.includes('worker-start --') || /^\s*\| .* \| `--agent/.test(l));
   checar(`agentes/${nome}: não fixa a ferramenta no worker-start (usa --agent <agente> --model <modelo>)`, comandos.every((l) => l.includes('--agent <agente> --model <modelo>') && !/--agent (claude|codex)\b/.test(l)), comandos.find((l) => !l.includes('--agent <agente>')) || '');
-  if (nome === 'lead') checar('agentes/integradora: integra e cria portões (gh pr merge, gate-create)', texto.includes('gh pr merge') && texto.includes('gate-create'));
+  if (nome === 'lead') checar('agentes/Lead: integra e cria portões (gh pr merge, gate-create)', texto.includes('gh pr merge') && texto.includes('gate-create'));
   else checar(`agentes/${nome}: nunca integra e fala pelo Orca (orca orchestration)`, /nunca integra/i.test(texto) && texto.includes('orca orchestration'));
   checar(`agentes/${nome}: sem links relativos (o harness vai para dentro do projeto)`, !/\]\((?!https?:)/.test(texto));
   for (const termo of HARNESS_PROPRIO[nome] || []) checar(`agentes/${nome}: ${termo}`, texto.includes(termo));
@@ -197,18 +203,18 @@ function checarHarness(nome) {
     checar(`agentes/${nome}: "nunca integra" nas regras fixas`, /nunca integra/i.test(fixas));
     checar(`agentes/${nome}: aparece no Orca na sua worktree, filha da principal (sem --worktree current nem new-top-level)`, texto.includes(`**Onde trabalha:** na sua worktree \`${nome}\`, filha da worktree principal`) && !texto.includes('--worktree current') && !texto.includes('new-top-level'));
     checar(`agentes/${nome}: sobe a decisão com orca orchestration send --type escalation (parte 8)`, sobe.includes('--type escalation'));
-    checar(`agentes/${nome}: manda memória e consumo à integradora (--type status), sem escrever na memória do projeto`, texto.includes('--type status') && !/grava o estado na memória|Anota o consumo/.test(texto));
+    checar(`agentes/${nome}: manda memória e consumo à Lead (--type status), sem escrever na memória do projeto`, texto.includes('--type status') && !/grava o estado na memória|Anota o consumo/.test(texto));
   } else {
-    checar('agentes/integradora: grava as notas que os especialistas mandam', texto.includes('notas que os especialistas mandam'));
-    checar('agentes/integradora: abre cada especialista na worktree filha da principal (sem --worktree current nem new-top-level)', !texto.includes('--worktree current') && !texto.includes('new-top-level'));
+    checar('agentes/Lead: grava as notas que os especialistas mandam', texto.includes('notas que os especialistas mandam'));
+    checar('agentes/Lead: abre cada especialista na worktree filha da principal (sem --worktree current nem new-top-level)', !texto.includes('--worktree current') && !texto.includes('new-top-level'));
   }
 }
 for (const nome of HARNESSES) checarHarness(nome);
 const subsecaoEsp = (sessoes.split('### Com agentes especialistas')[1] || '').split('\n## ')[0];
-for (const termo of ['docs/agentes/', '--parent', 'O harness manda', '9 sessões', 'Nested worker depth', 'substitui o limite', 'contrato da API passa para a Arquitetura', 'contam dentro das 9', 'filha da worktree principal'])
+for (const termo of ['docs/agentes/', '--parent', 'O harness manda', '9 sessões', 'Nested worker depth', 'substitui o limite', 'contrato da API passa para o Architect', 'contam dentro das 9', 'filha da worktree principal'])
   checar(`sessões: com agentes especialistas (${termo})`, subsecaoEsp.includes(termo));
 checar('fluxo: modo com agentes especialistas na Fase 3', (fluxo.split('## Fase 3')[1] || '').split('## Fase 4')[0].includes('especialistas'));
-checar('prompt da coordenadora do Orca: aponta para o harness da integradora no modo com especialistas', promptCoord.includes('lead.md'));
+checar('prompt da Lead do Orca: aponta para o harness da Lead no modo com especialistas', promptCoord.includes('lead.md'));
 const inicioEsp = ler('skills/novo-projeto/SKILL.md');
 checar('skills/novo-projeto: na Fase 3 copia os harnesses sem rodar o novo-projeto.sh de novo (que recusaria)', inicioEsp.includes('modelos/agentes/') && inicioEsp.includes('_modelo-harness.md') && !inicioEsp.includes('novo-projeto.sh" . --especialistas') && inicioEsp.includes('Nested worker depth'));
 const atualizarEsp = ler('skills/atualizar-projeto/SKILL.md');
@@ -218,7 +224,7 @@ checar('skills/consultar: aponta para o modo com especialistas', ler('skills/con
 for (const termo of ['modelos/agentes/', '--especialistas', 'Nested worker depth'])
   checar(`README: modo com agentes especialistas (${termo})`, readme.includes(termo));
 
-// Skills por agente (decisão 009, rascunho): cada especialista que constrói tem as suas, e as trabalhadoras dele as usam
+// Skills por agente (decisão 009, rascunho): cada especialista que constrói tem as suas, e as Builders dele as usam
 const SKILLS_DO_AGENTE = {
   'backend': ['api-conforme-contrato', 'migracao-sem-parada', 'transacoes-e-consultas', 'trabalho-em-segundo-plano'],
   'frontend': ['formularios-e-erros', 'desempenho-na-tela', 'estados-da-tela'],
@@ -236,7 +242,7 @@ for (const [agente, nomes] of Object.entries(SKILLS_DO_AGENTE)) {
   const parteSkills = (harness.split('## 5. Skills')[1] || '').split('\n## ')[0];
   const parteLe = (harness.split('## 3. O que lê')[1] || '').split('\n## ')[0];
   checar(`agentes/${agente}: a pesquisa passa pela base do método (modelos/referencias/${agente}.md)`, parteLe.includes(`modelos/referencias/${agente}.md`));
-  checar(`agentes/${agente}: as trabalhadoras usam as skills do especialista`, parteSkills.includes('trabalhadoras usam'));
+  checar(`agentes/${agente}: as Builders usam as skills do especialista`, parteSkills.includes('Builders usam'));
   for (const nome of nomes) {
     checar(`agentes/${agente}: parte 5 cita metodo:${nome}`, parteSkills.includes(`metodo:${nome}`));
     const texto = ler(`skills/${nome}/SKILL.md`);
@@ -250,9 +256,9 @@ for (const [agente, nomes] of Object.entries(SKILLS_DO_AGENTE)) {
 }
 for (const agente of Object.keys(SKILLS_DO_AGENTE))
   checar(`skills/consultar: aponta para a base de ${agente}`, ler('skills/consultar/SKILL.md').includes(`modelos/referencias/${agente}.md`));
-// As skills da Segurança também servem a quem corrige: o back e o front pedem as delas na especificação
+// As skills do Security também servem a quem corrige: o back e o front pedem as delas na especificação
 for (const agente of ['backend', 'frontend'])
-  checar(`agentes/${agente}: parte 5 aponta para as skills da Segurança`, ((ler(`modelos/agentes/${agente}.md`).split('## 5. Skills')[1] || '').split('\n## ')[0]).includes('metodo:entrada-nao-confiavel'));
+  checar(`agentes/${agente}: parte 5 aponta para as skills do Security`, ((ler(`modelos/agentes/${agente}.md`).split('## 5. Skills')[1] || '').split('\n## ')[0]).includes('metodo:entrada-nao-confiavel'));
 // Decisão da pessoa (2026-10-29): o erro de campo aparece ao avançar ou enviar, como no GOV.UK
 const formularios = ler('skills/formularios-e-erros/SKILL.md');
 checar('skills/formularios-e-erros: valida ao avançar ou enviar, não ao sair do campo (GOV.UK)', formularios.includes('ao avançar ou enviar') && formularios.includes('design-system.service.gov.uk/patterns/validation'));
@@ -381,13 +387,13 @@ const passosNode = passosCi.filter((p) => /setup-node|npm /.test(p));
 checar('ci-node.yml: confere se a stack já foi definida (package.json) e avisa', /id:\s*stack\b/.test(ci) && ci.includes('-f package.json') && ci.includes('::warning::'));
 checar('ci-node.yml: todos os passos de Node dependem da stack definida', passosNode.length >= 5 && passosNode.every((p) => p.includes("if: steps.stack.outputs.definida == 'sim'")), `passos de Node: ${passosNode.length}`);
 const prTemplate = ler('modelos/pull_request_template.md');
-for (const termo of ['## Testes macro executados', '## Validação da integradora'])
+for (const termo of ['## Testes macro executados', '## Validação da Lead'])
   checar(`modelo de PR: ${termo}`, prTemplate.includes(termo));
 const promptTrab = ler('modelos/prompt-builder.md');
-checar('prompt da trabalhadora exige skills (nomes exatos) e proíbe merge', promptTrab.includes('superpowers:test-driven-development') && promptTrab.includes('superpowers:verification-before-completion') && /NÃO faça merge/.test(promptTrab));
+checar('prompt da Builder exige skills (nomes exatos) e proíbe merge', promptTrab.includes('superpowers:test-driven-development') && promptTrab.includes('superpowers:verification-before-completion') && /NÃO faça merge/.test(promptTrab));
 const promptInt = ler('modelos/prompt-lead.md');
-checar('prompt da integradora exige o navegador', /navegador/i.test(promptInt));
-checar('prompt da integradora cita as skills pelo nome exato', promptInt.includes('superpowers:verification-before-completion') && promptInt.includes('superpowers:finishing-a-development-branch'));
+checar('prompt da Lead exige o navegador', /navegador/i.test(promptInt));
+checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('superpowers:verification-before-completion') && promptInt.includes('superpowers:finishing-a-development-branch'));
 
 // 3b) Os scripts funcionam de verdade (em repositórios temporários)
 {
@@ -462,7 +468,7 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     checar('novo-projeto.sh: AGENTS.md carimba a versão do método', agentsProj.includes(`Versão do método: ${versao}`));
     for (const termo of ['CLAUDE.md', 'docs/DESENVOLVIMENTO.md', 'docs/memoria-do-projeto.md', 'superpowers:test-driven-development', 'superpowers:verification-before-completion', 'orca orchestration ask'])
       checar(`novo-projeto.sh: AGENTS.md cita ${termo}`, agentsProj.includes(termo));
-    checar('novo-projeto.sh: AGENTS.md serve ao Codex como coordenadora também (Agente principal, prompt da coordenadora)', agentsProj.includes('Agente principal') && agentsProj.includes('prompt-lead-orca.md'));
+    checar('novo-projeto.sh: AGENTS.md serve ao Codex como Lead também (Agente principal, prompt da Lead)', agentsProj.includes('Agente principal') && agentsProj.includes('prompt-lead-orca.md'));
     const alvo_codex = join(base, 'projeto-codex');
     mkdirSync(alvo_codex);
     const codex = rodar(alvo_codex, '--agente', 'codex', 'site-estatico');
@@ -521,7 +527,7 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     mkdirSync(alvo_esp_antes);
     const espAntes = rodar('--especialistas', alvo_esp_antes, 'site-estatico');
     checar('novo-projeto.sh aceita --especialistas antes da pasta', espAntes.status === 0 && existsSync(join(alvo_esp_antes, 'docs/agentes/lead.md')), espAntes.stderr);
-    checar('novo-projeto.sh: AGENTS.md não manda o Codex falar com a pessoa (pede pela coordenadora)', agentsProj.length > 0 && !agentsProj.includes('peça à pessoa'));
+    checar('novo-projeto.sh: AGENTS.md não manda o Codex falar com a pessoa (pede pela Lead)', agentsProj.length > 0 && !agentsProj.includes('peça à pessoa'));
     const alvo_com_agentes = join(base, 'projeto-com-docs-agentes');
     mkdirSync(join(alvo_com_agentes, 'docs/agentes'), { recursive: true });
     const conf = rodar(alvo_com_agentes, '--especialistas');
@@ -622,7 +628,7 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
   };
   for (const [nome, termos] of Object.entries(exige))
     for (const termo of termos) checar(`agentes/${nome}: parte 5 cita ${termo}`, parte5(nome).includes(termo));
-  checar('agentes/devops: recebe da Segurança os needs_validation de infraestrutura', ler('modelos/agentes/ops.md').includes('needs_validation'));
+  checar('agentes/devops: recebe do Security os needs_validation de infraestrutura', ler('modelos/agentes/ops.md').includes('needs_validation'));
   checar('agentes/design-e-front: estuda referência pelo prompt de auditoria de referência', ler('modelos/agentes/frontend.md').includes('prompt-auditoria-de-referencia.md'));
   checar('skills/auditoria-de-seguranca: o artefato publicado com o REA', auditoria.includes('reverse-engineer-anything') && auditoria.includes('artefato publicado'));
   for (const nome of listar('cenarios'))
@@ -638,7 +644,7 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     const usa = (n) => ler(n).split('\n').some((l) => l.includes(skill) && !l.includes('Saíram do método'));
     checar(`método não usa mais ${skill} (decisão 012; só a nota "Saíram do método" do README pode citá-la)`, ativosTexto.every((n) => !usa(n)), ativosTexto.find(usa) || '');
   }
-  checar('agentes/integradora: a Fase 8 confere dependências, infraestrutura e documentação (o que a tech-debt cobria)', ler('modelos/agentes/lead.md').includes('dependências desatualizadas'));
+  checar('agentes/Lead: a Fase 8 confere dependências, infraestrutura e documentação (o que a tech-debt cobria)', ler('modelos/agentes/lead.md').includes('dependências desatualizadas'));
   checar('CLAUDE.md do método: superpowers:writing-skills ao criar ou mudar skill do plugin', ler('CLAUDE.md').includes('superpowers:writing-skills'));
   // Ponytail (rascunho): instalação oficial e as regras de convivência com o método
   for (const termo of ['https://github.com/DietrichGebert/ponytail', '/plugin marketplace add DietrichGebert/ponytail', 'codex plugin marketplace add DietrichGebert/ponytail'])
@@ -656,8 +662,8 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     checar(`skills e testes: uso seguro do ponytail no tempo (${termo})`, ponySecao.includes(termo));
   checar('skills/auditoria-de-seguranca: roda numa worktree própria, para o /ponytail off não afetar outra sessão', auditoria.includes('worktree própria') && auditoria.includes('git worktree add --detach'));
   // Convivência com as outras skills: pedido vago passa pelo brainstorming; o que uma skill do método exige conta como pedido;
-  // o veredito de segurança é da Segurança
-  for (const termo of ['Pedido vago', 'superpowers:brainstorming', 'conta como pedido', 'veredito da Segurança'])
+  // o veredito de segurança é do Security
+  for (const termo of ['Pedido vago', 'superpowers:brainstorming', 'conta como pedido', 'veredito do Security'])
     checar(`skills e testes: convivência do ponytail com as outras skills (${termo})`, ponySecao.includes(termo));
   for (const modelo of ['modelos/CLAUDE-projeto.md', 'modelos/AGENTS-projeto.md'])
     checar(`${modelo}: o que as skills do método exigem conta como pedido para o ponytail`, ler(modelo).includes('conta como pedido'));
@@ -665,8 +671,8 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
   for (const modelo of ['modelos/CLAUDE-projeto.md', 'modelos/AGENTS-projeto.md'])
     checar(`${modelo}: nunca muda o padrão global do ponytail (/ponytail default)`, ler(modelo).includes('/ponytail default'));
   checar('decisão 012: o que observar no primeiro projeto Codex inclui se o ponytail carregou sozinho', ler('decisoes/012-revalidacao-de-lacunas-e-ponytail.md').includes('carregou sozinho'));
-  checar('agentes/integradora: anota na memória se o ponytail carregou sozinho no Codex', ler('modelos/agentes/lead.md').includes('carregou sozinho'));
-  checar('agentes/integradora: lê o consumo por tarefa no quadro do ponytail', ler('modelos/agentes/lead.md').includes('~/.config/ponytail/band/'));
+  checar('agentes/Lead: anota na memória se o ponytail carregou sozinho no Codex', ler('modelos/agentes/lead.md').includes('carregou sozinho'));
+  checar('agentes/Lead: lê o consumo por tarefa no quadro do ponytail', ler('modelos/agentes/lead.md').includes('~/.config/ponytail/band/'));
   checar('modelos/AGENTS-projeto.md: no Codex, o ponytail fica só sob demanda até medir', ler('modelos/AGENTS-projeto.md').includes('sob demanda'));
   for (const modelo of ['modelos/CLAUDE-projeto.md', 'modelos/AGENTS-projeto.md'])
     checar(`${modelo}: diz que o TDD do método vale sobre o ponytail`, ler(modelo).includes('ponytail') && ler(modelo).includes('TDD do método'));

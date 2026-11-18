@@ -5,7 +5,7 @@ description: Use quando um pedido de produto chega como solução ("um app que m
 
 # Necessidades e riscos
 
-**Quem usa:** o Produto, antes da spec e dos critérios de aceite. A prioridade final é da pessoa.
+**Quem usa:** o Product, antes da spec e dos critérios de aceite. A prioridade final é da pessoa.
 
 A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/product.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/product.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 
@@ -15,8 +15,8 @@ A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencia
 2. **Marque a evidência de cada necessidade:** dado de uso, atendimento, entrevista, observação. Sem evidência, é suposição, e fica marcada assim na spec. Diga o tamanho da evidência (quatro conversas mostram um sinal, não um padrão). Inclua quem tem dificuldade e quem atende o usuário (a recepção, o suporte). Fonte: [GOV.UK, necessidades do usuário](https://www.gov.uk/service-manual/user-research/start-by-learning-user-needs).
 3. **Avalie os quatro riscos** da funcionalidade, cada um com o que se sabe e o que falta saber:
    - **valor:** vão usar ou pagar?
-   - **usabilidade:** conseguem usar? (com Design e Front)
-   - **viabilidade técnica:** dá para construir com o que se tem? (com a Arquitetura)
+   - **usabilidade:** conseguem usar? (com Frontend)
+   - **viabilidade técnica:** dá para construir com o que se tem? (com o Architect)
    - **viabilidade de negócio:** custo, contrato, lei (LGPD), marca, canal; o que o negócio aguenta?
 
    Fonte: [SVPG, os quatro grandes riscos](https://www.svpg.com/four-big-risks/).

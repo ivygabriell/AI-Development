@@ -10,7 +10,7 @@ A cópia do método fica em `${CLAUDE_PLUGIN_ROOT}` e é **só leitura**: leia, 
 | Preciso de | Leia |
 |---|---|
 | As fases, os portões e a classificação do pedido | `${CLAUDE_PLUGIN_ROOT}/nucleo/01-fluxo-de-ponta-a-ponta.md` |
-| Uma sessão ou várias (integradora e trabalhadoras) | `${CLAUDE_PLUGIN_ROOT}/nucleo/02-sessoes-e-papeis.md` |
+| Uma sessão ou várias (Lead e Builders) | `${CLAUDE_PLUGIN_ROOT}/nucleo/02-sessoes-e-papeis.md` |
 | Qual Skill usar; testes micro e macro; navegador | `${CLAUDE_PLUGIN_ROOT}/nucleo/03-skills-e-testes.md` |
 | Estudar uma referência externa | `${CLAUDE_PLUGIN_ROOT}/nucleo/04-referencias-e-engenharia-reversa.md` |
 | Branches, PR, CI, proteção da `main`, worktrees | `${CLAUDE_PLUGIN_ROOT}/nucleo/05-git-github-e-ci.md` |
@@ -18,7 +18,7 @@ A cópia do método fica em `${CLAUDE_PLUGIN_ROOT}` e é **só leitura**: leia, 
 | Erros já cometidos e a regra de cada um | `${CLAUDE_PLUGIN_ROOT}/licoes/_indice.md` |
 | Escrever a spec e os critérios de aceite | `${CLAUDE_PLUGIN_ROOT}/modelos/modelo-spec.md` e `${CLAUDE_PLUGIN_ROOT}/modelos/modelo-criterios-de-aceite.md` |
 | Abrir sessões paralelas | `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-lead.md` e `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-builder.md` |
-| Orquestrar com o Orca (coordenadora e agentes) | `${CLAUDE_PLUGIN_ROOT}/nucleo/02-sessoes-e-papeis.md` (seção "Com o Orca") e `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-lead-orca.md` |
+| Orquestrar com o Orca (Lead e agentes) | `${CLAUDE_PLUGIN_ROOT}/nucleo/02-sessoes-e-papeis.md` (seção "Com o Orca") e `${CLAUDE_PLUGIN_ROOT}/modelos/prompt-lead-orca.md` |
 | Qual ferramenta usar (Claude Code ou Codex, uma só por projeto; `AGENTS.md`, contrato da API) | `${CLAUDE_PLUGIN_ROOT}/nucleo/02-sessoes-e-papeis.md` (seção "Um agente principal por projeto") e a linha `Agente principal:` do `docs/DESENVOLVIMENTO.md` do projeto |
 | Com agentes especialistas (harness de cada agente) | `${CLAUDE_PLUGIN_ROOT}/nucleo/02-sessoes-e-papeis.md` (seção "Com agentes especialistas") e `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/` |
 | O que a leitura das referências de um agente já ensinou (base de conhecimento por agente) | `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/backend.md`, `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/frontend.md`, `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/ops.md`, `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/security.md`, `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/architect.md`, `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/product.md` e `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/lead.md`; as skills do tema estão no harness do agente, parte 5 |

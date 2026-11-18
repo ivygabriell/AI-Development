@@ -1,7 +1,7 @@
-# Base de conhecimento: DevOps
+# Base de conhecimento: Ops
 
 **Leitura feita em:** 2026-10-29
-**Agente:** DevOps (harness em `modelos/agentes/ops.md`)
+**Agente:** Ops (harness em `modelos/agentes/ops.md`)
 **Skills que saem daqui:** `metodo:publicacao-gradual`, `metodo:metas-e-alertas` e `metodo:ci-seguro`
 
 O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `docs/referencias/ops.md` do projeto e antes dos sites. O checklist antes de publicar continua com `engineering:deploy-checklist`, e a condução do incidente com `engineering:incident-response`.

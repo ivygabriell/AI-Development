@@ -1,7 +1,7 @@
-# Base de conhecimento: Produto
+# Base de conhecimento: Product
 
 **Leitura feita em:** 2026-10-30
-**Agente:** Produto (harness em `modelos/agentes/product.md`)
+**Agente:** Product (harness em `modelos/agentes/product.md`)
 **Skills que saem daqui:** `metodo:necessidades-e-riscos` e `metodo:descoberta-continua`
 
 O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `docs/referencias/product.md` do projeto e antes dos sites. O planejamento de uma pesquisa continua com `design:user-research`, e a síntese com `design:research-synthesis`.
@@ -22,7 +22,7 @@ O que a leitura das referências escolhidas pela pessoa ensinou, com palavras pr
 |---|---|---|
 | Toda funcionalidade tem quatro riscos: valor (vão usar ou comprar?), usabilidade (conseguem usar?), viabilidade técnica (dá para construir com o que se tem?) e viabilidade de negócio (funciona para o negócio: custo, contrato, lei, marca?) | construir o que ninguém usa é o desperdício maior | [SVPG, os quatro grandes riscos](https://www.svpg.com/four-big-risks/) |
 | Atacar os riscos cedo, antes de construir, principalmente valor e negócio; valor costuma ser o mais difícil | descobrir depois sai caro | [SVPG, os quatro grandes riscos](https://www.svpg.com/four-big-risks/) |
-| Produto responde por valor e negócio; design por usabilidade; engenharia por viabilidade técnica; a solução sai do trabalho junto | cada risco tem quem saiba avaliá-lo | [SVPG, os quatro grandes riscos](https://www.svpg.com/four-big-risks/) |
+| Product responde por valor e negócio; design por usabilidade; engenharia por viabilidade técnica; a solução sai do trabalho junto | cada risco tem quem saiba avaliá-lo | [SVPG, os quatro grandes riscos](https://www.svpg.com/four-big-risks/) |
 
 ## Descoberta contínua (Product Talk)
 

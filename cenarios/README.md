@@ -33,7 +33,7 @@ Um cenário só sobe de selo com um **caso real** que o comprove e que cite o qu
 
 1. Copie [_modelo-cenario.md](_modelo-cenario.md) para `cenarios/<nome-em-minusculas-com-hifens>.md` e comece como `rascunho`.
 2. Responda: o que é **micro** aqui (o menor teste que prova uma regra) e o que é **macro** (o sistema inteiro funcionando)?
-3. Defina como a integradora **explora**: o equivalente do navegador (cliente HTTP, emulador, ambiente de homologação, painel de métricas).
+3. Defina como a Lead **explora**: o equivalente do navegador (cliente HTTP, emulador, ambiente de homologação, painel de métricas).
 4. Escreva os critérios de aceite típicos como checklist mensurável (use o [modelo de critérios](../modelos/modelo-criterios-de-aceite.md)).
 5. Ajuste o [CI](../modelos/ci-node.yml) para a stack e o nome do job exigido pela proteção da `main`.
 6. Liste os pontos quentes e os riscos próprios do tipo e escreva testes-guarda para os piores.

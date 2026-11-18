@@ -5,7 +5,7 @@ description: Use quando for montar o mapa de riscos de segurança do projeto (Fa
 
 # Auditoria de segurança
 
-**Quem usa:** no modo com especialistas, a Segurança, que propõe, roda e tria a auditoria, e a integradora cria o portão e só publica depois da triagem. Nos outros modos (uma sessão, sessões divididas ou o Orca sem especialistas), a integradora ou a coordenadora faz as duas partes. É um passo da Fase 7: antes da primeira publicação, sempre se pergunta à pessoa. As trabalhadoras do back e do front corrigem o que a Segurança entrega, com as skills do tema (`metodo:controle-de-acesso`, `metodo:entrada-nao-confiavel`, `metodo:autenticacao-e-sessao`).
+**Quem usa:** no modo com especialistas, o Security, que propõe, roda e tria a auditoria, e a Lead cria o portão e só publica depois da triagem. Nos outros modos (uma sessão, sessões divididas ou o Orca sem especialistas), a Lead ou a Lead faz as duas partes. É um passo da Fase 7: antes da primeira publicação, sempre se pergunta à pessoa. As Builders do back e do front corrigem o que o Security entrega, com as skills do tema (`metodo:controle-de-acesso`, `metodo:entrada-nao-confiavel`, `metodo:autenticacao-e-sessao`).
 
 A `security-audit` faz a auditoria. Esta skill diz **como ela entra no fluxo do método**: quando rodar, com que tamanho, onde guardar e o que fazer com cada achado. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/security.md` (seção "Auditoria completa"), e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/security.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 
@@ -23,9 +23,9 @@ O mapa da Fase 2 é a semente das auditorias completas: as fronteiras e superfí
 
 ## Passo a passo da auditoria completa
 
-1. **Conferir a instalação.** A skill fica em `~/.agents/skills/security-audit` (o Codex lê dali, e o Claude Code por um atalho em `~/.claude/skills/`), instalada uma vez por computador pelo README. Se ela não aparece na sua ferramenta, avise a integradora e pare; não instale nada. Ela precisa do Node.js para os validadores. Fonte: [cloudflare/security-audit-skill, instalação e requisitos](https://github.com/cloudflare/security-audit-skill#installation).
+1. **Conferir a instalação.** A skill fica em `~/.agents/skills/security-audit` (o Codex lê dali, e o Claude Code por um atalho em `~/.claude/skills/`), instalada uma vez por computador pelo README. Se ela não aparece na sua ferramenta, avise a Lead e pare; não instale nada. Ela precisa do Node.js para os validadores. Fonte: [cloudflare/security-audit-skill, instalação e requisitos](https://github.com/cloudflare/security-audit-skill#installation).
 2. **Escolher o modo certo.** A skill tem dois modos. No **modo de orientação** ela só empresta os princípios (fronteira e resultado concreto, gravidade pelo impacto demonstrado, a menor correção) e não cria arquivos nem roda as seis fases: é o modo das revisões de PR. O **modo de auditoria completa** só começa com um pedido explícito de auditoria, e é ele que precisa do portão. Fonte: [SKILL.md, modos de operação](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md).
-3. **Subir o portão antes de começar.** Mande à integradora (`orca orchestration send --type escalation`) o motivo (primeira publicação, mudança grande, pedido da pessoa), o perfil, o escopo e o limite de subagentes (`budget`). A auditoria só começa quando a integradora resolve o portão com a resposta da pessoa. Ela abre vários subagentes (reconhecimento, caçadores, críticos de cobertura e verificadores independentes) e gasta bastante cota. Fonte: [SKILL.md, orçamento de custo](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md).
+3. **Subir o portão antes de começar.** Mande à Lead (`orca orchestration send --type escalation`) o motivo (primeira publicação, mudança grande, pedido da pessoa), o perfil, o escopo e o limite de subagentes (`budget`). A auditoria só começa quando a Lead resolve o portão com a resposta da pessoa. Ela abre vários subagentes (reconhecimento, caçadores, críticos de cobertura e verificadores independentes) e gasta bastante cota. Fonte: [SKILL.md, orçamento de custo](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md).
 4. **Dimensionar pelo projeto:**
    - perfil `quick` para um projeto pequeno, para uma nova rodada ou para uma primeira olhada: uma onda de caça, um crítico e um verificador por candidato;
    - perfil `standard` antes da primeira publicação de um projeto com login, dados pessoais ou API pública;
@@ -45,12 +45,12 @@ O mapa da Fase 2 é a semente das auditorias completas: as fronteiras e superfí
    | `confirmed` `critical` ou `high` | **bloquear** a publicação. Uma correção entregue ao dono da pasta, com a menor mudança que a skill propõe e o teste de regressão escrito antes |
    | `confirmed` `medium` | **aprovar com ressalva**. Correção numa tarefa própria, antes da próxima publicação, ou risco aceito pela pessoa no `docs/seguranca.md` |
    | `confirmed` `low` ou `informational` | nota de endurecimento no `docs/seguranca.md`; vira tarefa só se a pessoa quiser |
-   | `needs_validation` | pergunta em aberto no mapa de riscos, **sem gravidade**, com o fato que falta e quem pode observar (o DevOps para infraestrutura; a pessoa para conta ou provedor). Nunca vire um palpite em correção |
+   | `needs_validation` | pergunta em aberto no mapa de riscos, **sem gravidade**, com o fato que falta e quem pode observar (o Ops para infraestrutura; a pessoa para conta ou provedor). Nunca vire um palpite em correção |
    | `rejected` | fica só no relatório: ele evita que a próxima rodada repita a mesma suspeita |
 
    Fonte: [SKILL.md, prioridade e certeza](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md).
 11. **Não espalhar a falha.** Nas issues e nos PRs vai só o necessário para corrigir (onde, qual regra, o teste). Num repositório **público**, uma falha `confirmed` ainda aberta não vira issue pública: use um aviso de segurança privado do GitHub (Security → Advisories) ou fale direto com o dono da pasta pelo Orca. Nenhum segredo encontrado aparece em resposta, comentário ou memória: diga onde está, nunca o valor. Fonte: [GitHub, avisos de segurança privados](https://docs.github.com/en/code-security/security-advisories/working-with-repository-security-advisories/about-repository-security-advisories).
-12. **Registrar.** Em `docs/seguranca.md`, numa seção "Auditorias": a data, o perfil, o escopo, o commit auditado, a contagem por veredito e gravidade, se a rodada ficou completa ou `incomplete`, e onde está o relatório (o caminho fora do repositório). Mande à integradora o consumo da auditoria (`orca orchestration send --type status`) para a memória do projeto: é a medida de custo da Fase 9.
+12. **Registrar.** Em `docs/seguranca.md`, numa seção "Auditorias": a data, o perfil, o escopo, o commit auditado, a contagem por veredito e gravidade, se a rodada ficou completa ou `incomplete`, e onde está o relatório (o caminho fora do repositório). Mande à Lead o consumo da auditoria (`orca orchestration send --type status`) para a memória do projeto: é a medida de custo da Fase 9.
 
 ## O teste que prova (escreva antes, veja falhar)
 
@@ -74,7 +74,7 @@ A auditoria não escreve código. Quem prova é a correção: cada `confirmed` c
 - [ ] Cada `confirmed` triado pela tabela; os `critical` e `high` bloqueiam a publicação.
 - [ ] Cada `needs_validation` virou pergunta no mapa de riscos, sem gravidade.
 - [ ] Nada de falha aberta em issue pública nem de segredo em texto.
-- [ ] Registro em `docs/seguranca.md` e consumo enviado à integradora.
+- [ ] Registro em `docs/seguranca.md` e consumo enviado à Lead.
 
 ## Adaptar ao tamanho do projeto
 

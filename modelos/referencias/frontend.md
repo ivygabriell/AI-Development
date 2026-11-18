@@ -1,7 +1,7 @@
-# Base de conhecimento: Design e Front
+# Base de conhecimento: Frontend
 
 **Leitura feita em:** 2026-10-29
-**Agente:** Design e Front (harness em `modelos/agentes/frontend.md`)
+**Agente:** Frontend (harness em `modelos/agentes/frontend.md`)
 **Skills que saem daqui:** `metodo:formularios-e-erros`, `metodo:desempenho-na-tela` e `metodo:estados-da-tela`
 
 O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `docs/referencias/frontend.md` do projeto e antes dos sites. A revisão geral de acessibilidade continua com `design:accessibility-review`, e os textos de interface com `design:ux-copy`.

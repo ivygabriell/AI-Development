@@ -1,7 +1,7 @@
-# Base de conhecimento: Back e Dados
+# Base de conhecimento: Backend
 
 **Leitura feita em:** 2026-10-29
-**Agente:** Back e Dados (harness em `modelos/agentes/backend.md`)
+**Agente:** Backend (harness em `modelos/agentes/backend.md`)
 **Skills que saem daqui:** `metodo:api-conforme-contrato`, `metodo:migracao-sem-parada`, `metodo:transacoes-e-consultas` e `metodo:trabalho-em-segundo-plano`
 
 O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: o princípio, a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `docs/referencias/backend.md` do projeto e antes dos sites. O que já virou passo de uma skill aparece aqui só com a regra curta; o resto fica aqui para consulta.
@@ -58,4 +58,4 @@ O que a leitura das referências escolhidas pela pessoa ensinou, com palavras pr
 | Conciliar os registros com o parceiro externo de tempos em tempos | o erro raro acontece todo dia em volume | [Pagamentos resilientes](https://shopify.engineering/building-resilient-payment-systems) |
 | Tarefas: pelo menos uma vez, podem repetir, tabela de saída quando perder não é aceitável, parâmetros compatíveis entre versões, tarefa longa retomável | a fila falha de jeitos previsíveis | [Trabalho em segundo plano](https://shopify.engineering/high-availability-background-jobs) |
 | Réplica de leitura: leituras ligadas vão para a mesma réplica (consistência monotônica) | o usuário não vê o dado "voltar no tempo" | [Consistência com réplicas](https://shopify.engineering/read-consistency-database-replicas) |
-| Monólito com fronteiras por domínio antes de separar serviços | é assunto da Arquitetura; aqui só para reconhecer a fronteira ao escrever código | [Desmontando o monólito](https://shopify.engineering/deconstructing-monolith-designing-software-maximizes-developer-productivity) |
+| Monólito com fronteiras por domínio antes de separar serviços | é assunto do Architect; aqui só para reconhecer a fronteira ao escrever código | [Desmontando o monólito](https://shopify.engineering/deconstructing-monolith-designing-software-maximizes-developer-productivity) |

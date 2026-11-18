@@ -5,7 +5,7 @@ description: Use quando for montar ou revisar monitoramento, metas de confiabili
 
 # Metas e alertas
 
-**Quem usa:** a trabalhadora do DevOps ao construir e o especialista de DevOps ao revisar. A condução de um incidente continua com `engineering:incident-response`.
+**Quem usa:** a Builder do Ops ao construir e o especialista de Ops ao revisar. A condução de um incidente continua com `engineering:incident-response`.
 
 A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/ops.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/ops.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 
@@ -14,7 +14,7 @@ A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencia
 1. **Comece por uma jornada do usuário** (por exemplo, o checkout) e por até cinco indicadores. Cada indicador é "eventos bons ÷ total": disponibilidade (respostas sem 5xx nem estouro de prazo; erros do cliente não contam) e tempo (pedidos abaixo de um limite). Comece pelo que já dá para medir, como os registros do servidor. Fonte: [SRE, implementar SLOs](https://sre.google/workbook/implementing-slos/).
 2. **A meta sai do que o sistema já entrega**, medido nas últimas semanas e arredondado para baixo, nunca 100% nem um número escolhido de cabeça. Para o tempo, dois limites: o típico e a cauda (por exemplo, 90% abaixo de 450 ms e 99% abaixo de 900 ms). Sem dados ainda, meça primeiro e marque a meta como provisória. Fonte: [SRE, implementar SLOs](https://sre.google/workbook/implementing-slos/).
 3. **Janela móvel de 4 semanas** (um número inteiro de semanas, para cada janela ter os mesmos fins de semana). Fonte: [SRE, implementar SLOs](https://sre.google/workbook/implementing-slos/).
-4. **Margem de erro com política escrita:** margem = 100% − meta. A política diz o que acontece quando ela acaba (congelar mudança arriscada e passar a confiabilidade na frente até voltar à meta) e é aceita pela pessoa dona do produto, pelo especialista do tema e por você; quem não aceitar faz a meta mudar, não a política sumir. Suba à integradora para o aceite. Fonte: [SRE, implementar SLOs](https://sre.google/workbook/implementing-slos/).
+4. **Margem de erro com política escrita:** margem = 100% − meta. A política diz o que acontece quando ela acaba (congelar mudança arriscada e passar a confiabilidade na frente até voltar à meta) e é aceita pela pessoa dona do produto, pelo especialista do tema e por você; quem não aceitar faz a meta mudar, não a política sumir. Suba à Lead para o aceite. Fonte: [SRE, implementar SLOs](https://sre.google/workbook/implementing-slos/).
 5. **Alerta pela velocidade de gasto da margem, com duas janelas** (a longa e uma curta, de 1/12 dela, que confirma que ainda está acontecendo), para uma meta de 99,9% em 30 dias:
 
    | Gravidade | Janela longa | Janela curta | Velocidade | Margem gasta |

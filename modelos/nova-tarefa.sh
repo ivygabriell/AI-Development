@@ -69,5 +69,5 @@ Próximos passos:
   cd "$dir"
   ${dev//\{porta\}/$porta}      # servidor local desta tarefa
 Leia o documento de desenvolvimento do projeto e use as Skills em todo o trabalho (brainstorming, TDD, verificação).
-Ao terminar: rode os testes macro, git push -u origin $branch e abra o PR. Quem integra é a sessão integradora.
+Ao terminar: rode os testes macro, git push -u origin $branch e abra o PR. Quem integra é a sessão Lead.
 MSG

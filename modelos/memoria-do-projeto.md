@@ -7,7 +7,7 @@ A memória do projeto é o que a próxima sessão precisa saber para não recome
 | Tipo | Exemplos |
 |---|---|
 | **Quem é a pessoa e como trabalha** | Idioma das respostas; quer o fluxo Superpowers; corrige por mensagens curtas, então confirme a interpretação com evidência antes de entregar |
-| **Fluxo combinado** | Uma branch por mudança; enviar a branch antes de integrar; só a integradora integra; Skills em todo cenário; proteção da `main` ativa |
+| **Fluxo combinado** | Uma branch por mudança; enviar a branch antes de integrar; só a Lead integra; Skills em todo cenário; proteção da `main` ativa |
 | **Decisões do projeto** | Público-alvo, estrutura aprovada, paleta, o que não pode mudar, o que ficou de fora e por quê |
 | **Estado** | O que está integrado, o que está em andamento, o endereço do repositório, os comandos de teste |
 | **Pendências** | Lista curta e viva, com a decisão que cada uma espera |

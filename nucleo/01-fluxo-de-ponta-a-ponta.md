@@ -32,7 +32,7 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 
 - **Entrada:** entendimento e achados.
 - **Passos:** proponha 2 ou 3 abordagens com a sua recomendação; apresente o desenho em partes e peça aprovação a cada parte; escreva a spec (objetivo, restrições, estrutura, dados, critérios de aceite, o que fica de fora) e faça uma autorrevisão (pendências, contradições, ambiguidade, escopo).
-- **Mapa de riscos de segurança**, junto da spec: o primeiro uso da `security-audit`, no modo de orientação (sem código ainda), pelo roteiro de `metodo:auditoria-de-seguranca`: quem usa e quem tem menos confiança, as fronteiras de confiança, as superfícies de entrada e os domínios de ataque que se aplicam. Fica em `docs/seguranca.md` e vira critério de aceite nas issues. No modo com especialistas, quem faz é a Segurança; nos outros, a integradora.
+- **Mapa de riscos de segurança**, junto da spec: o primeiro uso da `security-audit`, no modo de orientação (sem código ainda), pelo roteiro de `metodo:auditoria-de-seguranca`: quem usa e quem tem menos confiança, as fronteiras de confiança, as superfícies de entrada e os domínios de ataque que se aplicam. Fica em `docs/seguranca.md` e vira critério de aceite nas issues. No modo com especialistas, quem faz é o Security; nos outros, a Lead.
 - **Skill:** `superpowers:brainstorming`; `engineering:architecture` para decisões de arquitetura; `engineering:system-design` para sistemas e APIs; `metodo:auditoria-de-seguranca` para o mapa de riscos.
 - **Resultado:** spec versionada no repositório, com o mapa de riscos.
 - **Portão:** a pessoa lê e aprova a spec escrita.
@@ -73,7 +73,7 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 
 - **Entrada:** `main` verde.
 - **Passos:** lista de verificação de publicação (variáveis de ambiente, endereço público, indexação, dados de exemplo, desempenho, acessibilidade, monitoramento, plano de reversão). Se houver dados fictícios de exemplo, **uma trava automática** impede a publicação enquanto eles existirem.
-- **Auditoria de segurança, antes da primeira publicação** e depois de cada mudança grande (login novo, API pública nova, troca de infraestrutura): a auditoria completa do código com `metodo:auditoria-de-seguranca`, que roda a `security-audit`. Vale em qualquer modo: no modo com especialistas, a Segurança propõe e roda; nos outros, a integradora (ou a coordenadora do Orca). Sempre por um portão, porque gasta cota: a pessoa aprova o tamanho da auditoria ou a dispensa (por exemplo, um site estático sem login nem formulário), e a dispensa fica anotada na memória do projeto. Achado confirmado crítico ou alto segura a publicação até ser corrigido.
+- **Auditoria de segurança, antes da primeira publicação** e depois de cada mudança grande (login novo, API pública nova, troca de infraestrutura): a auditoria completa do código com `metodo:auditoria-de-seguranca`, que roda a `security-audit`. Vale em qualquer modo: no modo com especialistas, o Security propõe e roda; nos outros, a Lead (ou a Lead do Orca). Sempre por um portão, porque gasta cota: a pessoa aprova o tamanho da auditoria ou a dispensa (por exemplo, um site estático sem login nem formulário), e a dispensa fica anotada na memória do projeto. Achado confirmado crítico ou alto segura a publicação até ser corrigido.
 - **Skill:** `engineering:deploy-checklist` e, na auditoria, `metodo:auditoria-de-seguranca`.
 - **Resultado:** o produto no ar.
 - **Portão:** a pessoa autoriza a publicação.
@@ -88,7 +88,7 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 Ao fim de um projeto, ou de um marco grande, o método aprende com ele. É o que mantém este repositório vivo.
 
 - **Passos:**
-  1. A integradora lê as issues, os PRs e as lições do projeto e preenche um [caso](../casos/_modelo-caso.md): contexto, o que funcionou, o que falhou, medidas. Se o projeto rodou no Orca, consulte também as conversas dos agentes com `orca search` (só leitura, com a autorização da pessoa): elas guardam as correções que não viraram commit.
+  1. A Lead lê as issues, os PRs e as lições do projeto e preenche um [caso](../casos/_modelo-caso.md): contexto, o que funcionou, o que falhou, medidas. Se o projeto rodou no Orca, consulte também as conversas dos agentes com `orca search` (só leitura, com a autorização da pessoa): elas guardam as correções que não viraram commit.
   2. Cada erro vira uma **lição** em [licoes](../licoes/_indice.md) (o que aconteceu, a causa, a regra) e, quando couber, um teste ou um passo do fluxo.
   3. Se o projeto é de um tipo que ainda não tem [cenário](../cenarios/README.md), crie um como `rascunho`; se já tem, ajuste-o e, com o caso registrado, suba o selo de maturidade.
   4. Se uma regra do método mudou, registre uma [decisão](../decisoes/_modelo-decisao.md).

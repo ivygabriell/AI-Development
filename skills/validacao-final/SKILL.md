@@ -1,11 +1,11 @@
 ---
 name: validacao-final
-description: Use quando a integradora for fazer a validação final de um PR antes de integrar (o papel de QA), principalmente para julgar se os testes provam o comportamento pedido, ou quando um teste falha "sem motivo" (instável) ou demora demais.
+description: Use quando a Lead for fazer a validação final de um PR antes de integrar (o papel de QA), principalmente para julgar se os testes provam o comportamento pedido, ou quando um teste falha "sem motivo" (instável) ou demora demais.
 ---
 
 # Validação final
 
-**Quem usa:** a integradora, depois do especialista do tema e da Segurança. Verde não basta: os testes precisam provar os critérios de aceite. As regras de testes do método (micro e macro, RED antes de GREEN) estão no `${CLAUDE_PLUGIN_ROOT}/nucleo/03-skills-e-testes.md`.
+**Quem usa:** a Lead, depois do especialista do tema e do Security. Verde não basta: os testes precisam provar os critérios de aceite. As regras de testes do método (micro e macro, RED antes de GREEN) estão no `${CLAUDE_PLUGIN_ROOT}/nucleo/03-skills-e-testes.md`.
 
 A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/lead.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/lead.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 

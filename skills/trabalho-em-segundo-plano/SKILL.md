@@ -5,7 +5,7 @@ description: Use quando for implementar ou revisar trabalho fora da requisição
 
 # Trabalho em segundo plano
 
-**Quem usa:** as trabalhadoras do back ao construir e o especialista de Back e Dados ao revisar.
+**Quem usa:** as Builders do back ao construir e o especialista de Backend ao revisar.
 
 Uma tarefa em segundo plano vai rodar duas vezes, fora de ordem e com outra versão do código. Escreva para isso. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/backend.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/backend.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 
@@ -41,6 +41,6 @@ Uma tarefa em segundo plano vai rodar duas vezes, fora de ordem e com outra vers
 
 ## Adaptar ao tamanho do projeto
 
-- Sem fila no projeto: esta skill só entra quando a primeira tarefa fora da requisição aparecer. Antes de criar uma fila, suba a escolha à Arquitetura.
+- Sem fila no projeto: esta skill só entra quando a primeira tarefa fora da requisição aparecer. Antes de criar uma fila, suba a escolha ao Architect.
 - Projeto pequeno: enfileirar depois do commit basta, sem tabela de saída, se perder uma tarefa rara não causa dano (um e-mail de boas-vindas, por exemplo). Cobrança, estoque e dado de terceiros usam a tabela de saída.
 - O disjuntor do passo 7 entra quando há volume; com pouco tráfego, prazo e novas tentativas bastam.

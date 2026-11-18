@@ -76,7 +76,7 @@ Notas: troque `"Testes, tipos e build"` pelo nome do seu job; `strict: true` obr
 ## Etiquetas e issues
 
 - Crie etiquetas por tipo e por estado: `tarefa`, `precisa-validação`, `bloqueada` e uma por área (`mobile`, `desempenho`, `conteúdo`, `deploy`).
-- `gh label create tarefa --color 1f4fff --description "Tarefa para uma sessão trabalhadora" --force`
+- `gh label create tarefa --color 1f4fff --description "Tarefa para uma sessão Builder" --force`
 - O formulário de tarefa ([issue-tarefa.yml](../modelos/issue-tarefa.yml)) vai em `.github/ISSUE_TEMPLATE/`, junto com um `config.yml` que desliga a issue em branco (`blank_issues_enabled: false`).
 - Abra tarefas pelo terminal com `gh issue create --label tarefa --body-file corpo.md`.
 
@@ -94,7 +94,7 @@ Remover a worktree **não apaga a branch no GitHub**: ela fica como histórico. 
 
 Os scripts [nova-tarefa.sh](../modelos/nova-tarefa.sh) e [remover-tarefa.sh](../modelos/remover-tarefa.sh) fazem isso com validação (tipo, *slug*, branch já existente), porta livre e instalação de dependências. O de remoção **recusa** apagar uma worktree com mudanças não salvas.
 
-Com o [Orca](https://github.com/stablyai/orca) (veja [02](02-sessoes-e-papeis.md)), as worktrees são criadas e removidas por ele (`orca worktree create --name <slug> --issue <N>`, `orca worktree rm`), inclusive pela coordenadora ao distribuir tarefas; os scripts ficam para quem trabalha sem o Orca. As mesmas regras valem: a branch fica no GitHub depois do merge, e uma worktree com mudanças não salvas não se apaga.
+Com o [Orca](https://github.com/stablyai/orca) (veja [02](02-sessoes-e-papeis.md)), as worktrees são criadas e removidas por ele (`orca worktree create --name <slug> --issue <N>`, `orca worktree rm`), inclusive pela Lead ao distribuir tarefas; os scripts ficam para quem trabalha sem o Orca. As mesmas regras valem: a branch fica no GitHub depois do merge, e uma worktree com mudanças não salvas não se apaga.
 
 ## Higiene de dados pessoais
 

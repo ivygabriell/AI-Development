@@ -30,7 +30,7 @@ Critérios de aceite são o **contrato** entre quem pede, quem constrói e quem 
 - [ ] Sem erros no console e sem rolagem horizontal
 - [ ] Sem regressão nas outras áreas (liste quais)
 
-### Segurança e dados
+### Security e dados
 - [ ] Nenhum dado pessoal fora dos arquivos de conteúdo
 - [ ] Dados fictícios marcados e protegidos por trava de publicação
 

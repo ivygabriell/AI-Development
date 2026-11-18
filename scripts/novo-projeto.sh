@@ -146,7 +146,7 @@ fi
 
 linha_especialistas=""
 if [[ $especialistas -eq 1 ]]; then
-  linha_especialistas="- Com agentes especialistas: cada agente lê primeiro o seu harness em \`docs/agentes/\` e atua dentro dele. A integradora coordena os especialistas, e cada especialista abre as suas trabalhadoras. Exige no Orca: Settings → Orchestration → Nested worker depth = 2."
+  linha_especialistas="- Com agentes especialistas: cada agente lê primeiro o seu harness em \`docs/agentes/\` e atua dentro dele. A Lead coordena os especialistas, e cada especialista abre as suas Builders. Exige no Orca: Settings → Orchestration → Nested worker depth = 2."
 fi
 
 mkdir -p "$alvo/docs"
@@ -165,7 +165,7 @@ Os detalhes de cada fase, os cenários, os casos e as lições ficam no reposit�
 1. **Alvo antes de construir.** Entender, escrever de volta, desenhar e só então construir.
 2. **Uma mudança, uma branch.** Nunca commit direto na \`main\`; tudo entra por Pull Request com o CI verde.
 3. **Teste primeiro, em duas camadas.** Micro (TDD, visto falhar antes do código) e macro (suíte completa, build, exploração).
-4. **Quem constrói não valida.** A sessão integradora refaz os testes e explora o resultado antes de integrar.
+4. **Quem constrói não valida.** A sessão Lead refaz os testes e explora o resultado antes de integrar.
 5. **As branches integradas ficam no GitHub.** Integre com \`gh pr merge N --merge\`, sem \`--delete-branch\`.
 6. **O humano decide o que é externo ou irreversível:** publicar, integrar, apagar, reescrever histórico.
 
@@ -180,7 +180,7 @@ Os detalhes de cada fase, os cenários, os casos e as lições ficam no reposit�
 
 - Tarefas: issues com o formulário de tarefa (\`.github/ISSUE_TEMPLATE/tarefa.yml\`).
 - Worktrees: \`scripts/nova-tarefa.sh <tipo> <slug>\` e \`scripts/remover-tarefa.sh <tipo> <slug>\`.
-- Com o Orca: a coordenadora é a integradora e distribui as tarefas aos agentes (\`orca orchestration worker-start\`); o Orca cria e remove as worktrees, e os scripts acima ficam para quem trabalha sem ele. Prompt: \`modelos/prompt-lead-orca.md\` do método.
+- Com o Orca: a Lead distribui as tarefas aos agentes (\`orca orchestration worker-start\`); o Orca cria e remove as worktrees, e os scripts acima ficam para quem trabalha sem ele. Prompt: \`modelos/prompt-lead-orca.md\` do método.
 - Agente principal: todas as sessões deste projeto usam $nome_agente, nunca as duas ferramentas; no Orca, todo agente abre com \`--agent $agente\`. O Claude Code lê o \`CLAUDE.md\`; o Codex lê o \`AGENTS.md\`, que manda ler o \`CLAUDE.md\`. Trocar de ferramenta é uma decisão da pessoa, registrada na memória. Com back e front em tarefas paralelas, o contrato da API é aprovado antes de qualquer tarefa de construção.
 ${linha_especialistas:+$linha_especialistas
 }- Para trazer este projeto à versão mais nova do método: \`/metodo:atualizar-projeto\`.

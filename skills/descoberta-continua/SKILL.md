@@ -5,7 +5,7 @@ description: Use quando for conversar com usuários ou clientes, organizar anota
 
 # Descoberta contínua
 
-**Quem usa:** o Produto. O planejamento formal de uma pesquisa segue `design:user-research`, e a síntese, `design:research-synthesis`. A prioridade final é da pessoa.
+**Quem usa:** o Product. O planejamento formal de uma pesquisa segue `design:user-research`, e a síntese, `design:research-synthesis`. A prioridade final é da pessoa.
 
 A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/product.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/product.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 
@@ -16,7 +16,7 @@ A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencia
 3. **Das anotações para oportunidades:** separe o que a pessoa fez (fato) do que ela acha (opinião) e do pedido (solução). Oportunidade é uma necessidade, dor ou desejo que pode ser resolvido de mais de um jeito; se só tem um jeito, é solução. Agrupe as oportunidades nos momentos da experiência do usuário. Fonte: [Product Talk, árvore de oportunidades](https://www.producttalk.org/opportunity-solution-trees/).
 4. **Escolha uma oportunidade-alvo** e pense soluções só para ela; **compare pelo menos três**. Não descarte uma oportunidade por parecer difícil. Fonte: [Product Talk, árvore de oportunidades](https://www.producttalk.org/opportunity-solution-trees/).
 5. **Teste a suposição mais arriscada de cada solução** antes de escolher (uma conversa, um protótipo, um dado já existente); só a que sobreviver vira spec. Fonte: [Product Talk, árvore de oportunidades](https://www.producttalk.org/opportunity-solution-trees/).
-6. **Atualize a árvore a cada 3 ou 4 entrevistas;** não reaja a uma entrevista, um chamado ou uma venda isolados. Guarde a árvore pelo caminho que o harness do Produto manda para a memória do tema. Fonte: [Product Talk, árvore de oportunidades](https://www.producttalk.org/opportunity-solution-trees/).
+6. **Atualize a árvore a cada 3 ou 4 entrevistas;** não reaja a uma entrevista, um chamado ou uma venda isolados. Guarde a árvore pelo caminho que o harness do Product manda para a memória do tema. Fonte: [Product Talk, árvore de oportunidades](https://www.producttalk.org/opportunity-solution-trees/).
 
 ## Checklist
 

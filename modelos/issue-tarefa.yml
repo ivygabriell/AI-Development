@@ -1,13 +1,13 @@
 # Copie para .github/ISSUE_TEMPLATE/tarefa.yml (e crie ao lado um config.yml com `blank_issues_enabled: false`).
 name: Tarefa
-description: Uma tarefa para uma sessão trabalhadora (veja o documento de desenvolvimento do projeto)
+description: Uma tarefa para uma sessão Builder (veja o documento de desenvolvimento do projeto)
 title: "[tarefa] "
 labels: ["tarefa"]
 body:
   - type: markdown
     attributes:
       value: |
-        A sessão **integradora** abre esta tarefa; uma sessão **trabalhadora** a executa e **não** integra na `main`.
+        A sessão **Lead** abre esta tarefa; uma sessão **Builder** a executa e **não** integra na `main`.
   - type: textarea
     id: objetivo
     attributes:
@@ -19,7 +19,7 @@ body:
     id: criterios
     attributes:
       label: Critérios de aceite
-      description: Como a integradora vai saber que está certo. Cite a referência (uma seção, um comportamento, um documento) quando houver.
+      description: Como a Lead vai saber que está certo. Cite a referência (uma seção, um comportamento, um documento) quando houver.
       placeholder: "- [ ] ...\n- [ ] ..."
     validations:
       required: true
