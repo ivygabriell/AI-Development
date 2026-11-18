@@ -2,7 +2,8 @@
 # Prepara um projeto novo com os modelos do método.
 # Uso: scripts/novo-projeto.sh <pasta-do-projeto> [--agente claude|codex] [--especialistas] [cenario ...]
 #   <pasta-do-projeto>  pasta que já existe (de preferência um repositório Git novo)
-#   --agente            o agente principal do projeto (decisão 010): claude (padrão) ou codex; todas as sessões usam o mesmo
+#   --agente            põe todos os papéis, inclusive a Lead, numa ferramenta só: claude ou codex (decisão 013);
+#                       sem ele, a Lead e Product, Architect e Frontend ficam no Claude Code, e Backend, Security e Ops no Codex
 #   --especialistas     modo com agentes especialistas: copia os harnesses para docs/agentes/
 #   cenario             um ou mais nomes de arquivos em cenarios/ (sem .md), por exemplo: site-estatico api-backend
 # Copia: formulário de tarefa, modelo de PR, CI, scripts de worktree, e cria CLAUDE.md, AGENTS.md (para o Codex),
@@ -22,7 +23,7 @@ fi
 
 # As opções podem vir em qualquer posição; o primeiro argumento que sobra é a pasta, os outros são cenários
 especialistas=0
-agente="claude"
+agente=""
 restantes=()
 args=("$@")
 i=0
@@ -33,18 +34,21 @@ while [[ $i -lt ${#args[@]} ]]; do
   elif [[ "$arg" == "--agente" ]]; then
     i=$((i + 1))
     agente="${args[$i]:-}"
+    [[ -n "$agente" ]] || { echo "--agente precisa de um valor: claude ou codex." >&2; exit 1; }
   elif [[ "$arg" == --agente=* ]]; then
     agente="${arg#--agente=}"
+    [[ -n "$agente" ]] || { echo "--agente precisa de um valor: claude ou codex." >&2; exit 1; }
   else
     restantes+=("$arg")
   fi
   i=$((i + 1))
 done
 case "$agente" in
+  "") nome_agente="" ;;
   claude) nome_agente="Claude Code" ;;
   codex) nome_agente="Codex" ;;
   *)
-    echo "Agente principal inválido: '$agente'. Use --agente claude ou --agente codex (um só por projeto)." >&2
+    echo "Ferramenta inválida: '$agente'. Use --agente claude ou --agente codex (todos os papéis numa ferramenta só)." >&2
     exit 1
     ;;
 esac
@@ -146,15 +150,21 @@ fi
 
 linha_especialistas=""
 if [[ $especialistas -eq 1 ]]; then
-  linha_especialistas="- Com agentes especialistas: cada agente lê primeiro o seu harness em \`docs/agentes/\` e atua dentro dele. A integradora coordena os especialistas, e cada especialista abre as suas trabalhadoras. Exige no Orca: Settings → Orchestration → Nested worker depth = 2."
+  linha_especialistas="- Com agentes especialistas: cada agente lê primeiro o seu harness em \`docs/agentes/\` e atua dentro dele. A Lead coordena os especialistas, e cada especialista abre as suas Builders. Exige no Orca: Settings → Orchestration → Nested worker depth = 2."
 fi
+
+# Ferramenta padrão de cada papel (decisão 013): a mista, ou uma só com --agente
+ferramenta() { if [[ -n "$nome_agente" ]]; then echo "$nome_agente"; else case "$1" in Backend|Security|Ops) echo "Codex" ;; *) echo "Claude Code" ;; esac; fi; }
+tabela_papeis=""
+for papel in Lead Product Architect Frontend Backend Security Ops; do tabela_papeis+="| $papel | $(ferramenta "$papel") |"$'\n'; done
+lead="$(ferramenta Lead)"
 
 mkdir -p "$alvo/docs"
 cat > "$alvo/docs/DESENVOLVIMENTO.md" <<DOC
 # Como desenvolvemos este projeto
 
 Versão do método: $versao
-Agente principal: $nome_agente
+Lead: $lead
 Cenários aplicados:
 $lista_cenarios
 
@@ -165,9 +175,22 @@ Os detalhes de cada fase, os cenários, os casos e as lições ficam no reposit�
 1. **Alvo antes de construir.** Entender, escrever de volta, desenhar e só então construir.
 2. **Uma mudança, uma branch.** Nunca commit direto na \`main\`; tudo entra por Pull Request com o CI verde.
 3. **Teste primeiro, em duas camadas.** Micro (TDD, visto falhar antes do código) e macro (suíte completa, build, exploração).
-4. **Quem constrói não valida.** A sessão integradora refaz os testes e explora o resultado antes de integrar.
+4. **Quem constrói não valida.** A sessão Lead refaz os testes e explora o resultado antes de integrar.
 5. **As branches integradas ficam no GitHub.** Integre com \`gh pr merge N --merge\`, sem \`--delete-branch\`.
-6. **O humano decide o que é externo ou irreversível:** publicar, integrar, apagar, reescrever histórico.
+6. **A pessoa decide o que tem impacto grande** (seção Aprovações, abaixo); o resto a Lead decide e registra.
+
+## Ferramenta por papel
+
+Cada sessão usa a ferramenta do seu papel; a Builder usa a do papel de quem a abre e vai para a outra quando a cota aperta (com passagem pela issue). No Orca: \`--agent claude --model claude-opus-5-5\` (Claude Code) ou \`--agent codex --model gpt-6.1-sol\` (Codex). Mudar esta tabela é uma decisão da pessoa, registrada na memória.
+
+| Papel | Ferramenta padrão |
+|---|---|
+$tabela_papeis
+## Aprovações
+
+Uma decisão é da pessoa quando aciona pelo menos um gatilho: muda **o que** será construído; é difícil ou impossível de desfazer; atinge usuários reais; custa dinheiro ou muita cota; aceita um risco de segurança ou de dados pessoais; muda as regras do jogo (harness, método, a Lead, a tabela Ferramenta por papel). Sem gatilho, a Lead decide e registra na issue ou na memória; na dúvida, sobe para a pessoa. Um PR dentro do plano aprovado, com CI verde, validação sem achado crítico nem importante, só nos arquivos permitidos e sem gatilho, a Lead integra sozinha. A Lead escreve um resumo por marco do que aprovou sozinha. A tabela completa está no núcleo 01 do método ("Portões de aprovação"); anote aqui o que a pessoa mudar:
+
+- (nenhum ajuste ainda)
 
 ## Comandos do projeto
 
@@ -180,8 +203,8 @@ Os detalhes de cada fase, os cenários, os casos e as lições ficam no reposit�
 
 - Tarefas: issues com o formulário de tarefa (\`.github/ISSUE_TEMPLATE/tarefa.yml\`).
 - Worktrees: \`scripts/nova-tarefa.sh <tipo> <slug>\` e \`scripts/remover-tarefa.sh <tipo> <slug>\`.
-- Com o Orca: a coordenadora é a integradora e distribui as tarefas aos agentes (\`orca orchestration worker-start\`); o Orca cria e remove as worktrees, e os scripts acima ficam para quem trabalha sem ele. Prompt: \`modelos/prompt-coordenadora-orca.md\` do método.
-- Agente principal: todas as sessões deste projeto usam $nome_agente, nunca as duas ferramentas; no Orca, todo agente abre com \`--agent $agente\`. O Claude Code lê o \`CLAUDE.md\`; o Codex lê o \`AGENTS.md\`, que manda ler o \`CLAUDE.md\`. Trocar de ferramenta é uma decisão da pessoa, registrada na memória. Com back e front em tarefas paralelas, o contrato da API é aprovado antes de qualquer tarefa de construção.
+- Com o Orca: a Lead distribui as tarefas aos agentes (\`orca orchestration worker-start\`); o Orca cria e remove as worktrees, e os scripts acima ficam para quem trabalha sem ele. Prompt: \`modelos/prompt-lead-orca.md\` do método.
+- Ferramentas: cada papel usa a sua (seção Ferramenta por papel, acima). O Claude Code lê o \`CLAUDE.md\`; o Codex lê o \`AGENTS.md\`, que manda ler o \`CLAUDE.md\`. Todo PR recebe ao menos uma revisão da outra ferramenta. Quando a cota acaba no meio da tarefa, a Builder faz commit, envia a branch e comenta na issue onde parou; outra Builder, na outra ferramenta, continua na mesma branch. Com back e front em tarefas paralelas, o contrato da API é aprovado antes de qualquer tarefa de construção.
 ${linha_especialistas:+$linha_especialistas
 }- Para trazer este projeto à versão mais nova do método: \`/metodo:atualizar-projeto\`.
 - Memória do projeto: \`docs/memoria-do-projeto.md\`.
@@ -191,7 +214,7 @@ ${linha_especialistas:+$linha_especialistas
 Rode a higiene de dados do método: nada de e-mail pessoal, telefone ou token em documentos, testes e commits.
 DOC
 
-echo "Projeto preparado em: $alvo (método $versao, agente principal: $nome_agente)"
+echo "Projeto preparado em: $alvo (método $versao, Lead: $lead)"
 echo "Próximos passos:"
 echo "  1. Faça o primeiro push da main, deixe o CI rodar e só depois ative a proteção da main."
 echo "  2. Preencha docs/DESENVOLVIMENTO.md (comandos) e docs/memoria-do-projeto.md."

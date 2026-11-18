@@ -32,7 +32,7 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 
 - **Entrada:** entendimento e achados.
 - **Passos:** proponha 2 ou 3 abordagens com a sua recomendação; apresente o desenho em partes e peça aprovação a cada parte; escreva a spec (objetivo, restrições, estrutura, dados, critérios de aceite, o que fica de fora) e faça uma autorrevisão (pendências, contradições, ambiguidade, escopo).
-- **Mapa de riscos de segurança**, junto da spec: o primeiro uso da `security-audit`, no modo de orientação (sem código ainda), pelo roteiro de `metodo:auditoria-de-seguranca`: quem usa e quem tem menos confiança, as fronteiras de confiança, as superfícies de entrada e os domínios de ataque que se aplicam. Fica em `docs/seguranca.md` e vira critério de aceite nas issues. No modo com especialistas, quem faz é a Segurança; nos outros, a integradora.
+- **Mapa de riscos de segurança**, junto da spec: o primeiro uso da `security-audit`, no modo de orientação (sem código ainda), pelo roteiro de `metodo:auditoria-de-seguranca`: quem usa e quem tem menos confiança, as fronteiras de confiança, as superfícies de entrada e os domínios de ataque que se aplicam. Fica em `docs/seguranca.md` e vira critério de aceite nas issues. No modo com especialistas, quem faz é o Security; nos outros, a Lead.
 - **Skill:** `superpowers:brainstorming`; `engineering:architecture` para decisões de arquitetura; `engineering:system-design` para sistemas e APIs; `metodo:auditoria-de-seguranca` para o mapa de riscos.
 - **Resultado:** spec versionada no repositório, com o mapa de riscos.
 - **Portão:** a pessoa lê e aprova a spec escrita.
@@ -43,7 +43,7 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 - **Passos:** quebre em tarefas pequenas (2 a 5 minutos por passo), cada uma com os arquivos exatos, o teste primeiro, o comando e o resultado esperado. Liste as restrições globais e o que a revisão final precisa olhar.
 - **Skill:** `superpowers:writing-plans`.
 - **Resultado:** plano versionado.
-- **Portão:** a pessoa aprova o plano e escolhe o modo de execução (inline, subagentes, sessões divididas ou orquestração com o Orca, inclusive com agentes especialistas por tema; veja [02](02-sessoes-e-papeis.md)). Em qualquer modo, todas as sessões usam o agente principal escolhido no começo do projeto (Claude Code ou Codex, nunca os dois).
+- **Portão:** a pessoa aprova o plano e escolhe o modo de execução (inline, subagentes, sessões divididas ou orquestração com o Orca, inclusive com agentes especialistas por tema; veja [02](02-sessoes-e-papeis.md)). Em qualquer modo, a Lead fica, por padrão, no Claude Code (a linha `Lead:` do `docs/DESENVOLVIMENTO.md` diz qual) e cada papel usa a ferramenta padrão dele (tabela Ferramenta por papel, no [02](02-sessoes-e-papeis.md)); a Builder vai para a outra ferramenta quando a cota aperta.
 
 ## Fase 4 · Construir com TDD
 
@@ -67,13 +67,13 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 - **Passos:** envie a branch, deixe o CI rodar, abra o Pull Request com o modelo, traga a `main` para a branch se ela estiver desatualizada, integre (sem apagar a branch remota), confira a `main` e o CI dela.
 - **Skill:** `superpowers:finishing-a-development-branch`.
 - **Resultado:** a `main` com a mudança, suítes e CI verdes.
-- **Portão:** o "pode integrar" da pessoa (veja os portões abaixo).
+- **Portão:** os gatilhos de aprovação (abaixo): sem gatilho, a Lead integra e registra; com gatilho, só com o "pode integrar" da pessoa.
 
 ## Fase 7 · Publicar
 
 - **Entrada:** `main` verde.
 - **Passos:** lista de verificação de publicação (variáveis de ambiente, endereço público, indexação, dados de exemplo, desempenho, acessibilidade, monitoramento, plano de reversão). Se houver dados fictícios de exemplo, **uma trava automática** impede a publicação enquanto eles existirem.
-- **Auditoria de segurança, antes da primeira publicação** e depois de cada mudança grande (login novo, API pública nova, troca de infraestrutura): a auditoria completa do código com `metodo:auditoria-de-seguranca`, que roda a `security-audit`. Vale em qualquer modo: no modo com especialistas, a Segurança propõe e roda; nos outros, a integradora (ou a coordenadora do Orca). Sempre por um portão, porque gasta cota: a pessoa aprova o tamanho da auditoria ou a dispensa (por exemplo, um site estático sem login nem formulário), e a dispensa fica anotada na memória do projeto. Achado confirmado crítico ou alto segura a publicação até ser corrigido.
+- **Auditoria de segurança, antes da primeira publicação** e depois de cada mudança grande (login novo, API pública nova, troca de infraestrutura): a auditoria completa do código com `metodo:auditoria-de-seguranca`, que roda a `security-audit`. Vale em qualquer modo: no modo com especialistas, o Security propõe e roda; nos outros, a Lead (ou a Lead do Orca). Sempre por um portão, porque gasta cota: a pessoa aprova o tamanho da auditoria ou a dispensa (por exemplo, um site estático sem login nem formulário), e a dispensa fica anotada na memória do projeto. Achado confirmado crítico ou alto segura a publicação até ser corrigido.
 - **Skill:** `engineering:deploy-checklist` e, na auditoria, `metodo:auditoria-de-seguranca`.
 - **Resultado:** o produto no ar.
 - **Portão:** a pessoa autoriza a publicação.
@@ -88,7 +88,7 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 Ao fim de um projeto, ou de um marco grande, o método aprende com ele. É o que mantém este repositório vivo.
 
 - **Passos:**
-  1. A integradora lê as issues, os PRs e as lições do projeto e preenche um [caso](../casos/_modelo-caso.md): contexto, o que funcionou, o que falhou, medidas. Se o projeto rodou no Orca, consulte também as conversas dos agentes com `orca search` (só leitura, com a autorização da pessoa): elas guardam as correções que não viraram commit.
+  1. A Lead lê as issues, os PRs e as lições do projeto e preenche um [caso](../casos/_modelo-caso.md): contexto, o que funcionou, o que falhou, medidas. Se o projeto rodou no Orca, consulte também as conversas dos agentes com `orca search` (só leitura, com a autorização da pessoa): elas guardam as correções que não viraram commit.
   2. Cada erro vira uma **lição** em [licoes](../licoes/_indice.md) (o que aconteceu, a causa, a regra) e, quando couber, um teste ou um passo do fluxo.
   3. Se o projeto é de um tipo que ainda não tem [cenário](../cenarios/README.md), crie um como `rascunho`; se já tem, ajuste-o e, com o caso registrado, suba o selo de maturidade.
   4. Se uma regra do método mudou, registre uma [decisão](../decisoes/_modelo-decisao.md).
@@ -99,16 +99,29 @@ Ao fim de um projeto, ou de um marco grande, o método aprende com ele. É o que
 
 ## Portões de aprovação
 
-O humano é quem aprova, **sempre por escrito e antes** da ação:
+A pessoa participa só das aprovações com **impacto potencialmente grande**; as demais, a Lead aprova ([decisão 013](../decisoes/013-lead-e-builders-com-codex-e-claude.md)). Uma decisão é **da pessoa** quando aciona **pelo menos um gatilho**:
 
-| Ação | Quem decide |
+1. Muda **o que** será construído (escopo, critérios de aceite, prioridade).
+2. É **difícil ou impossível de desfazer** (apaga dados, reescreve histórico, configuração de conta).
+3. Atinge **usuários reais** (produção, publicação, dados de quem usa).
+4. Custa **dinheiro ou muita cota** (serviço pago, nuvem, auditoria completa).
+5. **Aceita um risco** de segurança ou de dados pessoais.
+6. Muda **as regras do jogo** (harness, método, a Lead, a tabela Ferramenta por papel).
+
+Sem gatilho, decide a Lead e registra na issue ou na memória do projeto. **Na dúvida, sobe para a pessoa** (a classe mais pesada, como na classificação do pedido).
+
+| Fica com a pessoa | Passa para a Lead |
 |---|---|
-| Interpretação de um pedido ambíguo | A pessoa |
-| Desenho / spec / plano | A pessoa |
-| Enviar uma branch ao remoto | Combinado no fluxo (autorizado de uma vez) |
-| Integrar na `main` | A pessoa, a cada mudança |
-| Publicar em produção | A pessoa |
-| Apagar dados, sessões, branches não integradas | A pessoa, depois de ver exatamente o que será apagado |
-| Reescrever histórico, `push --force`, mudar configuração de conta | A pessoa, com aviso do que muda e do que não tem volta |
+| Entendimento, spec e plano | Integrar um PR na `main` quando **tudo** vale: dentro do plano aprovado, CI verde, validação sem achado crítico nem importante, só arquivos permitidos e nenhum gatilho |
+| A primeira direção visual (referências e identidade) | Telas seguintes, dentro do design system |
+| Mudança de escopo ou de critério de aceite | Desenho curto de tarefa delimitada, dentro do escopo |
+| Contrato da API que **quebra** quem usa; migração que apaga ou transforma dados | Mudança **aditiva** no contrato (um campo novo opcional) |
+| Serviço ou plano pago, recurso de nuvem, auditoria completa de segurança | Dependência gratuita e comum, refatoração interna, testes, documentação, correção de bug que não muda o comportamento combinado |
+| Aceitar um risco; deixar aberto um achado crítico ou alto; mudar login, permissões, pagamento ou dados pessoais; incidente | Achados menores (viram pendências) |
+| Publicar, mudar um ambiente publicado, reverter a produção | Abrir e fechar Builders, escolher a ferramenta, fazer as passagens por cota |
+| Apagar dados, sessões ou branches não integradas (depois de ver o que será apagado); reescrever histórico, `push --force`, proteção, segredos, configuração de conta | Spikes e as dúvidas dos especialistas |
 
-Uma aprovação vale **para aquela mudança**. Aprovar uma coisa não autoriza a seguinte.
+- **Resumo por marco:** a Lead lista o que aprovou sozinha, com os links para as issues e os PRs. A pessoa lê quando quiser e pode reverter qualquer item.
+- **Parâmetros por projeto:** a tabela vai para a seção "Aprovações" do `docs/DESENVOLVIMENTO.md`. Quando a pessoa disser "isso a Lead pode decidir daqui para frente" (ou o contrário), a mudança fica anotada ali e na memória.
+- O pedido da pessoa é sempre por escrito e **antes** da ação. Uma aprovação vale **para aquela mudança**; aprovar uma coisa não autoriza a seguinte.
+- **No repositório do método** nada disso muda: a pessoa aprova cada PR, como manda o `CLAUDE.md` dele.

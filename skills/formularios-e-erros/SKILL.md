@@ -5,9 +5,9 @@ description: Use quando for implementar ou revisar um formulário (cadastro, log
 
 # Formulários e erros
 
-**Quem usa:** as trabalhadoras do front ao construir e o especialista de Design e Front ao revisar.
+**Quem usa:** as Builders do front ao construir e o especialista de Frontend ao revisar.
 
-Padrão do método, decidido pela pessoa: **o erro de campo aparece ao avançar ou enviar**, como no GOV.UK, não ao sair do campo nem enquanto a pessoa digita. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/design-e-front.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/design-e-front.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
+Padrão do método, decidido pela pessoa: **o erro de campo aparece ao avançar ou enviar**, como no GOV.UK, não ao sair do campo nem enquanto a pessoa digita. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/frontend.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/frontend.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 
 ## Passo a passo
 

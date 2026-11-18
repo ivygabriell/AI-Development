@@ -5,9 +5,9 @@ description: Use quando for escrever ou mudar o contrato da API do projeto (docs
 
 # Contrato de API
 
-**Quem usa:** a Arquitetura, dona do contrato. O back implementa pelo `metodo:api-conforme-contrato`, que segue as mesmas regras; mudar o contrato exige o portão da pessoa.
+**Quem usa:** o Architect, dono do contrato. O back implementa pelo `metodo:api-conforme-contrato`, que segue as mesmas regras. O contrato inicial e toda mudança que quebra quem usa exigem o portão da pessoa; a mudança aditiva (um campo novo opcional), a Lead aprova.
 
-A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/arquitetura.md` (e as regras do Zalando e do Google AIP em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/back-e-dados.md`); o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/arquitetura.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
+A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/architect.md` (e as regras do Zalando e do Google AIP em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/backend.md`); o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/architect.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 
 ## Passo a passo
 
@@ -16,7 +16,7 @@ A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencia
 3. **Escolha um jeito de versionar e registre o motivo** (`engineering:architecture`). As referências divergem: o Zalando proíbe versão na URL e usa o tipo de mídia; o Google usa a versão no caminho; a Stripe usa versões por data presas a cada cliente. Para projeto pequeno, o padrão é não ter versão nova enquanto só houver mudança compatível, e marcar o que sai com `Deprecation` e `Sunset`, medindo o uso antes de remover. Fontes: [Zalando #115 e #189](https://opensource.zalando.com/restful-api-guidelines/#115), [Stripe, versões da API](https://stripe.com/blog/api-versioning).
 4. **Garantias de repetição no contrato:** toda criação e toda ação que muda algo e pode ser repetida leva `Idempotency-Key` (por intenção, guardada por cliente, por pelo menos a janela de repetição, que o contrato fixa; 24 horas é a referência da base do back); a repetição devolve a mesma resposta; mesma chave com corpo diferente é um erro com código estável, escrito no contrato; o cliente repete com espera exponencial e variação aleatória. Diga o que acontece quando o resultado de uma etapa externa é desconhecido. Fontes: [Stripe, repetição segura](https://stripe.com/blog/idempotency) e [Zalando #229](https://opensource.zalando.com/restful-api-guidelines/#229).
 5. **Listagem paginada desde a primeira versão, resposta em objeto, erro num formato só** (código estável para a máquina, mensagem para gente), com o código HTTP mais específico. Fontes: [AIP-158](https://google.aip.dev/158), [Zalando #110 e #176](https://opensource.zalando.com/restful-api-guidelines/#110).
-6. **Revisão leve antes de publicar** cada mudança do contrato: o especialista do back, o do front e a Segurança leem; o que quebra vai ao portão da pessoa com o plano de transição. Fonte: [Stripe, versões da API](https://stripe.com/blog/api-versioning).
+6. **Revisão leve antes de publicar** cada mudança do contrato: o especialista do back, o do front e o Security leem; o que quebra vai ao portão da pessoa com o plano de transição. Fonte: [Stripe, versões da API](https://stripe.com/blog/api-versioning).
 7. **Proporcionalidade:** cada garantia e cada cabeçalho entra porque um cliente real precisa; o que é para o futuro fica anotado, não implementado.
 
 ## O teste que prova
@@ -34,7 +34,7 @@ A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencia
 - [ ] Versionamento escolhido com registro de decisão; depreciação com data e medição.
 - [ ] `Idempotency-Key` nas ações repetíveis; resultado desconhecido descrito.
 - [ ] Paginação, objeto na resposta e formato único de erro.
-- [ ] Revisão do back, do front e da Segurança; portão da pessoa no que quebra.
+- [ ] Revisão do back, do front e do Security; portão da pessoa no que quebra.
 
 ## Adaptar ao tamanho do projeto
 

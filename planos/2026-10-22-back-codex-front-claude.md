@@ -38,7 +38,7 @@
 ### Tarefa 2: núcleo e modelos
 
 - [ ] `nucleo/02`: subseção `### Back e front com agentes diferentes` dentro de "Com o Orca": a coordenadora Claude, `--agent claude` no front e `--agent codex` no back, contrato primeiro, pastas e arquivos comuns, regra do agente, o que observar.
-- [ ] `modelos/prompt-coordenadora-orca.md`: escolha do agente por lado, contrato primeiro com portão, arquivos comuns só com ela, anotar agente e retrabalho por tarefa.
+- [ ] `modelos/prompt-lead-orca.md`: escolha do agente por lado, contrato primeiro com portão, arquivos comuns só com ela, anotar agente e retrabalho por tarefa.
 - [ ] `modelos/AGENTS-projeto.md` (novo, com `{{VERSAO}}`): o que ler no início e as regras da trabalhadora.
 - [ ] `modelos/CLAUDE-projeto.md`: a regra do agente ampliada.
 - [ ] `modelos/memoria-do-projeto.md`: agente e retrabalho por tarefa.

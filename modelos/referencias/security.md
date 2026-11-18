@@ -1,10 +1,10 @@
-# Base de conhecimento: Segurança
+# Base de conhecimento: Security
 
 **Leitura feita em:** 2026-10-29
-**Agente:** Segurança (harness em `modelos/agentes/seguranca.md`)
+**Agente:** Security (harness em `modelos/agentes/security.md`)
 **Skills que saem daqui:** `metodo:autenticacao-e-sessao`, `metodo:controle-de-acesso`, `metodo:entrada-nao-confiavel` e `metodo:incidente-com-dados-pessoais`; da seção "Auditoria completa", `metodo:auditoria-de-seguranca`
 
-O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `docs/referencias/seguranca.md` do projeto e antes dos sites. As skills também servem a quem corrige (as trabalhadoras do back e do front). A segurança do CI fica com `metodo:ci-seguro`, do DevOps.
+O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `docs/referencias/security.md` do projeto e antes dos sites. As skills também servem a quem corrige (as Builders do back e do front). A segurança do CI fica com `metodo:ci-seguro`, do Ops.
 
 ## Autenticação e senhas (NIST SP 800-63B-4 e OWASP)
 
@@ -54,7 +54,7 @@ O que a leitura das referências escolhidas pela pessoa ensinou, com palavras pr
 | Registrar todo incidente com dados pessoais, comunicado ou não, por pelo menos 5 anos | a ANPD pode pedir | [Resolução nº 15/2024, art. 10](https://bibliotecadigital.mj.gov.br/bitstream/1/12879/2/RES_ANPD_2024_15.html) |
 | Canal oficial da comunicação | onde comunicar | [ANPD, comunicação de incidente](https://www.gov.br/anpd/pt-br/canais_atendimento/agente-de-tratamento/comunicado-de-incidente-de-seguranca-cis) |
 
-A ANPD é a autoridade da lei; confira a data e a versão de cada norma antes de usar. Decidir se o incidente é comunicável e comunicar é da pessoa (com o encarregado e, se houver, o jurídico); a Segurança prepara os fatos.
+A ANPD é a autoridade da lei; confira a data e a versão de cada norma antes de usar. Decidir se o incidente é comunicável e comunicar é da pessoa (com o encarregado e, se houver, o jurídico); o Security prepara os fatos.
 
 ## Auditoria completa (security-audit da Cloudflare)
 
@@ -76,8 +76,8 @@ Leitura do repositório inteiro da skill (commit `c1c8a8c`, de 2026-09-14), feit
 | Perfis `quick`, `standard` e `deep`, escopo reduzido (pastas ou a diferença entre dois commits) e um limite de subagentes (`budget`); rodadas novas leem as anteriores e não confiam em achados de código que mudou | o custo fica previsível e a cobertura soma | [SKILL.md, perfis, escopo e orçamento](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md) |
 | A rodada só acaba completa (validadores passando) ou `incomplete`, com o motivo; um relatório parcial diz que é parcial | não declarar cobertura que não houve | [SKILL.md, fluxo](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md) |
 
-Como isso entra no método: a skill `metodo:auditoria-de-seguranca` (quando rodar, o portão, o tamanho, a triagem para o fluxo e o registro). Nas revisões de PR, a Segurança usa só o **modo de orientação** da skill: os princípios acima, sem as seis fases e sem arquivos.
+Como isso entra no método: a skill `metodo:auditoria-de-seguranca` (quando rodar, o portão, o tamanho, a triagem para o fluxo e o registro). Nas revisões de PR, o Security usa só o **modo de orientação** da skill: os princípios acima, sem as seis fases e sem arquivos.
 
 ## Outras referências do harness
 
-PortSwigger Research (https://portswigger.net/research), GitHub Security Lab (https://securitylab.github.com/) e Trail of Bits (https://blog.trailofbits.com/) servem a casos específicos (uma técnica de ataque, uma falha em dependência, uma auditoria) e não foram resumidos aqui; a segurança dos workflows do GitHub Actions já está em `modelos/referencias/devops.md`.
+PortSwigger Research (https://portswigger.net/research), GitHub Security Lab (https://securitylab.github.com/) e Trail of Bits (https://blog.trailofbits.com/) servem a casos específicos (uma técnica de ataque, uma falha em dependência, uma auditoria) e não foram resumidos aqui; a segurança dos workflows do GitHub Actions já está em `modelos/referencias/ops.md`.

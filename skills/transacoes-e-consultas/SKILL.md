@@ -5,9 +5,9 @@ description: Use quando for implementar ou revisar código que grava em mais de 
 
 # Transações, consultas e conexões
 
-**Quem usa:** as trabalhadoras do back ao construir e o especialista de Back e Dados ao revisar.
+**Quem usa:** as Builders do back ao construir e o especialista de Backend ao revisar.
 
-A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/back-e-dados.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/back-e-dados.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
+A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/backend.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/backend.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 
 ## Passo a passo
 

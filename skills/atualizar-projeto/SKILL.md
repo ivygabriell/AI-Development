@@ -29,10 +29,10 @@ Gere uma referência numa pasta temporária, com o cenário do projeto (da linha
 
 ```bash
 ref="$(mktemp -d)"
-bash "${CLAUDE_PLUGIN_ROOT}/scripts/novo-projeto.sh" "$ref" --agente <claude|codex> <cenário>
+bash "${CLAUDE_PLUGIN_ROOT}/scripts/novo-projeto.sh" "$ref" [--agente <claude|codex>] <cenário>
 ```
 
-O agente vem da linha `Agente principal:` do `docs/DESENVOLVIMENTO.md` do projeto; se ela não existir, pergunte antes (veja a tabela abaixo).
+Sem `--agente`, a referência traz a Lead e a tabela **Ferramenta por papel** do método 4.0.0 (as duas ferramentas: a Lead, Product, Architect e Frontend no Claude Code; Backend, Security e Ops no Codex). Use `--agente <claude|codex>` só se a pessoa quiser uma ferramenta só (veja a tabela abaixo).
 
 Se o projeto usa o modo com agentes especialistas (tem `docs/agentes/`, ou a pessoa disse que sim), gere a referência com `--especialistas` depois de `"$ref"`, para ela trazer os harnesses e a linha do modo no `DESENVOLVIMENTO.md`.
 
@@ -47,11 +47,28 @@ Compare cada arquivo da referência com o do projeto e monte o plano, arquivo po
 | `AGENTS.md` existe | Atualizar só a linha `Versão do método:` (ou acrescentá-la) e acrescentar, numa seção `## Método de desenvolvimento`, a leitura do `CLAUDE.md`, do `docs/DESENVOLVIMENTO.md` e da memória e as regras da referência que faltarem |
 | `docs/DESENVOLVIMENTO.md` existe | Atualizar a versão e acrescentar as regras e as linhas de "Tarefas e sessões" que faltarem, mantendo os comandos e as decisões do projeto |
 | `docs/memoria-do-projeto.md` existe | Acrescentar uma entrada: "Atualizado para o método `<versão>` em `<data>`: `<o que mudou>`" |
-| Falta a linha `Agente principal:` no `docs/DESENVOLVIMENTO.md` | Pergunte qual é o agente principal do projeto: Claude Code ou Codex, um só para todas as sessões (decisão 010 do método). Se o projeto usava o back no Codex e o front no Claude (método 2.5 a 2.12), explique que esse modo saiu na 3.0.0 e que a escolha é dela. Gere a referência com `--agente <claude|codex>` e acrescente a linha logo depois de `Versão do método:`; em "Tarefas e sessões", ponha a linha "Agente principal" da referência no lugar da linha "Back com o Codex e front com o Claude", se houver (essa troca é a única remoção permitida além da versão). Os harnesses de antes da 3.0.0 fixam a ferramenta por tema: liste a diferença e recomende trocá-los pelos novos, que servem às duas |
+| O `docs/DESENVOLVIMENTO.md` tem a linha `Agente principal:` (método 3.x) ou não tem a linha `Lead:` | Explique que a 4.0.0 (decisão 013 do método) usa o Claude Code e o Codex juntos, com a Lead no Claude Code e uma ferramenta padrão por papel, e pergunte se a pessoa quer as duas (o padrão) ou uma só. Troque a linha `Agente principal:` (ou, de antes da 3.0.0, a linha "Back com o Codex e front com o Claude" de "Tarefas e sessões") pela linha `Lead:` da referência, logo depois de `Versão do método:`, e acrescente a seção `## Ferramenta por papel` da referência. **Exceção 1** à regra "só acrescentar": é a única linha de regra que sai |
+| O `CLAUDE.md`, o `AGENTS.md` ou o `docs/DESENVOLVIMENTO.md` ainda têm a regra herdada de uma ferramenta só ("nunca as duas", "um agente principal", "todas as sessões usam a mesma", "Se diz Claude Code, você não deveria estar trabalhando aqui") | Não basta acrescentar: liste cada cláusula à pessoa ao lado da regra da referência que a substitui (a linha `Lead:` e a tabela Ferramenta por papel) e, com o "sim" dela, troque só essas frases, mantendo o resto do arquivo e as personalizações. Sem a troca, o projeto continuaria proibindo as duas ferramentas |
+| Falta a seção `## Aprovações` no `docs/DESENVOLVIMENTO.md` | Acrescentar a seção `## Aprovações` da referência (os seis gatilhos; sem gatilho, a Lead decide e registra) e avisar a pessoa que os merges sem gatilho passam a ser integrados pela Lead |
+| `docs/agentes/` tem harnesses com os nomes de antes da 4.0.0 | **Exceção 2** à regra "só acrescentar": renomear cada um com `git mv`, mantendo o conteúdo (e qualquer personalização do projeto), pela tabela abaixo. Depois, listar a diferença entre o harness renomeado e o modelo novo da referência para a pessoa decidir se troca; nunca sobrescrever |
 | O projeto não tem `docs/agentes/` e a memória não diz o modo de execução | Pergunte se o projeto usa o modo com especialistas; só com o "sim", siga a linha abaixo |
 | O projeto usa o modo com especialistas e falta a linha dele em `docs/DESENVOLVIMENTO.md` | Acrescentar em "Tarefas e sessões" a linha da referência gerada com `--especialistas` (cada agente lê o seu harness em `docs/agentes/`; exige no Orca Settings → Orchestration → Nested worker depth = 2) |
 | O projeto escolheu o modo com especialistas e falta `docs/agentes/` ou um harness | Copiar de `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/` os harnesses que faltam, sem o `_modelo-harness.md`; um harness que o projeto já tem não é trocado: listar a diferença para a pessoa decidir |
 | Uma regra da referência contradiz uma decisão do projeto | Não trocar: listar para a pessoa decidir |
+
+Nomes dos harnesses (decisão 013 do método):
+
+| Antes | Depois |
+|---|---|
+| `integradora.md` | `lead.md` |
+| `arquitetura.md` | `architect.md` |
+| `back-e-dados.md` | `backend.md` |
+| `design-e-front.md` | `frontend.md` |
+| `seguranca.md` | `security.md` |
+| `produto.md` | `product.md` |
+| `devops.md` | `ops.md` |
+
+O mesmo vale para `docs/referencias/<tema>.md`, se o projeto tiver: renomeie pela mesma tabela. O `docs/seguranca.md` (o mapa de riscos do projeto) **não** muda de nome.
 
 Se o Orca estiver instalado (`orca status` responde) e o projeto não aparecer em `orca repo list`, inclua no plano registrar o projeto com `orca repo add --path .` (muda a configuração do Orca, não o repositório).
 
@@ -64,7 +81,7 @@ Sem um "pode" (ou equivalente claro), não siga.
 ## Passo 4 · Atualizar
 
 1. `git switch -c chore/metodo-<versão instalada>` a partir da `main` atualizada.
-2. Aplique o plano. Antes do commit, mostre `git diff --stat` e confira que nenhuma linha do projeto foi removida (`git diff` sem linhas começando com `-` além da linha da versão, da linha "Back com o Codex e front com o Claude" trocada pela do agente principal e dos harnesses que a pessoa mandou trocar).
+2. Aplique o plano. Antes do commit, mostre `git diff --stat` e confira que nenhuma linha do projeto foi removida (`git diff` sem linhas começando com `-` além da linha da versão, da linha `Agente principal:` (ou "Back com o Codex e front com o Claude") trocada pela linha `Lead:`, dos harnesses renomeados com `git mv` (o `git diff -M` os mostra como renomeados, sem conteúdo removido) e dos harnesses que a pessoa mandou trocar).
 3. `git commit -m "chore: atualiza para o método <versão instalada>"`.
 4. Com a confirmação da pessoa: envie a branch e abra o PR com o modelo do projeto, listando o que mudou e o que ficou para ela decidir.
 5. Integre só com o "pode integrar" (`gh pr merge N --merge`, sem apagar a branch) e confira o CI da `main`.

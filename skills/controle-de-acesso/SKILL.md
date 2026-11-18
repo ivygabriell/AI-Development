@@ -5,9 +5,9 @@ description: Use quando for implementar ou revisar quem pode ver ou mudar o quê
 
 # Controle de acesso
 
-**Quem usa:** a Segurança ao mapear riscos e revisar, e as trabalhadoras do back e do front quando constroem ou corrigem rotas e telas com permissão.
+**Quem usa:** o Security ao mapear riscos e revisar, e as Builders do back e do front quando constroem ou corrigem rotas e telas com permissão.
 
-Estar logado não é ter permissão. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/seguranca.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/seguranca.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
+Estar logado não é ter permissão. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/security.md`, e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/security.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 
 ## Passo a passo
 
@@ -40,4 +40,4 @@ Estar logado não é ter permissão. A base de conhecimento do tema fica em `${C
 ## Adaptar ao tamanho do projeto
 
 - Um só tipo de usuário, sem dados de outros: os passos 2 e 5 continuam (a pessoa só vê o que é dela); os papéis do passo 4 esperam.
-- Várias empresas no mesmo banco: o passo 2 vira regra de toda consulta; considere a política de linha do banco como segunda camada (decisão da Arquitetura).
+- Várias empresas no mesmo banco: o passo 2 vira regra de toda consulta; considere a política de linha do banco como segunda camada (decisão do Architect).

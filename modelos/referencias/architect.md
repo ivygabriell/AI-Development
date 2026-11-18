@@ -1,10 +1,10 @@
-# Base de conhecimento: Arquitetura
+# Base de conhecimento: Architect
 
 **Leitura feita em:** 2026-10-30
-**Agente:** Arquitetura (harness em `modelos/agentes/arquitetura.md`)
+**Agente:** Architect (harness em `modelos/agentes/architect.md`)
 **Skills que saem daqui:** `metodo:contrato-de-api`, `metodo:analise-de-falhas` e `metodo:migracao-de-sistema`
 
-O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `docs/referencias/arquitetura.md` do projeto e antes dos sites. O registro de cada decisão continua com `engineering:architecture`, e o desenho geral com `engineering:system-design`. As regras de API do Zalando e do Google AIP estão em `modelos/referencias/back-e-dados.md`, que a Arquitetura também usa ao escrever o contrato.
+O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `docs/referencias/architect.md` do projeto e antes dos sites. O registro de cada decisão continua com `engineering:architecture`, e o desenho geral com `engineering:system-design`. As regras de API do Zalando e do Google AIP estão em `modelos/referencias/backend.md`, que o Architect também usa ao escrever o contrato.
 
 **Proporcionalidade:** as referências descrevem sistemas enormes; daqui sai o raciocínio, nunca o tamanho.
 

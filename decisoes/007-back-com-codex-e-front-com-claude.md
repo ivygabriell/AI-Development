@@ -1,7 +1,7 @@
 # 007 · Back com o Codex e front com o Claude, no Orca
 
 **Data:** 2026-10-22
-**Status:** substituída por [010](010-um-agente-principal-por-projeto.md) em 2026-11-02 (um agente principal por projeto, Claude Code ou Codex, nunca os dois). Antes: aceita pela pessoa **sem caso real** (exceção à regra de ouro, pedida por ela, como na [decisão 006](006-desenvolvimento-orquestrado-com-o-orca.md)); tudo o que esta decisão acrescenta fica como `rascunho` até o primeiro projeto feito assim virar caso
+**Status:** substituída por [010](010-um-agente-principal-por-projeto.md) em 2026-11-02 (um agente principal por projeto, Claude Code ou Codex, nunca os dois). Antes: aceita pela pessoa **sem caso real** (exceção à regra de ouro, pedida por ela, como na [decisão 006](006-desenvolvimento-orquestrado-com-o-orca.md)); tudo o que esta decisão acrescenta fica como `rascunho` até o primeiro projeto feito assim virar caso. Na 4.0.0, a [decisão 013](013-lead-e-builders-com-codex-e-claude.md) voltou a usar as duas ferramentas no mesmo projeto, agora com a Lead no Claude Code e uma ferramenta padrão por papel.
 **Caso de origem:** nenhum ainda. O primeiro projeto com o back no Codex e o front no Claude será registrado em `casos/` e confirma ou corrige esta decisão.
 
 ## Contexto
@@ -52,4 +52,4 @@ Decidido pela pessoa em 2026-10-22: o motivo, o critério de sucesso, o mesmo re
 - Mais uma ferramenta a manter atualizada em cada computador (os plugins também no Codex).
 - O `AGENTS.md` repete regras do `CLAUDE.md`; quem mudar um precisa conferir o outro.
 - O que observar no primeiro projeto: se algum agente Codex pulou o TDD ou a verificação; se os caminhos das skills funcionaram no Codex; quantas tarefas voltaram por causa do contrato; quanto cada cota rendeu.
-- Arquivos que mudam: `nucleo/02-sessoes-e-papeis.md`, `modelos/prompt-coordenadora-orca.md`, `modelos/CLAUDE-projeto.md`, `modelos/AGENTS-projeto.md` (novo), `modelos/memoria-do-projeto.md`, `scripts/novo-projeto.sh`, `skills/novo-projeto/SKILL.md`, `skills/atualizar-projeto/SKILL.md`, `skills/consultar/SKILL.md`, `scripts/verificar.mjs`, `README.md`, `casos/2026-10-repositorio-do-metodo.md`, `CHANGELOG.md`, `VERSION` (2.5.0).
+- Arquivos que mudam: `nucleo/02-sessoes-e-papeis.md`, `modelos/prompt-lead-orca.md`, `modelos/CLAUDE-projeto.md`, `modelos/AGENTS-projeto.md` (novo), `modelos/memoria-do-projeto.md`, `scripts/novo-projeto.sh`, `skills/novo-projeto/SKILL.md`, `skills/atualizar-projeto/SKILL.md`, `skills/consultar/SKILL.md`, `scripts/verificar.mjs`, `README.md`, `casos/2026-10-repositorio-do-metodo.md`, `CHANGELOG.md`, `VERSION` (2.5.0).

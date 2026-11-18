@@ -1,7 +1,7 @@
 # 008 · Agentes especialistas ao lado da integradora
 
 **Data:** 2026-10-28
-**Status:** aceita pela pessoa **sem caso real** (exceção à regra de ouro, pedida por ela, como nas decisões [006](006-desenvolvimento-orquestrado-com-o-orca.md) e [007](007-back-com-codex-e-front-com-claude.md)); tudo o que esta decisão acrescenta fica como `rascunho` até o primeiro projeto feito assim virar caso
+**Status:** aceita pela pessoa **sem caso real** (exceção à regra de ouro, pedida por ela, como nas decisões [006](006-desenvolvimento-orquestrado-com-o-orca.md) e [007](007-back-com-codex-e-front-com-claude.md)); tudo o que esta decisão acrescenta fica como `rascunho` até o primeiro projeto feito assim virar caso. Os nomes dos agentes e a ferramenta de cada um mudaram pela [decisão 013](013-lead-e-builders-com-codex-e-claude.md) (2026-11-17): Lead, Architect, Backend, Frontend, Security, Product e Ops.
 **Caso de origem:** nenhum ainda. O primeiro projeto com agentes especialistas será registrado em `casos/` e confirma ou corrige esta decisão.
 
 ## Contexto
@@ -36,4 +36,4 @@ Decidido pela pessoa em 2026-10-28: os agentes e os agrupamentos, a ferramenta d
 - O modo depende de um ajuste do Orca (Nested worker depth = 2) que fica fora do repositório; o harness da integradora manda conferir antes de começar.
 - Os harnesses repetem regras do método; quem mudar uma regra fixa confere os sete.
 - O que observar no primeiro projeto: se as dúvidas pararam no especialista; quantas sessões a cota aguentou; se dois especialistas cruzaram arquivos; se a Segurança achou o que a integradora não acharia; se o Codex leu e seguiu o harness; o consumo por tarefa.
-- Arquivos que mudam: `modelos/agentes/` (novo: o modelo e os sete harnesses), `nucleo/02-sessoes-e-papeis.md`, `nucleo/01-fluxo-de-ponta-a-ponta.md`, `modelos/prompt-coordenadora-orca.md`, `modelos/CLAUDE-projeto.md`, `modelos/AGENTS-projeto.md`, `modelos/memoria-do-projeto.md`, `scripts/novo-projeto.sh`, `scripts/verificar.mjs`, `skills/novo-projeto/SKILL.md`, `skills/atualizar-projeto/SKILL.md`, `skills/consultar/SKILL.md`, `README.md`, `casos/2026-10-repositorio-do-metodo.md`, `planos/2026-10-28-agentes-especialistas-desenho.md`, `planos/2026-10-28-agentes-especialistas.md`, `CHANGELOG.md`, `VERSION` (2.6.0).
+- Arquivos que mudam: `modelos/agentes/` (novo: o modelo e os sete harnesses), `nucleo/02-sessoes-e-papeis.md`, `nucleo/01-fluxo-de-ponta-a-ponta.md`, `modelos/prompt-lead-orca.md`, `modelos/CLAUDE-projeto.md`, `modelos/AGENTS-projeto.md`, `modelos/memoria-do-projeto.md`, `scripts/novo-projeto.sh`, `scripts/verificar.mjs`, `skills/novo-projeto/SKILL.md`, `skills/atualizar-projeto/SKILL.md`, `skills/consultar/SKILL.md`, `README.md`, `casos/2026-10-repositorio-do-metodo.md`, `planos/2026-10-28-agentes-especialistas-desenho.md`, `planos/2026-10-28-agentes-especialistas.md`, `CHANGELOG.md`, `VERSION` (2.6.0).
