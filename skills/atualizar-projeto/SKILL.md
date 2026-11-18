@@ -17,7 +17,7 @@ Pare e explique o que falta se:
 
 Leia a versão instalada em `${CLAUDE_PLUGIN_ROOT}/VERSION`. Lembre à pessoa que, se o método mudou há pouco, o plugin precisa estar atualizado neste computador (`/plugin marketplace update metodo-de-desenvolvimento`).
 
-Leia a versão do projeto na linha `Versão do método:` do `CLAUDE.md` ou do `docs/DESENVOLVIMENTO.md`. Se nenhuma existir, o projeto nunca foi preparado pelo método: trate a versão como "nenhuma" e diga isso à pessoa.
+Leia a versão do projeto na linha `Versão do método:` do `CLAUDE.md` ou do `processo/DESENVOLVIMENTO.md` (em projeto anterior à 6.0.0, do `docs/DESENVOLVIMENTO.md`; veja a migração no Passo 3). Se nenhuma existir, o projeto nunca foi preparado pelo método: trate a versão como "nenhuma" e diga isso à pessoa.
 
 ## Passo 2 · O que mudou
 
@@ -25,7 +25,7 @@ Leia, em `${CLAUDE_PLUGIN_ROOT}/CHANGELOG.md`, as seções das versões mais nov
 
 ## Passo 3 · Referência e plano
 
-Gere uma referência numa pasta temporária, com o cenário do projeto (da linha "Cenários aplicados" do `docs/DESENVOLVIMENTO.md`; se não houver, pergunte à pessoa ou rode sem cenário):
+Gere uma referência numa pasta temporária, com o cenário do projeto (da linha "Cenários aplicados" do `processo/DESENVOLVIMENTO.md`; se não houver, pergunte à pessoa ou rode sem cenário):
 
 ```bash
 ref="$(mktemp -d)"
@@ -34,27 +34,29 @@ bash "${CLAUDE_PLUGIN_ROOT}/scripts/novo-projeto.sh" "$ref" [--agente <claude|co
 
 Sem `--agente`, a referência traz a Lead e a tabela **Ferramenta por papel** do método 4.0.0 (as duas ferramentas: a Lead, Product, Architect e Frontend no Claude Code; Backend, Security e Ops no Codex). Use `--agente <claude|codex>` só se a pessoa quiser uma ferramenta só (veja a tabela abaixo).
 
-Se o projeto usa o modo com agentes especialistas (tem `docs/agentes/`, ou a pessoa disse que sim), gere a referência com `--especialistas` depois de `"$ref"`, para ela trazer os harnesses e a linha do modo no `DESENVOLVIMENTO.md`.
+Se o projeto usa o modo com agentes especialistas (tem `processo/agentes/`, ou `docs/agentes/` antes da migração, ou a pessoa disse que sim), gere a referência com `--especialistas` depois de `"$ref"`, para ela trazer os harnesses e a linha do modo no `DESENVOLVIMENTO.md`.
+
+**Migração para `processo/` (6.0.0, decisão 016).** Se o projeto é anterior à 6.0.0 e tem `docs/DESENVOLVIMENTO.md` (ou `scripts/nova-tarefa.sh`), o plano começa pela migração, e as linhas da tabela abaixo valem **depois** dela, com os caminhos `processo/`. É a **Exceção 3** à regra "só acrescentar": mover não apaga nada. Mova com `git mv` **só os itens listados**, e só os que existirem: `docs/DESENVOLVIMENTO.md`, `docs/memoria-do-projeto.md`, `docs/requisitos.md`, `docs/telas`, `docs/agentes`, `docs/referencias`, `docs/seguranca.md`, `docs/contrato-api.md`, `docs/arquitetura.md` e `docs/specs` para `processo/`; `scripts/nova-tarefa.sh` e `scripts/remover-tarefa.sh` para `processo/scripts/`. Tudo o mais em `docs/` e em `scripts/` é do produto e fica onde está. Se `processo/` já existir, pare e pergunte. Depois, troque os caminhos antigos pelos novos em `CLAUDE.md`, `AGENTS.md`, `.github/` e nos arquivos movidos, confira com `grep -rn` que nenhum caminho antigo do método restou, e mostre à pessoa o que foi movido.
 
 Compare cada arquivo da referência com o do projeto e monte o plano, arquivo por arquivo:
 
 | Situação | O que fazer |
 |---|---|
-| O arquivo falta no projeto | Copiar da referência (`CLAUDE.md`, `AGENTS.md`, `docs/DESENVOLVIMENTO.md`, `docs/memoria-do-projeto.md`, `.github/ISSUE_TEMPLATE/tarefa.yml`, `.github/ISSUE_TEMPLATE/bug.yml`, `.github/pull_request_template.md`, `scripts/nova-tarefa.sh`, `scripts/remover-tarefa.sh`) |
+| O arquivo falta no projeto | Copiar da referência (`CLAUDE.md`, `AGENTS.md`, `processo/DESENVOLVIMENTO.md`, `processo/memoria-do-projeto.md`, `.github/ISSUE_TEMPLATE/tarefa.yml`, `.github/ISSUE_TEMPLATE/bug.yml`, `.github/pull_request_template.md`, `processo/scripts/nova-tarefa.sh`, `processo/scripts/remover-tarefa.sh`) |
 | O projeto não tem nenhum CI em `.github/workflows/` | Copiar o `ci.yml` da referência |
 | O projeto já tem CI | Não mexer |
-| `CLAUDE.md` existe | Atualizar só a linha `Versão do método:` (ou acrescentá-la); acrescentar `@docs/DESENVOLVIMENTO.md` e `@docs/memoria-do-projeto.md` se faltarem; acrescentar, numa seção `## Método de desenvolvimento`, as regras da referência que o arquivo ainda não tem |
-| `AGENTS.md` existe | Atualizar só a linha `Versão do método:` (ou acrescentá-la) e acrescentar, numa seção `## Método de desenvolvimento`, a leitura do `CLAUDE.md`, do `docs/DESENVOLVIMENTO.md` e da memória e as regras da referência que faltarem |
-| `docs/DESENVOLVIMENTO.md` existe | Atualizar a versão e acrescentar as regras e as linhas de "Tarefas e sessões" que faltarem, mantendo os comandos e as decisões do projeto |
-| `docs/memoria-do-projeto.md` existe | Acrescentar uma entrada: "Atualizado para o método `<versão>` em `<data>`: `<o que mudou>`" |
-| O `docs/DESENVOLVIMENTO.md` tem a linha `Agente principal:` (método 3.x) ou não tem a linha `Lead:` | Explique que a 4.0.0 (decisão 013 do método) usa o Claude Code e o Codex juntos, com a Lead no Claude Code e uma ferramenta padrão por papel, e pergunte se a pessoa quer as duas (o padrão) ou uma só. Troque a linha `Agente principal:` (ou, de antes da 3.0.0, a linha "Back com o Codex e front com o Claude" de "Tarefas e sessões") pela linha `Lead:` da referência, logo depois de `Versão do método:`, e acrescente a seção `## Ferramenta por papel` da referência. **Exceção 1** à regra "só acrescentar": é a única linha de regra que sai |
-| O `CLAUDE.md`, o `AGENTS.md` ou o `docs/DESENVOLVIMENTO.md` ainda têm a regra herdada de uma ferramenta só ("nunca as duas", "um agente principal", "todas as sessões usam a mesma", "Se diz Claude Code, você não deveria estar trabalhando aqui") | Não basta acrescentar: liste cada cláusula à pessoa ao lado da regra da referência que a substitui (a linha `Lead:` e a tabela Ferramenta por papel) e, com o "sim" dela, troque só essas frases, mantendo o resto do arquivo e as personalizações. Sem a troca, o projeto continuaria proibindo as duas ferramentas |
-| Falta a seção `## Aprovações` no `docs/DESENVOLVIMENTO.md` | Acrescentar a seção `## Aprovações` da referência (os seis gatilhos; sem gatilho, a Lead decide e registra) e avisar a pessoa que os merges sem gatilho passam a ser integrados pela Lead |
-| Falta `docs/requisitos.md`, `docs/telas/` ou a linha `Telas:` (método anterior à 5.0.0) | Copiar da referência `docs/requisitos.md` e `docs/telas/README.md`, cada um só se faltar (o que já existe não é tocado), e acrescentar a linha `Telas:` logo depois da linha `Lead:` do `docs/DESENVOLVIMENTO.md`, se faltar. Nos formulários e no modelo de PR que o projeto já tem, acrescentar o que falta da referência: o campo `id: requisitos` em `.github/ISSUE_TEMPLATE/tarefa.yml` e `bug.yml` e, no `.github/pull_request_template.md`, a linha "Requisitos atendidos" e a conferência com `docs/telas/`, sem mexer nos campos do projeto. Explique que a 5.0.0 (decisão 015 do método) exige os requisitos descritos e, com interface, a identidade e todas as telas aprovadas no Figma antes do código; num projeto já construído, pergunte se a pessoa quer descrever os requisitos e registrar as telas que já existem agora ou a partir da próxima funcionalidade. Nunca apague telas, specs ou critérios que o projeto já tem |
-| `docs/agentes/` tem harnesses com os nomes de antes da 4.0.0 | **Exceção 2** à regra "só acrescentar": renomear cada um com `git mv`, mantendo o conteúdo (e qualquer personalização do projeto), pela tabela abaixo. Depois, listar a diferença entre o harness renomeado e o modelo novo da referência para a pessoa decidir se troca; nunca sobrescrever |
-| O projeto não tem `docs/agentes/` e a memória não diz o modo de execução | Pergunte se o projeto usa o modo com especialistas; só com o "sim", siga a linha abaixo |
-| O projeto usa o modo com especialistas e falta a linha dele em `docs/DESENVOLVIMENTO.md` | Acrescentar em "Tarefas e sessões" a linha da referência gerada com `--especialistas` (cada agente lê o seu harness em `docs/agentes/`; exige no Orca Settings → Orchestration → Nested worker depth = 2) |
-| O projeto escolheu o modo com especialistas e falta `docs/agentes/` ou um harness | Copiar de `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/` os harnesses que faltam, sem o `_modelo-harness.md`; um harness que o projeto já tem não é trocado: listar a diferença para a pessoa decidir |
+| `CLAUDE.md` existe | Atualizar só a linha `Versão do método:` (ou acrescentá-la); acrescentar `@processo/DESENVOLVIMENTO.md` e `@processo/memoria-do-projeto.md` se faltarem; acrescentar, numa seção `## Método de desenvolvimento`, as regras da referência que o arquivo ainda não tem |
+| `AGENTS.md` existe | Atualizar só a linha `Versão do método:` (ou acrescentá-la) e acrescentar, numa seção `## Método de desenvolvimento`, a leitura do `CLAUDE.md`, do `processo/DESENVOLVIMENTO.md` e da memória e as regras da referência que faltarem |
+| `processo/DESENVOLVIMENTO.md` existe | Atualizar a versão e acrescentar as regras e as linhas de "Tarefas e sessões" que faltarem, mantendo os comandos e as decisões do projeto |
+| `processo/memoria-do-projeto.md` existe | Acrescentar uma entrada: "Atualizado para o método `<versão>` em `<data>`: `<o que mudou>`" |
+| O `processo/DESENVOLVIMENTO.md` tem a linha `Agente principal:` (método 3.x) ou não tem a linha `Lead:` | Explique que a 4.0.0 (decisão 013 do método) usa o Claude Code e o Codex juntos, com a Lead no Claude Code e uma ferramenta padrão por papel, e pergunte se a pessoa quer as duas (o padrão) ou uma só. Troque a linha `Agente principal:` (ou, de antes da 3.0.0, a linha "Back com o Codex e front com o Claude" de "Tarefas e sessões") pela linha `Lead:` da referência, logo depois de `Versão do método:`, e acrescente a seção `## Ferramenta por papel` da referência. **Exceção 1** à regra "só acrescentar": é a única linha de regra que sai |
+| O `CLAUDE.md`, o `AGENTS.md` ou o `processo/DESENVOLVIMENTO.md` ainda têm a regra herdada de uma ferramenta só ("nunca as duas", "um agente principal", "todas as sessões usam a mesma", "Se diz Claude Code, você não deveria estar trabalhando aqui") | Não basta acrescentar: liste cada cláusula à pessoa ao lado da regra da referência que a substitui (a linha `Lead:` e a tabela Ferramenta por papel) e, com o "sim" dela, troque só essas frases, mantendo o resto do arquivo e as personalizações. Sem a troca, o projeto continuaria proibindo as duas ferramentas |
+| Falta a seção `## Aprovações` no `processo/DESENVOLVIMENTO.md` | Acrescentar a seção `## Aprovações` da referência (os seis gatilhos; sem gatilho, a Lead decide e registra) e avisar a pessoa que os merges sem gatilho passam a ser integrados pela Lead |
+| Falta `processo/requisitos.md`, `processo/telas/` ou a linha `Telas:` (método anterior à 5.0.0) | Copiar da referência `processo/requisitos.md` e `processo/telas/README.md`, cada um só se faltar (o que já existe não é tocado), e acrescentar a linha `Telas:` logo depois da linha `Lead:` do `processo/DESENVOLVIMENTO.md`, se faltar. Nos formulários e no modelo de PR que o projeto já tem, acrescentar o que falta da referência: o campo `id: requisitos` em `.github/ISSUE_TEMPLATE/tarefa.yml` e `bug.yml` e, no `.github/pull_request_template.md`, a linha "Requisitos atendidos" e a conferência com `processo/telas/`, sem mexer nos campos do projeto. Explique que a 5.0.0 (decisão 015 do método) exige os requisitos descritos e, com interface, a identidade e todas as telas aprovadas no Figma antes do código; num projeto já construído, pergunte se a pessoa quer descrever os requisitos e registrar as telas que já existem agora ou a partir da próxima funcionalidade. Nunca apague telas, specs ou critérios que o projeto já tem |
+| `processo/agentes/` tem harnesses com os nomes de antes da 4.0.0 | **Exceção 2** à regra "só acrescentar": renomear cada um com `git mv`, mantendo o conteúdo (e qualquer personalização do projeto), pela tabela abaixo. Depois, listar a diferença entre o harness renomeado e o modelo novo da referência para a pessoa decidir se troca; nunca sobrescrever |
+| O projeto não tem `processo/agentes/` e a memória não diz o modo de execução | Pergunte se o projeto usa o modo com especialistas; só com o "sim", siga a linha abaixo |
+| O projeto usa o modo com especialistas e falta a linha dele em `processo/DESENVOLVIMENTO.md` | Acrescentar em "Tarefas e sessões" a linha da referência gerada com `--especialistas` (cada agente lê o seu harness em `processo/agentes/`; exige no Orca Settings → Orchestration → Nested worker depth = 2) |
+| O projeto escolheu o modo com especialistas e falta `processo/agentes/` ou um harness | Copiar de `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/` os harnesses que faltam, sem o `_modelo-harness.md`; um harness que o projeto já tem não é trocado: listar a diferença para a pessoa decidir |
 | Uma regra da referência contradiz uma decisão do projeto | Não trocar: listar para a pessoa decidir |
 
 Nomes dos harnesses (decisão 013 do método):
@@ -69,7 +71,7 @@ Nomes dos harnesses (decisão 013 do método):
 | `produto.md` | `product.md` |
 | `devops.md` | `ops.md` |
 
-O mesmo vale para `docs/referencias/<tema>.md`, se o projeto tiver: renomeie pela mesma tabela. O `docs/seguranca.md` (o mapa de riscos do projeto) **não** muda de nome.
+O mesmo vale para `processo/referencias/<tema>.md`, se o projeto tiver: renomeie pela mesma tabela. O `processo/seguranca.md` (o mapa de riscos do projeto) **não** muda de nome.
 
 Se o Orca estiver instalado (`orca status` responde) e o projeto não aparecer em `orca repo list`, inclua no plano registrar o projeto com `orca repo add --path .` (muda a configuração do Orca, não o repositório).
 
