@@ -31,11 +31,14 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 ## Fase 2 · Desenho e spec
 
 - **Entrada:** entendimento e achados.
-- **Passos:** proponha 2 ou 3 abordagens com a sua recomendação; apresente o desenho em partes e peça aprovação a cada parte; escreva a spec (objetivo, restrições, estrutura, dados, critérios de aceite, o que fica de fora) e faça uma autorrevisão (pendências, contradições, ambiguidade, escopo).
+- **Ordem** ([decisão 015](../decisoes/015-requisitos-e-telas-antes-do-codigo.md)): **requisitos → identidade → telas → spec**, cada um com o seu portão; sem interface, **requisitos → spec**. Tudo é aprovado antes do plano, e portanto antes de qualquer código, inclusive do back.
+- **Requisitos:** o Product (sem o modo com especialistas, a Lead), no papel de engenheiro de requisitos ou PO, descreve cada requisito numa ficha de `docs/requisitos.md`, pelo [modelo de requisitos](../modelos/modelo-requisitos.md): história, regras de negócio, casos de erro, critérios de aceite, dependências, telas e o peso (valor, esforço, risco), com a prioridade proposta. A pessoa aprova a lista, os pesos e a ordem.
+- **Identidade e todas as telas, no Figma** (com interface): o Frontend cria no Figma, pelo servidor MCP oficial, a identidade (cores, tipografia, espaçamentos, logo, ícones, tom de voz, componentes base) e depois todas as telas de cada requisito, com os estados (vazio, carregando, erro, sucesso), celular e desktop, e o fluxo navegável. A cada aprovação da pessoa, o registro entra no repositório por PR: `docs/telas/` com uma captura por tela e estado, a data e o link do frame, e `docs/telas/tokens.json` com os tokens do Figma, que viram o design system do código. O link do arquivo fica na linha `Telas:` do `docs/DESENVOLVIMENTO.md`. Toda mudança de tela começa no Figma; o código segue só a versão registrada. Escrever no Figma exige assento Full: ligar é decisão da pessoa (gatilho de custo); sem ele, a pessoa desenha no Figma e os agentes só leem.
+- **Passos da spec:** proponha 2 ou 3 abordagens com a sua recomendação; apresente o desenho em partes e peça aprovação a cada parte; escreva a spec (objetivo, restrições, estrutura, dados, critérios de aceite, o que fica de fora) e faça uma autorrevisão (pendências, contradições, ambiguidade, escopo).
 - **Mapa de riscos de segurança**, junto da spec: o primeiro uso da `security-audit`, no modo de orientação (sem código ainda), pelo roteiro de `metodo:auditoria-de-seguranca`: quem usa e quem tem menos confiança, as fronteiras de confiança, as superfícies de entrada e os domínios de ataque que se aplicam. Fica em `docs/seguranca.md` e vira critério de aceite nas issues. No modo com especialistas, quem faz é o Security; nos outros, a Lead.
-- **Skill:** `superpowers:brainstorming`; `engineering:architecture` para decisões de arquitetura; `engineering:system-design` para sistemas e APIs; `metodo:auditoria-de-seguranca` para o mapa de riscos.
-- **Resultado:** spec versionada no repositório, com o mapa de riscos.
-- **Portão:** a pessoa lê e aprova a spec escrita.
+- **Skill:** `superpowers:brainstorming`; `metodo:necessidades-e-riscos` e `metodo:descoberta-continua` para os requisitos; `design:design-system`, `design:ux-copy` e `design:accessibility-review` para a identidade e as telas; `engineering:architecture` para decisões de arquitetura; `engineering:system-design` para sistemas e APIs; `metodo:auditoria-de-seguranca` para o mapa de riscos.
+- **Resultado:** `docs/requisitos.md`, a identidade e as telas no Figma registradas em `docs/telas/` (com interface) e a spec versionada, com o mapa de riscos.
+- **Portão:** a pessoa aprova, nesta ordem, os requisitos (com os pesos e a ordem), a identidade, todas as telas e a spec escrita.
 
 ## Fase 3 · Plano
 
@@ -112,8 +115,8 @@ Sem gatilho, decide a Lead e registra na issue ou na memória do projeto. **Na d
 
 | Fica com a pessoa | Passa para a Lead |
 |---|---|
-| Entendimento, spec e plano | Integrar um PR na `main` quando **tudo** vale: dentro do plano aprovado, CI verde, validação sem achado crítico nem importante, só arquivos permitidos e nenhum gatilho |
-| A primeira direção visual (referências e identidade) | Telas seguintes, dentro do design system |
+| Entendimento, requisitos (com os pesos e a ordem), spec e plano | Integrar um PR na `main` quando **tudo** vale: dentro do plano aprovado, CI verde, validação sem achado crítico nem importante, só arquivos permitidos e nenhum gatilho |
+| A identidade e todas as telas (Figma e `docs/telas/`); tela ou requisito novo no meio do projeto | Ajuste pequeno numa tela aprovada, que não muda fluxo, conteúdo nem identidade (espaço, alinhamento, quebra de texto), feito no Figma primeiro e registrado |
 | Mudança de escopo ou de critério de aceite | Desenho curto de tarefa delimitada, dentro do escopo |
 | Contrato da API que **quebra** quem usa; migração que apaga ou transforma dados | Mudança **aditiva** no contrato (um campo novo opcional) |
 | Serviço ou plano pago, recurso de nuvem, auditoria completa de segurança | Dependência gratuita e comum, refatoração interna, testes, documentação, correção de bug que não muda o comportamento combinado |

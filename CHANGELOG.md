@@ -2,6 +2,17 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 5.0.0 (2026-11-17)
+
+Requisitos descritos e telas no Figma antes do código. Ver a [decisão 015](decisoes/015-requisitos-e-telas-antes-do-codigo.md), o [desenho](planos/2026-11-17-requisitos-e-telas-antes-do-codigo-desenho.md) e o [plano](planos/2026-11-17-requisitos-e-telas-antes-do-codigo.md).
+
+- **Fase 2 em ordem:** requisitos → identidade → telas → spec (sem interface: requisitos → spec), cada um com o seu portão, tudo antes do plano.
+- **Requisitos:** o Product, no papel de engenheiro de requisitos ou PO, descreve cada requisito numa ficha de `docs/requisitos.md` (modelo novo `modelos/modelo-requisitos.md`), com o peso (valor, esforço, risco) e a prioridade proposta; a pessoa decide a ordem.
+- **Identidade e todas as telas no Figma**, pelo servidor MCP oficial, registradas em `docs/telas/` (capturas e `tokens.json`) a cada aprovação; toda mudança de tela começa no Figma e o código segue o registro.
+- **Aprovações:** requisitos, identidade, todas as telas e tela nova são da pessoa; ajuste pequeno numa tela aprovada fica com a Lead.
+- Issue de tarefa e de bug com o campo obrigatório "Requisitos (R-xx)"; o PR diz os requisitos atendidos e confere a tela.
+- `novo-projeto.sh` cria `docs/requisitos.md`, `docs/telas/` e a linha `Telas:`; o README ensina a ligar o Figma no Claude Code e no Codex.
+
 ## 4.1.0 (2026-11-17)
 
 Fluxo de correção de bugs. Ver a [decisão 014](decisoes/014-fluxo-de-correcao-de-bugs.md).

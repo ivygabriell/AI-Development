@@ -15,6 +15,13 @@ body:
       description: O que precisa ficar pronto, em poucas frases, e por quê.
     validations:
       required: true
+  - type: input
+    id: requisitos
+    attributes:
+      label: Requisitos (R-xx)
+      description: Os IDs de docs/requisitos.md, como "R-03, R-04". Sem requisito, a tarefa não entra (requisito novo passa pela pessoa).
+    validations:
+      required: true
   - type: textarea
     id: criterios
     attributes:

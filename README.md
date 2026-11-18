@@ -294,7 +294,16 @@ No Claude Code, ele fica ligado em toda sessão, no nível `full`, e a faixa aci
 - o nível vale por pasta: duas sessões na mesma pasta dividem o nível;
 - deixe a atualização automática desligada para o marketplace `ponytail`; a versão conferida pelo método é a 5.3.3, e cada atualização passa antes por uma releitura dos ganchos.
 
-Os conectores que os plugins engineering e design trazem (Slack, Figma, Linear e outros) podem ficar sem autenticação; o método não depende deles.
+**Figma** (projetos com interface; [decisão 015](decisoes/015-requisitos-e-telas-antes-do-codigo.md)). A identidade e as telas são criadas no Figma antes do código, pelo [servidor MCP oficial do Figma](https://developers.figma.com/docs/figma-mcp-server/). No Claude Code, o conector já vem com o plugin design: autentique com `/mcp` → figma. No Codex ([guia oficial](https://help.figma.com/hc/en-us/articles/39888629089175-Codex-and-Figma-Set-up-the-MCP-server)):
+
+```bash
+codex mcp add figma --url https://mcp.figma.com/mcp
+codex mcp login figma
+```
+
+Escrever no Figma pelos agentes exige um assento Full e está em beta gratuito, com cobrança por uso prevista ([write to canvas](https://developers.figma.com/docs/figma-mcp-server/write-to-canvas)); ligar a escrita num projeto é decisão sua. Sem ela, você desenha no Figma e os agentes só leem.
+
+Os outros conectores que os plugins engineering e design trazem (Slack, Linear e outros) podem ficar sem autenticação; o método não depende deles.
 
 ### Iniciar um projeto
 

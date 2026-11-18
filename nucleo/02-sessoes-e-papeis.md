@@ -162,9 +162,9 @@ Cada agente usa a **ferramenta do seu papel** (Claude Code ou Codex, seção aci
 | Lead | coordenação, validação final (QA) e integração | não; coordena os especialistas | sempre |
 | Architect | estrutura, contrato da API, dados, confiabilidade, observabilidade, custo | não | sempre |
 | Backend | regras de negócio, APIs, autenticação, banco de dados | até 2 | sempre |
-| Frontend | experiência, design system, interface | até 2 | sempre |
+| Frontend | identidade e todas as telas no Figma (Fase 2, antes do código), registro em `docs/telas/`, design system, interface | até 2 | sempre |
 | Security | mapa de riscos no começo, revisão dos PRs sensíveis e auditoria completa antes da primeira publicação, com a `security-audit` desde o primeiro mapa | não; entrega a correção ao dono da pasta | sempre |
-| Product | produto, pesquisa com usuários, critérios de aceite | não | sob demanda (Fases 0 a 2) |
+| Product | requisitos (fichas R-xx com o peso, em `docs/requisitos.md`), pesquisa com usuários, critérios de aceite | não | sob demanda (Fases 0 a 2) |
 | Ops | deploy, CI/CD, nuvem, monitoramento; dono do CI enquanto ativo | 1 por vez | sob demanda |
 
 - **Harnesses:** os modelos ficam em [`modelos/agentes/`](../modelos/agentes/) e vão para `docs/agentes/` do projeto com `novo-projeto.sh --especialistas`. Cada um tem as mesmas 10 partes (missão, quando é chamado, o que lê, o que pode e o que não pode, Skills, checklist, formato da resposta, quando sobe a decisão, memória, economia), as referências escolhidas pela pessoa e o passo a passo "Como pesquisa".

@@ -83,8 +83,9 @@ copias=(
   "modelos/nova-tarefa.sh|scripts/nova-tarefa.sh"
   "modelos/remover-tarefa.sh|scripts/remover-tarefa.sh"
   "modelos/memoria-do-projeto.md|docs/memoria-do-projeto.md"
+  "modelos/modelo-requisitos.md|docs/requisitos.md"
 )
-gerados=("docs/DESENVOLVIMENTO.md")
+gerados=("docs/DESENVOLVIMENTO.md" "docs/telas")
 [[ $especialistas -eq 1 ]] && gerados+=("docs/agentes")
 
 # Antes de escrever qualquer coisa, garante que nada será sobrescrito
@@ -160,12 +161,21 @@ tabela_papeis=""
 for papel in Lead Product Architect Frontend Backend Security Ops; do tabela_papeis+="| $papel | $(ferramenta "$papel") |"$'\n'; done
 lead="$(ferramenta Lead)"
 
-mkdir -p "$alvo/docs"
+mkdir -p "$alvo/docs/telas"
+cat > "$alvo/docs/telas/README.md" <<'DOC'
+# Telas aprovadas
+
+O registro das telas aprovadas pela pessoa no Figma (decisão 015 do método). A cada aprovação, o Frontend acrescenta, num PR: uma captura por tela e estado (`R-NN-nome-estado.png`), a data e o link do frame, e atualiza `tokens.json` com os tokens do Figma. O código segue só a versão registrada aqui; toda mudança de tela começa no Figma. Projeto sem interface: escreva "sem interface" nesta linha e deixe a pasta assim.
+
+| Tela (frame) | Requisitos | Estados | Aprovada em | Link do frame |
+|---|---|---|---|---|
+DOC
 cat > "$alvo/docs/DESENVOLVIMENTO.md" <<DOC
 # Como desenvolvemos este projeto
 
 Versão do método: $versao
 Lead: $lead
+Telas: (link do arquivo do Figma; registro em docs/telas/; "sem interface" se não houver)
 Cenários aplicados:
 $lista_cenarios
 
@@ -208,6 +218,7 @@ Uma decisão é da pessoa quando aciona pelo menos um gatilho: muda **o que** se
 - Ferramentas: cada papel usa a sua (seção Ferramenta por papel, acima). O Claude Code lê o \`CLAUDE.md\`; o Codex lê o \`AGENTS.md\`, que manda ler o \`CLAUDE.md\`. Todo PR recebe ao menos uma revisão da outra ferramenta. Quando a cota acaba no meio da tarefa, a Builder faz commit, envia a branch e comenta na issue onde parou; outra Builder, na outra ferramenta, continua na mesma branch. Com back e front em tarefas paralelas, o contrato da API é aprovado antes de qualquer tarefa de construção.
 ${linha_especialistas:+$linha_especialistas
 }- Para trazer este projeto à versão mais nova do método: \`/metodo:atualizar-projeto\`.
+- Requisitos: \`docs/requisitos.md\` (fichas R-xx com o peso). Com interface, a identidade e todas as telas são aprovadas no Figma e registradas em \`docs/telas/\` antes do plano; o código segue a versão registrada.
 - Memória do projeto: \`docs/memoria-do-projeto.md\`.
 
 ## Antes do primeiro push para um repositório público

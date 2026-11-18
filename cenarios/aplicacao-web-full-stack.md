@@ -34,6 +34,7 @@ O método base ([nucleo/](../nucleo/01-fluxo-de-ponta-a-ponta.md)) continua vale
 
 ## Checklist
 
+- [ ] Requisitos descritos em `docs/requisitos.md` (R-xx com o peso) e a identidade e todas as telas aprovadas no Figma e registradas em `docs/telas/` antes do código ([decisão 015](../decisoes/015-requisitos-e-telas-antes-do-codigo.md), sem caso real ainda)
 - [ ] Modelo de dados e migrações aplicadas do zero e revertidas
 - [ ] Permissões testadas: quem não pode ver não vê
 - [ ] Fluxos principais testados de ponta a ponta

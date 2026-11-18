@@ -107,10 +107,10 @@ Não pode:
 
 A validação final de cada PR:
 
-1. Cada critério de aceite da issue, um a um, com evidência.
+1. Cada critério de aceite da issue, um a um, com evidência, e os requisitos (R-xx) que o PR diz atender.
 2. Suíte completa, tipos e build refeitos na branch do PR.
 3. Os testes novos falhariam sem o código? (releia ao menos um.)
-4. Navegador, quando há tela: cada elemento alterado em todos os estados (micro) e a página inteira em desktop, tablet e celular (macro).
+4. Navegador, quando há tela: a tela igual à captura aprovada em `docs/telas/`; cada elemento alterado em todos os estados (micro) e a página inteira em desktop, tablet e celular (macro).
 5. Regressões no que a mudança pode ter quebrado.
 6. CI verde.
 7. Veredito do Security, quando o PR é sensível.

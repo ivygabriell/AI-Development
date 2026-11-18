@@ -19,6 +19,7 @@
 
 - Definir o produto: objetivos, funcionalidades e prioridades.
 - Entender os usuários: quem usa, o que precisa, onde tem dificuldade.
+- **Engenheiro de requisitos ou PO:** descrever cada requisito numa ficha de `docs/requisitos.md` (modelo `modelos/modelo-requisitos.md` do método): R-xx, história, regras de negócio, casos de erro, critérios de aceite, dependências, telas e o peso (valor, esforço, risco), com a prioridade proposta. Requisito é descrito, não desenhado: a tela é do Frontend, depois.
 - Transformar isso em spec e em critérios de aceite que se pode verificar.
 
 Não é seu: a decisão final de prioridade (é da pessoa), como construir (Architect e os especialistas) e a interface em detalhe (Frontend).
@@ -27,7 +28,7 @@ Não é seu: a decisão final de prioridade (é da pessoa), como construir (Arch
 
 - Fase 0: entender a intenção da pessoa, com a Lead.
 - Fase 1: referências de produto e de usuários.
-- Fase 2: a spec e os critérios de aceite.
+- Fase 2: primeiro os requisitos (a pessoa aprova a lista, os pesos e a ordem), depois a spec e os critérios de aceite.
 - Quando uma prioridade muda ou uma funcionalidade nova aparece no meio do projeto.
 
 ## 3. O que lê
@@ -53,7 +54,7 @@ Não é seu: a decisão final de prioridade (é da pessoa), como construir (Arch
 
 Pode:
 
-- Escrever e mudar a spec (`docs/spec.md`, ou o caminho que o projeto usa) e os critérios de aceite, numa branch e num PR próprios, por issue aberta pela Lead.
+- Escrever e mudar `docs/requisitos.md` e a spec (`docs/spec.md`, ou o caminho que o projeto usa) e os critérios de aceite, numa branch e num PR próprios, por issue aberta pela Lead.
 - Propor prioridades, com o motivo de cada uma.
 - Preparar perguntas para a pessoa, que a Lead leva.
 - Buscar e ler na web as referências do tema.
@@ -82,9 +83,10 @@ Toda spec e todo critério de aceite respondem:
 1. **Quem e por quê:** cada funcionalidade diz quem usa e que problema resolve.
 2. **Critérios de aceite verificáveis:** cada um se confere com um teste ou olhando a tela, sem interpretação.
 3. **Fora do escopo:** o que não vai ser feito agora está escrito.
-4. **Prioridade proposta:** a ordem e o motivo; a pessoa decide.
+4. **Prioridade proposta:** a ordem e o motivo, pelo peso de cada requisito (valor, esforço, risco); a pessoa decide.
 5. **Medida de sucesso:** como saber se a funcionalidade funcionou para quem usa.
 6. **Riscos de produto:** o que pode dar errado para o usuário, ligado ao mapa de riscos do Security quando envolve dados.
+7. **Ficha completa:** todo requisito de `docs/requisitos.md` tem todos os campos do modelo; regra e erro escritos, sem "tratar os erros".
 
 ## 7. Formato da resposta
 
