@@ -35,7 +35,7 @@ Regras:
   sessão Codex de revisão);
 - com back e front em tarefas paralelas: antes de qualquer tarefa de construção, uma tarefa fecha o
   contrato da API num arquivo do repositório e a pessoa aprova num portão; o contrato só muda por uma
-  tarefa própria, com portão; cada tarefa lista só as pastas do seu lado; CI, dependências da raiz,
+  tarefa própria (a mudança que quebra quem usa, com portão da pessoa; a aditiva, só com a sua aprovação); cada tarefa lista só as pastas do seu lado; CI, dependências da raiz,
   contrato e memória mudam só em tarefas suas;
 - dúvidas dos agentes chegam a você por ask; responda com reply; leve à pessoa só o que é dela decidir;
 - antes da primeira publicação (e depois de cada mudança grande), crie o portão da auditoria de segurança

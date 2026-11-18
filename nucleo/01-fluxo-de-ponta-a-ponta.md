@@ -43,7 +43,7 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 - **Passos:** quebre em tarefas pequenas (2 a 5 minutos por passo), cada uma com os arquivos exatos, o teste primeiro, o comando e o resultado esperado. Liste as restrições globais e o que a revisão final precisa olhar.
 - **Skill:** `superpowers:writing-plans`.
 - **Resultado:** plano versionado.
-- **Portão:** a pessoa aprova o plano e escolhe o modo de execução (inline, subagentes, sessões divididas ou orquestração com o Orca, inclusive com agentes especialistas por tema; veja [02](02-sessoes-e-papeis.md)). Em qualquer modo, a Lead fica no Claude Code e cada papel usa a ferramenta padrão dele (tabela Ferramenta por papel, no [02](02-sessoes-e-papeis.md)); a Builder vai para a outra ferramenta quando a cota aperta.
+- **Portão:** a pessoa aprova o plano e escolhe o modo de execução (inline, subagentes, sessões divididas ou orquestração com o Orca, inclusive com agentes especialistas por tema; veja [02](02-sessoes-e-papeis.md)). Em qualquer modo, a Lead fica, por padrão, no Claude Code (a linha `Lead:` do `docs/DESENVOLVIMENTO.md` diz qual) e cada papel usa a ferramenta padrão dele (tabela Ferramenta por papel, no [02](02-sessoes-e-papeis.md)); a Builder vai para a outra ferramenta quando a cota aperta.
 
 ## Fase 4 · Construir com TDD
 

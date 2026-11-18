@@ -17,7 +17,7 @@ const checar = (nome, ok, detalhe = '') => {
 const ler = (arquivo) => (existsSync(join(RAIZ, arquivo)) ? readFileSync(join(RAIZ, arquivo), 'utf8') : '');
 const todosMd = (dir = RAIZ) =>
   readdirSync(dir).flatMap((nome) => {
-    if (nome === '.git' || nome === 'node_modules') return [];
+    if (nome === '.git' || nome === 'node_modules' || nome === '.superpowers') return []; // .superpowers: rascunho local dos planos, fora do Git
     const caminho = join(dir, nome);
     return statSync(caminho).isDirectory() ? todosMd(caminho) : caminho.endsWith('.md') ? [caminho] : [];
   });
@@ -84,10 +84,12 @@ for (const arquivo of OBRIGATORIOS) checar(`existe ${arquivo}`, existsSync(join(
 const ANTIGOS = ['integradora', 'arquitetura', 'back-e-dados', 'design-e-front', 'seguranca', 'produto', 'devops'].flatMap((n) => [`modelos/agentes/${n}.md`, `modelos/referencias/${n}.md`]).concat(['modelos/prompt-sessao-integradora.md', 'modelos/prompt-sessao-trabalhadora.md', 'modelos/prompt-coordenadora-orca.md']);
 for (const arquivo of ANTIGOS) checar(`nome antigo não existe: ${arquivo}`, !existsSync(join(RAIZ, arquivo)));
 // Decisão 013: fora do histórico, os papéis só têm os nomes novos (Lead, Builders, Architect, Backend, Frontend...)
-const HISTORICO = /\/(casos|planos|licoes|decisoes|\.superpowers)\/|\/CHANGELOG\.md$|\/skills\/atualizar-projeto\/SKILL\.md$/; // a skill de atualização cita os nomes antigos para trocá-los
+const HISTORICO = /\/(casos|planos|licoes|decisoes|\.superpowers)\/|\/CHANGELOG\.md$/;
 const ARQUIVOS_VIVOS = [...todosMd(), ...['scripts/novo-projeto.sh', 'modelos/nova-tarefa.sh', 'modelos/remover-tarefa.sh', 'modelos/issue-tarefa.yml'].map((f) => join(RAIZ, f))].filter((f) => !HISTORICO.test(f));
+// Na skill de atualização, um nome antigo só pode aparecer na mesma linha que o nome novo (a instrução de troca)
+const migracao = (f, l) => f.endsWith('/skills/atualizar-projeto/SKILL.md') && /\bLead\b|lead\.md/.test(l);
 const NOMES_ANTIGOS = /\b(integradoras?|trabalhadoras?|coordenadoras?|Back e Dados|Design e Front)\b/i;
-const comNomeAntigo = ARQUIVOS_VIVOS.flatMap((f) => readFileSync(f, 'utf8').split('\n').map((l, i) => (NOMES_ANTIGOS.test(l) ? `${f.slice(RAIZ.length + 1)}:${i + 1}` : null)).filter(Boolean));
+const comNomeAntigo = ARQUIVOS_VIVOS.flatMap((f) => readFileSync(f, 'utf8').split('\n').map((l, i) => (NOMES_ANTIGOS.test(l) && !migracao(f, l) ? `${f.slice(RAIZ.length + 1)}:${i + 1}` : null)).filter(Boolean));
 checar('nomes antigos dos papéis fora do histórico', comNomeAntigo.length === 0, comNomeAntigo.slice(0, 5).join(', '));
 
 // 2) Conteúdo mínimo de cada documento
@@ -158,7 +160,7 @@ checar('prompt da Lead do Orca: não diz que a Lead é sempre Claude', !/sempre 
 const secaoFerramentas = (sessoes.split('### Lead e ferramenta por papel')[1] || '').split('\n### ')[0];
 for (const termo of ['Ferramenta por papel', 'Lead: Claude Code', 'Backend, Security e Ops', '--agent claude', '--agent codex', 'AGENTS.md', 'claude-opus-5-5', 'gpt-6.1-sol', 'contrato da API', 'cota', 'comenta na issue onde parou', 'mesma branch', 'ao menos uma revisão da outra ferramenta', '--agente'])
   checar(`sessões: Lead e ferramenta por papel (${termo})`, secaoFerramentas.includes(termo));
-const regraAntiga = ARQUIVOS_VIVOS.flatMap((f) => readFileSync(f, 'utf8').split('\n').map((l, i) => (/nunca as duas|nunca os dois|Agente principal:|um agente principal/i.test(l) ? `${f.slice(RAIZ.length + 1)}:${i + 1}` : null)).filter(Boolean));
+const regraAntiga = ARQUIVOS_VIVOS.flatMap((f) => readFileSync(f, 'utf8').split('\n').map((l, i) => (/nunca as duas|nunca os dois|Agente principal:|um agente principal|uma ferramenta por projeto/i.test(l) && !migracao(f, l) ? `${f.slice(RAIZ.length + 1)}:${i + 1}` : null)).filter(Boolean));
 checar('regra de um agente principal fora do histórico (decisão 013)', regraAntiga.length === 0, regraAntiga.slice(0, 5).join(', '));
 const issueModelo = ler('modelos/issue-tarefa.yml');
 checar('issue: campos "Plano e passo" e "Ferramenta" (a issue basta numa passagem)', issueModelo.includes('label: Plano e passo') && issueModelo.includes('label: Ferramenta'));
@@ -379,6 +381,24 @@ checar('decisão 013: existe, aceita sem caso real', d013.includes('**Status:** 
 for (const n of ['001-sessoes-divididas-integradora-e-trabalhadoras', '007-back-com-codex-e-front-com-claude', '008-agentes-especialistas', '010-um-agente-principal-por-projeto'])
   checar(`decisão ${n.slice(0, 3)}: o status aponta para a decisão 013`, ((ler(`decisoes/${n}.md`).match(/^\*\*Status:\*\*.*$/m) || [''])[0]).includes('013-lead-e-builders-com-codex-e-claude.md'));
 checar('VERSION: 4.0.0 ou maior (decisão 013)', Number(versao.split('.')[0]) >= 4, versao);
+// Revisão final (Codex) da 4.0.0: o que ainda contradizia a decisão 013
+checar('agentes/lead: merge sem gatilho não vai mais à pessoa (parte 8)', !ler('modelos/agentes/lead.md').includes('sempre por um portão: merge,'));
+checar('CLAUDE.md do projeto: integrar PR sem gatilho não pede confirmação', !ler('modelos/CLAUDE-projeto.md').includes('push, abrir ou integrar PR, deploy') && ler('modelos/CLAUDE-projeto.md').includes('gatilho'));
+checar('AGENTS.md do projeto: "nunca integre" vale para quem não é a Lead', ler('modelos/AGENTS-projeto.md').includes('**Se você não é a Lead, nunca integre**'));
+checar('atualizar-projeto: resolve com a pessoa as cláusulas herdadas de uma ferramenta só (nunca as duas)', ler('skills/atualizar-projeto/SKILL.md').includes('nunca as duas'));
+for (const p of ['modelos/agentes/architect.md', 'skills/contrato-de-api/SKILL.md', 'modelos/prompt-lead-orca.md'])
+  checar(`${p}: mudança aditiva no contrato fica com a Lead; a que quebra, com a pessoa`, ler(p).includes('aditiva') && ler(p).includes('quebra'));
+checar('README: a apresentação não fala mais em uma ferramenta por projeto', !ler('README.md').includes('uma ferramenta por projeto') && ler('README.md').split('\n')[2].includes('decisoes/013-lead-e-builders-com-codex-e-claude.md'));
+const issueReq = ler('modelos/issue-tarefa.yml').split('  - type:');
+for (const id of ['plano', 'ferramenta'])
+  checar(`issue: campo ${id} obrigatório`, issueReq.some((b) => b.includes(`id: ${id}\n`) && b.includes('required: true')));
+checar('prompt da Lead: a issue leva o plano e o passo e a ferramenta', ler('modelos/prompt-lead.md').includes('plano e passo') && ler('modelos/prompt-lead.md').includes('ferramenta'));
+checar('fluxo: a Lead fica no Claude Code por padrão (linha Lead: do projeto)', (fluxo.split('## Fase 3')[1] || '').split('## Fase 4')[0].includes('por padrão') && (fluxo.split('## Fase 3')[1] || '').split('## Fase 4')[0].includes('Lead:'));
+checar('README: a Lead abre na ferramenta da linha Lead: do projeto', !ler('README.md').includes('num agente Claude Code: ela distribui'));
+checar('sessões: com uma ferramenta só, a revisão cruzada não se aplica', sessoes.includes('Com uma ferramenta só'));
+const FRASES_RUINS = ['Architect de agentes', '### Security e dados', 'Da Security', 'a Lead ou a Lead', 'o Architect, dona', '**Contrato da API:** dona', '9. **Security:**'];
+const ruins = ARQUIVOS_VIVOS.flatMap((f) => { const t = readFileSync(f, 'utf8'); return FRASES_RUINS.filter((x) => t.includes(x)).map((x) => `${f.slice(RAIZ.length + 1)}: ${x}`); });
+checar('troca de nomes sem frases quebradas (assunto virou papel, concordância, duplicação)', ruins.length === 0, ruins.join('; '));
 checar('VERSION: 3.0.0 ou maior (um agente principal por projeto, decisão 010)', versao.split('.').map(Number).reduce((acc, n, i) => acc || (n !== [3, 0, 0][i] ? (n > [3, 0, 0][i] ? 'maior' : 'menor') : ''), '') !== 'menor', versao);
 
 const claude = ler('CLAUDE.md').toLowerCase();
@@ -513,6 +533,12 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     const soClaude = rodar(alvo_claude, '--agente', 'claude', 'site-estatico');
     const devClaude = existsSync(join(alvo_claude, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo_claude, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
     checar('novo-projeto.sh --agente claude põe todos os papéis no Claude Code', soClaude.status === 0 && devClaude.includes('Lead: Claude Code') && PAPEIS.every((p) => linhaPapel(devClaude, p) === 'Claude Code'), soClaude.stderr);
+    for (const vazio of [['--agente', ''], ['--agente=']]) {
+      const alvo_vazio = join(base, `projeto-agente-vazio-${vazio.length}`);
+      mkdirSync(alvo_vazio);
+      const r = rodar(alvo_vazio, ...vazio, 'site-estatico');
+      checar(`novo-projeto.sh recusa ${vazio.join(' ')} sem valor, sem criar nada`, r.status !== 0 && !existsSync(join(alvo_vazio, 'CLAUDE.md')), r.stderr);
+    }
     const alvo_invalido = join(base, 'projeto-agente-invalido');
     mkdirSync(alvo_invalido);
     const invalidoAg = rodar(alvo_invalido, '--agente', 'cursor', 'site-estatico');

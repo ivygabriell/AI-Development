@@ -1,6 +1,6 @@
-# Architect de agentes para desenvolvimento
+# Arquitetura de agentes para desenvolvimento
 
-Uma arquitetura de agentes de IA para construir sites, aplicações e soluções tecnológicas de forma organizada: **uma Lead que coordena, especialistas por tema que decidem e revisam, Builders que constroem e uma pessoa que aprova o que importa**. Os agentes rodam em **uma ferramenta por projeto, Claude Code ou Codex** ([decisão 010](decisoes/010-um-agente-principal-por-projeto.md)), orquestrados no [Orca](https://github.com/stablyai/orca), e seguem o mesmo método: alvo definido antes de construir, testes em duas camadas, uma branch por mudança e validação independente.
+Uma arquitetura de agentes de IA para construir sites, aplicações e soluções tecnológicas de forma organizada: **uma Lead que coordena, especialistas por tema que decidem e revisam, Builders que constroem e uma pessoa que aprova o que importa**. Os agentes rodam no **Claude Code e no Codex juntos, cada papel na sua ferramenta** ([decisão 013](decisoes/013-lead-e-builders-com-codex-e-claude.md)), orquestrados no [Orca](https://github.com/stablyai/orca), e seguem o mesmo método: alvo definido antes de construir, testes em duas camadas, uma branch por mudança e validação independente.
 
 A arquitetura nasceu de um projeto real (um portfólio com animações, vídeos, CI e várias sessões em paralelo), inclui os erros que cometemos e **cresce a cada projeto**. Este repositório é **independente de qualquer projeto**. Versão atual: veja [VERSION](VERSION) e o [registro de mudanças](CHANGELOG.md).
 
@@ -312,7 +312,7 @@ mkdir ~/Projetos/meu-site && cd ~/Projetos/meu-site && claude
 
 A skill confere o ambiente, propõe o cenário (e avisa se ele é `rascunho`), pede **uma** confirmação antes de criar o repositório no GitHub, prepara tudo com o `novo-projeto.sh` (inclusive o `CLAUDE.md` do projeto, que dá o contexto a toda sessão futura), espera o primeiro CI e começa a Fase 0. Daí em diante, ela para em cada portão: spec, plano, deploy e o que aciona um gatilho de aprovação (os merges sem gatilho, a Lead integra). Qualquer sessão do projeto consulta o método pela skill `metodo:consultar`.
 
-**Para trabalhar com vários agentes no Orca**, abra o projeto no Orca e use o [prompt da Lead](modelos/prompt-lead-orca.md) num agente Claude Code: ela distribui as tarefas aos agentes, valida e integra pelos gatilhos de aprovação ([01](nucleo/01-fluxo-de-ponta-a-ponta.md), "Portões de aprovação"; [02](nucleo/02-sessoes-e-papeis.md), "Com o Orca").
+**Para trabalhar com vários agentes no Orca**, abra o projeto no Orca e use o [prompt da Lead](modelos/prompt-lead-orca.md) num agente da ferramenta da Lead (a linha `Lead:` do `docs/DESENVOLVIMENTO.md`, por padrão o Claude Code): ela distribui as tarefas aos agentes, valida e integra pelos gatilhos de aprovação ([01](nucleo/01-fluxo-de-ponta-a-ponta.md), "Portões de aprovação"; [02](nucleo/02-sessoes-e-papeis.md), "Com o Orca").
 
 **Com as duas ferramentas**, a Lead abre cada agente na ferramenta do papel (`--agent claude` ou `--agent codex`); o Codex lê o `AGENTS.md`. Quando a cota acaba no meio de uma tarefa, a Builder deixa a passagem na issue e outra, na outra ferramenta, continua na mesma branch. Quando back e front são construídos em paralelo, o contrato da API é aprovado por você antes de qualquer tarefa de construção ([02](nucleo/02-sessoes-e-papeis.md), "Lead e ferramenta por papel").
 

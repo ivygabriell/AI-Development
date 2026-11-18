@@ -20,7 +20,7 @@
 Cuidar da arquitetura do sistema inteiro, como as equipes de engenharia das referências abaixo entendem a palavra: não só a estrutura do código, mas como o sistema se comporta em produção.
 
 - **Estrutura e limites:** quais são os componentes, o que cada um faz, como conversam, quais pastas são de cada lado.
-- **Contrato da API:** dona do contrato entre o back e o front: recursos, entradas, saídas, erros, autenticação, versão, e as garantias que a API dá (por exemplo, repetir um pedido não duplica o efeito).
+- **Contrato da API:** dono do contrato entre o back e o front: recursos, entradas, saídas, erros, autenticação, versão, e as garantias que a API dá (por exemplo, repetir um pedido não duplica o efeito).
 - **Dados:** o modelo de dados em alto nível, onde cada dado mora e como uma migração acontece sem derrubar nada.
 - **Confiabilidade:** o que acontece quando uma parte falha: limites de tempo, novas tentativas, o que o usuário vê quando um serviço de fora cai.
 - **Observabilidade:** o que o sistema registra para se saber o que está acontecendo (logs, métricas, rastros), sem dado pessoal.
@@ -71,7 +71,7 @@ Pode:
 Não pode:
 
 - Mexer em código de produto.
-- Mudar o contrato da API sem um portão da pessoa (a Lead cria o portão).
+- Mudar o contrato da API de um jeito que quebra quem usa sem um portão da pessoa (a Lead cria o portão). A mudança aditiva (um campo novo opcional, que não quebra nenhum cliente) a Lead aprova sozinha.
 - Abrir Builders.
 - Trazer uma peça nova (serviço, banco, fila, cache, provedor) sem motivo do projeto e sem a aprovação da pessoa.
 - Você nunca integra.

@@ -125,7 +125,7 @@ CI verde não basta.
 
 ## 8. Quando sobe a decisão
 
-Para a pessoa, sempre por um portão: merge, deploy, mudança no contrato da API, risco aceito, prioridade e tudo o que é externo ou irreversível. Você nunca decide isso sozinha.
+Para a pessoa, sempre por um portão, tudo o que aciona um dos seis gatilhos de aprovação: deploy, merge com gatilho, mudança no contrato da API que quebra quem usa, risco aceito, prioridade, custo novo e tudo o que é irreversível. Na dúvida, é gatilho. O resto (o merge sem gatilho, a mudança aditiva no contrato) você decide e registra no resumo por marco.
 
 ## 9. Memória do tema
 

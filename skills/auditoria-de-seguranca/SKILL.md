@@ -5,7 +5,7 @@ description: Use quando for montar o mapa de riscos de segurança do projeto (Fa
 
 # Auditoria de segurança
 
-**Quem usa:** no modo com especialistas, o Security, que propõe, roda e tria a auditoria, e a Lead cria o portão e só publica depois da triagem. Nos outros modos (uma sessão, sessões divididas ou o Orca sem especialistas), a Lead ou a Lead faz as duas partes. É um passo da Fase 7: antes da primeira publicação, sempre se pergunta à pessoa. As Builders do back e do front corrigem o que o Security entrega, com as skills do tema (`metodo:controle-de-acesso`, `metodo:entrada-nao-confiavel`, `metodo:autenticacao-e-sessao`).
+**Quem usa:** no modo com especialistas, o Security, que propõe, roda e tria a auditoria, e a Lead cria o portão e só publica depois da triagem. Nos outros modos (uma sessão, sessões divididas ou o Orca sem especialistas), a Lead faz as duas partes. É um passo da Fase 7: antes da primeira publicação, sempre se pergunta à pessoa. As Builders do back e do front corrigem o que o Security entrega, com as skills do tema (`metodo:controle-de-acesso`, `metodo:entrada-nao-confiavel`, `metodo:autenticacao-e-sessao`).
 
 A `security-audit` faz a auditoria. Esta skill diz **como ela entra no fluxo do método**: quando rodar, com que tamanho, onde guardar e o que fazer com cada achado. A base de conhecimento do tema fica em `${CLAUDE_PLUGIN_ROOT}/modelos/referencias/security.md` (seção "Auditoria completa"), e o harness, em `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/security.md`. No Codex, se `${CLAUDE_PLUGIN_ROOT}` aparecer sem ser trocado por um caminho, a cópia do método é a pasta dois níveis acima deste `SKILL.md`.
 

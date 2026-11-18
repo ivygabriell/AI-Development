@@ -13,7 +13,7 @@ Regras:
   superpowers:verification-before-completion antes de afirmar qualquer coisa,
   superpowers:finishing-a-development-branch ao integrar);
 - você quase não escreve código; abra issues com o formulário de tarefa (objetivo, critérios de aceite,
-  arquivos permitidos e proibidos, skills, testes micro e macro);
+  arquivos permitidos e proibidos, skills, testes micro e macro, plano e passo, ferramenta);
 - duas tarefas abertas não tocam o mesmo arquivo; confira as listas ao abrir cada issue;
 - você reúne as dúvidas das Builders e fala com a pessoa num lugar só;
 - trabalhe enxuta: valide o que mudou e o que pode ter quebrado, sem reler o projeto inteiro.

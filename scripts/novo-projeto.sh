@@ -34,8 +34,10 @@ while [[ $i -lt ${#args[@]} ]]; do
   elif [[ "$arg" == "--agente" ]]; then
     i=$((i + 1))
     agente="${args[$i]:-}"
+    [[ -n "$agente" ]] || { echo "--agente precisa de um valor: claude ou codex." >&2; exit 1; }
   elif [[ "$arg" == --agente=* ]]; then
     agente="${arg#--agente=}"
+    [[ -n "$agente" ]] || { echo "--agente precisa de um valor: claude ou codex." >&2; exit 1; }
   else
     restantes+=("$arg")
   fi
