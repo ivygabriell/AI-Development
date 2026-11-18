@@ -391,6 +391,10 @@ checar('issue de bug: rótulo bug e a triagem da Lead', bugForm.includes('labels
 const cicloBug = (ler('nucleo/02-sessoes-e-papeis.md').split('## Ciclo de um bug')[1] || '').split('\n## ')[0];
 for (const termo of ['issue de bug', 'incidente', 'gatilho', 'superpowers:systematic-debugging', 'causa raiz', 'falha por causa do bug', 'fora do escopo', 'issue nova', 'revisão cruzada', 'comportamento combinado', 'Correção urgente', 'reverter', 'lição'])
   checar(`sessões: ciclo de um bug (${termo})`, cicloBug.includes(termo));
+checar('ciclo de um bug: a Lead não passa um bug à frente do que a pessoa priorizou', cicloBug.includes('prioridade já aprovada') && !cicloBug.includes('sem perguntar'));
+for (const id of ['arquivos_permitidos', 'arquivos_proibidos', 'ferramenta'])
+  checar(`issue de bug: campo ${id} que a Lead preenche antes de entregar`, bugForm.includes(`id: ${id}\n`));
+checar('ciclo de um bug: a Lead completa a issue antes de entregar à Builder', cicloBug.includes('arquivos permitidos e proibidos') && cicloBug.toLowerCase().includes('antes de entregar'));
 checar('prompt da Builder: bug fora do escopo vira issue nova', ler('modelos/prompt-builder.md').includes('fora do escopo'));
 checar('CLAUDE.md do projeto: bug fora do escopo vira issue nova', ler('modelos/CLAUDE-projeto.md').includes('fora do escopo'));
 checar('agentes/lead: faz a triagem dos bugs', ler('modelos/agentes/lead.md').includes('triagem dos bugs'));
@@ -780,7 +784,7 @@ checar('README: adoção instala o REA (reverse-engineer-anything)', adocao.incl
 for (const repo of ['https://github.com/obra/superpowers', 'https://github.com/anthropics/knowledge-work-plugins', 'https://github.com/morluto/rea'])
   checar(`README: adoção aponta para o repositório oficial ${repo}`, adocao.includes(repo));
 checar('README: adoção ensina a conferir a instalação', adocao.includes('node --version') && adocao.includes('claude mcp list'));
-const arquivosTexto = [...todosMd(), ...['modelos/issue-tarefa.yml', 'modelos/ci-node.yml', '.github/workflows/verificar.yml'].map((a) => join(RAIZ, a))].filter(existsSync);
+const arquivosTexto = [...todosMd(), ...['modelos/issue-tarefa.yml', 'modelos/issue-bug.yml', 'modelos/ci-node.yml', '.github/workflows/verificar.yml'].map((a) => join(RAIZ, a))].filter(existsSync);
 for (const arquivo of arquivosTexto) {
   const texto = readFileSync(arquivo, 'utf8');
   const nome = relative(RAIZ, arquivo);

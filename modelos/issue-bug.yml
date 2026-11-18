@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Qualquer um abre (a pessoa, uma Builder, um especialista, o monitoramento). A **Lead** faz a triagem: incidente (produção fora do ar, dados de usuários, segurança) vai para a pessoa na hora; bug comum, a Lead prioriza e entrega ao especialista do tema.
+        Qualquer um abre (a pessoa, uma Builder, um especialista, o monitoramento). A **Lead** faz a triagem: incidente (produção fora do ar, dados de usuários, segurança) vai para a pessoa na hora; bug comum, a Lead encaixa na prioridade já aprovada, completa os campos finais e entrega ao especialista do tema.
   - type: textarea
     id: aconteceu
     attributes:
@@ -51,3 +51,20 @@ body:
         - Incidente (vai para a pessoa na hora)
         - Bug comum
         - Não é bug (vira tarefa ou é fechado)
+  - type: textarea
+    id: arquivos_permitidos
+    attributes:
+      label: Arquivos que a correção PODE tocar (a Lead preenche antes de entregar)
+  - type: textarea
+    id: arquivos_proibidos
+    attributes:
+      label: Arquivos que a correção NÃO pode tocar (a Lead preenche antes de entregar)
+  - type: input
+    id: plano
+    attributes:
+      label: Plano e passo (a Lead preenche; "sem plano" e o motivo, se for o caso)
+  - type: input
+    id: ferramenta
+    attributes:
+      label: Ferramenta (a Lead preenche)
+      description: Claude Code ou Codex e o nome da Builder, como "Backend Builder #31 · login-expira · Codex".

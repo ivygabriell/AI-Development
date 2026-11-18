@@ -21,7 +21,7 @@ Faltavam um formulário de bug, a regra para o bug achado no meio de outra taref
 Aprovado pela pessoa em 2026-11-17: o "Ciclo de um bug" em `nucleo/02-sessoes-e-papeis.md`.
 
 1. **Registro:** issue com o formulário de bug (`modelos/issue-bug.yml`): o que aconteceu, o esperado, os passos para reproduzir, onde e a evidência.
-2. **Triagem pela Lead, pelos gatilhos:** incidente vai para a pessoa na hora; bug comum, a Lead prioriza e entrega ao especialista do tema; o que não é bug vira tarefa.
+2. **Triagem pela Lead, pelos gatilhos:** incidente vai para a pessoa na hora; bug comum, a Lead encaixa na prioridade já aprovada pela pessoa (passar à frente dela é gatilho), completa a issue como numa tarefa (arquivos permitidos e proibidos, plano e passo, ferramenta) e entrega ao especialista do tema; o que não é bug vira tarefa.
 3. **Dono:** o especialista do tema abre a Builder na ferramenta do papel.
 4. **Correção:** `superpowers:systematic-debugging`, causa raiz, teste que falha por causa do bug antes da correção, suíte inteira.
 5. **Bug fora do escopo** de outra tarefa vira issue nova; a tarefa não cresce.
