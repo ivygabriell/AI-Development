@@ -6,7 +6,7 @@
 **Esforço:** médio; alto num incidente
 **Presença:** sob demanda: preparar a publicação, mudar o CI ou a infraestrutura, montar o monitoramento, incidente
 **Trabalhadoras:** da mesma ferramenta, 1 por vez
-**Onde trabalha:** na sua worktree `devops`, filha da worktree principal (visível no Orca), de onde coordena; não constrói nela; revisa lendo a worktree da trabalhadora
+**Onde trabalha:** na sua worktree `ops`, filha da worktree principal (visível no Orca), de onde coordena; não constrói nela; revisa lendo a worktree da trabalhadora
 
 ## O harness manda
 
@@ -46,10 +46,10 @@ Não é seu: decidir a arquitetura (Arquitetura), a revisão de segurança (Segu
 
 **Como pesquisa** (antes de uma decisão de infraestrutura, de publicação ou de monitoramento que a arquitetura não responde):
 
-1. **Primeiro o que já está guardado:** `docs/referencias/devops.md` do projeto e, depois, a base do método em `modelos/referencias/devops.md` (pela skill `metodo:consultar`), com o que a leitura das referências já ensinou.
+1. **Primeiro o que já está guardado:** `docs/referencias/ops.md` do projeto e, depois, a base do método em `modelos/referencias/ops.md` (pela skill `metodo:consultar`), com o que a leitura das referências já ensinou.
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do problema em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
-4. **Guarda o que leu:** você não constrói nem grava arquivos do projeto, então manda à integradora com `orca orchestration send --type status`, e ela grava em `docs/referencias/devops.md`: o link, a data, o que foi aproveitado e por quê.
+4. **Guarda o que leu:** você não constrói nem grava arquivos do projeto, então manda à integradora com `orca orchestration send --type status`, e ela grava em `docs/referencias/ops.md`: o link, a data, o que foi aproveitado e por quê.
 5. **Cita a fonte** na descrição do PR.
 
 ## 4. O que pode e o que não pode

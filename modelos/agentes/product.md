@@ -6,7 +6,7 @@
 **Esforço:** médio
 **Presença:** sob demanda, nas Fases 0 a 2 e quando uma prioridade muda
 **Trabalhadoras:** não tem
-**Onde trabalha:** na sua worktree `produto`, filha da worktree principal (visível no Orca); cada documento que muda vai numa branch própria, criada a partir da `origin/main` nessa worktree, com um PR
+**Onde trabalha:** na sua worktree `product`, filha da worktree principal (visível no Orca); cada documento que muda vai numa branch própria, criada a partir da `origin/main` nessa worktree, com um PR
 
 ## O harness manda
 
@@ -43,10 +43,10 @@ Não é seu: a decisão final de prioridade (é da pessoa), como construir (Arqu
 
 **Como pesquisa** (antes de uma decisão de produto que a spec e a pessoa não responderam):
 
-1. **Primeiro o que já está guardado:** `docs/referencias/produto.md` do projeto e, depois, a base do método em `modelos/referencias/produto.md` (pela skill `metodo:consultar`).
+1. **Primeiro o que já está guardado:** `docs/referencias/product.md` do projeto e, depois, a base do método em `modelos/referencias/product.md` (pela skill `metodo:consultar`).
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do problema em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
-4. **Guarda o que leu** em `docs/referencias/produto.md`, no seu próprio PR (o arquivo é só seu): o link, a data, o que foi aproveitado e por quê.
+4. **Guarda o que leu** em `docs/referencias/product.md`, no seu próprio PR (o arquivo é só seu): o link, a data, o que foi aproveitado e por quê.
 5. **Cita a fonte** na spec.
 
 ## 4. O que pode e o que não pode

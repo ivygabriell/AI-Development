@@ -40,7 +40,7 @@ Sinais de que dividir ajuda: a mesma sessão está construindo e conferindo o pr
 2. A trabalhadora cria a worktree com o script (`nova-tarefa.sh`): branch a partir da `main` do remoto e uma porta própria para o servidor.
 3. A trabalhadora desenvolve com TDD e commits pequenos.
 4. Antes do PR, traz a `main` para a branch, roda os testes macro, envia a branch e abre o PR (`Closes #N`).
-5. O CI roda sozinho. A integradora **valida** (checklist em [03](03-skills-e-testes.md) e no [prompt da integradora](../modelos/prompt-sessao-integradora.md)).
+5. O CI roda sozinho. A integradora **valida** (checklist em [03](03-skills-e-testes.md) e no [prompt da integradora](../modelos/prompt-lead.md)).
 6. Com a aprovação da pessoa, a integradora integra, confere a `main` e o CI. **A branch fica no GitHub** como histórico consultável. A trabalhadora remove a worktree.
 
 ## Comunicação
@@ -73,7 +73,7 @@ Uma **worktree** é uma segunda pasta do mesmo repositório, em outra branch, se
 |---|---|---|
 | Duas tarefas mexeram no mesmo arquivo | Listas de arquivos não conferidas | A integradora confere as listas ao abrir cada issue; tarefas que se cruzam vão em sequência |
 | Branch desatualizada gerou conflito | A trabalhadora não trouxe a `main` | Regra do passo 4; a proteção da `main` exige a branch em dia |
-| A trabalhadora perguntou à pessoa | Prompt sem a regra | O [prompt](../modelos/prompt-sessao-trabalhadora.md) manda subir a dúvida para a integradora |
+| A trabalhadora perguntou à pessoa | Prompt sem a regra | O [prompt](../modelos/prompt-builder.md) manda subir a dúvida para a integradora |
 | "CI verde" aceito como prova | Validação superficial | O checklist da integradora exige abrir o navegador e comparar com os critérios |
 | A integradora virou gargalo | Valida demais, relê tudo | Foco no que mudou; critérios de aceite objetivos desde a issue |
 | Fase B começou sem o alvo aprovado | Faltou o ponto de controle | A issue manda parar ao fim da Fase A |
@@ -85,7 +85,7 @@ O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, 
 
 | Sessões abertas à mão | Com o Orca |
 |---|---|
-| A pessoa abre uma sessão por tarefa e cola o [prompt da trabalhadora](../modelos/prompt-sessao-trabalhadora.md) | A coordenadora abre o agente na worktree com `orca orchestration worker-start --agent <agente>` (o agente principal do projeto), passando a especificação da tarefa |
+| A pessoa abre uma sessão por tarefa e cola o [prompt da trabalhadora](../modelos/prompt-builder.md) | A coordenadora abre o agente na worktree com `orca orchestration worker-start --agent <agente>` (o agente principal do projeto), passando a especificação da tarefa |
 | `nova-tarefa.sh` cria a worktree | O Orca cria a worktree (`worker-start --worktree new-child`, ou `orca worktree create`) |
 | A trabalhadora comenta na issue e a pessoa avisa a integradora | O agente pergunta com `orca orchestration ask` e espera; a coordenadora responde com `orca orchestration reply` |
 | A pessoa acompanha cada terminal | A coordenadora espera com `orca orchestration check --wait` e o painel do Orca avisa quando um agente termina |
@@ -98,7 +98,7 @@ O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, 
 
 **Ciclo de uma tarefa:**
 
-1. A coordenadora abre a issue com o formulário de tarefa e cria a tarefa no Orca com a especificação padrão do [prompt da coordenadora](../modelos/prompt-coordenadora-orca.md) (objetivo, critérios de aceite, arquivos permitidos e proibidos, Skills, testes micro e macro, `Closes #N`).
+1. A coordenadora abre a issue com o formulário de tarefa e cria a tarefa no Orca com a especificação padrão do [prompt da coordenadora](../modelos/prompt-lead-orca.md) (objetivo, critérios de aceite, arquivos permitidos e proibidos, Skills, testes micro e macro, `Closes #N`).
 2. O agente constrói com TDD, traz a `main`, roda os testes macro, envia a branch, abre o PR e avisa o fim (`worker_done`). Dúvidas vão para a coordenadora com `ask`.
 3. A coordenadora valida o PR como a integradora (checklist do [03](03-skills-e-testes.md)), cria o portão do merge e pergunta à pessoa.
 4. Com o "pode integrar", resolve o portão, integra com `gh pr merge N --merge`, confere a `main` e o CI e libera o agente.
@@ -120,7 +120,7 @@ Dentro de um projeto atua **um agente principal só: o Claude Code ou o Codex, n
 
 - **Escolha no começo do projeto.** O `/metodo:novo-projeto` pergunta, e o `novo-projeto.sh --agente <claude|codex>` registra em `docs/DESENVOLVIMENTO.md` a linha `Agente principal:`. Trocar depois é uma decisão da pessoa, anotada na memória do projeto.
 - **Os mesmos princípios nas duas.** TDD visto falhar, testes micro e macro, verificação antes de dizer "pronto", uma tarefa por branch e por PR, só a integradora integra, dúvidas pela coordenadora com `ask`. Por isso o Codex de cada computador tem os mesmos plugins e ferramentas que o Claude (README, "Antes de começar"), e todo projeto tem o `CLAUDE.md` e o `AGENTS.md`.
-- **A coordenadora Codex** usa o mesmo [prompt da coordenadora](../modelos/prompt-coordenadora-orca.md) ou o mesmo harness da integradora, valida no navegador com um navegador automatizado ([03](03-skills-e-testes.md)) e só integra com o "pode integrar" da pessoa.
+- **A coordenadora Codex** usa o mesmo [prompt da coordenadora](../modelos/prompt-lead-orca.md) ou o mesmo harness da integradora, valida no navegador com um navegador automatizado ([03](03-skills-e-testes.md)) e só integra com o "pode integrar" da pessoa.
 - **Contrato primeiro, quando back e front correm em paralelo.** Antes da primeira tarefa de construção, uma tarefa fecha o **contrato da API** num arquivo do repositório (`docs/contrato-api.md`, ou o formato que a stack pedir, como OpenAPI), e a pessoa aprova num portão. Depois, o contrato só muda por uma tarefa própria, com portão. Cada lado tem a sua pasta (por exemplo, `back/` e `front/`, decididas na Fase 2), e os **arquivos comuns** (CI, dependências da raiz, contrato, memória do projeto) têm um dono só, nunca duas tarefas ao mesmo tempo.
 - **Medição.** A memória do projeto registra o agente principal e anota, por tarefa, se houve retrabalho e por quê, e o consumo.
 
@@ -155,4 +155,4 @@ Todos os agentes usam o **agente principal do projeto** (Claude Code ou Codex, s
 
 ## Como iniciar
 
-Use o [prompt da sessão trabalhadora](../modelos/prompt-sessao-trabalhadora.md) e o [prompt da integradora](../modelos/prompt-sessao-integradora.md). No Orca, use o [prompt da coordenadora](../modelos/prompt-coordenadora-orca.md): ele substitui os dois. No modo com especialistas, a integradora usa o [harness dela](../modelos/agentes/integradora.md) no lugar do prompt. Um bom primeiro passo é um **piloto pequeno**: 1 integradora e 1 trabalhadora numa tarefa quase só de estilo ou de conteúdo, enquanto a integradora não muda código.
+Use o [prompt da sessão trabalhadora](../modelos/prompt-builder.md) e o [prompt da integradora](../modelos/prompt-lead.md). No Orca, use o [prompt da coordenadora](../modelos/prompt-lead-orca.md): ele substitui os dois. No modo com especialistas, a integradora usa o [harness dela](../modelos/agentes/lead.md) no lugar do prompt. Um bom primeiro passo é um **piloto pequeno**: 1 integradora e 1 trabalhadora numa tarefa quase só de estilo ou de conteúdo, enquanto a integradora não muda código.

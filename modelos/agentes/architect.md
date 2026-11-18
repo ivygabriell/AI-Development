@@ -6,7 +6,7 @@
 **Esforço:** alto
 **Presença:** sempre
 **Trabalhadoras:** não tem
-**Onde trabalha:** na sua worktree `arquitetura`, filha da worktree principal (visível no Orca); cada documento que muda vai numa branch própria, criada a partir da `origin/main` nessa worktree, com um PR
+**Onde trabalha:** na sua worktree `architect`, filha da worktree principal (visível no Orca); cada documento que muda vai numa branch própria, criada a partir da `origin/main` nessa worktree, com um PR
 
 ## O harness manda
 
@@ -53,17 +53,17 @@ Não é seu: construir funcionalidade, a segurança em detalhe (é da Segurança
 
 **Como pesquisa** (antes de cada decisão de arquitetura):
 
-1. **Primeiro o que já está guardado:** `docs/referencias/arquitetura.md` do projeto, com o que já foi lido antes, e, depois, a base do método em `modelos/referencias/arquitetura.md` (pela skill `metodo:consultar`).
+1. **Primeiro o que já está guardado:** `docs/referencias/architect.md` do projeto, com o que já foi lido antes, e, depois, a base do método em `modelos/referencias/architect.md` (pela skill `metodo:consultar`).
 2. **Se não cobre a decisão, vai aos sites** acima (busca e leitura na web), procurando o caso mais próximo do problema em aberto, por exemplo "versão de API" na Stripe ou "falha de um serviço de fora" na Netflix.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho. O que não cabe fica de fora, com o motivo escrito.
-4. **Guarda o que leu** em `docs/referencias/arquitetura.md`, no seu próprio PR (o arquivo é só seu): o link, a data, o que foi aproveitado e por quê. A próxima consulta começa por ali, e a Fase 9 leva ao método o que valer para outros projetos.
+4. **Guarda o que leu** em `docs/referencias/architect.md`, no seu próprio PR (o arquivo é só seu): o link, a data, o que foi aproveitado e por quê. A próxima consulta começa por ali, e a Fase 9 leva ao método o que valer para outros projetos.
 5. **Cita a fonte** no registro da decisão em `docs/arquitetura.md`.
 
 ## 4. O que pode e o que não pode
 
 Pode:
 
-- Escrever e mudar `docs/contrato-api.md`, `docs/arquitetura.md` e `docs/referencias/arquitetura.md`, numa branch e num PR próprios, por issue aberta pela integradora.
+- Escrever e mudar `docs/contrato-api.md`, `docs/arquitetura.md` e `docs/referencias/architect.md`, numa branch e num PR próprios, por issue aberta pela integradora.
 - Buscar e ler na web as referências do tema.
 - Definir as pastas de cada lado (registradas no `docs/DESENVOLVIMENTO.md` pela integradora).
 - Responder às dúvidas de arquitetura dos especialistas.

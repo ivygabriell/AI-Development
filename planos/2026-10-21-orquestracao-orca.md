@@ -27,7 +27,7 @@
 
 ### Tarefa 1: verificações (vistas falhar)
 
-- [ ] `OBRIGATORIOS`: `modelos/prompt-coordenadora-orca.md`, `skills/atualizar-projeto/SKILL.md`, `decisoes/006-desenvolvimento-orquestrado-com-o-orca.md`.
+- [ ] `OBRIGATORIOS`: `modelos/prompt-lead-orca.md`, `skills/atualizar-projeto/SKILL.md`, `decisoes/006-desenvolvimento-orquestrado-com-o-orca.md`.
 - [ ] Núcleo: o `02` tem `## Com o Orca`, `coordenadora`, `orchestration worker-start` e `gate-create`; o `01` cita o Orca no portão da Fase 3 e `orca search` na Fase 9; o `05` cita `orca worktree create`.
 - [ ] Prompt da coordenadora: `orca skills get orchestration`, `gate-create`, `pode integrar`, `superpowers:verification-before-completion` e as partes da tarefa (objetivo, critérios de aceite, arquivos permitidos e proibidos, testes).
 - [ ] Projeto gerado: o `CLAUDE.md` cita o Orca e `/metodo:atualizar-projeto`; o `DESENVOLVIMENTO.md` cita o Orca.
@@ -40,7 +40,7 @@
 - [ ] `nucleo/02`: seção `## Com o Orca (rascunho)` com o mapa dos papéis, o ciclo de uma tarefa com os comandos do Orca, as regras que não mudam, o limite inicial e os modos de falha a observar.
 - [ ] `nucleo/01`: Fase 3 (modo Orca no portão) e Fase 9 (`orca search`).
 - [ ] `nucleo/05`: worktrees pelo Orca.
-- [ ] `modelos/prompt-coordenadora-orca.md`: o prompt da coordenadora, com o texto padrão da especificação de cada tarefa.
+- [ ] `modelos/prompt-lead-orca.md`: o prompt da coordenadora, com o texto padrão da especificação de cada tarefa.
 - [ ] `modelos/CLAUDE-projeto.md` e o `DESENVOLVIMENTO.md` gerado pelo `scripts/novo-projeto.sh`: o modo Orca e a atualização do projeto.
 
 ### Tarefa 3: skills

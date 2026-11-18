@@ -43,10 +43,10 @@
 
 **Como pesquisa** (quando uma decisão de coordenação ou de validação precisa de mais do que o método diz):
 
-1. **Primeiro o que já está guardado:** `docs/referencias/integradora.md` do projeto e, depois, a base do método em `modelos/referencias/integradora.md` (pela skill `metodo:consultar`).
+1. **Primeiro o que já está guardado:** `docs/referencias/lead.md` do projeto e, depois, a base do método em `modelos/referencias/lead.md` (pela skill `metodo:consultar`).
 2. **Se não cobre a decisão, vai aos sites** das referências escolhidas pela pessoa, só o que serve para a decisão em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
-4. **Guarda o que leu** em `docs/referencias/integradora.md`: o link, a data, o que foi aproveitado e por quê.
+4. **Guarda o que leu** em `docs/referencias/lead.md`: o link, a data, o que foi aproveitado e por quê.
 5. **Cita a fonte** na memória do projeto, junto da decisão.
 
 ## 4. O que pode e o que não pode
@@ -58,12 +58,12 @@ Pode:
 
   | Especialista | Agente, modelo e esforço | Worktree |
   |---|---|---|
-  | Arquitetura | `--agent <agente> --model <modelo> --effort high` | `--worktree new-child --name arquitetura --base-branch origin/main` |
-  | Back e Dados | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name back-e-dados --base-branch origin/main` |
-  | Design e Front | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name design-e-front --base-branch origin/main` |
-  | Segurança | `--agent <agente> --model <modelo> --effort high` | `--worktree new-child --name seguranca --base-branch origin/main` |
-  | Produto | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name produto --base-branch origin/main` |
-  | DevOps | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name devops --base-branch origin/main` |
+  | Arquitetura | `--agent <agente> --model <modelo> --effort high` | `--worktree new-child --name architect --base-branch origin/main` |
+  | Back e Dados | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name backend --base-branch origin/main` |
+  | Design e Front | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name frontend --base-branch origin/main` |
+  | Segurança | `--agent <agente> --model <modelo> --effort high` | `--worktree new-child --name security --base-branch origin/main` |
+  | Produto | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name product --base-branch origin/main` |
+  | DevOps | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name ops --base-branch origin/main` |
 
   `<agente>` e `<modelo>` são os do agente principal do projeto, iguais para todos: `--agent claude --model claude-opus-5-5` no Claude Code ou `--agent codex --model gpt-6.1-sol` no Codex (linha `Agente principal:` do `docs/DESENVOLVIMENTO.md`). Nunca abra um especialista com a outra ferramenta.
 

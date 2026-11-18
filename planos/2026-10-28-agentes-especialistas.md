@@ -64,10 +64,10 @@ Responde ao item "A conferir" do desenho: um especialista consegue iniciar as pr
 
 ### Tarefa 3: modelo comum e harness da integradora
 
-**Arquivos:** criar `modelos/agentes/_modelo-harness.md` e `modelos/agentes/integradora.md`.
+**Arquivos:** criar `modelos/agentes/_modelo-harness.md` e `modelos/agentes/lead.md`.
 
 - [ ] Escrever o modelo: cabeçalho (Agente, Ferramenta, Modelo, Esforço, Presença, Maturidade), a seção `## O harness manda` (precedência: harness → projeto → Skills e método → o que consultou ou sabe; não desvia, para e sobe; as regras fixas do método) e as 10 partes, cada uma com uma linha do que preencher. A parte 10 traz as 6 regras de economia do desenho.
-- [ ] Escrever o rascunho da integradora a partir do desenho: missão (coordenar, abrir issues, validação final, integrar), gatilhos, o que lê, o que pode (portões, `gh pr merge N --merge`, iniciar os especialistas com `worker-start --agent <claude|codex> --model <...> --effort <...>`), o que não pode, Skills, checklist da validação final (o checklist atual do `modelos/prompt-coordenadora-orca.md`, ciclo 3), formato do que pede aos especialistas, quando sobe para a pessoa, memória do projeto, economia. Absorve as regras do prompt da coordenadora que valem no modo com especialistas.
+- [ ] Escrever o rascunho da integradora a partir do desenho: missão (coordenar, abrir issues, validação final, integrar), gatilhos, o que lê, o que pode (portões, `gh pr merge N --merge`, iniciar os especialistas com `worker-start --agent <claude|codex> --model <...> --effort <...>`), o que não pode, Skills, checklist da validação final (o checklist atual do `modelos/prompt-lead-orca.md`, ciclo 3), formato do que pede aos especialistas, quando sobe para a pessoa, memória do projeto, economia. Absorve as regras do prompt da coordenadora que valem no modo com especialistas.
 - [ ] Apresentar os dois à pessoa e ajustar até o "aprovado".
 - [ ] Rodar `node scripts/verificar.mjs`. Esperado: verde.
 - [ ] Commit: `feat: modelo comum do harness e harness da integradora`.
@@ -111,7 +111,7 @@ Cada tarefa segue os mesmos passos:
 
 ### Tarefa 10: núcleo, skills e README
 
-**Arquivos:** `nucleo/02-sessoes-e-papeis.md`, `nucleo/01-fluxo-de-ponta-a-ponta.md`, `modelos/prompt-coordenadora-orca.md`, `skills/novo-projeto/SKILL.md`, `skills/atualizar-projeto/SKILL.md`, `skills/consultar/SKILL.md`, `README.md`, `scripts/verificar.mjs`.
+**Arquivos:** `nucleo/02-sessoes-e-papeis.md`, `nucleo/01-fluxo-de-ponta-a-ponta.md`, `modelos/prompt-lead-orca.md`, `skills/novo-projeto/SKILL.md`, `skills/atualizar-projeto/SKILL.md`, `skills/consultar/SKILL.md`, `README.md`, `scripts/verificar.mjs`.
 
 - [ ] Escrever as verificações:
   - `02` tem `### Com agentes especialistas` com `docs/agentes/`, `--parent`, `O harness manda` e o limite de 9 sessões;

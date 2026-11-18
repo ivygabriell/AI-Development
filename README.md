@@ -29,7 +29,7 @@ A arquitetura nasceu de um projeto real (um portfólio com animações, vídeos,
 | Peça | O que é | Onde está |
 |---|---|---|
 | **Agente principal** | A ferramenta do projeto: Claude Code ou Codex, a mesma para todos os agentes, nunca as duas | [02, "Um agente principal por projeto"](nucleo/02-sessoes-e-papeis.md) |
-| **Integradora** | A coordenadora: abre as issues, distribui aos especialistas, valida e integra com a sua aprovação | [harness da integradora](modelos/agentes/integradora.md) |
+| **Integradora** | A coordenadora: abre as issues, distribui aos especialistas, valida e integra com a sua aprovação | [harness da integradora](modelos/agentes/lead.md) |
 | **Especialistas** | Um agente por tema, cada um com um **harness**: missão, o que pode e o que não pode, Skills, checklist, quando sobe a decisão | [`modelos/agentes/`](modelos/agentes/) |
 | **Trabalhadoras** | Constroem uma tarefa por vez, numa worktree e numa branch próprias, com TDD; nunca integram | [02, "Com agentes especialistas"](nucleo/02-sessoes-e-papeis.md) |
 | **Skills por agente** | Regras concretas tiradas das referências de cada tema, com fonte, teste e checklist (plugin `metodo`) | [`skills/`](skills/) e [03, "Mapa de skills"](nucleo/03-skills-e-testes.md) |
@@ -65,11 +65,11 @@ Tudo o que a arquitetura usa, com o link de onde cada coisa é explicada.
 | **Worktree** | Uma cópia de trabalho por tarefa, para várias sessões trabalharem ao mesmo tempo sem se cruzar | [05, "Worktrees"](nucleo/05-git-github-e-ci.md) |
 | **Orca** | O aplicativo que abre os agentes, cada um na sua worktree, e leva as dúvidas e os portões para a integradora (`worker-start`, `ask`, `gate-create`) | [02, "Com o Orca"](nucleo/02-sessoes-e-papeis.md) |
 | **Contrato da API** | O acordo entre o back e o front, fechado e aprovado antes de construir quando os dois andam em paralelo. É da Arquitetura | [02](nucleo/02-sessoes-e-papeis.md) |
-| **Mapa de riscos** | O que proteger, de quem e por onde, feito na Fase 2 com o roteiro da `security-audit`. Cada risco vira critério de aceite | [harness da Segurança](modelos/agentes/seguranca.md) |
+| **Mapa de riscos** | O que proteger, de quem e por onde, feito na Fase 2 com o roteiro da `security-audit`. Cada risco vira critério de aceite | [harness da Segurança](modelos/agentes/security.md) |
 | **`CLAUDE.md` e `AGENTS.md` do projeto** | As instruções que cada ferramenta lê ao abrir o projeto: o Claude Code lê o `CLAUDE.md`, e o Codex lê o `AGENTS.md`, que manda ler o `CLAUDE.md` | [modelo do `CLAUDE.md`](modelos/CLAUDE-projeto.md), [modelo do `AGENTS.md`](modelos/AGENTS-projeto.md) |
 | **Memória do projeto** | O que a próxima sessão precisa saber: estado, decisões, pendências e, por tarefa, retrabalho e consumo | [modelo da memória](modelos/memoria-do-projeto.md) |
 | **Ponytail** (rascunho) | Plugin que faz o agente escrever a menor mudança que resolve a tarefa inteira. No Claude Code reduz tokens e custo; no Codex fica só sob demanda. O TDD, a spec e o que as skills do método exigem valem por cima dele | [03, "Ponytail"](nucleo/03-skills-e-testes.md) |
-| **Consumo por tarefa** | Custo, tokens, idas e voltas e tempo de cada tarefa, anotados na memória e comparados na Fase 9. No Claude Code, vêm do quadro local do ponytail | [harness da integradora](modelos/agentes/integradora.md) |
+| **Consumo por tarefa** | Custo, tokens, idas e voltas e tempo de cada tarefa, anotados na memória e comparados na Fase 9. No Claude Code, vêm do quadro local do ponytail | [harness da integradora](modelos/agentes/lead.md) |
 | **Cenário** | Como o método se adapta a um tipo de projeto, com selo de maturidade (`rascunho`, `testado em 1 projeto`, `estável`) | [`cenarios/`](cenarios/README.md) |
 | **Caso, lição e decisão** | Caso: a retrospectiva de um projeto. Lição: um erro e a regra que veio dele. Decisão: por que uma regra mudou | [`casos/`](casos/_modelo-caso.md), [`licoes/`](licoes/_indice.md), [`decisoes/`](decisoes/_modelo-decisao.md) |
 
@@ -77,13 +77,13 @@ Tudo o que a arquitetura usa, com o link de onde cada coisa é explicada.
 
 | Agente | Harness | Presença |
 |---|---|---|
-| Integradora | [integradora.md](modelos/agentes/integradora.md) | sempre |
-| Arquitetura | [arquitetura.md](modelos/agentes/arquitetura.md) | sempre |
-| Back e Dados | [back-e-dados.md](modelos/agentes/back-e-dados.md) | sempre |
-| Design e Front | [design-e-front.md](modelos/agentes/design-e-front.md) | sempre |
-| Segurança | [seguranca.md](modelos/agentes/seguranca.md) | sempre |
-| Produto | [produto.md](modelos/agentes/produto.md) | sob demanda (Fases 0 a 2) |
-| DevOps | [devops.md](modelos/agentes/devops.md) | sob demanda |
+| Integradora | [integradora.md](modelos/agentes/lead.md) | sempre |
+| Arquitetura | [arquitetura.md](modelos/agentes/architect.md) | sempre |
+| Back e Dados | [back-e-dados.md](modelos/agentes/backend.md) | sempre |
+| Design e Front | [design-e-front.md](modelos/agentes/frontend.md) | sempre |
+| Segurança | [seguranca.md](modelos/agentes/security.md) | sempre |
+| Produto | [produto.md](modelos/agentes/product.md) | sob demanda (Fases 0 a 2) |
+| DevOps | [devops.md](modelos/agentes/ops.md) | sob demanda |
 
 ### Skills
 
@@ -312,7 +312,7 @@ mkdir ~/Projetos/meu-site && cd ~/Projetos/meu-site && claude
 
 A skill confere o ambiente, propõe o cenário (e avisa se ele é `rascunho`), pede **uma** confirmação antes de criar o repositório no GitHub, prepara tudo com o `novo-projeto.sh` (inclusive o `CLAUDE.md` do projeto, que dá o contexto a toda sessão futura), espera o primeiro CI e começa a Fase 0. Daí em diante, ela para em cada portão: spec, plano, cada merge e deploy. Qualquer sessão do projeto consulta o método pela skill `metodo:consultar`.
 
-**Para trabalhar com vários agentes no Orca**, abra o projeto no Orca e use o [prompt da coordenadora](modelos/prompt-coordenadora-orca.md) no agente principal: ela distribui as tarefas aos agentes, valida e só integra com a sua aprovação ([02](nucleo/02-sessoes-e-papeis.md), seção "Com o Orca").
+**Para trabalhar com vários agentes no Orca**, abra o projeto no Orca e use o [prompt da coordenadora](modelos/prompt-lead-orca.md) no agente principal: ela distribui as tarefas aos agentes, valida e só integra com a sua aprovação ([02](nucleo/02-sessoes-e-papeis.md), seção "Com o Orca").
 
 **Num projeto Codex**, abra a coordenadora como um agente Codex no Orca: ela lê o `AGENTS.md`, usa o mesmo prompt e abre todos os agentes com `--agent codex`. Quando back e front são construídos em paralelo, o contrato da API é aprovado por você antes de qualquer tarefa de construção ([02](nucleo/02-sessoes-e-papeis.md), "Um agente principal por projeto").
 

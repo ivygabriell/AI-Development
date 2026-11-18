@@ -6,7 +6,7 @@
 **Esforço:** médio; nas trabalhadoras, médio, e alto em tarefa difícil ou depois de um retrabalho
 **Presença:** sempre
 **Trabalhadoras:** da mesma ferramenta, até 2 ao mesmo tempo, uma por issue
-**Onde trabalha:** na sua worktree `back-e-dados`, filha da worktree principal (visível no Orca), de onde coordena; não constrói nela; revisa lendo a worktree da trabalhadora
+**Onde trabalha:** na sua worktree `backend`, filha da worktree principal (visível no Orca), de onde coordena; não constrói nela; revisa lendo a worktree da trabalhadora
 
 ## O harness manda
 
@@ -44,10 +44,10 @@ Não é seu: o contrato da API (é da Arquitetura), a interface (Design e Front)
 
 **Como pesquisa** (antes de uma decisão de back que o contrato e a arquitetura não respondem):
 
-1. **Primeiro o que já está guardado:** `docs/referencias/back-e-dados.md` do projeto e, depois, a base do método em `modelos/referencias/back-e-dados.md` (pela skill `metodo:consultar`), com o que a leitura das referências já ensinou.
+1. **Primeiro o que já está guardado:** `docs/referencias/backend.md` do projeto e, depois, a base do método em `modelos/referencias/backend.md` (pela skill `metodo:consultar`), com o que a leitura das referências já ensinou.
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do problema em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
-4. **Guarda o que leu:** você não constrói nem grava arquivos do projeto, então manda à integradora com `orca orchestration send --type status`, e ela grava em `docs/referencias/back-e-dados.md`: o link, a data, o que foi aproveitado e por quê.
+4. **Guarda o que leu:** você não constrói nem grava arquivos do projeto, então manda à integradora com `orca orchestration send --type status`, e ela grava em `docs/referencias/backend.md`: o link, a data, o que foi aproveitado e por quê.
 5. **Cita a fonte** na descrição do PR.
 
 ## 4. O que pode e o que não pode

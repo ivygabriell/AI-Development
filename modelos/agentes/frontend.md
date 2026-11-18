@@ -6,7 +6,7 @@
 **Esforço:** médio; nas trabalhadoras, médio, e alto em tarefa difícil ou depois de um retrabalho
 **Presença:** sempre
 **Trabalhadoras:** da mesma ferramenta, até 2 ao mesmo tempo, uma por issue
-**Onde trabalha:** na sua worktree `design-e-front`, filha da worktree principal (visível no Orca), de onde coordena; não constrói nela; revisa lendo a worktree da trabalhadora
+**Onde trabalha:** na sua worktree `frontend`, filha da worktree principal (visível no Orca), de onde coordena; não constrói nela; revisa lendo a worktree da trabalhadora
 
 ## O harness manda
 
@@ -47,10 +47,10 @@ Não é seu: o contrato da API (Arquitetura), o back (Back e Dados), a revisão 
 
 **Como pesquisa** (antes de uma decisão de tela ou de interface que o design system e a spec não respondem):
 
-1. **Primeiro o que já está guardado:** `docs/referencias/design-e-front.md` do projeto e, depois, a base do método em `modelos/referencias/design-e-front.md` (pela skill `metodo:consultar`), com o que a leitura das referências já ensinou.
+1. **Primeiro o que já está guardado:** `docs/referencias/frontend.md` do projeto e, depois, a base do método em `modelos/referencias/frontend.md` (pela skill `metodo:consultar`), com o que a leitura das referências já ensinou.
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do problema em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
-4. **Guarda o que leu:** você não constrói nem grava arquivos do projeto, então manda à integradora com `orca orchestration send --type status`, e ela grava em `docs/referencias/design-e-front.md`: o link, a data, o que foi aproveitado e por quê.
+4. **Guarda o que leu:** você não constrói nem grava arquivos do projeto, então manda à integradora com `orca orchestration send --type status`, e ela grava em `docs/referencias/frontend.md`: o link, a data, o que foi aproveitado e por quê.
 5. **Cita a fonte** na descrição do PR.
 
 ## 4. O que pode e o que não pode

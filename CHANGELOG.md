@@ -49,7 +49,7 @@ Skills do Produto e da Integradora, pelo mesmo processo da [decisão 009](deciso
 
 - **Produto:** `necessidades-e-riscos` e `descoberta-continua`, tiradas do GOV.UK Service Manual (necessidades e pesquisa), do SVPG (os quatro riscos) e do Product Talk (árvore de oportunidades, entrevistas por história). O planejamento e a síntese de pesquisa continuam com `design:user-research` e `design:research-synthesis`.
 - **Integradora:** `validacao-final` e `metricas-de-entrega`, tiradas de martinfowler.com (pirâmide de testes na prática), do Google Testing Blog (detectores de mudança, mocks, interface pública, testes de ponta a ponta) e da DORA (as cinco métricas).
-- **Bases** em `modelos/referencias/produto.md` e `modelos/referencias/integradora.md`. Os harnesses, a `consultar`, o mapa do `03` e o README apontam para elas.
+- **Bases** em `modelos/referencias/product.md` e `modelos/referencias/lead.md`. Os harnesses, a `consultar`, o mapa do `03` e o README apontam para elas.
 - Plano em [planos/2026-10-30-skills-produto-e-integradora.md](planos/2026-10-30-skills-produto-e-integradora.md).
 
 ## 2.11.0 (2026-10-30)
@@ -57,7 +57,7 @@ Skills do Produto e da Integradora, pelo mesmo processo da [decisão 009](deciso
 Skills da Arquitetura, pelo mesmo processo da [decisão 009](decisoes/009-skills-por-agente.md), aprovadas pela pessoa **sem caso real** (tudo em `rascunho`).
 
 - **Skills novas no plugin `metodo`:** `contrato-de-api`, `analise-de-falhas` e `migracao-de-sistema`, tiradas da leitura das referências do harness da Arquitetura (Stripe, Netflix, Slack, Azure Well-Architected), com as regras de API do Zalando e do Google AIP que já estavam na base do back.
-- **Base de conhecimento** em `modelos/referencias/arquitetura.md`. O harness, a `consultar`, o mapa de skills do `03` e o README apontam para elas.
+- **Base de conhecimento** em `modelos/referencias/architect.md`. O harness, a `consultar`, o mapa de skills do `03` e o README apontam para elas.
 - Plano em [planos/2026-10-30-skills-arquitetura.md](planos/2026-10-30-skills-arquitetura.md).
 
 ## 2.10.0 (2026-10-30)
@@ -66,7 +66,7 @@ Skills da Segurança, pelo mesmo processo da [decisão 009](decisoes/009-skills-
 
 - **Skills novas no plugin `metodo`:** `autenticacao-e-sessao`, `controle-de-acesso`, `entrada-nao-confiavel` e `incidente-com-dados-pessoais`, tiradas da leitura a fundo das referências do harness da Segurança (NIST SP 800-63B-4, OWASP Cheat Sheets e ASVS 5.0.0, Resolução CD/ANPD nº 15/2024).
 - **Quem corrige também usa:** a Segurança não tem trabalhadoras; as trabalhadoras do back e do front usam estas skills quando corrigem o que ela entrega, e os harnesses do back e do front apontam para elas. A decisão sobre comunicar um incidente continua da pessoa.
-- **Base de conhecimento** em `modelos/referencias/seguranca.md`. O mapa de skills do `03` e a `consultar` apontam para ela.
+- **Base de conhecimento** em `modelos/referencias/security.md`. O mapa de skills do `03` e a `consultar` apontam para ela.
 - Plano em [planos/2026-10-30-skills-seguranca.md](planos/2026-10-30-skills-seguranca.md).
 
 ## 2.9.0 (2026-10-29)
@@ -74,7 +74,7 @@ Skills da Segurança, pelo mesmo processo da [decisão 009](decisoes/009-skills-
 Skills do DevOps, pelo mesmo processo da [decisão 009](decisoes/009-skills-por-agente.md), aprovadas pela pessoa **sem caso real** (tudo em `rascunho`).
 
 - **Skills novas no plugin `metodo`:** `publicacao-gradual`, `metas-e-alertas` e `ci-seguro`, tiradas da leitura a fundo das referências do harness do DevOps (Google SRE, incidentes da Cloudflare) e das que o harness empresta da Segurança (GitHub Security Lab), com a documentação de segurança do GitHub Actions.
-- **Base de conhecimento** em `modelos/referencias/devops.md`. O site da FinOps Foundation bloqueou a leitura automática: o resumo de custo ficou marcado para conferir no site; o Kubernetes, só apontado.
+- **Base de conhecimento** em `modelos/referencias/ops.md`. O site da FinOps Foundation bloqueou a leitura automática: o resumo de custo ficou marcado para conferir no site; o Kubernetes, só apontado.
 - **Harness do DevOps:** a trabalhadora usa as skills do especialista; a especificação do `worker-start` diz quais; a pesquisa passa pela base do método. O mapa de skills do `03` e a `consultar` apontam para elas.
 - Plano em [planos/2026-10-29-skills-devops.md](planos/2026-10-29-skills-devops.md).
 
@@ -84,7 +84,7 @@ Skills de Design e Front, pelo mesmo processo da [decisão 009](decisoes/009-ski
 
 - **Skills novas no plugin `metodo`:** `formularios-e-erros`, `desempenho-na-tela` e `estados-da-tela`, tiradas da leitura a fundo das referências do harness de Design e Front (WCAG 2.2, GOV.UK, NN/g, web.dev, MDN).
 - **Decisão da pessoa:** o erro de campo aparece ao avançar ou enviar, como no GOV.UK, e não ao sair do campo (NN/g).
-- **Base de conhecimento** em `modelos/referencias/design-e-front.md`, com os critérios novos da WCAG 2.2 para quem constrói e, só para projetos React, os avisos do React Blog.
+- **Base de conhecimento** em `modelos/referencias/frontend.md`, com os critérios novos da WCAG 2.2 para quem constrói e, só para projetos React, os avisos do React Blog.
 - **Harness de Design e Front:** as trabalhadoras usam as skills do especialista; a especificação do `worker-start` diz quais; a pesquisa passa pela base do método. O mapa de skills do `03` e a `consultar` apontam para elas.
 - Plano em [planos/2026-10-29-skills-design-e-front.md](planos/2026-10-29-skills-design-e-front.md).
 
@@ -94,7 +94,7 @@ Skills por agente, começando por Back e Dados, aprovado pela pessoa **sem caso 
 
 - **Skills novas no plugin `metodo`:** `api-conforme-contrato`, `migracao-sem-parada`, `transacoes-e-consultas` e `trabalho-em-segundo-plano`, tiradas da leitura a fundo das referências do harness de Back e Dados (Zalando, Google AIP, PostgreSQL, PlanetScale, Shopify). Cada uma traz passo a passo com a fonte de cada passo, o teste que prova cada regra, checklist e "Adaptar ao tamanho do projeto".
 - **As trabalhadoras usam as skills do especialista pai** (decidido pela pessoa): a especificação do `worker-start` diz quais skills a tarefa toca, e o especialista revisa pelas mesmas.
-- **Base de conhecimento** em `modelos/referencias/back-e-dados.md`; o "Como pesquisa" do harness passa por ela depois do `docs/referencias/` do projeto.
+- **Base de conhecimento** em `modelos/referencias/backend.md`; o "Como pesquisa" do harness passa por ela depois do `docs/referencias/` do projeto.
 - **Núcleo e skills:** o mapa de skills do `03` e a `consultar` apontam para as skills e a base. O verificador confere toda citação `metodo:<nome>` contra as pastas de `skills/`.
 - Plano em [planos/2026-10-29-skills-back-e-dados.md](planos/2026-10-29-skills-back-e-dados.md).
 
@@ -133,7 +133,7 @@ Back com agentes Codex e front com agentes Claude, no Orca, aprovado pela pessoa
 
 ## 2.4.1 (2026-10-21)
 
-- **Modo Orca:** a coordenadora e os agentes são sempre agentes Claude. O [prompt da coordenadora](modelos/prompt-coordenadora-orca.md) manda abrir cada agente com `worker-start --agent claude`, e o [02](nucleo/02-sessoes-e-papeis.md) e o `CLAUDE.md` dos projetos gerados explicam o motivo: os outros agentes que o Orca abre (Codex, Cursor e outros) não leem o `CLAUDE.md` do projeto nem os plugins `metodo` e Superpowers, e trabalhariam sem o método.
+- **Modo Orca:** a coordenadora e os agentes são sempre agentes Claude. O [prompt da coordenadora](modelos/prompt-lead-orca.md) manda abrir cada agente com `worker-start --agent claude`, e o [02](nucleo/02-sessoes-e-papeis.md) e o `CLAUDE.md` dos projetos gerados explicam o motivo: os outros agentes que o Orca abre (Codex, Cursor e outros) não leem o `CLAUDE.md` do projeto nem os plugins `metodo` e Superpowers, e trabalhariam sem o método.
 - `scripts/verificar.mjs` confere o `--agent claude` nos três lugares.
 
 ## 2.4.0 (2026-10-21)
@@ -141,7 +141,7 @@ Back com agentes Codex e front com agentes Claude, no Orca, aprovado pela pessoa
 Modo de execução com o Orca, aprovado pela pessoa **sem caso real** (exceção à regra de ouro; tudo em `rascunho` até o primeiro projeto com o Orca). Ver [decisão 006](decisoes/006-desenvolvimento-orquestrado-com-o-orca.md).
 
 - **Núcleo:** o `02` ganha a seção "Com o Orca": a coordenadora é a integradora e cada agente supervisionado é uma trabalhadora; dúvidas por `orca orchestration ask`; merge e deploy passam por um portão (`gate-create`) que só a pessoa resolve; limite inicial de 1 coordenadora e até 3 agentes. O `01` oferece o Orca no portão da Fase 3 e consulta as conversas com `orca search` na Fase 9; o `05` cria as worktrees pelo Orca.
-- **Modelo novo:** `modelos/prompt-coordenadora-orca.md`, com o prompt da coordenadora e a especificação padrão de cada tarefa.
+- **Modelo novo:** `modelos/prompt-lead-orca.md`, com o prompt da coordenadora e a especificação padrão de cada tarefa.
 - **Skill nova `/metodo:atualizar-projeto`** (rascunho): traz um projeto que já existe para a versão atual do método, só acrescentando, com uma confirmação e um PR.
 - **Projetos gerados:** o `CLAUDE.md` e o `DESENVOLVIMENTO.md` explicam o modo Orca e a atualização; a skill `novo-projeto` oferece registrar o projeto no Orca e o modo Orca na Fase 3; a `consultar` aponta para os dois.
 - **README:** o Orca nos pré-requisitos e a seção "Atualizar um projeto que já usa o método".

@@ -6,7 +6,7 @@
 **Esforço:** alto
 **Presença:** sempre
 **Trabalhadoras:** não tem
-**Onde trabalha:** na sua worktree `seguranca`, filha da worktree principal (visível no Orca): o mapa de riscos numa branch própria, com PR; para revisar, lê a worktree do PR, só lendo e rodando verificações
+**Onde trabalha:** na sua worktree `security`, filha da worktree principal (visível no Orca): o mapa de riscos numa branch própria, com PR; para revisar, lê a worktree do PR, só lendo e rodando verificações
 
 ## O harness manda
 
@@ -48,10 +48,10 @@ Não é seu: construir funcionalidade, decidir a arquitetura (Arquitetura, com q
 
 **Como pesquisa** (antes de um veredito ou de um item do mapa de riscos que o mapa e o contrato não respondem):
 
-1. **Primeiro o que já está guardado:** `docs/referencias/seguranca.md` do projeto e, depois, a base do método em `modelos/referencias/seguranca.md` (pela skill `metodo:consultar`), com o que a leitura das referências já ensinou.
+1. **Primeiro o que já está guardado:** `docs/referencias/security.md` do projeto e, depois, a base do método em `modelos/referencias/security.md` (pela skill `metodo:consultar`), com o que a leitura das referências já ensinou.
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do risco em aberto.
 3. **Adapta ao cenário do projeto:** o nível de proteção acompanha o que o projeto guarda e expõe; o que não cabe fica de fora, com o motivo.
-4. **Guarda o que leu** em `docs/referencias/seguranca.md`, no seu próprio PR (o arquivo é só seu): o link, a data, o que foi aproveitado e por quê.
+4. **Guarda o que leu** em `docs/referencias/security.md`, no seu próprio PR (o arquivo é só seu): o link, a data, o que foi aproveitado e por quê.
 5. **Cita a fonte** no comentário do PR ou no mapa de riscos.
 
 ## 4. O que pode e o que não pode
@@ -104,7 +104,7 @@ No mapa de riscos e em cada revisão:
 ## 7. Formato da resposta
 
 - **Veredito:** aprovar, aprovar com ressalva ou bloquear.
-- **Gravidade pelo impacto demonstrado** (as âncoras da `security-audit`, na base `modelos/referencias/seguranca.md`): crítico e alto bloqueiam; médio aprova com ressalva; baixo é nota. O que depende de um fato que o código não mostra não leva gravidade: vira pergunta ("a validar") com o fato que falta.
+- **Gravidade pelo impacto demonstrado** (as âncoras da `security-audit`, na base `modelos/referencias/security.md`): crítico e alto bloqueiam; médio aprova com ressalva; baixo é nota. O que depende de um fato que o código não mostra não leva gravidade: vira pergunta ("a validar") com o fato que falta.
 - **Achados por gravidade** (crítico, alto, médio, baixo), em poucas linhas, cada um com onde está e o que precisa mudar. O detalhe vai no comentário do PR.
 - Para a integradora: o veredito e o resumo. Para o dono da pasta: a correção.
 

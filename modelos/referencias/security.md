@@ -1,10 +1,10 @@
 # Base de conhecimento: Segurança
 
 **Leitura feita em:** 2026-10-29
-**Agente:** Segurança (harness em `modelos/agentes/seguranca.md`)
+**Agente:** Segurança (harness em `modelos/agentes/security.md`)
 **Skills que saem daqui:** `metodo:autenticacao-e-sessao`, `metodo:controle-de-acesso`, `metodo:entrada-nao-confiavel` e `metodo:incidente-com-dados-pessoais`; da seção "Auditoria completa", `metodo:auditoria-de-seguranca`
 
-O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `docs/referencias/seguranca.md` do projeto e antes dos sites. As skills também servem a quem corrige (as trabalhadoras do back e do front). A segurança do CI fica com `metodo:ci-seguro`, do DevOps.
+O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `docs/referencias/security.md` do projeto e antes dos sites. As skills também servem a quem corrige (as trabalhadoras do back e do front). A segurança do CI fica com `metodo:ci-seguro`, do DevOps.
 
 ## Autenticação e senhas (NIST SP 800-63B-4 e OWASP)
 
@@ -80,4 +80,4 @@ Como isso entra no método: a skill `metodo:auditoria-de-seguranca` (quando roda
 
 ## Outras referências do harness
 
-PortSwigger Research (https://portswigger.net/research), GitHub Security Lab (https://securitylab.github.com/) e Trail of Bits (https://blog.trailofbits.com/) servem a casos específicos (uma técnica de ataque, uma falha em dependência, uma auditoria) e não foram resumidos aqui; a segurança dos workflows do GitHub Actions já está em `modelos/referencias/devops.md`.
+PortSwigger Research (https://portswigger.net/research), GitHub Security Lab (https://securitylab.github.com/) e Trail of Bits (https://blog.trailofbits.com/) servem a casos específicos (uma técnica de ataque, uma falha em dependência, uma auditoria) e não foram resumidos aqui; a segurança dos workflows do GitHub Actions já está em `modelos/referencias/ops.md`.

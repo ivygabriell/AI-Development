@@ -57,8 +57,8 @@ const OBRIGATORIOS = [
   'modelos/ci-node.yml',
   'modelos/nova-tarefa.sh',
   'modelos/remover-tarefa.sh',
-  'modelos/prompt-sessao-trabalhadora.md',
-  'modelos/prompt-sessao-integradora.md',
+  'modelos/prompt-builder.md',
+  'modelos/prompt-lead.md',
   'modelos/prompt-sessao-do-metodo.md',
   'modelos/prompt-auditoria-de-referencia.md',
   'modelos/modelo-criterios-de-aceite.md',
@@ -69,7 +69,7 @@ const OBRIGATORIOS = [
   'skills/novo-projeto/SKILL.md',
   'skills/consultar/SKILL.md',
   'skills/atualizar-projeto/SKILL.md',
-  'modelos/prompt-coordenadora-orca.md',
+  'modelos/prompt-lead-orca.md',
   'decisoes/006-desenvolvimento-orquestrado-com-o-orca.md',
   'modelos/AGENTS-projeto.md',
   'decisoes/007-back-com-codex-e-front-com-claude.md',
@@ -80,6 +80,9 @@ const OBRIGATORIOS = [
   'decisoes/012-revalidacao-de-lacunas-e-ponytail.md',
 ];
 for (const arquivo of OBRIGATORIOS) checar(`existe ${arquivo}`, existsSync(join(RAIZ, arquivo)));
+// Decisão 013: os arquivos dos papéis têm os nomes em inglês; os antigos não voltam
+const ANTIGOS = ['integradora', 'arquitetura', 'back-e-dados', 'design-e-front', 'seguranca', 'produto', 'devops'].flatMap((n) => [`modelos/agentes/${n}.md`, `modelos/referencias/${n}.md`]).concat(['modelos/prompt-sessao-integradora.md', 'modelos/prompt-sessao-trabalhadora.md', 'modelos/prompt-coordenadora-orca.md']);
+for (const arquivo of ANTIGOS) checar(`nome antigo não existe: ${arquivo}`, !existsSync(join(RAIZ, arquivo)));
 
 // 2) Conteúdo mínimo de cada documento
 const readme = ler('README.md');
@@ -116,7 +119,7 @@ checar('fluxo: classificação spike/delimitada/arquitetural', /spike/i.test(flu
 checar('fluxo: portões de aprovação humana', fluxo.includes('## Portões de aprovação'));
 checar('fluxo: Fase 7 pede a auditoria de segurança antes da primeira publicação, em qualquer modo', ((fluxo.split('## Fase 7')[1] || '').split('## Fase 8')[0]).includes('metodo:auditoria-de-seguranca'));
 checar('fluxo: Fase 2 já usa a security-audit no primeiro mapa de riscos (modo de orientação)', ((fluxo.split('## Fase 2')[1] || '').split('## Fase 3')[0]).includes('metodo:auditoria-de-seguranca') && ((fluxo.split('## Fase 2')[1] || '').split('## Fase 3')[0]).includes('mapa de riscos'));
-checar('prompt da coordenadora do Orca: auditoria de segurança antes da primeira publicação', ler('modelos/prompt-coordenadora-orca.md').includes('metodo:auditoria-de-seguranca'));
+checar('prompt da coordenadora do Orca: auditoria de segurança antes da primeira publicação', ler('modelos/prompt-lead-orca.md').includes('metodo:auditoria-de-seguranca'));
 
 const sessoes = ler('nucleo/02-sessoes-e-papeis.md');
 for (const termo of ['## Quando dividir', '## Quando NÃO dividir', 'integradora', 'trabalhadora', '## Modos de falha'])
@@ -127,7 +130,7 @@ for (const termo of ['## Com o Orca', 'coordenadora', 'orchestration worker-star
 checar('fluxo: Orca como modo de execução na Fase 3', (fluxo.split('## Fase 3')[1] || '').split('## Fase 4')[0].includes('Orca'));
 checar('fluxo: Fase 9 consulta as conversas do Orca', (fluxo.split('## Fase 9')[1] || '').includes('orca search'));
 checar('git/GitHub/CI: worktrees pelo Orca', ler('nucleo/05-git-github-e-ci.md').includes('orca worktree create'));
-const promptCoord = ler('modelos/prompt-coordenadora-orca.md');
+const promptCoord = ler('modelos/prompt-lead-orca.md');
 for (const termo of ['orca skills get orchestration', 'gate-create', 'pode integrar', 'superpowers:verification-before-completion', 'critérios de aceite', 'arquivos permitidos'])
   checar(`prompt da coordenadora do Orca: ${termo}`, promptCoord.includes(termo));
 // Um agente principal por projeto (decisão 010): a coordenadora e todos os agentes usam a mesma ferramenta
@@ -145,16 +148,16 @@ checar('decisão 008: a ferramenta por tema substituída pela 010', ler('decisoe
 // Agentes especialistas (decisão 008, rascunho): cada harness tem as 10 partes, o modelo da sua ferramenta e as regras fixas
 const HARNESS_PARTES = ['## 1. Missão', '## 2. Quando é chamado', '## 3. O que lê', '## 4. O que pode e o que não pode', '## 5. Skills', '## 6. Checklist do tema', '## 7. Formato da resposta', '## 8. Quando sobe a decisão', '## 9. Memória do tema', '## 10. Economia'];
 // Decisão 010: a ferramenta é a do projeto (Agente principal), então todo harness serve às duas
-const HARNESSES = ['integradora', 'arquitetura', 'back-e-dados', 'design-e-front', 'seguranca', 'produto', 'devops'];
+const HARNESSES = ['lead', 'architect', 'backend', 'frontend', 'security', 'product', 'ops'];
 // O que cada harness precisa dizer, além das regras comuns
 const HARNESS_PROPRIO = {
-  integradora: ['--agent <agente> --model <modelo>', '--worktree new-child --name arquitetura', '--worktree new-child --name back-e-dados', '--worktree new-child --name design-e-front', '--worktree new-child --name seguranca', '--worktree new-child --name produto', '--worktree new-child --name devops', 'contam dentro das 9'],
-  arquitetura: ['contrato da API', 'portão', 'docs/referencias/arquitetura.md', '**Onde trabalha:** na sua worktree `arquitetura`, filha da worktree principal'],
-  'back-e-dados': ['worker-start', '--parent', '--worktree new-child', 'contrato da API'],
-  'design-e-front': ['worker-start', '--parent', '--worktree new-child', 'design system'],
-  seguranca: ['mapa de riscos', 'entrega a correção', 'aprovar com ressalva', 'metodo:auditoria-de-seguranca', 'modo de orientação', '**Onde trabalha:** na sua worktree `seguranca`, filha da worktree principal', 'MCP `rea`', '`security-audit`', '~/security-audit-skill/', 'antes da primeira publicação'],
-  produto: ['critérios de aceite'],
-  devops: ['worker-start', '--parent', 'portão', 'merge_ready', 'a mudança do CI é uma tarefa da sua trabalhadora'],
+  lead: ['--agent <agente> --model <modelo>', '--worktree new-child --name architect', '--worktree new-child --name backend', '--worktree new-child --name frontend', '--worktree new-child --name security', '--worktree new-child --name product', '--worktree new-child --name ops', 'contam dentro das 9'],
+  architect: ['contrato da API', 'portão', 'docs/referencias/architect.md', '**Onde trabalha:** na sua worktree `architect`, filha da worktree principal'],
+  'backend': ['worker-start', '--parent', '--worktree new-child', 'contrato da API'],
+  'frontend': ['worker-start', '--parent', '--worktree new-child', 'design system'],
+  security: ['mapa de riscos', 'entrega a correção', 'aprovar com ressalva', 'metodo:auditoria-de-seguranca', 'modo de orientação', '**Onde trabalha:** na sua worktree `security`, filha da worktree principal', 'MCP `rea`', '`security-audit`', '~/security-audit-skill/', 'antes da primeira publicação'],
+  product: ['critérios de aceite'],
+  ops: ['worker-start', '--parent', 'portão', 'merge_ready', 'a mudança do CI é uma tarefa da sua trabalhadora'],
 };
 const partesEmOrdem = (texto) => {
   const posicoes = HARNESS_PARTES.map((parte) => texto.indexOf(`\n${parte}\n`));
@@ -181,7 +184,7 @@ function checarHarness(nome) {
   checar(`agentes/${nome}: lê o arquivo da sua ferramenta (CLAUDE.md ou AGENTS.md)`, texto.includes('CLAUDE.md') && texto.includes('AGENTS.md'));
   const comandos = texto.split('\n').filter((l) => l.includes('worker-start --') || /^\s*\| .* \| `--agent/.test(l));
   checar(`agentes/${nome}: não fixa a ferramenta no worker-start (usa --agent <agente> --model <modelo>)`, comandos.every((l) => l.includes('--agent <agente> --model <modelo>') && !/--agent (claude|codex)\b/.test(l)), comandos.find((l) => !l.includes('--agent <agente>')) || '');
-  if (nome === 'integradora') checar('agentes/integradora: integra e cria portões (gh pr merge, gate-create)', texto.includes('gh pr merge') && texto.includes('gate-create'));
+  if (nome === 'lead') checar('agentes/integradora: integra e cria portões (gh pr merge, gate-create)', texto.includes('gh pr merge') && texto.includes('gate-create'));
   else checar(`agentes/${nome}: nunca integra e fala pelo Orca (orca orchestration)`, /nunca integra/i.test(texto) && texto.includes('orca orchestration'));
   checar(`agentes/${nome}: sem links relativos (o harness vai para dentro do projeto)`, !/\]\((?!https?:)/.test(texto));
   for (const termo of HARNESS_PROPRIO[nome] || []) checar(`agentes/${nome}: ${termo}`, texto.includes(termo));
@@ -189,7 +192,7 @@ function checarHarness(nome) {
   const manda = (texto.split('## O harness manda')[1] || '').split('\n## ')[0];
   checar(`agentes/${nome}: "O harness manda" com precedência e não desvia`, manda.includes('precedência') && manda.includes('não desvia'));
   const sobe = (texto.split('## 8. Quando sobe a decisão')[1] || '').split('\n## ')[0];
-  if (nome !== 'integradora') {
+  if (nome !== 'lead') {
     const fixas = manda.split('\n').find((l) => l.startsWith('- **Regras fixas do método:**')) || '';
     checar(`agentes/${nome}: "nunca integra" nas regras fixas`, /nunca integra/i.test(fixas));
     checar(`agentes/${nome}: aparece no Orca na sua worktree, filha da principal (sem --worktree current nem new-top-level)`, texto.includes(`**Onde trabalha:** na sua worktree \`${nome}\`, filha da worktree principal`) && !texto.includes('--worktree current') && !texto.includes('new-top-level'));
@@ -205,7 +208,7 @@ const subsecaoEsp = (sessoes.split('### Com agentes especialistas')[1] || '').sp
 for (const termo of ['docs/agentes/', '--parent', 'O harness manda', '9 sessões', 'Nested worker depth', 'substitui o limite', 'contrato da API passa para a Arquitetura', 'contam dentro das 9', 'filha da worktree principal'])
   checar(`sessões: com agentes especialistas (${termo})`, subsecaoEsp.includes(termo));
 checar('fluxo: modo com agentes especialistas na Fase 3', (fluxo.split('## Fase 3')[1] || '').split('## Fase 4')[0].includes('especialistas'));
-checar('prompt da coordenadora do Orca: aponta para o harness da integradora no modo com especialistas', promptCoord.includes('integradora.md'));
+checar('prompt da coordenadora do Orca: aponta para o harness da integradora no modo com especialistas', promptCoord.includes('lead.md'));
 const inicioEsp = ler('skills/novo-projeto/SKILL.md');
 checar('skills/novo-projeto: na Fase 3 copia os harnesses sem rodar o novo-projeto.sh de novo (que recusaria)', inicioEsp.includes('modelos/agentes/') && inicioEsp.includes('_modelo-harness.md') && !inicioEsp.includes('novo-projeto.sh" . --especialistas') && inicioEsp.includes('Nested worker depth'));
 const atualizarEsp = ler('skills/atualizar-projeto/SKILL.md');
@@ -217,13 +220,13 @@ for (const termo of ['modelos/agentes/', '--especialistas', 'Nested worker depth
 
 // Skills por agente (decisão 009, rascunho): cada especialista que constrói tem as suas, e as trabalhadoras dele as usam
 const SKILLS_DO_AGENTE = {
-  'back-e-dados': ['api-conforme-contrato', 'migracao-sem-parada', 'transacoes-e-consultas', 'trabalho-em-segundo-plano'],
-  'design-e-front': ['formularios-e-erros', 'desempenho-na-tela', 'estados-da-tela'],
-  devops: ['publicacao-gradual', 'metas-e-alertas', 'ci-seguro'],
-  seguranca: ['autenticacao-e-sessao', 'controle-de-acesso', 'entrada-nao-confiavel', 'incidente-com-dados-pessoais', 'auditoria-de-seguranca'],
-  arquitetura: ['contrato-de-api', 'analise-de-falhas', 'migracao-de-sistema'],
-  produto: ['necessidades-e-riscos', 'descoberta-continua'],
-  integradora: ['validacao-final', 'metricas-de-entrega'],
+  'backend': ['api-conforme-contrato', 'migracao-sem-parada', 'transacoes-e-consultas', 'trabalho-em-segundo-plano'],
+  'frontend': ['formularios-e-erros', 'desempenho-na-tela', 'estados-da-tela'],
+  ops: ['publicacao-gradual', 'metas-e-alertas', 'ci-seguro'],
+  security: ['autenticacao-e-sessao', 'controle-de-acesso', 'entrada-nao-confiavel', 'incidente-com-dados-pessoais', 'auditoria-de-seguranca'],
+  architect: ['contrato-de-api', 'analise-de-falhas', 'migracao-de-sistema'],
+  product: ['necessidades-e-riscos', 'descoberta-continua'],
+  lead: ['validacao-final', 'metricas-de-entrega'],
 };
 for (const [agente, nomes] of Object.entries(SKILLS_DO_AGENTE)) {
   const base = ler(`modelos/referencias/${agente}.md`);
@@ -248,7 +251,7 @@ for (const [agente, nomes] of Object.entries(SKILLS_DO_AGENTE)) {
 for (const agente of Object.keys(SKILLS_DO_AGENTE))
   checar(`skills/consultar: aponta para a base de ${agente}`, ler('skills/consultar/SKILL.md').includes(`modelos/referencias/${agente}.md`));
 // As skills da Segurança também servem a quem corrige: o back e o front pedem as delas na especificação
-for (const agente of ['back-e-dados', 'design-e-front'])
+for (const agente of ['backend', 'frontend'])
   checar(`agentes/${agente}: parte 5 aponta para as skills da Segurança`, ((ler(`modelos/agentes/${agente}.md`).split('## 5. Skills')[1] || '').split('\n## ')[0]).includes('metodo:entrada-nao-confiavel'));
 // Decisão da pessoa (2026-10-29): o erro de campo aparece ao avançar ou enviar, como no GOV.UK
 const formularios = ler('skills/formularios-e-erros/SKILL.md');
@@ -262,8 +265,8 @@ for (const termo of ['security-audit', 'portão', '~/security-audit-skill/', 'co
   checar(`skills/auditoria-de-seguranca: ${termo}`, auditoria.includes(termo));
 for (const termo of ['## Desde o primeiro mapa de riscos', 'Fase 2', 'modo de orientação', 'revisão de PR', 'Fase 7'])
   checar(`skills/auditoria-de-seguranca: usada desde a primeira auditoria (${termo})`, auditoria.includes(termo));
-checar('agentes/seguranca: usa a security-audit desde o primeiro mapa de riscos', ler('modelos/agentes/seguranca.md').includes('desde o primeiro mapa de riscos'));
-checar('referências/seguranca: aprendizados da security-audit', ler('modelos/referencias/seguranca.md').includes('## Auditoria completa (security-audit da Cloudflare)'));
+checar('agentes/seguranca: usa a security-audit desde o primeiro mapa de riscos', ler('modelos/agentes/security.md').includes('desde o primeiro mapa de riscos'));
+checar('referências/seguranca: aprendizados da security-audit', ler('modelos/referencias/security.md').includes('## Auditoria completa (security-audit da Cloudflare)'));
 for (const termo of ['## Mapa de skills', '## Testes: micro e macro', 'micro', 'macro', 'RED', 'verification-before-completion', '## Verificação no navegador'])
   checar(`skills e testes: ${termo}`, skills.includes(termo));
 
@@ -380,9 +383,9 @@ checar('ci-node.yml: todos os passos de Node dependem da stack definida', passos
 const prTemplate = ler('modelos/pull_request_template.md');
 for (const termo of ['## Testes macro executados', '## Validação da integradora'])
   checar(`modelo de PR: ${termo}`, prTemplate.includes(termo));
-const promptTrab = ler('modelos/prompt-sessao-trabalhadora.md');
+const promptTrab = ler('modelos/prompt-builder.md');
 checar('prompt da trabalhadora exige skills (nomes exatos) e proíbe merge', promptTrab.includes('superpowers:test-driven-development') && promptTrab.includes('superpowers:verification-before-completion') && /NÃO faça merge/.test(promptTrab));
-const promptInt = ler('modelos/prompt-sessao-integradora.md');
+const promptInt = ler('modelos/prompt-lead.md');
 checar('prompt da integradora exige o navegador', /navegador/i.test(promptInt));
 checar('prompt da integradora cita as skills pelo nome exato', promptInt.includes('superpowers:verification-before-completion') && promptInt.includes('superpowers:finishing-a-development-branch'));
 
@@ -459,7 +462,7 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     checar('novo-projeto.sh: AGENTS.md carimba a versão do método', agentsProj.includes(`Versão do método: ${versao}`));
     for (const termo of ['CLAUDE.md', 'docs/DESENVOLVIMENTO.md', 'docs/memoria-do-projeto.md', 'superpowers:test-driven-development', 'superpowers:verification-before-completion', 'orca orchestration ask'])
       checar(`novo-projeto.sh: AGENTS.md cita ${termo}`, agentsProj.includes(termo));
-    checar('novo-projeto.sh: AGENTS.md serve ao Codex como coordenadora também (Agente principal, prompt da coordenadora)', agentsProj.includes('Agente principal') && agentsProj.includes('prompt-coordenadora-orca.md'));
+    checar('novo-projeto.sh: AGENTS.md serve ao Codex como coordenadora também (Agente principal, prompt da coordenadora)', agentsProj.includes('Agente principal') && agentsProj.includes('prompt-lead-orca.md'));
     const alvo_codex = join(base, 'projeto-codex');
     mkdirSync(alvo_codex);
     const codex = rodar(alvo_codex, '--agente', 'codex', 'site-estatico');
@@ -517,7 +520,7 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     const alvo_esp_antes = join(base, 'projeto-opcao-antes');
     mkdirSync(alvo_esp_antes);
     const espAntes = rodar('--especialistas', alvo_esp_antes, 'site-estatico');
-    checar('novo-projeto.sh aceita --especialistas antes da pasta', espAntes.status === 0 && existsSync(join(alvo_esp_antes, 'docs/agentes/integradora.md')), espAntes.stderr);
+    checar('novo-projeto.sh aceita --especialistas antes da pasta', espAntes.status === 0 && existsSync(join(alvo_esp_antes, 'docs/agentes/lead.md')), espAntes.stderr);
     checar('novo-projeto.sh: AGENTS.md não manda o Codex falar com a pessoa (pede pela coordenadora)', agentsProj.length > 0 && !agentsProj.includes('peça à pessoa'));
     const alvo_com_agentes = join(base, 'projeto-com-docs-agentes');
     mkdirSync(join(alvo_com_agentes, 'docs/agentes'), { recursive: true });
@@ -610,21 +613,21 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
   checar('agentes/_modelo-harness: manda ler as lições do método', modeloHarness.includes('licoes/_indice.md'));
   const parte5 = (n) => (ler(`modelos/agentes/${n}.md`).split('## 5. Skills')[1] || '').split('\n## ')[0];
   const exige = {
-    integradora: ['metodo:auditoria-de-seguranca', 'engineering:testing-strategy', 'engineering:documentation', 'superpowers:diagnosing-superpowers', '/ponytail-audit', '/ponytail-debt'],
-    'back-e-dados': ['/ponytail-review', 'superpowers:requesting-code-review', 'superpowers:receiving-code-review', 'ponytail'],
-    'design-e-front': ['/ponytail-review', 'superpowers:requesting-code-review', 'superpowers:receiving-code-review', 'design:design-handoff', 'reverse-engineer-anything', 'ponytail'],
-    devops: ['/ponytail-review', 'superpowers:requesting-code-review', 'engineering:documentation', 'superpowers:receiving-code-review', 'ponytail'],
-    arquitetura: ['reverse-engineer-anything'],
-    seguranca: ['reverse-engineer-anything'],
+    lead: ['metodo:auditoria-de-seguranca', 'engineering:testing-strategy', 'engineering:documentation', 'superpowers:diagnosing-superpowers', '/ponytail-audit', '/ponytail-debt'],
+    'backend': ['/ponytail-review', 'superpowers:requesting-code-review', 'superpowers:receiving-code-review', 'ponytail'],
+    'frontend': ['/ponytail-review', 'superpowers:requesting-code-review', 'superpowers:receiving-code-review', 'design:design-handoff', 'reverse-engineer-anything', 'ponytail'],
+    ops: ['/ponytail-review', 'superpowers:requesting-code-review', 'engineering:documentation', 'superpowers:receiving-code-review', 'ponytail'],
+    architect: ['reverse-engineer-anything'],
+    security: ['reverse-engineer-anything'],
   };
   for (const [nome, termos] of Object.entries(exige))
     for (const termo of termos) checar(`agentes/${nome}: parte 5 cita ${termo}`, parte5(nome).includes(termo));
-  checar('agentes/devops: recebe da Segurança os needs_validation de infraestrutura', ler('modelos/agentes/devops.md').includes('needs_validation'));
-  checar('agentes/design-e-front: estuda referência pelo prompt de auditoria de referência', ler('modelos/agentes/design-e-front.md').includes('prompt-auditoria-de-referencia.md'));
+  checar('agentes/devops: recebe da Segurança os needs_validation de infraestrutura', ler('modelos/agentes/ops.md').includes('needs_validation'));
+  checar('agentes/design-e-front: estuda referência pelo prompt de auditoria de referência', ler('modelos/agentes/frontend.md').includes('prompt-auditoria-de-referencia.md'));
   checar('skills/auditoria-de-seguranca: o artefato publicado com o REA', auditoria.includes('reverse-engineer-anything') && auditoria.includes('artefato publicado'));
   for (const nome of listar('cenarios'))
     checar(`cenarios/${nome}: "Skills úteis" aponta para as skills dos agentes (metodo:)`, ((ler(`cenarios/${nome}`).split('## Skills úteis')[1] || '').split('\n## ')[0]).includes('`metodo:'));
-  for (const prompt of ['modelos/prompt-sessao-integradora.md', 'modelos/prompt-sessao-trabalhadora.md'])
+  for (const prompt of ['modelos/prompt-lead.md', 'modelos/prompt-builder.md'])
     checar(`${prompt}: vale para o agente principal (Claude Code ou Codex)`, ler(prompt).includes('Codex') && ler(prompt).includes('Agente principal'));
   for (const skill of ['design:design-system', 'design:user-research', 'design:research-synthesis', 'superpowers:writing-skills', '/ponytail-review'])
     checar(`README: lista de skills cita ${skill}`, readme.includes(skill));
@@ -635,7 +638,7 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
     const usa = (n) => ler(n).split('\n').some((l) => l.includes(skill) && !l.includes('Saíram do método'));
     checar(`método não usa mais ${skill} (decisão 012; só a nota "Saíram do método" do README pode citá-la)`, ativosTexto.every((n) => !usa(n)), ativosTexto.find(usa) || '');
   }
-  checar('agentes/integradora: a Fase 8 confere dependências, infraestrutura e documentação (o que a tech-debt cobria)', ler('modelos/agentes/integradora.md').includes('dependências desatualizadas'));
+  checar('agentes/integradora: a Fase 8 confere dependências, infraestrutura e documentação (o que a tech-debt cobria)', ler('modelos/agentes/lead.md').includes('dependências desatualizadas'));
   checar('CLAUDE.md do método: superpowers:writing-skills ao criar ou mudar skill do plugin', ler('CLAUDE.md').includes('superpowers:writing-skills'));
   // Ponytail (rascunho): instalação oficial e as regras de convivência com o método
   for (const termo of ['https://github.com/DietrichGebert/ponytail', '/plugin marketplace add DietrichGebert/ponytail', 'codex plugin marketplace add DietrichGebert/ponytail'])
@@ -662,8 +665,8 @@ checar('prompt da integradora cita as skills pelo nome exato', promptInt.include
   for (const modelo of ['modelos/CLAUDE-projeto.md', 'modelos/AGENTS-projeto.md'])
     checar(`${modelo}: nunca muda o padrão global do ponytail (/ponytail default)`, ler(modelo).includes('/ponytail default'));
   checar('decisão 012: o que observar no primeiro projeto Codex inclui se o ponytail carregou sozinho', ler('decisoes/012-revalidacao-de-lacunas-e-ponytail.md').includes('carregou sozinho'));
-  checar('agentes/integradora: anota na memória se o ponytail carregou sozinho no Codex', ler('modelos/agentes/integradora.md').includes('carregou sozinho'));
-  checar('agentes/integradora: lê o consumo por tarefa no quadro do ponytail', ler('modelos/agentes/integradora.md').includes('~/.config/ponytail/band/'));
+  checar('agentes/integradora: anota na memória se o ponytail carregou sozinho no Codex', ler('modelos/agentes/lead.md').includes('carregou sozinho'));
+  checar('agentes/integradora: lê o consumo por tarefa no quadro do ponytail', ler('modelos/agentes/lead.md').includes('~/.config/ponytail/band/'));
   checar('modelos/AGENTS-projeto.md: no Codex, o ponytail fica só sob demanda até medir', ler('modelos/AGENTS-projeto.md').includes('sob demanda'));
   for (const modelo of ['modelos/CLAUDE-projeto.md', 'modelos/AGENTS-projeto.md'])
     checar(`${modelo}: diz que o TDD do método vale sobre o ponytail`, ler(modelo).includes('ponytail') && ler(modelo).includes('TDD do método'));
