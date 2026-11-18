@@ -77,6 +77,7 @@ versao="$(tr -d '[:space:]' < "$raiz/VERSION")"
 # origem|destino (relativo ao projeto)
 copias=(
   "modelos/issue-tarefa.yml|.github/ISSUE_TEMPLATE/tarefa.yml"
+  "modelos/issue-bug.yml|.github/ISSUE_TEMPLATE/bug.yml"
   "modelos/pull_request_template.md|.github/pull_request_template.md"
   "modelos/ci-node.yml|.github/workflows/ci.yml"
   "modelos/nova-tarefa.sh|scripts/nova-tarefa.sh"
@@ -201,7 +202,7 @@ Uma decisão é da pessoa quando aciona pelo menos um gatilho: muda **o que** se
 
 ## Tarefas e sessões
 
-- Tarefas: issues com o formulário de tarefa (\`.github/ISSUE_TEMPLATE/tarefa.yml\`).
+- Tarefas: issues com o formulário de tarefa (\`.github/ISSUE_TEMPLATE/tarefa.yml\`). Bugs: o formulário de bug (\`.github/ISSUE_TEMPLATE/bug.yml\`) e o "Ciclo de um bug" do método.
 - Worktrees: \`scripts/nova-tarefa.sh <tipo> <slug>\` e \`scripts/remover-tarefa.sh <tipo> <slug>\`.
 - Com o Orca: a Lead distribui as tarefas aos agentes (\`orca orchestration worker-start\`); o Orca cria e remove as worktrees, e os scripts acima ficam para quem trabalha sem ele. Prompt: \`modelos/prompt-lead-orca.md\` do método.
 - Ferramentas: cada papel usa a sua (seção Ferramenta por papel, acima). O Claude Code lê o \`CLAUDE.md\`; o Codex lê o \`AGENTS.md\`, que manda ler o \`CLAUDE.md\`. Todo PR recebe ao menos uma revisão da outra ferramenta. Quando a cota acaba no meio da tarefa, a Builder faz commit, envia a branch e comenta na issue onde parou; outra Builder, na outra ferramenta, continua na mesma branch. Com back e front em tarefas paralelas, o contrato da API é aprovado antes de qualquer tarefa de construção.

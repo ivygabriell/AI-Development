@@ -2,6 +2,15 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 4.1.0 (2026-11-17)
+
+Fluxo de correção de bugs. Ver a [decisão 014](decisoes/014-fluxo-de-correcao-de-bugs.md).
+
+- **Ciclo de um bug** no `nucleo/02`: registro com o formulário de bug, triagem da Lead pelos gatilhos (incidente vai para a pessoa na hora), dono pelo tema, correção com `superpowers:systematic-debugging` e teste que falha por causa do bug antes da correção, revisão cruzada, merge pela Lead quando o comportamento combinado não muda, e lição quando a causa é de processo.
+- **Formulário de bug** (`modelos/issue-bug.yml`), copiado para `.github/ISSUE_TEMPLATE/bug.yml` pelo `novo-projeto.sh` e pelo `/metodo:atualizar-projeto`.
+- **Bug fora do escopo** de uma tarefa vira issue nova (prompt da Builder e `CLAUDE.md` do projeto).
+- **Correção urgente:** a pessoa escolhe entre reverter e corrigir à frente; o teste que reproduz continua vindo antes.
+
 ## 4.0.0 (2026-11-17)
 
 Lead e Builders, Claude Code e Codex no mesmo projeto e aprovações por gatilho. Ver a [decisão 013](decisoes/013-lead-e-builders-com-codex-e-claude.md), o [desenho](planos/2026-11-17-lead-e-builders-com-codex-e-claude-desenho.md) e o [plano](planos/2026-11-17-lead-e-builders-com-codex-e-claude.md).

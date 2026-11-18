@@ -1,0 +1,53 @@
+# Copie para .github/ISSUE_TEMPLATE/bug.yml, ao lado do tarefa.yml.
+name: Bug
+description: Um comportamento errado do produto (veja "Ciclo de um bug" no documento de desenvolvimento do projeto)
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Qualquer um abre (a pessoa, uma Builder, um especialista, o monitoramento). A **Lead** faz a triagem: incidente (produção fora do ar, dados de usuários, segurança) vai para a pessoa na hora; bug comum, a Lead prioriza e entrega ao especialista do tema.
+  - type: textarea
+    id: aconteceu
+    attributes:
+      label: O que aconteceu
+      description: O comportamento errado, em poucas frases.
+    validations:
+      required: true
+  - type: textarea
+    id: esperado
+    attributes:
+      label: O que era esperado
+      description: O comportamento combinado (cite o critério de aceite, o contrato ou a referência, se houver).
+    validations:
+      required: true
+  - type: textarea
+    id: reproduzir
+    attributes:
+      label: Passos para reproduzir
+      description: Os passos exatos, com os dados usados. Se não reproduz sempre, diga com que frequência.
+    validations:
+      required: true
+  - type: input
+    id: onde
+    attributes:
+      label: Onde
+      description: Produção, ambiente de teste ou uma branch; navegador, aparelho ou endpoint.
+    validations:
+      required: true
+  - type: textarea
+    id: evidencia
+    attributes:
+      label: Evidência
+      description: Mensagem de erro, log, captura ou vídeo. Sem dado pessoal de usuário.
+    validations:
+      required: true
+  - type: dropdown
+    id: triagem
+    attributes:
+      label: Triagem (a Lead preenche)
+      options:
+        - Incidente (vai para a pessoa na hora)
+        - Bug comum
+        - Não é bug (vira tarefa ou é fechado)

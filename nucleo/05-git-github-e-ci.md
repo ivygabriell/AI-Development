@@ -77,7 +77,7 @@ Notas: troque `"Testes, tipos e build"` pelo nome do seu job; `strict: true` obr
 
 - Crie etiquetas por tipo e por estado: `tarefa`, `precisa-validação`, `bloqueada` e uma por área (`mobile`, `desempenho`, `conteúdo`, `deploy`).
 - `gh label create tarefa --color 1f4fff --description "Tarefa para uma sessão Builder" --force`
-- O formulário de tarefa ([issue-tarefa.yml](../modelos/issue-tarefa.yml)) vai em `.github/ISSUE_TEMPLATE/`, junto com um `config.yml` que desliga a issue em branco (`blank_issues_enabled: false`).
+- O formulário de tarefa ([issue-tarefa.yml](../modelos/issue-tarefa.yml)) e o de bug ([issue-bug.yml](../modelos/issue-bug.yml)) vão em `.github/ISSUE_TEMPLATE/`, junto com um `config.yml` que desliga a issue em branco (`blank_issues_enabled: false`).
 - Abra tarefas pelo terminal com `gh issue create --label tarefa --body-file corpo.md`.
 
 ## Worktrees

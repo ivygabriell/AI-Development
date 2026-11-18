@@ -11,6 +11,7 @@ Antes de qualquer coisa, leia o documento de desenvolvimento do projeto e siga:
   é nova ou reestrutura algo), superpowers:test-driven-development, superpowers:systematic-debugging (se houver
   bug) e superpowers:verification-before-completion (antes de dizer "pronto");
 - só mexa nos arquivos permitidos pela issue; os proibidos e os congelados ficam intocados;
+- bug fora do escopo da sua tarefa: abra uma issue nova com o formulário de bug e siga a sua tarefa;
 - TDD: escreva o teste primeiro e veja-o falhar pelo motivo certo; commits pequenos;
 - ao terminar, rode a suíte completa, a checagem de tipos e o build com os testes dele (testes macro);
 - traga a main para a sua branch (git fetch origin && git merge origin/main), rode tudo de novo,
