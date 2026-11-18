@@ -69,6 +69,7 @@ Pode:
 
   Rode o `worker-start` da sua pasta (a principal): `new-child` cria a worktree do especialista **filha da principal**, e cada Builder que ele abrir fica filha da dele. Assim a pessoa vê no Orca cada agente na sua worktree, pendurado em quem o abriu (testado no Orca 1.4.241).
 - Abrir as issues com o formulário de tarefa, com a etiqueta do tema, e entregá-las ao especialista certo.
+- Fazer a triagem dos bugs (issue com o formulário de bug): incidente vai para a pessoa na hora; bug comum, você encaixa na prioridade já aprovada pela pessoa (passar à frente do que ela priorizou é gatilho), completa a issue (arquivos permitidos e proibidos, plano e passo, ferramenta) e entrega ao especialista do tema; o que não é bug vira tarefa.
 - Chamar o Security em todo PR que toca autenticação, permissões, dados pessoais, API pública, dependências ou deploy.
 - Antes da primeira publicação (e depois de uma mudança grande), criar o portão da auditoria completa que o Security propõe com a skill `security-audit`: leve à pessoa o perfil, o limite de subagentes e o motivo; a auditoria só começa com a resposta dela, e a publicação espera os achados `confirmed` corrigidos ou aceitos por ela.
 - Criar portões (`orca orchestration gate-create`) e resolvê-los (`gate-resolve`) **só com a resposta da pessoa**.

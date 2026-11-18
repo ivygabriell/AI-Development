@@ -53,6 +53,8 @@ const OBRIGATORIOS = [
   'scripts/gerar-indice-licoes.mjs',
   'scripts/novo-projeto.sh',
   'modelos/issue-tarefa.yml',
+  'modelos/issue-bug.yml',
+  'decisoes/014-fluxo-de-correcao-de-bugs.md',
   'modelos/pull_request_template.md',
   'modelos/ci-node.yml',
   'modelos/nova-tarefa.sh',
@@ -85,7 +87,7 @@ const ANTIGOS = ['integradora', 'arquitetura', 'back-e-dados', 'design-e-front',
 for (const arquivo of ANTIGOS) checar(`nome antigo não existe: ${arquivo}`, !existsSync(join(RAIZ, arquivo)));
 // Decisão 013: fora do histórico, os papéis só têm os nomes novos (Lead, Builders, Architect, Backend, Frontend...)
 const HISTORICO = /\/(casos|planos|licoes|decisoes|\.superpowers)\/|\/CHANGELOG\.md$/;
-const ARQUIVOS_VIVOS = [...todosMd(), ...['scripts/novo-projeto.sh', 'modelos/nova-tarefa.sh', 'modelos/remover-tarefa.sh', 'modelos/issue-tarefa.yml'].map((f) => join(RAIZ, f))].filter((f) => !HISTORICO.test(f));
+const ARQUIVOS_VIVOS = [...todosMd(), ...['scripts/novo-projeto.sh', 'modelos/nova-tarefa.sh', 'modelos/remover-tarefa.sh', 'modelos/issue-tarefa.yml', 'modelos/issue-bug.yml'].map((f) => join(RAIZ, f))].filter((f) => existsSync(f) && !HISTORICO.test(f));
 // Na skill de atualização, um nome antigo só pode aparecer na mesma linha que o nome novo (a instrução de troca)
 const migracao = (f, l) => f.endsWith('/skills/atualizar-projeto/SKILL.md') && /\bLead\b|lead\.md/.test(l);
 const NOMES_ANTIGOS = /\b(integradoras?|trabalhadoras?|coordenadoras?|Back e Dados|Design e Front)\b/i;
@@ -381,6 +383,23 @@ checar('decisão 013: existe, aceita sem caso real', d013.includes('**Status:** 
 for (const n of ['001-sessoes-divididas-integradora-e-trabalhadoras', '007-back-com-codex-e-front-com-claude', '008-agentes-especialistas', '010-um-agente-principal-por-projeto'])
   checar(`decisão ${n.slice(0, 3)}: o status aponta para a decisão 013`, ((ler(`decisoes/${n}.md`).match(/^\*\*Status:\*\*.*$/m) || [''])[0]).includes('013-lead-e-builders-com-codex-e-claude.md'));
 checar('VERSION: 4.0.0 ou maior (decisão 013)', Number(versao.split('.')[0]) >= 4, versao);
+// Decisão 014: o ciclo de um bug, do registro ao aprendizado
+const bugForm = ler('modelos/issue-bug.yml');
+for (const id of ['aconteceu', 'esperado', 'reproduzir', 'onde', 'evidencia'])
+  checar(`issue de bug: campo obrigatório ${id}`, bugForm.split('  - type:').some((b) => b.includes(`id: ${id}\n`) && b.includes('required: true')));
+checar('issue de bug: rótulo bug e a triagem da Lead', bugForm.includes('labels: ["bug"]') && bugForm.includes('Lead'));
+const cicloBug = (ler('nucleo/02-sessoes-e-papeis.md').split('## Ciclo de um bug')[1] || '').split('\n## ')[0];
+for (const termo of ['issue de bug', 'incidente', 'gatilho', 'superpowers:systematic-debugging', 'causa raiz', 'falha por causa do bug', 'fora do escopo', 'issue nova', 'revisão cruzada', 'comportamento combinado', 'Correção urgente', 'reverter', 'lição'])
+  checar(`sessões: ciclo de um bug (${termo})`, cicloBug.includes(termo));
+checar('ciclo de um bug: a Lead não passa um bug à frente do que a pessoa priorizou', cicloBug.includes('prioridade já aprovada') && !cicloBug.includes('sem perguntar'));
+for (const id of ['arquivos_permitidos', 'arquivos_proibidos', 'ferramenta'])
+  checar(`issue de bug: campo ${id} que a Lead preenche antes de entregar`, bugForm.includes(`id: ${id}\n`));
+checar('ciclo de um bug: a Lead completa a issue antes de entregar à Builder', cicloBug.includes('arquivos permitidos e proibidos') && cicloBug.toLowerCase().includes('antes de entregar'));
+checar('prompt da Builder: bug fora do escopo vira issue nova', ler('modelos/prompt-builder.md').includes('fora do escopo'));
+checar('CLAUDE.md do projeto: bug fora do escopo vira issue nova', ler('modelos/CLAUDE-projeto.md').includes('fora do escopo'));
+checar('agentes/lead: faz a triagem dos bugs', ler('modelos/agentes/lead.md').includes('triagem dos bugs'));
+checar('decisão 014: aceita sem caso real', ler('decisoes/014-fluxo-de-correcao-de-bugs.md').includes('sem caso real'));
+checar('atualizar-projeto: copia o formulário de bug', ler('skills/atualizar-projeto/SKILL.md').includes('.github/ISSUE_TEMPLATE/bug.yml'));
 // Revisão final (Codex) da 4.0.0: o que ainda contradizia a decisão 013
 checar('agentes/lead: merge sem gatilho não vai mais à pessoa (parte 8)', !ler('modelos/agentes/lead.md').includes('sempre por um portão: merge,'));
 checar('CLAUDE.md do projeto: integrar PR sem gatilho não pede confirmação', !ler('modelos/CLAUDE-projeto.md').includes('push, abrir ou integrar PR, deploy') && ler('modelos/CLAUDE-projeto.md').includes('gatilho'));
@@ -503,7 +522,7 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     checar('novo-projeto.sh recusa cenário inexistente', rodar(alvo, 'cenario-que-nao-existe').status !== 0);
     const ok = rodar(alvo, 'site-estatico', 'api-backend');
     checar('novo-projeto.sh conclui com cenários válidos', ok.status === 0, ok.stderr);
-    for (const arq of ['CLAUDE.md', 'AGENTS.md', '.github/ISSUE_TEMPLATE/tarefa.yml', '.github/pull_request_template.md', '.github/workflows/ci.yml', 'scripts/nova-tarefa.sh', 'scripts/remover-tarefa.sh', 'docs/DESENVOLVIMENTO.md', 'docs/memoria-do-projeto.md'])
+    for (const arq of ['CLAUDE.md', 'AGENTS.md', '.github/ISSUE_TEMPLATE/tarefa.yml', '.github/ISSUE_TEMPLATE/bug.yml', '.github/pull_request_template.md', '.github/workflows/ci.yml', 'scripts/nova-tarefa.sh', 'scripts/remover-tarefa.sh', 'docs/DESENVOLVIMENTO.md', 'docs/memoria-do-projeto.md'])
       checar(`novo-projeto.sh cria ${arq}`, existsSync(join(alvo, arq)));
     const dev = existsSync(join(alvo, 'docs/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo, 'docs/DESENVOLVIMENTO.md'), 'utf8') : '';
     checar('novo-projeto.sh carimba a versão do método', dev.includes(`Versão do método: ${versao}`));
@@ -765,7 +784,7 @@ checar('README: adoção instala o REA (reverse-engineer-anything)', adocao.incl
 for (const repo of ['https://github.com/obra/superpowers', 'https://github.com/anthropics/knowledge-work-plugins', 'https://github.com/morluto/rea'])
   checar(`README: adoção aponta para o repositório oficial ${repo}`, adocao.includes(repo));
 checar('README: adoção ensina a conferir a instalação', adocao.includes('node --version') && adocao.includes('claude mcp list'));
-const arquivosTexto = [...todosMd(), ...['modelos/issue-tarefa.yml', 'modelos/ci-node.yml', '.github/workflows/verificar.yml'].map((a) => join(RAIZ, a))].filter(existsSync);
+const arquivosTexto = [...todosMd(), ...['modelos/issue-tarefa.yml', 'modelos/issue-bug.yml', 'modelos/ci-node.yml', '.github/workflows/verificar.yml'].map((a) => join(RAIZ, a))].filter(existsSync);
 for (const arquivo of arquivosTexto) {
   const texto = readFileSync(arquivo, 'utf8');
   const nome = relative(RAIZ, arquivo);

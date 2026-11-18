@@ -43,6 +43,24 @@ Sinais de que dividir ajuda: a mesma sessão está construindo e conferindo o pr
 5. O CI roda sozinho. A Lead **valida** (checklist em [03](03-skills-e-testes.md) e no [prompt da Lead](../modelos/prompt-lead.md)).
 6. A Lead confere os gatilhos de aprovação ([01](01-fluxo-de-ponta-a-ponta.md), "Portões de aprovação"): sem gatilho, integra e registra no resumo por marco; com gatilho, só com o "pode integrar" da pessoa. Depois confere a `main` e o CI. **A branch fica no GitHub** como histórico consultável. A Builder remove a worktree.
 
+## Ciclo de um bug
+
+Um bug é um comportamento que diverge do combinado (critério de aceite, contrato, referência). Ele segue o ciclo da tarefa, com estes passos a mais ([decisão 014](../decisoes/014-fluxo-de-correcao-de-bugs.md)):
+
+1. **Registro.** Quem acha (a pessoa, uma Builder, um especialista, o monitoramento) abre uma **issue de bug** com o [formulário de bug](../modelos/issue-bug.yml): o que aconteceu, o que era esperado, os passos para reproduzir, onde e a evidência, sem dado pessoal de usuário.
+2. **Triagem pela Lead**, pelos gatilhos de aprovação ([01](01-fluxo-de-ponta-a-ponta.md), "Portões de aprovação"):
+   - **Incidente** (produção fora do ar, dados de usuários, segurança): aciona o gatilho "atinge usuários reais" e vai para a pessoa na hora, com `engineering:incident-response` ou, se há dados pessoais, `metodo:incidente-com-dados-pessoais`.
+   - **Bug comum:** a Lead encaixa o bug na fila dentro da **prioridade já aprovada** pela pessoa (o bug do que está sendo construído vem antes do trabalho novo do mesmo tema) e o entrega ao especialista do tema (Backend, Frontend ou Ops). Passar um bug à frente do que a pessoa priorizou é gatilho e vai para ela.
+   - **Antes de entregar**, a Lead completa a issue como numa tarefa: arquivos permitidos e proibidos, plano e passo (ou "sem plano" e o motivo) e a ferramenta. Com isso a Builder trabalha sem deduzir permissões, e uma passagem por cota encontra tudo na issue.
+   - **Não é bug** (é pedido novo): vira tarefa, e mudar o que será construído é da pessoa.
+3. **Dono.** O especialista abre a Builder na ferramenta do seu papel, com o nome de sempre (`Backend Builder #31 · login-expira · Codex`) e a branch `fix/31-login-expira`.
+4. **Correção**, com `superpowers:systematic-debugging`: reproduzir; achar a **causa raiz**, não o sintoma; escrever um teste que **falha por causa do bug**; a correção mínima; a suíte inteira. O teste fica para sempre, e o mesmo bug não volta.
+5. **Bug achado no meio de outra tarefa:** dentro do escopo da tarefa, a Builder corrige ali; **fora do escopo**, abre uma **issue nova** de bug e segue a tarefa dela, sem crescer.
+6. **Validação e merge:** a **revisão cruzada** da outra ferramenta e a Lead conferindo que o bug sumiu (os passos para reproduzir já não reproduzem). A correção que não muda o **comportamento combinado** a Lead integra sozinha e registra; a que muda o comportamento, mexe em dados ou precisa ir à produção é da pessoa.
+7. **Aprendizado (Fases 8 e 9):** se a causa foi o processo (uma regra que faltou, uma verificação que não existia), o bug vira **lição** do método.
+
+**Correção urgente** (incidente em produção): a pessoa decide entre **reverter** a última publicação, quase sempre o mais rápido e seguro, e corrigir à frente. A correção à frente segue o mesmo ciclo, só com prioridade: o teste que reproduz o bug continua vindo antes da correção, e a publicação continua sendo um portão da pessoa. Depois, a retrospectiva do incidente vai para a memória do projeto.
+
 ## Comunicação
 
 - **Issues** são a fila de tarefas e o registro; **etiquetas** mostram o estado (`tarefa`, `precisa-validação`, `bloqueada`, e uma por área).

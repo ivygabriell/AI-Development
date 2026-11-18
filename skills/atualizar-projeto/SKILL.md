@@ -40,7 +40,7 @@ Compare cada arquivo da referência com o do projeto e monte o plano, arquivo po
 
 | Situação | O que fazer |
 |---|---|
-| O arquivo falta no projeto | Copiar da referência (`CLAUDE.md`, `AGENTS.md`, `docs/DESENVOLVIMENTO.md`, `docs/memoria-do-projeto.md`, `.github/ISSUE_TEMPLATE/tarefa.yml`, `.github/pull_request_template.md`, `scripts/nova-tarefa.sh`, `scripts/remover-tarefa.sh`) |
+| O arquivo falta no projeto | Copiar da referência (`CLAUDE.md`, `AGENTS.md`, `docs/DESENVOLVIMENTO.md`, `docs/memoria-do-projeto.md`, `.github/ISSUE_TEMPLATE/tarefa.yml`, `.github/ISSUE_TEMPLATE/bug.yml`, `.github/pull_request_template.md`, `scripts/nova-tarefa.sh`, `scripts/remover-tarefa.sh`) |
 | O projeto não tem nenhum CI em `.github/workflows/` | Copiar o `ci.yml` da referência |
 | O projeto já tem CI | Não mexer |
 | `CLAUDE.md` existe | Atualizar só a linha `Versão do método:` (ou acrescentá-la); acrescentar `@docs/DESENVOLVIMENTO.md` e `@docs/memoria-do-projeto.md` se faltarem; acrescentar, numa seção `## Método de desenvolvimento`, as regras da referência que o arquivo ainda não tem |
