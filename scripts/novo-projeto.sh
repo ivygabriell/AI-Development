@@ -175,7 +175,7 @@ Os detalhes de cada fase, os cenários, os casos e as lições ficam no reposit�
 3. **Teste primeiro, em duas camadas.** Micro (TDD, visto falhar antes do código) e macro (suíte completa, build, exploração).
 4. **Quem constrói não valida.** A sessão Lead refaz os testes e explora o resultado antes de integrar.
 5. **As branches integradas ficam no GitHub.** Integre com \`gh pr merge N --merge\`, sem \`--delete-branch\`.
-6. **O humano decide o que é externo ou irreversível:** publicar, integrar, apagar, reescrever histórico.
+6. **A pessoa decide o que tem impacto grande** (seção Aprovações, abaixo); o resto a Lead decide e registra.
 
 ## Ferramenta por papel
 
@@ -184,6 +184,12 @@ Cada sessão usa a ferramenta do seu papel; a Builder usa a do papel de quem a a
 | Papel | Ferramenta padrão |
 |---|---|
 $tabela_papeis
+## Aprovações
+
+Uma decisão é da pessoa quando aciona pelo menos um gatilho: muda **o que** será construído; é difícil ou impossível de desfazer; atinge usuários reais; custa dinheiro ou muita cota; aceita um risco de segurança ou de dados pessoais; muda as regras do jogo (harness, método, a Lead, a tabela Ferramenta por papel). Sem gatilho, a Lead decide e registra na issue ou na memória; na dúvida, sobe para a pessoa. Um PR dentro do plano aprovado, com CI verde, validação sem achado crítico nem importante, só nos arquivos permitidos e sem gatilho, a Lead integra sozinha. A Lead escreve um resumo por marco do que aprovou sozinha. A tabela completa está no núcleo 01 do método ("Portões de aprovação"); anote aqui o que a pessoa mudar:
+
+- (nenhum ajuste ainda)
+
 ## Comandos do projeto
 
 - Testes: (preencha)

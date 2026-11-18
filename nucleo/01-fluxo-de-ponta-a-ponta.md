@@ -67,7 +67,7 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 - **Passos:** envie a branch, deixe o CI rodar, abra o Pull Request com o modelo, traga a `main` para a branch se ela estiver desatualizada, integre (sem apagar a branch remota), confira a `main` e o CI dela.
 - **Skill:** `superpowers:finishing-a-development-branch`.
 - **Resultado:** a `main` com a mudança, suítes e CI verdes.
-- **Portão:** o "pode integrar" da pessoa (veja os portões abaixo).
+- **Portão:** os gatilhos de aprovação (abaixo): sem gatilho, a Lead integra e registra; com gatilho, só com o "pode integrar" da pessoa.
 
 ## Fase 7 · Publicar
 
@@ -99,16 +99,29 @@ Ao fim de um projeto, ou de um marco grande, o método aprende com ele. É o que
 
 ## Portões de aprovação
 
-O humano é quem aprova, **sempre por escrito e antes** da ação:
+A pessoa participa só das aprovações com **impacto potencialmente grande**; as demais, a Lead aprova ([decisão 013](../decisoes/013-lead-e-builders-com-codex-e-claude.md)). Uma decisão é **da pessoa** quando aciona **pelo menos um gatilho**:
 
-| Ação | Quem decide |
+1. Muda **o que** será construído (escopo, critérios de aceite, prioridade).
+2. É **difícil ou impossível de desfazer** (apaga dados, reescreve histórico, configuração de conta).
+3. Atinge **usuários reais** (produção, publicação, dados de quem usa).
+4. Custa **dinheiro ou muita cota** (serviço pago, nuvem, auditoria completa).
+5. **Aceita um risco** de segurança ou de dados pessoais.
+6. Muda **as regras do jogo** (harness, método, a Lead, a tabela Ferramenta por papel).
+
+Sem gatilho, decide a Lead e registra na issue ou na memória do projeto. **Na dúvida, sobe para a pessoa** (a classe mais pesada, como na classificação do pedido).
+
+| Fica com a pessoa | Passa para a Lead |
 |---|---|
-| Interpretação de um pedido ambíguo | A pessoa |
-| Desenho / spec / plano | A pessoa |
-| Enviar uma branch ao remoto | Combinado no fluxo (autorizado de uma vez) |
-| Integrar na `main` | A pessoa, a cada mudança |
-| Publicar em produção | A pessoa |
-| Apagar dados, sessões, branches não integradas | A pessoa, depois de ver exatamente o que será apagado |
-| Reescrever histórico, `push --force`, mudar configuração de conta | A pessoa, com aviso do que muda e do que não tem volta |
+| Entendimento, spec e plano | Integrar um PR na `main` quando **tudo** vale: dentro do plano aprovado, CI verde, validação sem achado crítico nem importante, só arquivos permitidos e nenhum gatilho |
+| A primeira direção visual (referências e identidade) | Telas seguintes, dentro do design system |
+| Mudança de escopo ou de critério de aceite | Desenho curto de tarefa delimitada, dentro do escopo |
+| Contrato da API que **quebra** quem usa; migração que apaga ou transforma dados | Mudança **aditiva** no contrato (um campo novo opcional) |
+| Serviço ou plano pago, recurso de nuvem, auditoria completa de segurança | Dependência gratuita e comum, refatoração interna, testes, documentação, correção de bug que não muda o comportamento combinado |
+| Aceitar um risco; deixar aberto um achado crítico ou alto; mudar login, permissões, pagamento ou dados pessoais; incidente | Achados menores (viram pendências) |
+| Publicar, mudar um ambiente publicado, reverter a produção | Abrir e fechar Builders, escolher a ferramenta, fazer as passagens por cota |
+| Apagar dados, sessões ou branches não integradas (depois de ver o que será apagado); reescrever histórico, `push --force`, proteção, segredos, configuração de conta | Spikes e as dúvidas dos especialistas |
 
-Uma aprovação vale **para aquela mudança**. Aprovar uma coisa não autoriza a seguinte.
+- **Resumo por marco:** a Lead lista o que aprovou sozinha, com os links para as issues e os PRs. A pessoa lê quando quiser e pode reverter qualquer item.
+- **Parâmetros por projeto:** a tabela vai para a seção "Aprovações" do `docs/DESENVOLVIMENTO.md`. Quando a pessoa disser "isso a Lead pode decidir daqui para frente" (ou o contrário), a mudança fica anotada ali e na memória.
+- O pedido da pessoa é sempre por escrito e **antes** da ação. Uma aprovação vale **para aquela mudança**; aprovar uma coisa não autoriza a seguinte.
+- **No repositório do método** nada disso muda: a pessoa aprova cada PR, como manda o `CLAUDE.md` dele.

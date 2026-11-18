@@ -123,6 +123,18 @@ for (let fase = 0; fase <= 9; fase += 1) checar(`fluxo: Fase ${fase}`, new RegEx
 checar('fluxo: Fase 9 é o fechamento (retrospectiva)', /^## Fase 9 · Fechamento/m.test(fluxo));
 checar('fluxo: classificação spike/delimitada/arquitetural', /spike/i.test(fluxo) && /delimitada/i.test(fluxo) && /arquitetural/i.test(fluxo));
 checar('fluxo: portões de aprovação humana', fluxo.includes('## Portões de aprovação'));
+// Decisão 013: só o que aciona um gatilho chega à pessoa; o resto a Lead decide e registra
+const GATILHOS = ['o que** será construído', 'desfazer', 'usuários reais', 'dinheiro ou muita cota', 'aceita um risco', 'regras do jogo'];
+const portoes = (fluxo.split('## Portões de aprovação')[1] || '');
+for (const g of GATILHOS) checar(`fluxo: gatilho de aprovação da pessoa (${g})`, portoes.toLowerCase().includes(g.toLowerCase()));
+for (const termo of ['na dúvida, sobe para a pessoa', 'Fica com a pessoa', 'Passa para a Lead', 'resumo por marco', 'Aprovações', 'nenhum gatilho'])
+  checar(`fluxo: aprovações por gatilho (${termo})`, portoes.toLowerCase().includes(termo.toLowerCase()));
+const lead = ler('modelos/agentes/lead.md');
+checar('agentes/lead: confere os gatilhos antes de cada merge, integra sozinha só sem gatilho e escreve o resumo por marco', lead.includes('gatilhos') && lead.includes('resumo por marco') && lead.toLowerCase().includes("sem gatilho") && !lead.includes('depois do "pode integrar" da pessoa.'));
+for (const p of ['modelos/prompt-lead.md', 'modelos/prompt-lead-orca.md']) checar(`${p}: integra pelos gatilhos (sem gatilho, a Lead integra; com gatilho, só com a pessoa)`, ler(p).includes('gatilho') && ler(p).includes('resumo por marco'));
+checar('modelo de PR: campo "Gatilhos de aprovação"', ler('modelos/pull_request_template.md').includes('Gatilhos de aprovação:'));
+const sessoesTxt = ler('nucleo/02-sessoes-e-papeis.md');
+checar('sessões: o merge segue os gatilhos (Orca e sessões divididas)', ((sessoesTxt.split('## Ciclo de uma tarefa')[1] || '').split('\n## ')[0]).includes('gatilho') && ((sessoesTxt.split('## Com o Orca')[1] || '').split('\n### ')[0]).includes('gatilho'));
 checar('fluxo: Fase 7 pede a auditoria de segurança antes da primeira publicação, em qualquer modo', ((fluxo.split('## Fase 7')[1] || '').split('## Fase 8')[0]).includes('metodo:auditoria-de-seguranca'));
 checar('fluxo: Fase 2 já usa a security-audit no primeiro mapa de riscos (modo de orientação)', ((fluxo.split('## Fase 2')[1] || '').split('## Fase 3')[0]).includes('metodo:auditoria-de-seguranca') && ((fluxo.split('## Fase 2')[1] || '').split('## Fase 3')[0]).includes('mapa de riscos'));
 checar('prompt da Lead do Orca: auditoria de segurança antes da primeira publicação', ler('modelos/prompt-lead-orca.md').includes('metodo:auditoria-de-seguranca'));
@@ -476,6 +488,7 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     const PAPEIS = ['Lead', 'Product', 'Architect', 'Frontend', 'Backend', 'Security', 'Ops'];
     checar('novo-projeto.sh: sem --agente, Lead no Claude Code e a tabela Ferramenta por papel (Backend, Security e Ops no Codex)', dev.includes('Lead: Claude Code') && dev.includes('## Ferramenta por papel') && PAPEIS.every((p) => linhaPapel(dev, p) === (['Backend', 'Security', 'Ops'].includes(p) ? 'Codex' : 'Claude Code')), PAPEIS.map((p) => `${p}=${linhaPapel(dev, p)}`).join(' '));
     checar('novo-projeto.sh: DESENVOLVIMENTO.md sem o back no Codex e o front no Claude', !dev.includes('Back com o Codex e front com o Claude'));
+    checar('novo-projeto.sh: DESENVOLVIMENTO.md tem a seção Aprovações com os seis gatilhos', dev.includes('## Aprovações') && ['o que** será construído', 'desfazer', 'usuários reais', 'dinheiro ou muita cota', 'aceita um risco', 'regras do jogo'].every((g) => (dev.split('## Aprovações')[1] || '').includes(g)));
     const memProj = existsSync(join(alvo, 'docs/memoria-do-projeto.md')) ? readFileSync(join(alvo, 'docs/memoria-do-projeto.md'), 'utf8') : '';
     checar('novo-projeto.sh: memória anota agente e retrabalho por tarefa', memProj.includes('retrabalho'));
     // AGENTS.md do projeto: o Codex lê este arquivo, não o CLAUDE.md (decisão 007)

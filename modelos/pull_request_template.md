@@ -25,6 +25,9 @@
 - [ ] Não publiquei dados pessoais (e-mail da conta, telefone etc.) fora dos arquivos de conteúdo
 
 ## Validação da Lead
+
+Gatilhos de aprovação: nenhum | <quais> (com gatilho, só integra com o "pode integrar" da pessoa)
+
 <!-- Só a sessão Lead preenche e integra na `main`. CI verde não basta. -->
 - [ ] Li a issue e conferi o resultado contra os critérios de aceite (e a referência, se houver)
 - [ ] Refiz os testes na branch

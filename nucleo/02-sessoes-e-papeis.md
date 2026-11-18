@@ -41,7 +41,7 @@ Sinais de que dividir ajuda: a mesma sessão está construindo e conferindo o pr
 3. A Builder desenvolve com TDD e commits pequenos.
 4. Antes do PR, traz a `main` para a branch, roda os testes macro, envia a branch e abre o PR (`Closes #N`).
 5. O CI roda sozinho. A Lead **valida** (checklist em [03](03-skills-e-testes.md) e no [prompt da Lead](../modelos/prompt-lead.md)).
-6. Com a aprovação da pessoa, a Lead integra, confere a `main` e o CI. **A branch fica no GitHub** como histórico consultável. A Builder remove a worktree.
+6. A Lead confere os gatilhos de aprovação ([01](01-fluxo-de-ponta-a-ponta.md), "Portões de aprovação"): sem gatilho, integra e registra no resumo por marco; com gatilho, só com o "pode integrar" da pessoa. Depois confere a `main` e o CI. **A branch fica no GitHub** como histórico consultável. A Builder remove a worktree.
 
 ## Comunicação
 
@@ -92,7 +92,7 @@ O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, 
 | Portão humano: a sessão para e espera no chat | A Lead cria um portão (`orca orchestration gate-create`) e só o resolve (`gate-resolve`) com a resposta da pessoa |
 | `remover-tarefa.sh` remove a worktree | A Lead libera o agente (`worker-release`) e o Orca remove a worktree (`orca worktree rm`) |
 
-**O que não muda:** quem constrói não valida (a Lead refaz os testes e abre o navegador); os agentes **nunca** integram e terminam com o PR aberto e o CI verde; uma tarefa, uma branch, um PR; merge, deploy e o que é irreversível só com a aprovação da pessoa; a issue continua sendo o registro da tarefa. A Lead não escreve código.
+**O que não muda:** quem constrói não valida (a Lead refaz os testes e abre o navegador); os agentes **nunca** integram e terminam com o PR aberto e o CI verde; uma tarefa, uma branch, um PR; o que aciona um gatilho de aprovação (deploy, o irreversível, o merge com gatilho) só com a aprovação da pessoa; a issue continua sendo o registro da tarefa. A Lead não escreve código.
 
 **Cada agente usa a ferramenta do seu papel** (seção "Lead e ferramenta por papel", abaixo): Claude Code ou Codex. O Orca também abre outros agentes (Cursor e outros), mas eles não leem o `CLAUDE.md` nem o `AGENTS.md` do projeto nem os plugins do método e trabalhariam sem ele.
 
@@ -100,8 +100,8 @@ O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, 
 
 1. A Lead abre a issue com o formulário de tarefa e cria a tarefa no Orca com a especificação padrão do [prompt da Lead](../modelos/prompt-lead-orca.md) (objetivo, critérios de aceite, arquivos permitidos e proibidos, Skills, testes micro e macro, `Closes #N`).
 2. O agente constrói com TDD, traz a `main`, roda os testes macro, envia a branch, abre o PR e avisa o fim (`worker_done`). Dúvidas vão para a Lead com `ask`.
-3. A Lead valida o PR (checklist do [03](03-skills-e-testes.md)), cria o portão do merge e pergunta à pessoa.
-4. Com o "pode integrar", resolve o portão, integra com `gh pr merge N --merge`, confere a `main` e o CI e libera o agente.
+3. A Lead valida o PR (checklist do [03](03-skills-e-testes.md)) e confere os gatilhos de aprovação. Sem gatilho, integra com `gh pr merge N --merge` e registra no resumo por marco; com gatilho, cria o portão do merge e pergunta à pessoa.
+4. Com o "pode integrar" (quando havia gatilho), resolve o portão e integra; em qualquer caso, confere a `main` e o CI e libera o agente.
 
 **Limite inicial:** 1 Lead e até 3 agentes ao mesmo tempo. O painel e os avisos do Orca facilitam acompanhar; o número sobe ou desce com o caso.
 
@@ -128,7 +128,7 @@ O projeto usa **o Claude Code e o Codex juntos**, para dividir o consumo entre a
 - **Passagem quando a cota acaba no meio da tarefa:** a Builder faz commit, envia a branch e **comenta na issue onde parou** e qual é o próximo passo. O especialista abre outra Builder, na outra ferramenta, na **mesma branch**, e ela continua a partir do comentário e do campo "Plano e passo" da issue. O estado vive no Git e na issue, nunca só na conversa.
 - **Revisão cruzada:** todo PR recebe **ao menos uma revisão da outra ferramenta**. O PR feito no Codex já passa pela Lead, no Claude; o PR feito no Claude recebe a revisão de um agente Codex: o Security nos PRs sensíveis e, nos outros, uma sessão Codex de revisão aberta pela Lead.
 - **A Lead Codex** (só com `--agente codex`) usa o mesmo [prompt da Lead](../modelos/prompt-lead-orca.md) ou o mesmo harness e valida no navegador com um navegador automatizado ([03](03-skills-e-testes.md)).
-- **Contrato primeiro, quando back e front correm em paralelo.** Antes da primeira tarefa de construção, uma tarefa fecha o **contrato da API** num arquivo do repositório (`docs/contrato-api.md`, ou o formato que a stack pedir, como OpenAPI), e a pessoa aprova num portão. Depois, o contrato só muda por uma tarefa própria, com portão. Cada lado tem a sua pasta (por exemplo, `back/` e `front/`, decididas na Fase 2), e os **arquivos comuns** (CI, dependências da raiz, contrato, memória do projeto) têm um dono só, nunca duas tarefas ao mesmo tempo, nem de ferramentas diferentes.
+- **Contrato primeiro, quando back e front correm em paralelo.** Antes da primeira tarefa de construção, uma tarefa fecha o **contrato da API** num arquivo do repositório (`docs/contrato-api.md`, ou o formato que a stack pedir, como OpenAPI), e a pessoa aprova num portão. Depois, o contrato só muda por uma tarefa própria: a mudança que quebra quem usa passa por um portão da pessoa; a aditiva (um campo novo opcional), pela Lead. Cada lado tem a sua pasta (por exemplo, `back/` e `front/`, decididas na Fase 2), e os **arquivos comuns** (CI, dependências da raiz, contrato, memória do projeto) têm um dono só, nunca duas tarefas ao mesmo tempo, nem de ferramentas diferentes.
 - **Medição.** A memória do projeto anota, por tarefa, a ferramenta, as passagens, se houve retrabalho e por quê, e o consumo; a Fase 9 compara as duas ferramentas.
 
 **O que observar no primeiro projeto:** quantas passagens houve e se alguma perdeu trabalho; se a revisão cruzada achou algo; se a cota deixou de parar o projeto; se os agentes Codex seguiram o TDD, a verificação e as skills do método.

@@ -72,7 +72,8 @@ Pode:
 - Chamar o Security em todo PR que toca autenticação, permissões, dados pessoais, API pública, dependências ou deploy.
 - Antes da primeira publicação (e depois de uma mudança grande), criar o portão da auditoria completa que o Security propõe com a skill `security-audit`: leve à pessoa o perfil, o limite de subagentes e o motivo; a auditoria só começa com a resposta dela, e a publicação espera os achados `confirmed` corrigidos ou aceitos por ela.
 - Criar portões (`orca orchestration gate-create`) e resolvê-los (`gate-resolve`) **só com a resposta da pessoa**.
-- Integrar com `gh pr merge N --merge`, sem `--delete-branch`, depois do "pode integrar" da pessoa.
+- Antes de cada `gh pr merge N --merge` (sem `--delete-branch`), conferir os seis gatilhos de aprovação (núcleo 01 do método, "Portões de aprovação", e a seção Aprovações do `docs/DESENVOLVIMENTO.md`): muda o que será construído, é difícil de desfazer, atinge usuários reais, custa dinheiro ou muita cota, aceita um risco, muda as regras do jogo. Sem gatilho, com o PR dentro do plano, CI verde, validação sem crítico nem importante e só os arquivos permitidos, integre sozinha e registre. Com gatilho, ou na dúvida, crie o portão e integre só com o "pode integrar" da pessoa.
+- Escrever o **resumo por marco** na memória do projeto: o que você aprovou sozinha, com os links das issues e dos PRs, para a pessoa ler e reverter o que quiser.
 - Gravar, numa branch e num PR seus, as notas que os especialistas mandam (`orca orchestration send --type status`): a parte de cada tema na memória do projeto, o consumo de cada tarefa e o `docs/referencias/<tema>.md` dos especialistas que só coordenam (Backend, Frontend, Ops). Junte várias notas num PR só.
 - Ser dona dos arquivos comuns: dependências da raiz, a memória do projeto e o CI. Enquanto o Ops está ativo, o CI é dele; quando ele fecha, volta para você.
 

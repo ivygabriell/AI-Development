@@ -8,7 +8,7 @@ A arquitetura nasceu de um projeto real (um portfólio com animações, vídeos,
 
 ```text
                               Pessoa
-               aprova a spec, o plano, cada merge e o deploy
+      aprova a spec, o plano, o deploy e o que aciona um gatilho
                                  │ portões
                                  ▼
                             Lead
@@ -29,7 +29,7 @@ A arquitetura nasceu de um projeto real (um portfólio com animações, vídeos,
 | Peça | O que é | Onde está |
 |---|---|---|
 | **Ferramenta por papel** | Claude Code e Codex no mesmo projeto: a Lead, Product, Architect e Frontend no Claude Code; Backend, Security e Ops no Codex; a Builder vai para a outra quando a cota aperta | [02, "Lead e ferramenta por papel"](nucleo/02-sessoes-e-papeis.md) |
-| **Lead** | A Lead: abre as issues, distribui aos especialistas, valida e integra com a sua aprovação | [harness da Lead](modelos/agentes/lead.md) |
+| **Lead** | A Lead: abre as issues, distribui aos especialistas, valida e integra (sozinha quando nada aciona um gatilho de aprovação; com gatilho, com a sua aprovação) | [harness da Lead](modelos/agentes/lead.md) |
 | **Especialistas** | Um agente por tema, cada um com um **harness**: missão, o que pode e o que não pode, Skills, checklist, quando sobe a decisão | [`modelos/agentes/`](modelos/agentes/) |
 | **Builders** | Constroem uma tarefa por vez, numa worktree e numa branch próprias, com TDD; nunca integram | [02, "Com agentes especialistas"](nucleo/02-sessoes-e-papeis.md) |
 | **Skills por agente** | Regras concretas tiradas das referências de cada tema, com fonte, teste e checklist (plugin `metodo`) | [`skills/`](skills/) e [03, "Mapa de skills"](nucleo/03-skills-e-testes.md) |
@@ -58,7 +58,7 @@ Tudo o que a arquitetura usa, com o link de onde cada coisa é explicada.
 | **Skill por agente** | Uma skill do plugin `metodo` tirada da leitura das referências de um especialista: passo a passo com a fonte, o teste que prova, checklist e como adaptar ao tamanho do projeto | [decisão 009](decisoes/009-skills-por-agente.md) |
 | **Base de referências** | O que a leitura das referências de cada agente ensinou (regra, porquê, link). O agente procura nela antes de ir aos sites | [`modelos/referencias/`](modelos/referencias/) |
 | **Plugin `metodo`** | Este repositório empacotado para o Claude Code e o Codex: as skills de início, atualização e consulta, e as skills dos agentes | [`.claude-plugin/`](.claude-plugin/marketplace.json) |
-| **Fases e portões** | O caminho da ideia ao fechamento (Fases 0 a 9). Em cada portão, a pessoa aprova: spec, plano, cada merge e o deploy | [01](nucleo/01-fluxo-de-ponta-a-ponta.md) |
+| **Fases e portões** | O caminho da ideia ao fechamento (Fases 0 a 9). Em cada portão, a pessoa aprova: spec, plano, deploy e o que aciona um dos seis gatilhos de aprovação; o resto a Lead decide e registra | [01](nucleo/01-fluxo-de-ponta-a-ponta.md) |
 | **Spec e critérios de aceite** | O alvo escrito antes de construir e a lista verificável do que "pronto" quer dizer | [modelo de spec](modelos/modelo-spec.md), [critérios de aceite](modelos/modelo-criterios-de-aceite.md) |
 | **Testes micro e macro** | Micro: TDD, com o teste escrito e visto falhar antes do código. Macro: a suíte inteira, os tipos, o build e a exploração no navegador | [03](nucleo/03-skills-e-testes.md) |
 | **Issue, branch e PR** | Uma tarefa, uma branch, um PR, com o CI verde. As branches integradas ficam no GitHub | [05](nucleo/05-git-github-e-ci.md) |
@@ -310,9 +310,9 @@ mkdir ~/Projetos/meu-site && cd ~/Projetos/meu-site && claude
 
 **Ferramenta por papel:** por padrão o projeto usa as duas: a Lead, Product, Architect e Frontend no Claude Code; Backend, Security e Ops no Codex. Se preferir uma só, a skill aceita, e no caminho manual passe `--agente claude` ou `--agente codex` ao `novo-projeto.sh` ([decisão 013](decisoes/013-lead-e-builders-com-codex-e-claude.md)).
 
-A skill confere o ambiente, propõe o cenário (e avisa se ele é `rascunho`), pede **uma** confirmação antes de criar o repositório no GitHub, prepara tudo com o `novo-projeto.sh` (inclusive o `CLAUDE.md` do projeto, que dá o contexto a toda sessão futura), espera o primeiro CI e começa a Fase 0. Daí em diante, ela para em cada portão: spec, plano, cada merge e deploy. Qualquer sessão do projeto consulta o método pela skill `metodo:consultar`.
+A skill confere o ambiente, propõe o cenário (e avisa se ele é `rascunho`), pede **uma** confirmação antes de criar o repositório no GitHub, prepara tudo com o `novo-projeto.sh` (inclusive o `CLAUDE.md` do projeto, que dá o contexto a toda sessão futura), espera o primeiro CI e começa a Fase 0. Daí em diante, ela para em cada portão: spec, plano, deploy e o que aciona um gatilho de aprovação (os merges sem gatilho, a Lead integra). Qualquer sessão do projeto consulta o método pela skill `metodo:consultar`.
 
-**Para trabalhar com vários agentes no Orca**, abra o projeto no Orca e use o [prompt da Lead](modelos/prompt-lead-orca.md) num agente Claude Code: ela distribui as tarefas aos agentes, valida e só integra com a sua aprovação ([02](nucleo/02-sessoes-e-papeis.md), seção "Com o Orca").
+**Para trabalhar com vários agentes no Orca**, abra o projeto no Orca e use o [prompt da Lead](modelos/prompt-lead-orca.md) num agente Claude Code: ela distribui as tarefas aos agentes, valida e integra pelos gatilhos de aprovação ([01](nucleo/01-fluxo-de-ponta-a-ponta.md), "Portões de aprovação"; [02](nucleo/02-sessoes-e-papeis.md), "Com o Orca").
 
 **Com as duas ferramentas**, a Lead abre cada agente na ferramenta do papel (`--agent claude` ou `--agent codex`); o Codex lê o `AGENTS.md`. Quando a cota acaba no meio de uma tarefa, a Builder deixa a passagem na issue e outra, na outra ferramenta, continua na mesma branch. Quando back e front são construídos em paralelo, o contrato da API é aprovado por você antes de qualquer tarefa de construção ([02](nucleo/02-sessoes-e-papeis.md), "Lead e ferramenta por papel").
 
