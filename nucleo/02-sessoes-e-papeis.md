@@ -50,7 +50,7 @@ Um bug é um comportamento que diverge do combinado (critério de aceite, contra
 1. **Registro.** Quem acha (a pessoa, uma Builder, um especialista, o monitoramento) abre uma **issue de bug** com o [formulário de bug](../modelos/issue-bug.yml): o que aconteceu, o que era esperado, os passos para reproduzir, onde e a evidência, sem dado pessoal de usuário.
 2. **Triagem pela Lead**, pelos gatilhos de aprovação ([01](01-fluxo-de-ponta-a-ponta.md), "Portões de aprovação"):
    - **Incidente** (produção fora do ar, dados de usuários, segurança): aciona o gatilho "atinge usuários reais" e vai para a pessoa na hora, com `engineering:incident-response` ou, se há dados pessoais, `metodo:incidente-com-dados-pessoais`.
-   - **Bug comum:** a Lead encaixa o bug na fila dentro da **prioridade já aprovada** pela pessoa (o bug do que está sendo construído vem antes do trabalho novo do mesmo tema) e o entrega ao especialista do tema (Backend, Frontend ou Ops). Passar um bug à frente do que a pessoa priorizou é gatilho e vai para ela.
+   - **Bug comum:** a Lead encaixa o bug na fila dentro da **prioridade já aprovada** pela pessoa (o bug do que está sendo construído vem antes do trabalho novo do mesmo tema) e o entrega ao especialista do tema (Backend, Frontend, Designer ou Ops). Passar um bug à frente do que a pessoa priorizou é gatilho e vai para ela.
    - **Antes de entregar**, a Lead completa a issue como numa tarefa: arquivos permitidos e proibidos, plano e passo (ou "sem plano" e o motivo) e a ferramenta. Com isso a Builder trabalha sem deduzir permissões, e uma passagem por cota encontra tudo na issue.
    - **Não é bug** (é pedido novo): vira tarefa, e mudar o que será construído é da pessoa.
 3. **Dono.** O especialista abre a Builder na ferramenta do seu papel, com o nome de sempre (`Backend Builder #31 · login-expira · Codex`) e a branch `fix/31-login-expira`.
@@ -133,7 +133,7 @@ O projeto usa **o Claude Code e o Codex juntos**, para dividir o consumo entre a
 
 | Claude Code | Codex |
 |---|---|
-| Lead, Product, Architect, Frontend | Backend, Security e Ops |
+| Lead, Product, Architect, Frontend, Designer | Backend, Security e Ops |
 
 | Ferramenta | No `worker-start` | Lê no início |
 |---|---|---|
@@ -162,7 +162,8 @@ Cada agente usa a **ferramenta do seu papel** (Claude Code ou Codex, seção aci
 | Lead | coordenação, validação final (QA) e integração | não; coordena os especialistas | sempre |
 | Architect | estrutura, contrato da API, dados, confiabilidade, observabilidade, custo | não | sempre |
 | Backend | regras de negócio, APIs, autenticação, banco de dados | até 2 | sempre |
-| Frontend | identidade e todas as telas no Figma (Fase 2, antes do código), registro em `processo/telas/`, design system, interface | até 2 | sempre que há interface |
+| Frontend | a interface construída a partir das telas aprovadas e o design system do código | até 2 | sempre que há interface |
+| Designer | UI e UX: identidade, design system e todas as telas no Figma (Fase 2, antes do código), registro em `processo/telas/`; não escreve código | não | sob demanda (Fases 1 e 2, tela nova) |
 | Security | mapa de riscos no começo, revisão dos PRs sensíveis e auditoria completa antes da primeira publicação, com a `security-audit` desde o primeiro mapa | não; entrega a correção ao dono da pasta | sempre |
 | Product | requisitos (fichas R-xx com o peso, em `processo/requisitos.md`), pesquisa com usuários, critérios de aceite | não | sob demanda (Fases 0 a 2) |
 | Ops | deploy, CI/CD, nuvem, monitoramento; dono do CI enquanto ativo | 1 por vez | sob demanda |
@@ -172,7 +173,7 @@ Cada agente usa a **ferramenta do seu papel** (Claude Code ou Codex, seção aci
 - **Modelos:** os da ferramenta de cada papel (`claude-opus-5-5` no Claude Code, `gpt-6.1-sol` no Codex); o esforço varia por papel e vai em todo `worker-start` (`--agent <agente> --model <modelo> --effort`).
 - **No Orca:** a Lead abre os especialistas; cada especialista abre as suas Builders com `worker-start --worktree new-child`, e o Orca as pendura nele (`--parent`). A dúvida da Builder (`ask`) chega ao especialista; só sobe para a Lead o que ele não pode decidir. **Exige o ajuste Settings → Orchestration → Nested worker depth = 2** (o padrão é 1; testado no Orca 1.4.241). Nem mais nem menos: com 2, uma Builder não abre agentes próprios.
 - **Worktrees e visibilidade:** a pessoa vê cada agente no Orca, na sua worktree. Cada especialista abre numa worktree com o nome do tema, **filha da worktree principal** (`worker-start --worktree new-child --name <tema>`, da pasta principal); cada Builder, numa worktree por issue, filha da do especialista (`backend-12-login`, branch `backend/12-login`). **Nome da Builder:** `<Papel> Builder #<issue> · <resumo> · <ferramenta>` no `--display-name` (por exemplo, `Backend Builder #12 · login · Codex`): o papel diz quem responde por ela, a issue é a identidade única (leva à issue, à branch e ao PR), o resumo dá o assunto e a ferramenta diz que cota ela gasta. O mesmo nome vai no título do PR e nos comentários da issue; o especialista aparece só com o nome do papel (`--display-name Backend`). Sem o Orca, a branch segue o `nova-tarefa.sh` (`feat/12-login`) e o nome vai na issue e no PR. Quem só coordena ou revisa lê a worktree do trabalho; numa worktree, só a dona da tarefa escreve. Testado no Orca 1.4.241.
-- **Limite:** no máximo 9 sessões ao mesmo tempo (a Lead, os 4 fixos e até 2 Builders de Backend e 2 de Frontend); Product e Ops abrem e fecham com a fase deles. Product e Ops (e a Builder do Ops) contam dentro das 9: quando um deles abre, a Lead segura uma Builder até caber. Neste modo, isso substitui o limite de "1 Lead e até 3 agentes" do modo Orca.
+- **Limite:** no máximo 9 sessões ao mesmo tempo (a Lead, os 4 fixos e até 2 Builders de Backend e 2 de Frontend); Product, Designer e Ops abrem e fecham com a fase deles. Product, Designer e Ops (e a Builder do Ops) contam dentro das 9: quando um deles abre, a Lead segura uma Builder até caber. Neste modo, isso substitui o limite de "1 Lead e até 3 agentes" do modo Orca.
 - **Arquivos comuns mudam de dono:** o contrato da API passa para o Architect, e o CI passa para o Ops enquanto ele está ativo; a Lead fica com as dependências da raiz, a memória do projeto e o CI quando não há Ops. Os especialistas que só coordenam mandam as notas da memória e das referências à Lead (`orca orchestration send --type status`), e ela grava.
 - **O que não muda:** só a Lead integra e só ela fala com a pessoa e resolve os portões; quem constrói não valida; uma tarefa, uma branch, um PR.
 

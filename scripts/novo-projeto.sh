@@ -3,7 +3,7 @@
 # Uso: scripts/novo-projeto.sh <pasta-do-projeto> [--agente claude|codex] [--especialistas] [cenario ...]
 #   <pasta-do-projeto>  pasta que já existe (de preferência um repositório Git novo)
 #   --agente            põe todos os papéis, inclusive a Lead, numa ferramenta só: claude ou codex (decisão 013);
-#                       sem ele, a Lead e Product, Architect e Frontend ficam no Claude Code, e Backend, Security e Ops no Codex
+#                       sem ele, a Lead e Product, Architect, Frontend e Designer ficam no Claude Code, e Backend, Security e Ops no Codex
 #   --especialistas     modo com agentes especialistas: copia os harnesses para processo/agentes/
 #   cenario             um ou mais nomes de arquivos em cenarios/ (sem .md), por exemplo: site-estatico api-backend
 # Copia: formulário de tarefa, modelo de PR, CI, scripts de worktree, e cria CLAUDE.md, AGENTS.md (para o Codex),
@@ -158,14 +158,14 @@ fi
 # Ferramenta padrão de cada papel (decisão 013): a mista, ou uma só com --agente
 ferramenta() { if [[ -n "$nome_agente" ]]; then echo "$nome_agente"; else case "$1" in Backend|Security|Ops) echo "Codex" ;; *) echo "Claude Code" ;; esac; fi; }
 tabela_papeis=""
-for papel in Lead Product Architect Frontend Backend Security Ops; do tabela_papeis+="| $papel | $(ferramenta "$papel") |"$'\n'; done
+for papel in Lead Product Architect Frontend Designer Backend Security Ops; do tabela_papeis+="| $papel | $(ferramenta "$papel") |"$'\n'; done
 lead="$(ferramenta Lead)"
 
 mkdir -p "$alvo/processo/telas"
 cat > "$alvo/processo/telas/README.md" <<'DOC'
 # Telas aprovadas
 
-O registro das telas aprovadas pela pessoa no Figma (decisão 015 do método). A cada aprovação, o Frontend acrescenta, num PR: uma captura por tela e estado (`R-NN-nome-estado.png`), a data e o link do frame, e atualiza `tokens.json` com os tokens do Figma. O código segue só a versão registrada aqui; toda mudança de tela começa no Figma. Projeto sem interface: escreva "sem interface" nesta linha e deixe a pasta assim.
+O registro das telas aprovadas pela pessoa no Figma (decisão 015 do método). A cada aprovação, o Designer (sem o modo com especialistas, a Lead) acrescenta, num PR: uma captura por tela e estado (`R-NN-nome-estado.png`), a data e o link do frame, e atualiza `tokens.json` com os tokens do Figma. O código segue só a versão registrada aqui; toda mudança de tela começa no Figma. Projeto sem interface: escreva "sem interface" nesta linha e deixe a pasta assim.
 
 | Tela (frame) | Requisitos | Estados | Aprovada em | Link do frame |
 |---|---|---|---|---|

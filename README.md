@@ -28,7 +28,7 @@ A arquitetura nasceu de um projeto real (um portfólio com animações, vídeos,
 
 | Peça | O que é | Onde está |
 |---|---|---|
-| **Ferramenta por papel** | Claude Code e Codex no mesmo projeto: a Lead, Product, Architect e Frontend no Claude Code; Backend, Security e Ops no Codex; a Builder vai para a outra quando a cota aperta | [02, "Lead e ferramenta por papel"](nucleo/02-sessoes-e-papeis.md) |
+| **Ferramenta por papel** | Claude Code e Codex no mesmo projeto: a Lead, Product, Architect, Frontend e Designer no Claude Code; Backend, Security e Ops no Codex; a Builder vai para a outra quando a cota aperta | [02, "Lead e ferramenta por papel"](nucleo/02-sessoes-e-papeis.md) |
 | **Lead** | A Lead: abre as issues, distribui aos especialistas, valida e integra (sozinha quando nada aciona um gatilho de aprovação; com gatilho, com a sua aprovação) | [harness da Lead](modelos/agentes/lead.md) |
 | **Especialistas** | Um agente por tema, cada um com um **harness**: missão, o que pode e o que não pode, Skills, checklist, quando sobe a decisão | [`modelos/agentes/`](modelos/agentes/) |
 | **Builders** | Constroem uma tarefa por vez, numa worktree e numa branch próprias, com TDD; nunca integram | [02, "Com agentes especialistas"](nucleo/02-sessoes-e-papeis.md) |
@@ -52,7 +52,7 @@ Tudo o que a arquitetura usa, com o link de onde cada coisa é explicada.
 | **Ferramenta por papel** | A ferramenta de cada papel, registrada na linha `Lead:` e na tabela Ferramenta por papel do `processo/DESENVOLVIMENTO.md`; todo PR recebe ao menos uma revisão da outra ferramenta | [02](nucleo/02-sessoes-e-papeis.md), [decisão 013](decisoes/013-lead-e-builders-com-codex-e-claude.md) |
 | **Lead** | A sessão que coordena, valida com olhar independente e é a única que integra na `main`. No Orca, é a Lead | [02](nucleo/02-sessoes-e-papeis.md) |
 | **Builder** | A sessão que constrói uma tarefa isolada, numa worktree e numa branch próprias, e termina com o PR aberto | [02](nucleo/02-sessoes-e-papeis.md) |
-| **Especialista** | O agente de um tema (Architect, Backend, Frontend, Security, Product, Ops), que decide e revisa o tema e coordena as próprias Builders | [02, "Com agentes especialistas"](nucleo/02-sessoes-e-papeis.md), [decisão 008](decisoes/008-agentes-especialistas.md) |
+| **Especialista** | O agente de um tema (Architect, Backend, Frontend, Designer, Security, Product, Ops), que decide e revisa o tema e coordena as próprias Builders | [02, "Com agentes especialistas"](nucleo/02-sessoes-e-papeis.md), [decisão 008](decisoes/008-agentes-especialistas.md) |
 | **Harness** | As regras de atuação de um agente, em 10 partes: missão, quando é chamado, o que lê, o que pode e o que não pode, Skills, checklist, formato da resposta, quando sobe a decisão, memória e economia. O harness manda; o que se consulta só informa | [modelo do harness](modelos/agentes/_modelo-harness.md) |
 | **Skill** | Um passo a passo que o agente carrega para um tipo de trabalho (planejar, testar, revisar, um tema). Dizer qual Skill está em uso faz parte do trabalho | [03, "Mapa de skills"](nucleo/03-skills-e-testes.md) |
 | **Skill por agente** | Uma skill do plugin `metodo` tirada da leitura das referências de um especialista: passo a passo com a fonte, o teste que prova, checklist e como adaptar ao tamanho do projeto | [decisão 009](decisoes/009-skills-por-agente.md) |
@@ -81,6 +81,7 @@ Tudo o que a arquitetura usa, com o link de onde cada coisa é explicada.
 | Architect | [architect.md](modelos/agentes/architect.md) | sempre |
 | Backend | [backend.md](modelos/agentes/backend.md) | sempre |
 | Frontend | [frontend.md](modelos/agentes/frontend.md) | sempre |
+| Designer | [designer.md](modelos/agentes/designer.md) | sob demanda (Fases 1 e 2, tela nova) |
 | Security | [security.md](modelos/agentes/security.md) | sempre |
 | Product | [product.md](modelos/agentes/product.md) | sob demanda (Fases 0 a 2) |
 | Ops | [ops.md](modelos/agentes/ops.md) | sob demanda |
@@ -96,6 +97,7 @@ Quando usar cada uma está no [mapa de skills do 03](nucleo/03-skills-e-testes.m
 | Plugin `metodo`: Architect | `metodo:contrato-de-api`, `metodo:analise-de-falhas`, `metodo:migracao-de-sistema` |
 | Plugin `metodo`: Backend | `metodo:api-conforme-contrato`, `metodo:migracao-sem-parada`, `metodo:transacoes-e-consultas`, `metodo:trabalho-em-segundo-plano` |
 | Plugin `metodo`: Frontend | `metodo:formularios-e-erros`, `metodo:desempenho-na-tela`, `metodo:estados-da-tela` |
+| Plugin `metodo`: Designer | `metodo:design-system-do-projeto`, `metodo:telas-e-fluxos`, `metodo:registro-das-telas` |
 | Plugin `metodo`: Security | `metodo:autenticacao-e-sessao`, `metodo:controle-de-acesso`, `metodo:entrada-nao-confiavel`, `metodo:incidente-com-dados-pessoais`, `metodo:auditoria-de-seguranca` |
 | Plugin `metodo`: Product | `metodo:necessidades-e-riscos`, `metodo:descoberta-continua` |
 | Plugin `metodo`: Ops | `metodo:publicacao-gradual`, `metodo:metas-e-alertas`, `metodo:ci-seguro` |
@@ -317,7 +319,7 @@ mkdir ~/Projetos/meu-site && cd ~/Projetos/meu-site && claude
 /metodo:novo-projeto Quero um portfólio bilíngue para mostrar meus trabalhos de vídeo. site-estatico
 ```
 
-**Ferramenta por papel:** por padrão o projeto usa as duas: a Lead, Product, Architect e Frontend no Claude Code; Backend, Security e Ops no Codex. Se preferir uma só, a skill aceita, e no caminho manual passe `--agente claude` ou `--agente codex` ao `novo-projeto.sh` ([decisão 013](decisoes/013-lead-e-builders-com-codex-e-claude.md)).
+**Ferramenta por papel:** por padrão o projeto usa as duas: a Lead, Product, Architect, Frontend e Designer no Claude Code; Backend, Security e Ops no Codex. Se preferir uma só, a skill aceita, e no caminho manual passe `--agente claude` ou `--agente codex` ao `novo-projeto.sh` ([decisão 013](decisoes/013-lead-e-builders-com-codex-e-claude.md)).
 
 A skill confere o ambiente, propõe o cenário (e avisa se ele é `rascunho`), pede **uma** confirmação antes de criar o repositório no GitHub, prepara tudo com o `novo-projeto.sh` (inclusive o `CLAUDE.md` do projeto, que dá o contexto a toda sessão futura), espera o primeiro CI e começa a Fase 0. Daí em diante, ela para em cada portão: spec, plano, deploy e o que aciona um gatilho de aprovação (os merges sem gatilho, a Lead integra). Qualquer sessão do projeto consulta o método pela skill `metodo:consultar`.
 
@@ -325,7 +327,7 @@ A skill confere o ambiente, propõe o cenário (e avisa se ele é `rascunho`), p
 
 **Com as duas ferramentas**, a Lead abre cada agente na ferramenta do papel (`--agent claude` ou `--agent codex`); o Codex lê o `AGENTS.md`. Quando a cota acaba no meio de uma tarefa, a Builder deixa a passagem na issue e outra, na outra ferramenta, continua na mesma branch. Quando back e front são construídos em paralelo, o contrato da API é aprovado por você antes de qualquer tarefa de construção ([02](nucleo/02-sessoes-e-papeis.md), "Lead e ferramenta por papel").
 
-**Para trabalhar com agentes especialistas**, a Lead coordena um especialista por tema (Architect, Backend, Frontend, Security e, quando preciso, Product e Ops), e cada especialista abre as próprias Builders. Cada agente atua dentro de um harness escrito com você, em [`modelos/agentes/`](modelos/agentes/), que vai para o projeto com `scripts/novo-projeto.sh <pasta> --especialistas`. No Orca, ajuste antes **Settings → Orchestration → Nested worker depth = 2** ([02](nucleo/02-sessoes-e-papeis.md), "Com agentes especialistas").
+**Para trabalhar com agentes especialistas**, a Lead coordena um especialista por tema (Architect, Backend, Frontend, Security e, quando preciso, Product, Designer e Ops), e cada especialista abre as próprias Builders. Cada agente atua dentro de um harness escrito com você, em [`modelos/agentes/`](modelos/agentes/), que vai para o projeto com `scripts/novo-projeto.sh <pasta> --especialistas`. No Orca, ajuste antes **Settings → Orchestration → Nested worker depth = 2** ([02](nucleo/02-sessoes-e-papeis.md), "Com agentes especialistas").
 
 ### Atualizar um projeto que já usa o método
 

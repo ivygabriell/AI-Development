@@ -58,6 +58,7 @@ const OBRIGATORIOS = [
   'modelos/modelo-requisitos.md',
   'decisoes/015-requisitos-e-telas-antes-do-codigo.md',
   'decisoes/016-processo-fora-da-raiz.md',
+  'decisoes/017-agente-designer.md',
   'modelos/pull_request_template.md',
   'modelos/ci-node.yml',
   'modelos/nova-tarefa.sh',
@@ -178,13 +179,14 @@ checar('decisão 008: a ferramenta por tema substituída pela 010', ler('decisoe
 // Agentes especialistas (decisão 008, rascunho): cada harness tem as 10 partes, o modelo da sua ferramenta e as regras fixas
 const HARNESS_PARTES = ['## 1. Missão', '## 2. Quando é chamado', '## 3. O que lê', '## 4. O que pode e o que não pode', '## 5. Skills', '## 6. Checklist do tema', '## 7. Formato da resposta', '## 8. Quando sobe a decisão', '## 9. Memória do tema', '## 10. Economia'];
 // Decisão 010: a ferramenta é a do projeto (Agente principal), então todo harness serve às duas
-const HARNESSES = ['lead', 'architect', 'backend', 'frontend', 'security', 'product', 'ops'];
+const HARNESSES = ['lead', 'architect', 'backend', 'frontend', 'designer', 'security', 'product', 'ops'];
 // O que cada harness precisa dizer, além das regras comuns
 const HARNESS_PROPRIO = {
-  lead: ['--agent <agente> --model <modelo>', '--worktree new-child --name architect', '--worktree new-child --name backend', '--worktree new-child --name frontend', '--worktree new-child --name security', '--worktree new-child --name product', '--worktree new-child --name ops', 'contam dentro das 9'],
+  lead: ['--agent <agente> --model <modelo>', '--worktree new-child --name architect', '--worktree new-child --name backend', '--worktree new-child --name frontend', '--worktree new-child --name designer', '--worktree new-child --name security', '--worktree new-child --name product', '--worktree new-child --name ops', 'contam dentro das 9'],
   architect: ['contrato da API', 'portão', 'processo/referencias/architect.md', '**Onde trabalha:** na sua worktree `architect`, filha da worktree principal'],
   'backend': ['worker-start', '--parent', '--worktree new-child', 'contrato da API'],
   'frontend': ['worker-start', '--parent', '--worktree new-child', 'design system'],
+  designer: ['processo/telas/', 'tokens.json', 'use_figma', 'design system', 'não tem Builders', 'nunca escreve código', 'do token à tela', 'processo/telas/design-system.md', 'metodo:design-system-do-projeto', 'metodo:telas-e-fluxos', 'metodo:registro-das-telas'],
   security: ['mapa de riscos', 'entrega a correção', 'aprovar com ressalva', 'metodo:auditoria-de-seguranca', 'modo de orientação', '**Onde trabalha:** na sua worktree `security`, filha da worktree principal', 'MCP `rea`', '`security-audit`', '~/security-audit-skill/', 'antes da primeira publicação'],
   product: ['critérios de aceite'],
   ops: ['worker-start', '--parent', 'portão', 'merge_ready', 'a mudança do CI é uma tarefa da sua Builder'],
@@ -239,8 +241,8 @@ for (const [nome, papel] of [['backend', 'Backend'], ['frontend', 'Frontend'], [
   const abre = ler(`modelos/agentes/${nome}.md`).split('\n').filter((l) => l.includes('worker-start --'));
   checar(`agentes/${nome}: abre a Builder com --name ${nome}-<N>-<slug> e --display-name "${papel} Builder #<N> · <resumo> · <ferramenta>"`, abre.length > 0 && abre.every((l) => l.includes(`--name ${nome}-<N>-<slug>`) && l.includes(`--display-name "${papel} Builder #<N> · <resumo> · <ferramenta>"`)));
 }
-const tabelaLead = ler('modelos/agentes/lead.md').split('\n').filter((l) => /^\s*\| (Architect|Backend|Frontend|Security|Product|Ops) \|/.test(l));
-checar('agentes/lead: abre cada especialista com --display-name <Papel>', tabelaLead.length === 6 && tabelaLead.every((l) => l.includes(`--display-name ${l.trim().split('|')[1].trim()}`)));
+const tabelaLead = ler('modelos/agentes/lead.md').split('\n').filter((l) => /^\s*\| (Architect|Backend|Frontend|Designer|Security|Product|Ops) \|/.test(l));
+checar('agentes/lead: abre cada especialista com --display-name <Papel>', tabelaLead.length === 7 && tabelaLead.every((l) => l.includes(`--display-name ${l.trim().split('|')[1].trim()}`)));
 checar('sessões: nome da Builder (Builder #<issue> · <resumo> · <ferramenta>) e a issue como identidade única', sessoes.includes('Builder #<issue> · <resumo> · <ferramenta>') && sessoes.includes('identidade única') && sessoes.includes('`backend-12-login`, branch `backend/12-login`'));
 const subsecaoEsp = (sessoes.split('### Com agentes especialistas')[1] || '').split('\n## ')[0];
 for (const termo of ['processo/agentes/', '--parent', 'O harness manda', '9 sessões', 'Nested worker depth', 'substitui o limite', 'contrato da API passa para o Architect', 'contam dentro das 9', 'filha da worktree principal'])
@@ -260,6 +262,7 @@ for (const termo of ['modelos/agentes/', '--especialistas', 'Nested worker depth
 const SKILLS_DO_AGENTE = {
   'backend': ['api-conforme-contrato', 'migracao-sem-parada', 'transacoes-e-consultas', 'trabalho-em-segundo-plano'],
   'frontend': ['formularios-e-erros', 'desempenho-na-tela', 'estados-da-tela'],
+  designer: ['design-system-do-projeto', 'telas-e-fluxos', 'registro-das-telas'],
   ops: ['publicacao-gradual', 'metas-e-alertas', 'ci-seguro'],
   security: ['autenticacao-e-sessao', 'controle-de-acesso', 'entrada-nao-confiavel', 'incidente-com-dados-pessoais', 'auditoria-de-seguranca'],
   architect: ['contrato-de-api', 'analise-de-falhas', 'migracao-de-sistema'],
@@ -432,7 +435,9 @@ checar('aprovações: tela nova não fica mais com a Lead; todas as telas são d
 const harnessProduct = ler('modelos/agentes/product.md');
 checar('agentes/product: escreve as fichas R-xx com o peso', harnessProduct.includes('processo/requisitos.md') && harnessProduct.includes('R-') && harnessProduct.includes('peso'));
 const harnessFront = ler('modelos/agentes/frontend.md');
-checar('agentes/frontend: identidade e todas as telas no Figma antes de qualquer código, registradas em processo/telas/', ['use_figma', 'processo/telas/', 'antes de qualquer código', 'get_variable_defs'].every((t) => harnessFront.includes(t)));
+checar('agentes/frontend: só constrói a partir das telas do Designer registradas em processo/telas/ (decisão 017)', ['Designer', 'processo/telas/', 'tokens.json', 'get_design_context'].every((t) => harnessFront.includes(t)));
+const harnessDes = ler('modelos/agentes/designer.md');
+checar('agentes/designer: identidade e todas as telas no Figma antes de qualquer código, registradas em processo/telas/', ['use_figma', 'processo/telas/', 'antes do código', 'get_variable_defs', 'get_screenshot'].every((t) => harnessDes.includes(t)));
 for (const form of ['modelos/issue-tarefa.yml', 'modelos/issue-bug.yml'])
   checar(`${form}: campo obrigatório requisitos`, ler(form).split('  - type:').some((b) => b.includes('id: requisitos\n') && b.includes('required: true')));
 checar('modelo de PR: requisitos atendidos e telas conferidas', ler('modelos/pull_request_template.md').includes('Requisitos atendidos') && ler('modelos/pull_request_template.md').includes('processo/telas/'));
@@ -454,6 +459,18 @@ checar('fluxo: o portão da Fase 2 só exige identidade e telas com interface', 
 checar('sessões: Frontend presente só com interface', /\| Frontend \|.*\| sempre que há interface \|/.test(sessoes));
 checar('modelo de requisitos: sem link relativo (é copiado para processo/requisitos.md)', !/\]\((?!https?:)[^)]+\)/.test(modReq));
 checar('VERSION: 5.0.0 ou maior (decisão 015)', Number(versao.split('.')[0]) >= 5, versao);
+checar('VERSION: 7.0.0 ou maior (agente Designer, decisão 017)', Number(versao.split('.')[0]) >= 7, versao);
+const designerTxt = ler('modelos/agentes/designer.md');
+const frontendTxt = ler('modelos/agentes/frontend.md');
+checar('017: o Designer cria identidade e telas; o Frontend só lê o Figma e constrói', designerTxt.includes('identidade') && !frontendTxt.includes('Criar a identidade e as telas no Figma') && frontendTxt.includes('Designer') && !/use_figma/.test(frontendTxt.split('## 4.')[1].split('## 5.')[0].split('Não pode:')[0]));
+checar('017: o Designer não integra, não tem Builders e não codifica', /nunca integra/i.test(designerTxt) && designerTxt.includes('não tem Builders') && designerTxt.includes('nunca escreve código'));
+const telasSkill = ler('skills/telas-e-fluxos/SKILL.md');
+const identidadeSkill = ler('skills/design-system-do-projeto/SKILL.md');
+const fluxo01 = ler('nucleo/01-fluxo-de-ponta-a-ponta.md');
+checar('017: o Designer sempre pede referências à pessoa (pela Lead) antes de criar, e não cria sem elas', designerTxt.includes('Sempre pede referências antes de criar') && designerTxt.includes('não começa a identidade sem as referências') && identidadeSkill.includes('Peça as referências') && fluxo01.includes('referências da pessoa'));
+checar('017: ordem referências → identidade → telas nos formatos desejados', designerTxt.includes('referências → identidade → telas') && fluxo01.includes('referências → identidade → telas') && designerTxt.includes('formatos'));
+checar('017: mobile-first quando há celular (Designer, skill de telas e núcleo 01)', /mobile-first/i.test(designerTxt) && /mobile-first/i.test(telasSkill) && /mobile-first/i.test(fluxo01) && /mobile-first/i.test(harnessFront));
+checar('017: núcleo 02 lista o Designer na tabela dos agentes', ler('nucleo/02-sessoes-e-papeis.md').includes('| Designer |'));
 checar('VERSION: 3.0.0 ou maior (um agente principal por projeto, decisão 010)', versao.split('.').map(Number).reduce((acc, n, i) => acc || (n !== [3, 0, 0][i] ? (n > [3, 0, 0][i] ? 'maior' : 'menor') : ''), '') !== 'menor', versao);
 
 const claude = ler('CLAUDE.md').toLowerCase();
@@ -576,7 +593,7 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     checar('novo-projeto.sh: DESENVOLVIMENTO.md explica o modo Orca', dev.includes('Orca'));
     checar('novo-projeto.sh: DESENVOLVIMENTO.md cita o AGENTS.md', dev.includes('AGENTS.md'));
     const linhaPapel = (texto, papel) => (texto.match(new RegExp(`^\\| ${papel} \\| ([^|]+) \\|`, 'm')) || [])[1]?.trim();
-    const PAPEIS = ['Lead', 'Product', 'Architect', 'Frontend', 'Backend', 'Security', 'Ops'];
+    const PAPEIS = ['Lead', 'Product', 'Architect', 'Frontend', 'Designer', 'Backend', 'Security', 'Ops'];
     checar('novo-projeto.sh: sem --agente, Lead no Claude Code e a tabela Ferramenta por papel (Backend, Security e Ops no Codex)', dev.includes('Lead: Claude Code') && dev.includes('## Ferramenta por papel') && PAPEIS.every((p) => linhaPapel(dev, p) === (['Backend', 'Security', 'Ops'].includes(p) ? 'Codex' : 'Claude Code')), PAPEIS.map((p) => `${p}=${linhaPapel(dev, p)}`).join(' '));
     checar('novo-projeto.sh: DESENVOLVIMENTO.md sem o back no Codex e o front no Claude', !dev.includes('Back com o Codex e front com o Claude'));
     checar('novo-projeto.sh: DESENVOLVIMENTO.md tem a seção Aprovações com os seis gatilhos', dev.includes('## Aprovações') && ['o que** será construído', 'desfazer', 'usuários reais', 'dinheiro ou muita cota', 'aceita um risco', 'regras do jogo'].every((g) => (dev.split('## Aprovações')[1] || '').includes(g)));
@@ -764,6 +781,7 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     lead: ['metodo:auditoria-de-seguranca', 'engineering:testing-strategy', 'engineering:documentation', 'superpowers:diagnosing-superpowers', '/ponytail-audit', '/ponytail-debt'],
     'backend': ['/ponytail-review', 'superpowers:requesting-code-review', 'superpowers:receiving-code-review', 'ponytail'],
     'frontend': ['/ponytail-review', 'superpowers:requesting-code-review', 'superpowers:receiving-code-review', 'design:design-handoff', 'reverse-engineer-anything', 'ponytail'],
+    designer: ['design:design-system', 'design:accessibility-review', 'design:design-critique', 'design:ux-copy', 'design:design-handoff', 'superpowers:brainstorming', 'figma-use'],
     ops: ['/ponytail-review', 'superpowers:requesting-code-review', 'engineering:documentation', 'superpowers:receiving-code-review', 'ponytail'],
     architect: ['reverse-engineer-anything'],
     security: ['reverse-engineer-anything'],

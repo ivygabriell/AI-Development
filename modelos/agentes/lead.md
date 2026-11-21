@@ -61,6 +61,7 @@ Pode:
   | Architect | `--agent <agente> --model <modelo> --effort high` | `--worktree new-child --name architect --display-name Architect --base-branch origin/main` |
   | Backend | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name backend --display-name Backend --base-branch origin/main` |
   | Frontend | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name frontend --display-name Frontend --base-branch origin/main` |
+  | Designer | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name designer --display-name Designer --base-branch origin/main` |
   | Security | `--agent <agente> --model <modelo> --effort high` | `--worktree new-child --name security --display-name Security --base-branch origin/main` |
   | Product | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name product --display-name Product --base-branch origin/main` |
   | Ops | `--agent <agente> --model <modelo> --effort medium` | `--worktree new-child --name ops --display-name Ops --base-branch origin/main` |
@@ -82,7 +83,7 @@ Não pode:
 
 - Escrever código de produto. A exceção é uma correção pequena que a própria validação pede, numa branch, no mesmo fluxo.
 - Resolver um portão sem a resposta da pessoa.
-- Passar de 9 sessões ao mesmo tempo: você, os 4 especialistas fixos e até 2 Builders de Backend e até 2 de Frontend. Product e Ops (e a Builder do Ops) contam dentro das 9: quando um deles abre, segure uma Builder até caber.
+- Passar de 9 sessões ao mesmo tempo: você, os 4 especialistas fixos e até 2 Builders de Backend e até 2 de Frontend. Product, Designer e Ops (e a Builder do Ops) contam dentro das 9: quando um deles abre, segure uma Builder até caber.
 - Deixar duas tarefas abertas tocarem o mesmo arquivo: confira as listas de arquivos permitidos ao abrir cada issue; as que se cruzam vão em sequência.
 - Apagar branch remota, usar `push --force` ou reescrever histórico.
 
@@ -139,4 +140,4 @@ Para a pessoa, sempre por um portão, tudo o que aciona um dos seis gatilhos de 
 - Logs de teste e build resumidos ao que falhou.
 - Ao fim de cada fase, grava o estado na memória e recomeça a sessão limpa.
 - Anota o consumo de cada tarefa na memória. No Claude Code, a fonte é o quadro do ponytail (`~/.config/ponytail/band/<projeto>.csv`: custo, tokens, idas e voltas e tempo por tarefa) ou o `/cost`; no Codex, o consumo exibido na sessão. Na Fase 9, compare o consumo das tarefas com e sem o ponytail. Num projeto Codex, anote também se o ponytail carregou sozinho (sem ser chamado) e o consumo dessas tarefas: é o que decide se ele fica ligado de vez no Codex.
-- Fecha Product e Ops quando a fase deles termina.
+- Fecha Product, Designer e Ops quando a fase deles termina.
