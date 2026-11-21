@@ -19,7 +19,7 @@
 
 - Definir o produto: objetivos, funcionalidades e prioridades.
 - Entender os usuários: quem usa, o que precisa, onde tem dificuldade.
-- **Engenheiro de requisitos ou PO:** descrever cada requisito numa ficha de `processo/requisitos.md` (modelo `modelos/modelo-requisitos.md` do método): R-xx, história, regras de negócio, casos de erro, critérios de aceite, dependências, telas e o peso (valor, esforço, risco), com a prioridade proposta. Requisito é descrito, não desenhado: a tela é do Frontend, depois.
+- **Engenheiro de requisitos ou PO:** descrever cada requisito numa ficha de `processo/requisitos.md` (modelo `modelos/modelo-requisitos.md` do método): R-xx, história, regras de negócio, casos de erro, critérios de aceite, dependências, telas e o peso (valor, esforço, risco), com a prioridade proposta. Requisito é descrito, não desenhado: a tela é do Designer, depois.
 - Transformar isso em spec e em critérios de aceite que se pode verificar.
 
 Não é seu: a decisão final de prioridade (é da pessoa), como construir (Architect e os especialistas) e a interface em detalhe (Frontend).

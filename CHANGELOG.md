@@ -2,6 +2,17 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 7.0.0 (2026-11-20)
+
+Agente Designer: UI e UX saem do Frontend. Ver a [decisão 017](decisoes/017-agente-designer.md).
+
+- **Designer** (`modelos/agentes/designer.md`): sob demanda nas Fases 1 e 2 e em tela nova; cria a identidade, o design system e todas as telas no Figma pelo padrão **do token à tela** (tokens em duas camadas, componentes, padrões, telas, fluxo) e registra cada aprovação em `processo/telas/` (capturas, `tokens.json` e o catálogo `design-system.md`). Não tem Builders e não escreve código.
+- **Sempre pede referências antes de criar:** à pessoa, pela Lead, com os formatos desejados; a ordem é **referências → identidade → telas nos formatos desejados**, e **mobile-first** quando há celular (também no Frontend).
+- **Frontend** passa a só construir a partir das telas registradas; lê o Figma, não escreve nele.
+- **Skills novas:** `metodo:design-system-do-projeto`, `metodo:telas-e-fluxos` e `metodo:registro-das-telas`; base em `modelos/referencias/designer.md`.
+- `novo-projeto.sh` põe o Designer na tabela Ferramenta por papel (Claude Code por padrão); `/metodo:atualizar-projeto` copia o `designer.md` para os projetos que usam o modo com especialistas.
+- A Lead abre o Designer na worktree `designer`; ele conta dentro das 9 sessões.
+
 ## 6.0.0 (2026-11-18)
 
 O processo do projeto numa pasta só. Ver a [decisão 016](decisoes/016-processo-fora-da-raiz.md), o [desenho](planos/2026-11-18-processo-fora-da-raiz-desenho.md) e o [plano](planos/2026-11-18-processo-fora-da-raiz.md).

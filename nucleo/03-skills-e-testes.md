@@ -16,6 +16,9 @@ Duas regras valem para **todas as sessões**, Lead ou Builder: usar a Skill cert
 | Front: formulário, validação e mensagens de erro | `metodo:formularios-e-erros` |
 | Front: tela lenta ou que pula (LCP, INP, CLS, imagens, fontes) | `metodo:desempenho-na-tela` |
 | Front: carregando, vazio, erro do serviço, ação demorada | `metodo:estados-da-tela` |
+| Design: tokens, componentes e o catálogo do design system | `metodo:design-system-do-projeto` |
+| Design: da ficha do requisito às telas, estados e fluxo | `metodo:telas-e-fluxos` |
+| Design: capturas, `tokens.json` e catálogo por PR | `metodo:registro-das-telas` |
 | Ops: como publicar código e configuração (canário, reversão) | `metodo:publicacao-gradual` |
 | Ops: metas de confiabilidade e alertas | `metodo:metas-e-alertas` |
 | Ops: workflows do GitHub Actions, segredos, PRs de fora | `metodo:ci-seguro` |

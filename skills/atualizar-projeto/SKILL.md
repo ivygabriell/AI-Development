@@ -32,7 +32,7 @@ ref="$(mktemp -d)"
 bash "${CLAUDE_PLUGIN_ROOT}/scripts/novo-projeto.sh" "$ref" [--agente <claude|codex>] <cenário>
 ```
 
-Sem `--agente`, a referência traz a Lead e a tabela **Ferramenta por papel** do método 4.0.0 (as duas ferramentas: a Lead, Product, Architect e Frontend no Claude Code; Backend, Security e Ops no Codex). Use `--agente <claude|codex>` só se a pessoa quiser uma ferramenta só (veja a tabela abaixo).
+Sem `--agente`, a referência traz a Lead e a tabela **Ferramenta por papel** do método 4.0.0 (as duas ferramentas: a Lead, Product, Architect, Frontend e Designer no Claude Code; Backend, Security e Ops no Codex). Use `--agente <claude|codex>` só se a pessoa quiser uma ferramenta só (veja a tabela abaixo).
 
 Se o projeto usa o modo com agentes especialistas (tem `processo/agentes/`, ou `docs/agentes/` antes da migração, ou a pessoa disse que sim), gere a referência com `--especialistas` depois de `"$ref"`, para ela trazer os harnesses e a linha do modo no `DESENVOLVIMENTO.md`.
 
@@ -57,6 +57,7 @@ Compare cada arquivo da referência com o do projeto e monte o plano, arquivo po
 | O projeto não tem `processo/agentes/` e a memória não diz o modo de execução | Pergunte se o projeto usa o modo com especialistas; só com o "sim", siga a linha abaixo |
 | O projeto usa o modo com especialistas e falta a linha dele em `processo/DESENVOLVIMENTO.md` | Acrescentar em "Tarefas e sessões" a linha da referência gerada com `--especialistas` (cada agente lê o seu harness em `processo/agentes/`; exige no Orca Settings → Orchestration → Nested worker depth = 2) |
 | O projeto escolheu o modo com especialistas e falta `processo/agentes/` ou um harness | Copiar de `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/` os harnesses que faltam, sem o `_modelo-harness.md`; um harness que o projeto já tem não é trocado: listar a diferença para a pessoa decidir |
+| O projeto usa o modo com especialistas, tem `processo/agentes/frontend.md` e falta o `designer.md` (7.0.0, decisão 017) | Copiar `${CLAUDE_PLUGIN_ROOT}/modelos/agentes/designer.md`. O `frontend.md` do projeto não é trocado: listar a diferença para a pessoa, porque a identidade e as telas passam do Frontend ao Designer. Acrescentar a linha `Designer` na tabela **Ferramenta por papel** (Claude Code, ou a ferramenta única do projeto) e a linha do Designer na tabela de especialistas da Lead, se o projeto tem a cópia dela |
 | Uma regra da referência contradiz uma decisão do projeto | Não trocar: listar para a pessoa decidir |
 
 Nomes dos harnesses (decisão 013 do método):
