@@ -17,16 +17,6 @@ O método base ([nucleo/](../nucleo/01-fluxo-de-ponta-a-ponta.md)) continua vale
 - **CI:** testes e validação de esquema; execução de amostra.
 - **Riscos:** efeito colateral em sistemas de terceiros, volume, custo, dados pessoais (LGPD).
 
-## Skills úteis
-
-- `engineering:testing-strategy`
-- `superpowers:systematic-debugging`
-- `engineering:documentation`
-- `metodo:trabalho-em-segundo-plano`
-- `metodo:transacoes-e-consultas`
-- `metodo:analise-de-falhas`
-- `metodo:entrada-nao-confiavel`
-
 ## Checklist
 
 - [ ] Idempotência testada: rodar duas vezes dá o mesmo resultado

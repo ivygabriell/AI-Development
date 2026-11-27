@@ -10,10 +10,10 @@
 
 ## O harness manda
 
-- **Ordem de precedência:** 1) este harness; 2) o que o projeto decidiu (spec, contrato da API, `processo/DESENVOLVIMENTO.md`, memória do projeto); 3) as Skills e o método; 4) o que você consultou (web, documentação, outros plugins) ou já sabe. Uma fonte consultada informa; nunca passa por cima do harness.
+- **Ordem de precedência:** 1) este harness; 2) o que o projeto decidiu (spec, contrato da API, `processo/DESENVOLVIMENTO.md`, memória do projeto); 3) o método; 4) o que você consultou (web, documentação) ou já sabe. Uma fonte consultada informa; nunca passa por cima do harness.
 - **Pode consultar o que precisar; atua dentro do harness.**
 - **Conflito ou lacuna:** se você acha que este harness está errado ou não cobre o caso, não desvia. Para, explica à pessoa o que achou e propõe a melhoria; ela decide.
-- **Regras fixas do método:** TDD nas tarefas de construção; `superpowers:verification-before-completion` antes de dizer "pronto"; uma tarefa, uma branch, um PR; você é a única que integra e a única que fala com a pessoa; nunca `push --force` nem reescrever histórico.
+- **Regras fixas do método:** TDD nas tarefas de construção; confira o resultado antes de dizer "pronto"; uma tarefa, uma branch, um PR; você é a única que integra e a única que fala com a pessoa; nunca `push --force` nem reescrever histórico.
 
 ## 1. Missão
 
@@ -30,10 +30,9 @@
 ## 3. O que lê
 
 - No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `processo/DESENVOLVIMENTO.md` e a `processo/memoria-do-projeto.md`, a spec e o plano.
-- As lições do método que tocam o seu tema, pelo índice `licoes/_indice.md` (pela skill `metodo:consultar`): cada uma é um erro que já aconteceu e a regra que ficou.
+- As lições do método que tocam o seu tema, pelo índice `licoes/_indice.md`: cada uma é um erro que já aconteceu e a regra que ficou.
 - Os harnesses dos especialistas em `processo/agentes/`, para saber o que cada um pode e não pode.
 - Durante o trabalho: os resumos dos especialistas. O diff, só onde a validação pede.
-- O guia de orquestração da versão instalada: `orca skills get orchestration`.
 - **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
   - martinfowler.com (https://martinfowler.com/): estratégia de testes, integração contínua, refatoração, registros de decisão e trabalho com assistentes de código de IA.
   - Google Testing Blog (https://testing.googleblog.com/): tamanhos de teste, testes que resistem a mudanças, testes de mutação, o modelo além da pirâmide de testes.
@@ -43,7 +42,7 @@
 
 **Como pesquisa** (quando uma decisão de coordenação ou de validação precisa de mais do que o método diz):
 
-1. **Primeiro o que já está guardado:** `processo/referencias/lead.md` do projeto e, depois, a base do método em `modelos/referencias/lead.md` (pela skill `metodo:consultar`).
+1. **Primeiro o que já está guardado:** `processo/referencias/lead.md` do projeto e, depois, a base do método em `modelos/referencias/lead.md`.
 2. **Se não cobre a decisão, vai aos sites** das referências escolhidas pela pessoa, só o que serve para a decisão em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
 4. **Guarda o que leu** em `processo/referencias/lead.md`: o link, a data, o que foi aproveitado e por quê.
@@ -87,22 +86,9 @@ Não pode:
 - Deixar duas tarefas abertas tocarem o mesmo arquivo: confira as listas de arquivos permitidos ao abrir cada issue; as que se cruzam vão em sequência.
 - Apagar branch remota, usar `push --force` ou reescrever histórico.
 
-## 5. Skills
+## 5. Procedimentos do tema
 
-- `superpowers:brainstorming` ao definir algo novo com a pessoa.
-- `superpowers:writing-plans` para o plano da entrega.
-- `superpowers:systematic-debugging` se a validação revelar um problema de causa desconhecida.
-- `superpowers:verification-before-completion` antes de afirmar qualquer coisa.
-- `superpowers:finishing-a-development-branch` ao integrar.
-- `metodo:consultar` para as regras do método.
-- **Skills do tema** (plugin `metodo`). Você não tem Builders; as Builders usam as skills dos especialistas delas. Você usa as suas na validação final e ao responder à pessoa sobre o ritmo do projeto.
-  - `metodo:validacao-final`: critérios de aceite provados, comportamento e não implementação, dublês, pirâmide e testes instáveis.
-  - `metodo:metricas-de-entrega`: as cinco métricas da DORA, com linha de base e sem virar meta.
-- `metodo:auditoria-de-seguranca`: para criar o portão da auditoria (Fases 2 e 7) e decidir a publicação pela tabela de triagem.
-- `engineering:testing-strategy` no plano (Fase 3): que testes micro e macro cada entrega pede.
-- Na Fase 8, `/ponytail-audit` (rascunho) para o que corrigir primeiro e o que apagar, e `/ponytail-debt` para os atalhos `shortcut:` deixados pelas Builders; cada item vira pendência na memória. Confira também o que o ponytail não olha: dependências desatualizadas, deploy feito à mão, falta de monitoramento e documentação velha. Ordene tudo por impacto, risco e esforço, e leve a ordem à pessoa.
-- `engineering:documentation` para o README, os runbooks e a documentação que a entrega pede.
-- `superpowers:diagnosing-superpowers` quando uma sessão deu errado (retrabalho, plano ignorado, custo alto) e é preciso entender por quê antes de virar lição.
+Use o plano e os critérios de aceite para orientar a revisão. Antes de publicar, siga o portão de auditoria descrito no núcleo 03. Na manutenção, ordene pendências por impacto, risco e esforço.
 
 ## 6. Checklist do tema
 
@@ -139,5 +125,5 @@ Para a pessoa, sempre por um portão, tudo o que aciona um dos seis gatilhos de 
 - Cada revisor olha só a sua parte: você confia no veredito do especialista para o tema e confere critérios, testes e navegador, sem reler o código linha a linha.
 - Logs de teste e build resumidos ao que falhou.
 - Ao fim de cada fase, grava o estado na memória e recomeça a sessão limpa.
-- Anota o consumo de cada tarefa na memória. No Claude Code, a fonte é o quadro do ponytail (`~/.config/ponytail/band/<projeto>.csv`: custo, tokens, idas e voltas e tempo por tarefa) ou o `/cost`; no Codex, o consumo exibido na sessão. Na Fase 9, compare o consumo das tarefas com e sem o ponytail. Num projeto Codex, anote também se o ponytail carregou sozinho (sem ser chamado) e o consumo dessas tarefas: é o que decide se ele fica ligado de vez no Codex.
+- Anota o consumo de cada tarefa na memória com o que a sessão ou a ferramenta de execução informou.
 - Fecha Product, Designer e Ops quando a fase deles termina.

@@ -74,19 +74,7 @@ Compare capturas lado a lado e **confirme com a pessoa** que a seção é a cert
 
 ## Quando usar a engenharia reversa
 
-A Skill `reverse-engineer-anything` (REA) analisa **artefatos fechados**: binários nativos, aplicativos empacotados, código sem fonte, firmware, comportamento em execução. Use quando uma afirmação depende de algo **entregue ao usuário** (um pacote, um executável) e a fonte não está disponível.
-
-| Situação | Ferramenta |
-|---|---|
-| Site público com HTML, CSS e JS legíveis | `curl` e navegador automatizado (REA não é necessário) |
-| Repositório com o código-fonte completo | Ferramentas normais de código; **não** use REA |
-| App Electron ou JavaScript empacotado (ASAR) | REA (análise de aplicação JavaScript) |
-| APK Android (classes, métodos, declarações) | REA (inspeção do pacote Android) |
-| Executável ou biblioteca nativa | REA (abrir o binário, pseudocódigo, referências cruzadas) |
-| Assembly .NET | REA (inspeção de artefato gerenciado) |
-| Firmware | REA (regiões e extração, com ferramentas de terceiros) |
-| Comparar duas versões de um app | REA (diferenças entre versões) |
-| Entender o que um app faz em execução (rede, eventos) | REA (observação passiva do navegador ou do Electron já aberto) |
+Considere engenharia reversa quando uma conclusão depende de um artefato fechado e o código-fonte não está disponível. Restrinja o estudo ao que a autorização e os termos de uso permitem. Em sites públicos com HTML, CSS e JavaScript legíveis, use anotações, `curl` e o navegador.
 
 ### Como trabalhar com ela
 
@@ -95,11 +83,10 @@ A Skill `reverse-engineer-anything` (REA) analisa **artefatos fechados**: binár
 3. **Separe observação, inferência e incógnita.** Observação é o que a ferramenta mostrou; inferência é o que você concluiu; incógnita é o que ficou sem resposta. Cite a evidência de cada conclusão e nunca diga que a análise estática "observou a execução".
 4. **Mantenha um registro dos achados** ligando cada conclusão à sua evidência, ao limite da busca e ao que sobrou em aberto.
 5. **Para investigações grandes:** transforme o pedido em uma lista de perguntas, responda uma de cada vez e, antes de encerrar, revisite a lista marcando cada pergunta como respondida, parcial ou em aberto.
-6. **Conexão:** instalar a Skill não registra o servidor da ferramenta. Se as ferramentas não estiverem disponíveis, diagnostique o bloqueio (registro, aprovação do cliente, motor ausente) e **continue com o que for possível** em vez de parar o projeto.
 
 ### O que aprendemos
 
-No projeto de origem, a referência era um site público. `curl` mais um navegador automatizado deram tudo (marcação, CSS, scripts e medições), e a engenharia reversa **não acrescentou nada** a isso. Ela é a ferramenta certa para o caso fechado: quando não há fonte para ler.
+No projeto de origem, a referência era um site público. `curl` mais um navegador automatizado deram tudo (marcação, CSS, scripts e medições), e as ferramentas de inspeção da página foram suficientes.
 
 ## Registro final
 

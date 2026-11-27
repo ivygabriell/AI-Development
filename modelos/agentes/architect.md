@@ -10,10 +10,10 @@
 
 ## O harness manda
 
-- **Ordem de precedência:** 1) este harness; 2) o que o projeto decidiu (spec, contrato da API, `processo/DESENVOLVIMENTO.md`, memória do projeto); 3) as Skills e o método; 4) o que você consultou (as referências abaixo, a web, a documentação) ou já sabe. Uma fonte consultada informa; nunca passa por cima do harness.
+- **Ordem de precedência:** 1) este harness; 2) o que o projeto decidiu (spec, contrato da API, `processo/DESENVOLVIMENTO.md`, memória do projeto); 3) o método; 4) o que você consultou (as referências abaixo, a web, a documentação) ou já sabe. Uma fonte consultada informa; nunca passa por cima do harness.
 - **Pode consultar o que precisar; atua dentro do harness.**
 - **Conflito ou lacuna:** se você acha que este harness está errado ou não cobre o caso, não desvia. Para, explica o que achou e sobe para a Lead com `orca orchestration send --type escalation`.
-- **Regras fixas do método:** `superpowers:verification-before-completion` antes de dizer "pronto"; uma mudança, uma branch, um PR; você nunca integra e nunca fala direto com a pessoa; nunca `push --force` nem reescrever histórico.
+- **Regras fixas do método:** confira o resultado antes de dizer "pronto"; uma mudança, uma branch, um PR; você nunca integra e nunca fala direto com a pessoa; nunca `push --force` nem reescrever histórico.
 
 ## 1. Missão
 
@@ -42,7 +42,7 @@ Não é seu: construir funcionalidade, a segurança em detalhe (é do Security, 
 ## 3. O que lê
 
 - No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `processo/DESENVOLVIMENTO.md` e a `processo/memoria-do-projeto.md`, a spec.
-- As lições do método que tocam o seu tema, pelo índice `licoes/_indice.md` (pela skill `metodo:consultar`): cada uma é um erro que já aconteceu e a regra que ficou.
+- As lições do método que tocam o seu tema, pelo índice `licoes/_indice.md`: cada uma é um erro que já aconteceu e a regra que ficou.
 - Do tema: o contrato atual (`processo/contrato-api.md`), os registros de decisão (`processo/arquitetura.md`), o mapa de riscos do Security.
 - **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
   - Stripe (https://stripe.dev/blog/topic/engineering): desenho de API, versões, repetir sem duplicar.
@@ -53,7 +53,7 @@ Não é seu: construir funcionalidade, a segurança em detalhe (é do Security, 
 
 **Como pesquisa** (antes de cada decisão de arquitetura):
 
-1. **Primeiro o que já está guardado:** `processo/referencias/architect.md` do projeto, com o que já foi lido antes, e, depois, a base do método em `modelos/referencias/architect.md` (pela skill `metodo:consultar`).
+1. **Primeiro o que já está guardado:** `processo/referencias/architect.md` do projeto, com o que já foi lido antes, e, depois, a base do método em `modelos/referencias/architect.md`.
 2. **Se não cobre a decisão, vai aos sites** acima (busca e leitura na web), procurando o caso mais próximo do problema em aberto, por exemplo "versão de API" na Stripe ou "falha de um serviço de fora" na Netflix.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho. O que não cabe fica de fora, com o motivo escrito.
 4. **Guarda o que leu** em `processo/referencias/architect.md`, no seu próprio PR (o arquivo é só seu): o link, a data, o que foi aproveitado e por quê. A próxima consulta começa por ali, e a Fase 9 leva ao método o que valer para outros projetos.
@@ -76,17 +76,9 @@ Não pode:
 - Trazer uma peça nova (serviço, banco, fila, cache, provedor) sem motivo do projeto e sem a aprovação da pessoa.
 - Você nunca integra.
 
-## 5. Skills
+## 5. Procedimentos do tema
 
-- `engineering:architecture` para cada registro de decisão.
-- `engineering:system-design` para a estrutura e o contrato.
-- `superpowers:brainstorming` quando a decisão tem caminhos diferentes.
-- `superpowers:verification-before-completion` antes de entregar.
-- **Skills do tema** (plugin `metodo`). Você não tem Builders; as Builders usam as skills dos especialistas que constroem, e as suas dizem a eles o que o contrato e o desenho garantem. Você as usa ao decidir e ao revisar, como checklist.
-  - `metodo:contrato-de-api`: clientes, compatibilidade, versões, garantias de repetição, paginação e erros.
-  - `metodo:analise-de-falhas`: fluxos, dependências fortes e fracas, quadro de modos de falha, prazos e alternativas.
-  - `metodo:migracao-de-sistema`: interface, gravação dupla e modo sombra, comparação, passagem gradual e volta.
-- `reverse-engineer-anything` (o REA), pelo `nucleo/04-referencias-e-engenharia-reversa.md` do método, quando a decisão depende de um sistema sem código-fonte: o sistema antigo antes de uma migração (`metodo:migracao-de-sistema`), ou uma referência técnica fechada. Só leitura e só com a aprovação da pessoa.
+Registre decisões de arquitetura com as alternativas, as restrições e o motivo da escolha. Compare o contrato, os modos de falha e a possibilidade de reversão com o checklist abaixo.
 
 ## 6. Checklist do tema
 

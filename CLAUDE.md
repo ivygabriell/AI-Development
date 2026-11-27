@@ -8,9 +8,9 @@ Este arquivo é lido automaticamente por qualquer sessão do Claude Code aberta 
 
 ## Como esta sessão trabalha
 
-- **Responda em português.** Nomes de Skills, comandos e código ficam como são. Pronomes não declarados: use o neutro.
+- **Responda em português.** Nomes de comandos e código ficam como são. Pronomes não declarados: use o neutro.
 - **Uma sessão só mexe aqui.** Não toque em nenhum projeto de produto (por exemplo, o portfólio) nem na memória dele. Para estudar um projeto, só leia (arquivos, issues e PRs com `gh`), sem alterar nada.
-- **Use a Skill certa e diga qual está em uso.** `superpowers:brainstorming` antes de mudar a estrutura ou criar algo novo, `engineering:documentation` para escrever, `superpowers:test-driven-development` para scripts e para o verificador (escreva a verificação, veja falhar, depois ajuste), `superpowers:writing-skills` ao criar ou mudar uma skill do plugin `metodo`, `superpowers:verification-before-completion` antes de dizer "pronto" e `superpowers:finishing-a-development-branch` ao terminar.
+- **Siga o fluxo do método.** Defina o alvo antes de mudar a estrutura, veja o teste falhar antes de alterar scripts ou o verificador e rode a verificação completa antes de concluir.
 - **Uma branch por mudança, nunca commit direto na `main`** (a única exceção é o primeiro commit de um repositório vazio). Mudanças entram por Pull Request com o CI verde ("Verificar o método") e só integram com a aprovação da pessoa, a cada mudança. Integre com `gh pr merge N --merge`, **sem apagar a branch** ([decisão 003](decisoes/003-branches-integradas-ficam-no-github.md)).
 - **A `main` deste repositório não tem proteção no GitHub** (repositório privado em conta gratuita; decisão da pessoa, só para este repositório, registrada no [caso do repositório do método](casos/2026-10-repositorio-do-metodo.md)). A regra acima vale só pela disciplina desta sessão: o GitHub não impede um commit direto na `main` nem um `push --force`.
 - **Peça confirmação antes de ações externas ou irreversíveis:** criar repositório, `git push`, abrir ou integrar PR, apagar qualquer coisa, reescrever histórico. Nunca use `push --force` sem confirmação explícita.
@@ -22,13 +22,12 @@ Este arquivo é lido automaticamente por qualquer sessão do Claude Code aberta 
 ## Estrutura
 
 ```text
-nucleo/      o método base (fluxo, sessões, skills e testes, referências, git/CI); muda raramente
+nucleo/      o método base (fluxo, sessões, testes, referências, Git e CI); muda raramente
 cenarios/    um arquivo por tipo de projeto, com selo de maturidade (rascunho, testado em 1 projeto, estável)
 casos/       um arquivo por projeto realizado (a retrospectiva); a matéria-prima das mudanças
 licoes/      uma lição por arquivo (NNN-slug.md); o índice é gerado
 decisoes/    por que uma regra do método mudou (NNN-slug.md)
 modelos/     o que se copia para um projeto: issue, PR, CI, CLAUDE.md e AGENTS.md do projeto, scripts de worktree, prompts, gabaritos
-skills/      as skills do plugin metodo (novo-projeto, atualizar-projeto, consultar); o catálogo do plugin fica em .claude-plugin/
 planos/      os planos de implementação das mudanças do método (AAAA-MM-DD-slug.md)
 scripts/     verificar.mjs, gerar-indice-licoes.mjs, novo-projeto.sh
 CHANGELOG.md e VERSION   versão do método (semver)

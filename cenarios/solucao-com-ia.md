@@ -17,17 +17,6 @@ O método base ([nucleo/](../nucleo/01-fluxo-de-ponta-a-ponta.md)) continua vale
 - **CI:** avaliação automática em amostra; avaliação completa antes de publicar.
 - **Riscos:** alucinação, vazamento de dados, custo imprevisível, dependência de um provedor.
 
-## Skills úteis
-
-- `engineering:testing-strategy`
-- `engineering:system-design`
-- `superpowers:systematic-debugging`
-- `metodo:entrada-nao-confiavel`
-- `metodo:analise-de-falhas`
-- `metodo:trabalho-em-segundo-plano`
-- `metodo:auditoria-de-seguranca`
-- Na auditoria de segurança, a `security-audit` escolhe as classes de ataque de IA e agentes (injeção de prompt, ferramentas, memória)
-
 ## Checklist
 
 - [ ] Conjunto de avaliação com casos reais e critérios de nota

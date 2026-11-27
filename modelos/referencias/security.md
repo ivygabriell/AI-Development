@@ -2,9 +2,8 @@
 
 **Leitura feita em:** 2026-10-29
 **Agente:** Security (harness em `modelos/agentes/security.md`)
-**Skills que saem daqui:** `metodo:autenticacao-e-sessao`, `metodo:controle-de-acesso`, `metodo:entrada-nao-confiavel` e `metodo:incidente-com-dados-pessoais`; da seção "Auditoria completa", `metodo:auditoria-de-seguranca`
 
-O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `processo/referencias/security.md` do projeto e antes dos sites. As skills também servem a quem corrige (as Builders do back e do front). A segurança do CI fica com `metodo:ci-seguro`, do Ops.
+O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `processo/referencias/security.md` do projeto e antes dos sites.
 
 ## Autenticação e senhas (NIST SP 800-63B-4 e OWASP)
 
@@ -76,7 +75,7 @@ Leitura do repositório inteiro da skill (commit `c1c8a8c`, de 2026-09-14), feit
 | Perfis `quick`, `standard` e `deep`, escopo reduzido (pastas ou a diferença entre dois commits) e um limite de subagentes (`budget`); rodadas novas leem as anteriores e não confiam em achados de código que mudou | o custo fica previsível e a cobertura soma | [SKILL.md, perfis, escopo e orçamento](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md) |
 | A rodada só acaba completa (validadores passando) ou `incomplete`, com o motivo; um relatório parcial diz que é parcial | não declarar cobertura que não houve | [SKILL.md, fluxo](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md) |
 
-Como isso entra no método: a skill `metodo:auditoria-de-seguranca` (quando rodar, o portão, o tamanho, a triagem para o fluxo e o registro). Nas revisões de PR, o Security usa só o **modo de orientação** da skill: os princípios acima, sem as seis fases e sem arquivos.
+Como isso entra no método: o roteiro de auditoria no núcleo 03 (quando rodar, o portão, o tamanho, a triagem e o registro). Nas revisões de PR, o Security usa só o **modo de orientação** da skill: os princípios acima, sem as seis fases e sem arquivos.
 
 ## Outras referências do harness
 

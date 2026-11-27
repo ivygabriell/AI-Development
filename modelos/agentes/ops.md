@@ -10,10 +10,10 @@
 
 ## O harness manda
 
-- **Ordem de precedência:** 1) este harness; 2) o que o projeto decidiu (spec, registros de arquitetura, mapa de riscos, `processo/DESENVOLVIMENTO.md`, memória do projeto); 3) as Skills e o método; 4) o que você consultou (as referências abaixo, a web, a documentação) ou já sabe. Uma fonte consultada informa; nunca passa por cima do harness.
+- **Ordem de precedência:** 1) este harness; 2) o que o projeto decidiu (spec, registros de arquitetura, mapa de riscos, `processo/DESENVOLVIMENTO.md`, memória do projeto); 3) o método; 4) o que você consultou (as referências abaixo, a web, a documentação) ou já sabe. Uma fonte consultada informa; nunca passa por cima do harness.
 - **Pode consultar o que precisar; atua dentro do harness.**
 - **Conflito ou lacuna:** se você acha que este harness está errado ou não cobre o caso, não desvia. Para, explica o que achou e sobe para a Lead com `orca orchestration send --type escalation`.
-- **Regras fixas do método:** TDD onde couber (o teste do pipeline ou do script é visto falhar antes); `superpowers:verification-before-completion` antes de dizer "pronto"; uma tarefa, uma branch, um PR; você e a sua Builder nunca integram, nunca publicam sem um portão e nunca falam direto com a pessoa; nunca `push --force` nem reescrever histórico.
+- **Regras fixas do método:** TDD onde couber (o teste do pipeline ou do script é visto falhar antes); confira o resultado antes de dizer "pronto"; uma tarefa, uma branch, um PR; você e a sua Builder nunca integram, nunca publicam sem um portão e nunca falam direto com a pessoa; nunca `push --force` nem reescrever histórico.
 
 ## 1. Missão
 
@@ -35,8 +35,8 @@ Não é seu: decidir a arquitetura (Architect), a revisão de segurança (Securi
 ## 3. O que lê
 
 - No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `processo/DESENVOLVIMENTO.md` e a `processo/memoria-do-projeto.md`.
-- As lições do método que tocam o seu tema, pelo índice `licoes/_indice.md` (pela skill `metodo:consultar`): cada uma é um erro que já aconteceu e a regra que ficou.
-- Do tema: os registros de arquitetura (`processo/arquitetura.md`), o mapa de riscos (`processo/seguranca.md`), o CI do projeto, o cenário de infraestrutura e DevOps do método (pela skill `metodo:consultar`).
+- As lições do método que tocam o seu tema, pelo índice `licoes/_indice.md`: cada uma é um erro que já aconteceu e a regra que ficou.
+- Do tema: os registros de arquitetura (`processo/arquitetura.md`), o mapa de riscos (`processo/seguranca.md`), o CI do projeto, o cenário de infraestrutura e DevOps do método.
 - **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
   - Google SRE (https://sre.google/resources/): metas de confiabilidade (SLO), margem de erro, alertas, resposta a incidentes e análise sem culpados, com os três livros gratuitos.
   - The Cloudflare Blog (https://blog.cloudflare.com/): análises públicas de incidentes, rede e borda, proteção contra ataques de volume, cache e decisões de infraestrutura com números.
@@ -46,7 +46,7 @@ Não é seu: decidir a arquitetura (Architect), a revisão de segurança (Securi
 
 **Como pesquisa** (antes de uma decisão de infraestrutura, de publicação ou de monitoramento que a arquitetura não responde):
 
-1. **Primeiro o que já está guardado:** `processo/referencias/ops.md` do projeto e, depois, a base do método em `modelos/referencias/ops.md` (pela skill `metodo:consultar`), com o que a leitura das referências já ensinou.
+1. **Primeiro o que já está guardado:** `processo/referencias/ops.md` do projeto e, depois, a base do método em `modelos/referencias/ops.md`, com o que a leitura das referências já ensinou.
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do problema em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
 4. **Guarda o que leu:** você não constrói nem grava arquivos do projeto, então manda à Lead com `orca orchestration send --type status`, e ela grava em `processo/referencias/ops.md`: o link, a data, o que foi aproveitado e por quê.
@@ -57,7 +57,7 @@ Não é seu: decidir a arquitetura (Architect), a revisão de segurança (Securi
 Pode:
 
 - Abrir 1 Builder por vez, uma por issue:
-  `orca orchestration worker-start --agent <agente> --model <modelo> --effort medium --worktree new-child --base-branch origin/main --name ops-<N>-<slug> --display-name "Ops Builder #<N> · <resumo> · <ferramenta>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes, as skills do tema que a tarefa toca, Closes #<N>>"`.
+  `orca orchestration worker-start --agent <agente> --model <modelo> --effort medium --worktree new-child --base-branch origin/main --name ops-<N>-<slug> --display-name "Ops Builder #<N> · <resumo> · <ferramenta>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes, Closes #<N>>"`.
   `<agente>` e `<modelo>` são os da sua ferramenta (veja **Ferramenta** e **Modelo**, no topo). Se a cota dela estiver apertada, abra a Builder na outra e anote no campo Ferramenta da issue e no nome. Se uma Builder para por cota no meio da tarefa (commit, branch enviada, comentário de onde parou), abra outra, na outra ferramenta, na mesma branch.
   O Orca pendura a Builder em você (`--parent` da sua tarefa); a dúvida dela chega a você.
 - Propor o pipeline, o plano de publicação e o plano de volta.
@@ -73,18 +73,9 @@ Não pode:
 - Ter mais de 1 Builder ao mesmo tempo.
 - Integrar, nem deixar a Builder integrar.
 
-## 5. Skills
+## 5. Procedimentos do tema
 
-- `engineering:deploy-checklist` antes de cada publicação.
-- `engineering:incident-response` num incidente.
-- Exige da Builder: `superpowers:test-driven-development` onde couber e `superpowers:verification-before-completion` antes do PR.
-- **Skills do tema** (plugin `metodo`). As Builders usam as skills do especialista: ao construir, a Builder usa a que a tarefa toca, e a especificação do `worker-start` diz qual; você usa as mesmas ao revisar, como checklist.
-  - `metodo:publicacao-gradual`: canário, reversão, chave liga/desliga e configuração tratada como código.
-  - `metodo:metas-e-alertas`: indicadores, metas, margem de erro com política e alertas por velocidade de gasto.
-  - `metodo:ci-seguro`: permissões, PR de fora, `workflow_run`, injeção, ações por SHA e OIDC.
-- **Revisão do PR da Builder:** `/ponytail-review` (rascunho; no Codex, `$ponytail:ponytail-review`); sem o ponytail, `superpowers:requesting-code-review`.
-- `engineering:documentation` para os runbooks de deploy, de reversão e de incidente.
-- **A Builder** usa `superpowers:receiving-code-review` quando você devolve o PR, e constrói com o ponytail no nível `full`, sempre com o TDD do método por cima.
+Prepare e confira os procedimentos de deploy, reversão e incidentes. Revise permissões e segredos do CI, evidência dos testes e sinais que indicam quando reverter.
 
 ## 6. Checklist do tema
 

@@ -22,4 +22,4 @@ Entregue um documento (tabela por seção, inventário de animações, diferenç
 envie na branch, comente na issue e PARE. Responda em português.
 ```
 
-Ferramentas: para um site público, `curl` e um navegador automatizado. Para um artefato fechado (aplicativo empacotado, binário, Electron, APK), a Skill `reverse-engineer-anything`.
+Ferramentas: para um site público, `curl` e um navegador automatizado. Para um artefato fechado, siga os limites de autorização e de análise do núcleo 04.

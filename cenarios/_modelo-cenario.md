@@ -17,10 +17,6 @@ O método base continua valendo. O que muda neste tipo de projeto:
 - **CI:** o que o pipeline executa a cada PR.
 - **Riscos:** o que costuma dar errado e quais testes-guarda valem a pena.
 
-## Skills úteis
-
-- `superpowers:...` (use nomes exatos; o verificador confere)
-
 ## Checklist
 
 - [ ] Início: o alvo e os critérios de aceite estão escritos

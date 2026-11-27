@@ -2,7 +2,6 @@
 
 **Leitura feita em:** 2026-10-30
 **Agente:** Lead (harness em `modelos/agentes/lead.md`)
-**Skills que saem daqui:** `metodo:validacao-final` e `metodo:metricas-de-entrega`
 
 O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde a Lead procura, depois do `processo/referencias/lead.md` do projeto e antes dos sites. As regras de testes do método (micro e macro, RED antes de GREEN) estão no `nucleo/03-skills-e-testes.md`.
 

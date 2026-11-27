@@ -2,9 +2,8 @@
 
 **Leitura feita em:** 2026-10-29
 **Agente:** Frontend (harness em `modelos/agentes/frontend.md`)
-**Skills que saem daqui:** `metodo:formularios-e-erros`, `metodo:desempenho-na-tela` e `metodo:estados-da-tela`
 
-O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `processo/referencias/frontend.md` do projeto e antes dos sites. A revisão geral de acessibilidade continua com `design:accessibility-review`, e os textos de interface com `design:ux-copy`.
+O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `processo/referencias/frontend.md` do projeto e antes dos sites.
 
 **Decisão da pessoa (2026-10-29):** quando as fontes discordam sobre a hora de mostrar o erro de um campo, vale o GOV.UK (ao avançar ou enviar), não o NN/g (ao sair do campo).
 

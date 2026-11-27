@@ -1,6 +1,6 @@
 # 01 · Fluxo de ponta a ponta
 
-Da ideia à manutenção, em dez fases (0 a 9). Cada fase tem uma **entrada**, um **resultado**, a **Skill** que a conduz, quem a executa e o **portão** que a fecha. O princípio que organiza tudo: nunca construa antes de o alvo estar definido e aprovado, e nunca diga que terminou sem evidência.
+Da ideia à manutenção, em dez fases (0 a 9). Cada fase tem uma **entrada**, um **resultado**, quem a executa e o **portão** que a fecha. O princípio que organiza tudo: nunca construa antes de o alvo estar definido e aprovado, e nunca diga que terminou sem evidência.
 
 ## Classificação do pedido
 
@@ -16,7 +16,6 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 
 - **Entrada:** o pedido da pessoa, quase sempre incompleto.
 - **Passos:** identifique o resultado esperado, para quem é e como saber que deu certo. Pergunte **uma coisa por vez**, de preferência com opções. Escreva de volta o entendimento em poucas linhas, separando o que a pessoa disse do que você supôs.
-- **Skill:** `superpowers:brainstorming`.
 - **Resultado:** um entendimento que a pessoa reconhece e corrige.
 - **Portão:** a pessoa confirma o entendimento.
 
@@ -24,7 +23,6 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 
 - **Entrada:** o entendimento da Fase 0.
 - **Passos:** leia o que já existe (código, documentos, histórico). Se há uma referência externa (um site, um app), estude-a de verdade, com medições, e não de memória: veja [04](04-referencias-e-engenharia-reversa.md). Ache a referência pelo **título exato** que a pessoa citou.
-- **Skill:** `reverse-engineer-anything` quando a referência é um artefato fechado; para sites públicos bastam `curl` e o navegador.
 - **Resultado:** um registro dos achados (o quê, como, valor, fonte).
 - **Portão:** se o que você achou não bate com o que foi pedido, **pare e pergunte**.
 
@@ -35,8 +33,7 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 - **Requisitos:** o Product (sem o modo com especialistas, a Lead), no papel de engenheiro de requisitos ou PO, descreve cada requisito numa ficha de `processo/requisitos.md`, pelo [modelo de requisitos](../modelos/modelo-requisitos.md): história, regras de negócio, casos de erro, critérios de aceite, dependências, telas e o peso (valor, esforço, risco), com a prioridade proposta. A pessoa aprova a lista, os pesos e a ordem.
 - **Identidade e todas as telas, no Figma** (com interface): o Designer ([decisão 017](../decisoes/017-agente-designer.md); sem o modo com especialistas, a Lead) começa **pedindo as referências da pessoa** (sites, apps, marcas de que ela gosta, e os formatos desejados: celular, tablet, desktop), sem as quais não cria nada, e segue a ordem **referências → identidade → telas nos formatos desejados**. Cria no Figma, pelo servidor MCP oficial, seguindo o padrão **do token à tela**: 1) tokens (cores, tipografia, espaçamentos, em duas camadas), 2) componentes base com variantes e estados, 3) padrões (formulário, lista, vazio, erro), 4) todas as telas de cada requisito, com os estados (vazio, carregando, erro, sucesso), celular e desktop, e 5) o fluxo navegável. Com celular entre os formatos, vale o **mobile-first**: o celular é desenhado e construído primeiro, e tablet e desktop acrescentam. A identidade (etapas 1 a 3, com logo, ícones e tom de voz) tem o seu portão antes das telas (etapas 4 e 5). A cada aprovação da pessoa, o registro entra no repositório por PR: `processo/telas/` com uma captura por tela e estado, a data e o link do frame, e `processo/telas/tokens.json` com os tokens do Figma, e o catálogo `processo/telas/design-system.md`, que o Frontend transforma no design system do código. O link do arquivo fica na linha `Telas:` do `processo/DESENVOLVIMENTO.md`. Toda mudança de tela começa no Figma; o código segue só a versão registrada. Escrever no Figma exige assento Full: ligar é decisão da pessoa (gatilho de custo); sem ele, a pessoa desenha no Figma e os agentes só leem.
 - **Passos da spec:** proponha 2 ou 3 abordagens com a sua recomendação; apresente o desenho em partes e peça aprovação a cada parte; escreva a spec (objetivo, restrições, estrutura, dados, critérios de aceite, o que fica de fora) e faça uma autorrevisão (pendências, contradições, ambiguidade, escopo).
-- **Mapa de riscos de segurança**, junto da spec: o primeiro uso da `security-audit`, no modo de orientação (sem código ainda), pelo roteiro de `metodo:auditoria-de-seguranca`: quem usa e quem tem menos confiança, as fronteiras de confiança, as superfícies de entrada e os domínios de ataque que se aplicam. Fica em `processo/seguranca.md` e vira critério de aceite nas issues. No modo com especialistas, quem faz é o Security; nos outros, a Lead.
-- **Skill:** `superpowers:brainstorming`; `metodo:necessidades-e-riscos` e `metodo:descoberta-continua` para os requisitos; `metodo:design-system-do-projeto`, `metodo:telas-e-fluxos` e `metodo:registro-das-telas` (Designer), com `design:design-system`, `design:ux-copy` e `design:accessibility-review`, para a identidade e as telas; `engineering:architecture` para decisões de arquitetura; `engineering:system-design` para sistemas e APIs; `metodo:auditoria-de-seguranca` para o mapa de riscos.
+- **Mapa de riscos de segurança**, junto da spec: o primeiro uso da `security-audit`, no modo de orientação (sem código ainda), pelo [roteiro de segurança](03-skills-e-testes.md#security-audit): quem usa e quem tem menos confiança, as fronteiras de confiança, as superfícies de entrada e os domínios de ataque que se aplicam. Fica em `processo/seguranca.md` e vira critério de aceite nas issues. No modo com especialistas, quem faz é o Security; nos outros, a Lead.
 - **Resultado:** `processo/requisitos.md`, a identidade e as telas no Figma registradas em `processo/telas/` (com interface) e a spec versionada, com o mapa de riscos.
 - **Portão:** a pessoa aprova, nesta ordem, os requisitos (com os pesos e a ordem), a identidade e todas as telas (com interface) e a spec escrita.
 
@@ -44,7 +41,6 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 
 - **Entrada:** spec aprovada.
 - **Passos:** quebre em tarefas pequenas (2 a 5 minutos por passo), cada uma com os arquivos exatos, o teste primeiro, o comando e o resultado esperado. Liste as restrições globais e o que a revisão final precisa olhar.
-- **Skill:** `superpowers:writing-plans`.
 - **Resultado:** plano versionado.
 - **Portão:** a pessoa aprova o plano e escolhe o modo de execução (inline, subagentes, sessões divididas ou orquestração com o Orca, inclusive com agentes especialistas por tema; veja [02](02-sessoes-e-papeis.md)). Em qualquer modo, a Lead fica, por padrão, no Claude Code (a linha `Lead:` do `processo/DESENVOLVIMENTO.md` diz qual) e cada papel usa a ferramenta padrão dele (tabela Ferramenta por papel, no [02](02-sessoes-e-papeis.md)); a Builder vai para a outra ferramenta quando a cota aperta.
 
@@ -52,7 +48,6 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 
 - **Entrada:** plano aprovado e uma branch própria a partir da `main` atualizada.
 - **Passos:** para cada tarefa, escreva o teste, **veja-o falhar pelo motivo certo**, escreva o mínimo para passar, rode a suíte inteira e faça commits pequenos. Registre cada decisão que desviou do plano (o que, por quê, quanto custa se estiver errada).
-- **Skill:** `superpowers:test-driven-development`; `superpowers:executing-plans` ou `superpowers:subagent-driven-development`; `superpowers:systematic-debugging` quando algo falhar.
 - **Resultado:** commits na branch, suíte verde, ledger de decisões.
 - **Portão:** os testes macro verdes (veja [03](03-skills-e-testes.md)).
 
@@ -60,7 +55,6 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 
 - **Entrada:** branch com testes macro verdes.
 - **Passos:** revisão com contexto limpo (outra sessão ou subagente na versão mais capaz), conferência contra os critérios de aceite e a referência, exploração no navegador ou no ambiente real, micro e macro.
-- **Skill:** `superpowers:requesting-code-review`, `superpowers:verification-before-completion`, `/ponytail-review` (rascunho), `design:accessibility-review` quando houver interface.
 - **Resultado:** lista de achados classificados (crítico, importante, menor). Críticos e importantes são corrigidos com teste que falha antes; menores viram pendências registradas.
 - **Portão:** nenhum crítico ou importante em aberto.
 
@@ -68,7 +62,6 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 
 - **Entrada:** validação concluída.
 - **Passos:** envie a branch, deixe o CI rodar, abra o Pull Request com o modelo, traga a `main` para a branch se ela estiver desatualizada, integre (sem apagar a branch remota), confira a `main` e o CI dela.
-- **Skill:** `superpowers:finishing-a-development-branch`.
 - **Resultado:** a `main` com a mudança, suítes e CI verdes.
 - **Portão:** os gatilhos de aprovação (abaixo): sem gatilho, a Lead integra e registra; com gatilho, só com o "pode integrar" da pessoa.
 
@@ -76,14 +69,13 @@ Antes da primeira pergunta, classifique o pedido em voz alta, para a pessoa pode
 
 - **Entrada:** `main` verde.
 - **Passos:** lista de verificação de publicação (variáveis de ambiente, endereço público, indexação, dados de exemplo, desempenho, acessibilidade, monitoramento, plano de reversão). Se houver dados fictícios de exemplo, **uma trava automática** impede a publicação enquanto eles existirem.
-- **Auditoria de segurança, antes da primeira publicação** e depois de cada mudança grande (login novo, API pública nova, troca de infraestrutura): a auditoria completa do código com `metodo:auditoria-de-seguranca`, que roda a `security-audit`. Vale em qualquer modo: no modo com especialistas, o Security propõe e roda; nos outros, a Lead (ou a Lead do Orca). Sempre por um portão, porque gasta cota: a pessoa aprova o tamanho da auditoria ou a dispensa (por exemplo, um site estático sem login nem formulário), e a dispensa fica anotada na memória do projeto. Achado confirmado crítico ou alto segura a publicação até ser corrigido.
-- **Skill:** `engineering:deploy-checklist` e, na auditoria, `metodo:auditoria-de-seguranca`.
+- **Auditoria de segurança, antes da primeira publicação** e depois de cada mudança grande (login novo, API pública nova, troca de infraestrutura): a auditoria completa do código com a `security-audit` da Cloudflare, pelo [roteiro de segurança](03-skills-e-testes.md#security-audit). Vale em qualquer modo: no modo com especialistas, o Security propõe e roda; nos outros, a Lead (ou a Lead do Orca). Sempre por um portão, porque gasta cota: a pessoa aprova o tamanho da auditoria ou a dispensa (por exemplo, um site estático sem login nem formulário), e a dispensa fica anotada na memória do projeto. Achado confirmado crítico ou alto segura a publicação até ser corrigido.
 - **Resultado:** o produto no ar.
 - **Portão:** a pessoa autoriza a publicação.
 
 ## Fase 8 · Manter
 
-- **Passos:** registre pendências e decisões, atualize a memória do projeto, faça uma retrospectiva curta dos erros e transforme cada erro em uma regra ou em um teste. Para incidentes, use `engineering:incident-response`; para dívida técnica, `/ponytail-audit` e `/ponytail-debt` (rascunho).
+- **Passos:** registre pendências e decisões, atualize a memória do projeto, faça uma retrospectiva curta dos erros e transforme cada erro em uma regra ou em um teste. Em incidentes, registre o impacto e escale para a pessoa. Priorize a dívida técnica por impacto, risco e esforço.
 - **Resultado:** pendências visíveis (issues) e a memória em dia.
 
 ## Fase 9 · Fechamento (retrospectiva)

@@ -17,17 +17,6 @@ O método base ([nucleo/](../nucleo/01-fluxo-de-ponta-a-ponta.md)) continua vale
 - **CI:** build do app assinado, testes em emulador; distribuição interna a cada PR integrado.
 - **Riscos:** revisão das lojas, versões antigas do sistema, dados locais sem criptografia.
 
-## Skills úteis
-
-- `engineering:testing-strategy`
-- `design:accessibility-review`
-- `engineering:deploy-checklist`
-- `metodo:estados-da-tela`
-- `metodo:formularios-e-erros`
-- `metodo:autenticacao-e-sessao`
-- `metodo:auditoria-de-seguranca`
-- `reverse-engineer-anything`
-
 ## Checklist
 
 - [ ] Requisitos descritos em `processo/requisitos.md` (R-xx com o peso) e a identidade e todas as telas aprovadas no Figma e registradas em `processo/telas/` antes do código ([decisão 015](../decisoes/015-requisitos-e-telas-antes-do-codigo.md), sem caso real ainda)

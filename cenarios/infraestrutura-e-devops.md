@@ -15,17 +15,7 @@ O método base ([nucleo/](../nucleo/01-fluxo-de-ponta-a-ponta.md)) continua vale
 - **Explorar:** simular a queda de um componente, restaurar de um backup, verificar permissões mínimas e custos.
 - **Aceite típico:** reprodutível a partir do zero, sem alteração manual, com plano de reversão testado.
 - **CI:** validar e planejar a cada PR; **aplicar** só depois da aprovação humana e do merge, e nunca direto em produção por uma sessão.
-- **Riscos:** apagar recursos, segredos, custos. Aplique `engineering:deploy-checklist` e `engineering:incident-response`.
-
-## Skills úteis
-
-- `engineering:deploy-checklist`
-- `engineering:incident-response`
-- `engineering:architecture`
-- `metodo:publicacao-gradual`
-- `metodo:metas-e-alertas`
-- `metodo:ci-seguro`
-- `metodo:analise-de-falhas`
+- **Riscos:** apagar recursos, segredos, custos.
 
 ## Checklist
 
