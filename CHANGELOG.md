@@ -2,6 +2,14 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 8.0.0 (2026-11-26)
+
+Primeira etapa da reformulação do método. A [decisão 018](decisoes/018-reduzir-skills-e-plugins.md) mantém a `security-audit` da Cloudflare como única skill do fluxo ativo.
+
+- Sai a distribuição do plugin `metodo`, incluindo as 28 skills locais. O núcleo, os harnesses, os cenários e os modelos orientam o trabalho diretamente.
+- Projetos novos continuam a ser preparados com `scripts/novo-projeto.sh`. Para atualizar um projeto existente, compare os modelos numa pasta temporária e aplique as mudanças aprovadas numa branch.
+- A auditoria usa a skill da Cloudflare diretamente. O portão, o registro do escopo e a triagem continuam no núcleo.
+
 ## 7.0.0 (2026-11-20)
 
 Agente Designer: UI e UX saem do Frontend. Ver a [decisão 017](decisoes/017-agente-designer.md).

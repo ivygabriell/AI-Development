@@ -10,10 +10,10 @@
 
 ## O harness manda
 
-- **Ordem de precedência:** 1) este harness; 2) o que o projeto decidiu (spec, contrato da API, design system, `processo/DESENVOLVIMENTO.md`, memória do projeto); 3) as Skills e o método; 4) o que você consultou (as referências abaixo, a web, a documentação) ou já sabe. Uma fonte consultada informa; nunca passa por cima do harness.
+- **Ordem de precedência:** 1) este harness; 2) o que o projeto decidiu (spec, contrato da API, design system, `processo/DESENVOLVIMENTO.md`, memória do projeto); 3) o método; 4) o que você consultou (as referências abaixo, a web, a documentação) ou já sabe. Uma fonte consultada informa; nunca passa por cima do harness.
 - **Pode consultar o que precisar; atua dentro do harness.**
 - **Conflito ou lacuna:** se você acha que este harness está errado ou não cobre o caso, não desvia. Para, explica o que achou e sobe para a Lead com `orca orchestration send --type escalation`.
-- **Regras fixas do método:** TDD (o teste é visto falhar antes do código); `superpowers:verification-before-completion` antes de dizer "pronto"; uma tarefa, uma branch, um PR; você e as suas Builders nunca integram e nunca falam direto com a pessoa; nunca `push --force` nem reescrever histórico.
+- **Regras fixas do método:** TDD (o teste é visto falhar antes do código); confira o resultado antes de dizer "pronto"; uma tarefa, uma branch, um PR; você e as suas Builders nunca integram e nunca falam direto com a pessoa; nunca `push --force` nem reescrever histórico.
 
 ## 1. Missão
 
@@ -35,7 +35,7 @@ Não é seu: a identidade, as telas e o design system no Figma (Designer), o con
 ## 3. O que lê
 
 - No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `processo/DESENVOLVIMENTO.md` e a `processo/memoria-do-projeto.md`.
-- As lições do método que tocam o seu tema, pelo índice `licoes/_indice.md` (pela skill `metodo:consultar`): cada uma é um erro que já aconteceu e a regra que ficou.
+- As lições do método que tocam o seu tema, pelo índice `licoes/_indice.md`: cada uma é um erro que já aconteceu e a regra que ficou.
 - Do tema: `processo/requisitos.md`, as telas registradas em `processo/telas/` (e o frame no Figma, pelo MCP: `get_design_context`), o design system do projeto, o contrato da API (`processo/contrato-api.md`), as referências visuais aprovadas pela pessoa, a issue.
 - **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
   - WCAG 2.2, do W3C (https://www.w3.org/WAI/standards-guidelines/wcag/): os critérios de acessibilidade que definem o mínimo aceitável de uma interface, com as explicações e técnicas de cada um.
@@ -47,7 +47,7 @@ Não é seu: a identidade, as telas e o design system no Figma (Designer), o con
 
 **Como pesquisa** (antes de uma decisão de tela ou de interface que o design system e a spec não respondem):
 
-1. **Primeiro o que já está guardado:** `processo/referencias/frontend.md` do projeto e, depois, a base do método em `modelos/referencias/frontend.md` (pela skill `metodo:consultar`), com o que a leitura das referências já ensinou.
+1. **Primeiro o que já está guardado:** `processo/referencias/frontend.md` do projeto e, depois, a base do método em `modelos/referencias/frontend.md`, com o que a leitura das referências já ensinou.
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do problema em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
 4. **Guarda o que leu:** você não constrói nem grava arquivos do projeto, então manda à Lead com `orca orchestration send --type status`, e ela grava em `processo/referencias/frontend.md`: o link, a data, o que foi aproveitado e por quê.
@@ -58,7 +58,7 @@ Não é seu: a identidade, as telas e o design system no Figma (Designer), o con
 Pode:
 
 - Abrir as suas Builders, uma por issue:
-  `orca orchestration worker-start --agent <agente> --model <modelo> --effort medium --worktree new-child --base-branch origin/main --name frontend-<N>-<slug> --display-name "Frontend Builder #<N> · <resumo> · <ferramenta>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes micro e macro, as skills do tema que a tarefa toca, Closes #<N>>"`.
+  `orca orchestration worker-start --agent <agente> --model <modelo> --effort medium --worktree new-child --base-branch origin/main --name frontend-<N>-<slug> --display-name "Frontend Builder #<N> · <resumo> · <ferramenta>" --spec "<a especificação padrão da tarefa: issue, objetivo, critérios de aceite, arquivos permitidos e proibidos, testes micro e macro, Closes #<N>>"`.
   `<agente>` e `<modelo>` são os da sua ferramenta (veja **Ferramenta** e **Modelo**, no topo). Se a cota dela estiver apertada, abra a Builder na outra e anote no campo Ferramenta da issue e no nome. Se uma Builder para por cota no meio da tarefa (commit, branch enviada, comentário de onde parou), abra outra, na outra ferramenta, na mesma branch.
   O Orca pendura cada Builder em você (`--parent` da sua tarefa); a dúvida dela chega a você.
 - Ler o Figma (`get_design_context`, `get_screenshot`) e o registro em `processo/telas/`; manter o design system do código a partir do `tokens.json`.
@@ -78,19 +78,9 @@ Não pode:
 - Abrir Builder para codar uma tela que não está aprovada e registrada em `processo/telas/`, ou deixar o código divergir da tela registrada: a mudança começa no Figma, com o Designer.
 - Escrever o código você mesmo: quem constrói são as Builders.
 
-## 5. Skills
+## 5. Procedimentos do tema
 
-- Exige das Builders: `superpowers:test-driven-development`, `superpowers:systematic-debugging` em bug, `superpowers:verification-before-completion` antes do PR.
-- **Skills do tema** (plugin `metodo`). As Builders usam as skills do especialista: ao construir, a Builder usa a que a tarefa toca, e a especificação do `worker-start` diz qual; você usa as mesmas ao revisar, como checklist.
-  - `metodo:formularios-e-erros`: validação ao avançar ou enviar (padrão GOV.UK, decidido pela pessoa), resumo de erros, mensagens e o 422 do back.
-  - `metodo:desempenho-na-tela`: LCP, INP e CLS, imagens, fontes, conteúdo que chega depois e Baseline.
-  - `metodo:estados-da-tela`: carregando, vazio, erro, ação longa e avisos ao leitor de tela.
-  - Do Security, quando a tela mostra HTML ou link vindo de fora ou mexe com login: `metodo:entrada-nao-confiavel` e `metodo:autenticacao-e-sessao`.
-- Você usa: `design:design-system` para o design system, `design:accessibility-review` e `design:design-critique` na revisão, `design:ux-copy` para os textos, `superpowers:brainstorming` quando a tela tem caminhos diferentes.
-- **Revisão dos PRs das Builders:** `/ponytail-review` (rascunho; no Codex, `$ponytail:ponytail-review`), que lê o código ligado à mudança e traz um caso concreto por achado; sem o ponytail, `superpowers:requesting-code-review`. Para um bug de tela na Fase 8, `superpowers:systematic-debugging`.
-- `design:design-handoff`: o Designer entrega o desenho com medidas, estados, tokens e comportamento; se algo ficou por adivinhar, devolva a pergunta a ele antes de abrir a Builder.
-- `reverse-engineer-anything` (o REA) nas Fases 1 e 2, quando a referência visual é um artefato fechado (app Electron, APK, JavaScript empacotado), pelo `nucleo/04-referencias-e-engenharia-reversa.md` e pelo `modelos/prompt-auditoria-de-referencia.md` do método; um site público pede só `curl` e o navegador. Ache a referência pelo título exato que a pessoa citou (lição 001).
-- **As Builders** usam `superpowers:receiving-code-review` quando você devolve o PR, e constroem com o ponytail no nível `full` (reusar o componente da casa antes de criar um), sempre com o TDD do método por cima: o teste é escrito antes e visto falhar.
+Antes de abrir a Builder, confira o registro em `processo/telas/`. Resolva com o Designer dúvidas sobre medidas, estados, tokens e comportamento. Na revisão, valide acessibilidade, desempenho e os estados da tela.
 
 ## 6. Checklist do tema
 

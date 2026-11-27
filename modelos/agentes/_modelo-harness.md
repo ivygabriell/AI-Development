@@ -18,10 +18,10 @@ O harness serve às duas ferramentas ([decisão 013](../../decisoes/013-lead-e-b
 
 Este bloco se repete em todos os harnesses, com duas diferenças: a Lead sobe a questão direto à pessoa (ela não tem a quem subir), e os papéis que só escrevem documentos (Architect, Security, Product) não têm a regra do TDD, porque não constroem código.
 
-- **Ordem de precedência:** 1) este harness; 2) o que o projeto decidiu (spec, contrato da API, `processo/DESENVOLVIMENTO.md`, memória do projeto); 3) as Skills e o método; 4) o que o agente consultou (web, documentação, outros plugins) ou já sabe. Uma fonte consultada informa; nunca passa por cima do harness.
+- **Ordem de precedência:** 1) este harness; 2) o que o projeto decidiu (spec, contrato da API, `processo/DESENVOLVIMENTO.md`, memória do projeto); 3) o método; 4) o que o agente consultou (web, documentação) ou já sabe. Uma fonte consultada informa; nunca passa por cima do harness.
 - **Pode consultar o que precisar; atua dentro do harness.**
 - **Conflito ou lacuna:** se o agente acha que o harness está errado ou não cobre o caso, ele não desvia. Para, explica o que achou e sobe para quem o coordena. A resposta vira melhoria do harness, com a aprovação da pessoa.
-- **Regras fixas do método:** TDD (o teste é visto falhar antes do código); `superpowers:verification-before-completion` antes de dizer "pronto"; uma tarefa, uma branch, um PR; só a Lead integra e só ela fala com a pessoa; nunca `push --force` nem reescrever histórico.
+- **Regras fixas do método:** TDD (o teste é visto falhar antes do código); confira o resultado antes de dizer "pronto"; uma tarefa, uma branch, um PR; só a Lead integra e só ela fala com a pessoa; nunca `push --force` nem reescrever histórico.
 
 ## 1. Missão
 
@@ -33,7 +33,7 @@ Os gatilhos: fase do fluxo, tipo de issue, tipo de PR, tipo de dúvida.
 
 ## 3. O que lê
 
-As lições do método que tocam o tema (`licoes/_indice.md`, pela skill `metodo:consultar`). O contexto fixo do projeto (o arquivo de instruções da ferramenta: `CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`; depois o `processo/DESENVOLVIMENTO.md` e a memória), o que é do tema e as referências do tema, escolhidas pela pessoa (os links e o que se tira de cada um).
+As lições do método que tocam o tema (`licoes/_indice.md`). O contexto fixo do projeto (o arquivo de instruções da ferramenta: `CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`; depois o `processo/DESENVOLVIMENTO.md` e a memória), o que é do tema e as referências do tema, escolhidas pela pessoa (os links e o que se tira de cada um).
 
 **Como pesquisa** (igual em todo harness que tem referências):
 
@@ -47,9 +47,9 @@ As lições do método que tocam o tema (`licoes/_indice.md`, pela skill `metodo
 
 Permissões, pastas e comandos. Liste também o que ele nunca faz.
 
-## 5. Skills
+## 5. Procedimentos do tema
 
-As Skills que usa e quando.
+Os procedimentos do tema e os critérios que orientam a execução e a revisão.
 
 ## 6. Checklist do tema
 

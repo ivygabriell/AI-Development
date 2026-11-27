@@ -17,20 +17,6 @@ O método base ([nucleo/](../nucleo/01-fluxo-de-ponta-a-ponta.md)) continua vale
 - **CI:** testes de contrato, análise estática, varredura de dependências.
 - **Riscos:** quebrar clientes existentes (mudança incompatível), segredos em log, consultas lentas.
 
-## Skills úteis
-
-- `engineering:system-design`
-- `engineering:testing-strategy`
-- `engineering:documentation`
-- `/ponytail-review` (rascunho)
-- `metodo:contrato-de-api`
-- `metodo:api-conforme-contrato`
-- `metodo:migracao-sem-parada`
-- `metodo:transacoes-e-consultas`
-- `metodo:controle-de-acesso`
-- `metodo:entrada-nao-confiavel`
-- `metodo:auditoria-de-seguranca`
-
 ## Checklist
 
 - [ ] Contrato (OpenAPI) escrito antes do código

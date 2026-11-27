@@ -2,9 +2,8 @@
 
 **Leitura feita em:** 2026-10-30
 **Agente:** Product (harness em `modelos/agentes/product.md`)
-**Skills que saem daqui:** `metodo:necessidades-e-riscos` e `metodo:descoberta-continua`
 
-O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `processo/referencias/product.md` do projeto e antes dos sites. O planejamento de uma pesquisa continua com `design:user-research`, e a síntese com `design:research-synthesis`.
+O que a leitura das referências escolhidas pela pessoa ensinou, com palavras próprias: a regra concreta, o porquê e o link. É o segundo lugar onde o agente procura, depois do `processo/referencias/product.md` do projeto e antes dos sites.
 
 ## Necessidades (GOV.UK Service Manual)
 

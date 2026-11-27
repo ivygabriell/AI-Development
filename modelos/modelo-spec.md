@@ -39,4 +39,4 @@ Gabarito para o documento de desenho (Fase 2). Vem **depois** dos requisitos (`p
 - Quem aprovou o quê e quando.
 ```
 
-Depois da spec aprovada, o plano de implementação (`superpowers:writing-plans`) quebra o trabalho em tarefas pequenas, cada uma com os arquivos exatos, o teste primeiro, o comando e o resultado esperado.
+Depois da spec aprovada, o plano de implementação quebra o trabalho em tarefas pequenas, cada uma com os arquivos exatos, o teste primeiro, o comando e o resultado esperado.

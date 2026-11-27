@@ -68,6 +68,6 @@ Tarefa criada.
 Próximos passos:
   cd "$dir"
   ${dev//\{porta\}/$porta}      # servidor local desta tarefa
-Leia o documento de desenvolvimento do projeto e use as Skills em todo o trabalho (brainstorming, TDD, verificação).
+Leia o documento de desenvolvimento do projeto e siga o fluxo de teste e verificação.
 Ao terminar: rode os testes macro, git push -u origin $branch e abra o PR. Quem integra é a sessão Lead.
 MSG

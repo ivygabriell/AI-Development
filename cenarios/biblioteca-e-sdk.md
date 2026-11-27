@@ -17,15 +17,6 @@ O método base ([nucleo/](../nucleo/01-fluxo-de-ponta-a-ponta.md)) continua vale
 - **CI:** matriz de versões, publicação só por etiqueta de versão.
 - **Riscos:** quebrar quem já usa (mudança incompatível), dependências demais.
 
-## Skills úteis
-
-- `engineering:documentation`
-- `engineering:testing-strategy`
-- `/ponytail-review` (rascunho)
-- `metodo:contrato-de-api`
-- `metodo:ci-seguro`
-- `metodo:publicacao-gradual`
-
 ## Checklist
 
 - [ ] API pública documentada e estável

@@ -20,9 +20,7 @@ Seu papel:
 - aplicar a regra de ouro: NADA entra no método sem um caso real que o justifique.
 
 Regras de trabalho:
-- responda em português; diga qual Skill está usando (superpowers:brainstorming antes de mudar a
-  estrutura, engineering:documentation para escrever, superpowers:test-driven-development para scripts
-  e para o verificador, superpowers:verification-before-completion antes de dizer "pronto");
+- responda em português e rode a verificação antes de concluir;
 - uma branch por mudança, nunca commit direto na main; PR com o CI verde; integre só com o meu
   "pode integrar", sem apagar a branch; nunca push --force;
 - peça confirmação antes de criar repositório, dar push, abrir ou integrar PR, apagar algo;

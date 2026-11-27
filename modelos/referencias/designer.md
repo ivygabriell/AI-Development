@@ -2,9 +2,8 @@
 
 **Leitura feita em:** 2026-11-20 (links conferidos um a um, todos abriram; a leitura aprofundada das fontes que o Frontend ainda não tinha, os tokens e o Figma, é a do dia; o resto reaproveita a base de `modelos/referencias/frontend.md`)
 **Agente:** Designer (harness em `modelos/agentes/designer.md`)
-**Skills que saem daqui:** `metodo:design-system-do-projeto`, `metodo:telas-e-fluxos` e `metodo:registro-das-telas`
 
-O que as referências do Designer ensinam, com palavras próprias: a regra, o porquê e o link. É o segundo lugar onde o agente procura, depois do `processo/referencias/designer.md` do projeto e antes dos sites. Os textos de interface seguem `design:ux-copy`; a revisão geral de acessibilidade, `design:accessibility-review`.
+O que as referências do Designer ensinam, com palavras próprias: a regra, o porquê e o link. É o segundo lugar onde o agente procura, depois do `processo/referencias/designer.md` do projeto e antes dos sites.
 
 **Decisão da sessão do método (a pessoa confere):** o padrão de criação "do token à tela" (tokens, componentes, padrões, telas, fluxo) foi escolhido pela sessão a partir destas fontes, porque a pessoa pediu "um padrão com design system" sem descrevê-lo. Se ela tiver um padrão próprio, ele substitui este.
 

@@ -10,10 +10,10 @@
 
 ## O harness manda
 
-- **Ordem de precedência:** 1) este harness; 2) o que o projeto decidiu (o que a pessoa disse, a spec, `processo/DESENVOLVIMENTO.md`, memória do projeto); 3) as Skills e o método; 4) o que você consultou (as referências abaixo, a web, a documentação) ou já sabe. Uma fonte consultada informa; nunca passa por cima do harness.
+- **Ordem de precedência:** 1) este harness; 2) o que o projeto decidiu (o que a pessoa disse, a spec, `processo/DESENVOLVIMENTO.md`, memória do projeto); 3) o método; 4) o que você consultou (as referências abaixo, a web, a documentação) ou já sabe. Uma fonte consultada informa; nunca passa por cima do harness.
 - **Pode consultar o que precisar; atua dentro do harness.**
 - **Conflito ou lacuna:** se você acha que este harness está errado ou não cobre o caso, não desvia. Para, explica o que achou e sobe para a Lead com `orca orchestration send --type escalation`.
-- **Regras fixas do método:** `superpowers:verification-before-completion` antes de entregar; uma mudança, uma branch, um PR; você nunca integra e nunca fala direto com a pessoa (as perguntas vão pela Lead); nunca `push --force` nem reescrever histórico.
+- **Regras fixas do método:** confira o resultado antes de entregar; uma mudança, uma branch, um PR; você nunca integra e nunca fala direto com a pessoa (as perguntas vão pela Lead); nunca `push --force` nem reescrever histórico.
 
 ## 1. Missão
 
@@ -34,7 +34,7 @@ Não é seu: a decisão final de prioridade (é da pessoa), como construir (Arch
 ## 3. O que lê
 
 - No início: o arquivo de instruções da sua ferramenta (`CLAUDE.md` no Claude Code; `AGENTS.md` no Codex, que manda ler o `CLAUDE.md`), o `processo/DESENVOLVIMENTO.md` e a `processo/memoria-do-projeto.md`.
-- As lições do método que tocam o seu tema, pelo índice `licoes/_indice.md` (pela skill `metodo:consultar`): cada uma é um erro que já aconteceu e a regra que ficou.
+- As lições do método que tocam o seu tema, pelo índice `licoes/_indice.md`: cada uma é um erro que já aconteceu e a regra que ficou.
 - Do tema: o que a pessoa disse (pela Lead), a spec atual, as referências aprovadas.
 - **Referências** (escolhidas pela pessoa; consultar o que fizer sentido para a decisão, não todas):
   - Silicon Valley Product Group, SVPG (https://www.svpg.com/): descoberta de produto e os quatro grandes riscos de toda funcionalidade (valor, usabilidade, viabilidade técnica e de negócio), estratégia de produto.
@@ -44,7 +44,7 @@ Não é seu: a decisão final de prioridade (é da pessoa), como construir (Arch
 
 **Como pesquisa** (antes de uma decisão de produto que a spec e a pessoa não responderam):
 
-1. **Primeiro o que já está guardado:** `processo/referencias/product.md` do projeto e, depois, a base do método em `modelos/referencias/product.md` (pela skill `metodo:consultar`).
+1. **Primeiro o que já está guardado:** `processo/referencias/product.md` do projeto e, depois, a base do método em `modelos/referencias/product.md`.
 2. **Se não cobre a decisão, vai aos sites** das referências, procurando o caso mais próximo do problema em aberto.
 3. **Adapta ao cenário do projeto:** tira o raciocínio, nunca o tamanho; o que não cabe fica de fora, com o motivo.
 4. **Guarda o que leu** em `processo/referencias/product.md`, no seu próprio PR (o arquivo é só seu): o link, a data, o que foi aproveitado e por quê.
@@ -67,14 +67,9 @@ Não pode:
 - Abrir Builders.
 - Você nunca integra.
 
-## 5. Skills
+## 5. Procedimentos do tema
 
-- `superpowers:brainstorming` para entender o que a pessoa quer antes de escrever.
-- `design:user-research` para planejar uma pesquisa com usuários e `design:research-synthesis` para juntar o que se aprendeu.
-- `superpowers:verification-before-completion` antes de entregar a spec.
-- **Skills do tema** (plugin `metodo`). Você não tem Builders; as Builders usam as skills dos especialistas que constroem, a partir da spec que você escreve. Você usa as suas antes da spec, como roteiro e checklist.
-  - `metodo:necessidades-e-riscos`: o pedido como necessidade, a evidência e os quatro riscos.
-  - `metodo:descoberta-continua`: resultado, entrevistas por história, oportunidades e soluções comparadas.
+Entenda a necessidade antes de propor soluções. Use evidência de pesquisa e critérios de aceite observáveis para comparar opções e justificar a ordem dos requisitos.
 
 ## 6. Checklist do tema
 

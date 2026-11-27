@@ -2,7 +2,7 @@
 
 O método é o mesmo em qualquer projeto; o que muda é **o que significa testar e explorar** em cada tipo. Cada cenário é um arquivo curto, no mesmo formato, que diz o que muda no fluxo base e dá um checklist de início e de entrega.
 
-Em qualquer cenário valem: alvo definido antes de construir ([fluxo](../nucleo/01-fluxo-de-ponta-a-ponta.md)), TDD, uma branch por mudança, a `main` protegida e as Skills do cenário ([skills e testes](../nucleo/03-skills-e-testes.md)).
+Em qualquer cenário valem: alvo definido antes de construir ([fluxo](../nucleo/01-fluxo-de-ponta-a-ponta.md)), TDD, uma branch por mudança, a `main` protegida e os [testes e a auditoria de segurança](../nucleo/03-skills-e-testes.md).
 
 ## Cenários disponíveis
 

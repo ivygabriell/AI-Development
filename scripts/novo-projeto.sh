@@ -205,6 +205,8 @@ Uma decisão é da pessoa quando aciona pelo menos um gatilho: muda **o que** se
 
 ## Comandos do projeto
 
+- Cópia local do método: (preencha o caminho para consultar o núcleo e os modelos)
+
 - Testes: (preencha)
 - Tipos / lint: (preencha)
 - Build: (preencha)
@@ -217,7 +219,7 @@ Uma decisão é da pessoa quando aciona pelo menos um gatilho: muda **o que** se
 - Com o Orca: a Lead distribui as tarefas aos agentes (\`orca orchestration worker-start\`); o Orca cria e remove as worktrees, e os scripts acima ficam para quem trabalha sem ele. Prompt: \`modelos/prompt-lead-orca.md\` do método.
 - Ferramentas: cada papel usa a sua (seção Ferramenta por papel, acima). O Claude Code lê o \`CLAUDE.md\`; o Codex lê o \`AGENTS.md\`, que manda ler o \`CLAUDE.md\`. Todo PR recebe ao menos uma revisão da outra ferramenta. Quando a cota acaba no meio da tarefa, a Builder faz commit, envia a branch e comenta na issue onde parou; outra Builder, na outra ferramenta, continua na mesma branch. Com back e front em tarefas paralelas, o contrato da API é aprovado antes de qualquer tarefa de construção.
 ${linha_especialistas:+$linha_especialistas
-}- Para trazer este projeto à versão mais nova do método: \`/metodo:atualizar-projeto\`.
+}- Para trazer este projeto à versão mais nova do método: compare a versão com o CHANGELOG.md da cópia local e proponha os ajustes numa branch.
 - Requisitos: \`processo/requisitos.md\` (fichas R-xx com o peso). Com interface, a identidade e todas as telas são aprovadas no Figma e registradas em \`processo/telas/\` antes do plano; o código segue a versão registrada.
 - Memória do projeto: \`processo/memoria-do-projeto.md\`.
 

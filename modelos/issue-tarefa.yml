@@ -44,14 +44,6 @@ body:
     validations:
       required: true
   - type: textarea
-    id: skills
-    attributes:
-      label: Skills obrigatórias
-      description: Valem para todas as sessões.
-      value: "superpowers:brainstorming (se for novo), superpowers:test-driven-development, superpowers:systematic-debugging (se houver bug), superpowers:verification-before-completion"
-    validations:
-      required: true
-  - type: textarea
     id: testes_micro
     attributes:
       label: Testes micro esperados (TDD)

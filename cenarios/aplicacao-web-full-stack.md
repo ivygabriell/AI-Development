@@ -15,22 +15,7 @@ O método base ([nucleo/](../nucleo/01-fluxo-de-ponta-a-ponta.md)) continua vale
 - **Explorar:** percorrer os fluxos como usuário, com dados vazios, grandes e inválidos; permissões (quem não pode ver); estados de erro e de carregamento.
 - **Aceite típico:** fluxos descritos passo a passo, tempos de resposta, mensagens de erro claras, sem dado de um usuário aparecendo para outro.
 - **CI:** serviços auxiliares (banco) como contêineres do próprio CI; migrações no pipeline.
-- **Riscos:** segurança (injeção, autenticação, segredos), migrações destrutivas, concorrência. Use `security-review` e `engineering:system-design`.
-
-## Skills úteis
-
-- `engineering:architecture`
-- `engineering:system-design`
-- `engineering:testing-strategy`
-- `/ponytail-review` (rascunho)
-- `superpowers:systematic-debugging`
-- `metodo:contrato-de-api`
-- `metodo:api-conforme-contrato`
-- `metodo:formularios-e-erros`
-- `metodo:estados-da-tela`
-- `metodo:autenticacao-e-sessao`
-- `metodo:controle-de-acesso`
-- `metodo:auditoria-de-seguranca`
+- **Riscos:** segurança (injeção, autenticação, segredos), migrações destrutivas, concorrência.
 
 ## Checklist
 

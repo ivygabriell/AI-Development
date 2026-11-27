@@ -6,7 +6,7 @@ Gabarito para `processo/requisitos.md` (Fase 2, antes da identidade, das telas e
 
 - Um requisito, um comportamento que alguém usa. "Tela de login bonita" não é requisito; "quem tem conta entra com e-mail e senha e cai no painel" é.
 - Cada regra e cada erro escritos, sem "tratar os erros": diga qual erro e o que acontece.
-- Critérios de aceite pelo modelo de critérios de aceite do método (skill `metodo:consultar`): dois avaliadores chegam ao mesmo "sim" ou "não".
+- Critérios de aceite pelo modelo de critérios de aceite do método: dois avaliadores chegam ao mesmo "sim" ou "não".
 - O peso é uma estimativa com o motivo, não uma promessa. A prioridade proposta é do Product; **a ordem final é da pessoa**.
 
 ## Gabarito

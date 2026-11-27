@@ -59,6 +59,7 @@ const OBRIGATORIOS = [
   'decisoes/015-requisitos-e-telas-antes-do-codigo.md',
   'decisoes/016-processo-fora-da-raiz.md',
   'decisoes/017-agente-designer.md',
+  'decisoes/018-reduzir-skills-e-plugins.md',
   'modelos/pull_request_template.md',
   'modelos/ci-node.yml',
   'modelos/nova-tarefa.sh',
@@ -71,10 +72,6 @@ const OBRIGATORIOS = [
   'modelos/modelo-spec.md',
   'modelos/memoria-do-projeto.md',
   'modelos/CLAUDE-projeto.md',
-  '.claude-plugin/marketplace.json',
-  'skills/novo-projeto/SKILL.md',
-  'skills/consultar/SKILL.md',
-  'skills/atualizar-projeto/SKILL.md',
   'modelos/prompt-lead-orca.md',
   'decisoes/006-desenvolvimento-orquestrado-com-o-orca.md',
   'modelos/AGENTS-projeto.md',
@@ -91,11 +88,14 @@ const ANTIGOS = ['integradora', 'arquitetura', 'back-e-dados', 'design-e-front',
 for (const arquivo of ANTIGOS) checar(`nome antigo não existe: ${arquivo}`, !existsSync(join(RAIZ, arquivo)));
 // Decisão 013: fora do histórico, os papéis só têm os nomes novos (Lead, Builders, Architect, Backend, Frontend...)
 const HISTORICO = /\/(casos|planos|licoes|decisoes|\.superpowers)\/|\/CHANGELOG\.md$/;
-const ARQUIVOS_VIVOS = [...todosMd(), ...['scripts/novo-projeto.sh', 'modelos/nova-tarefa.sh', 'modelos/remover-tarefa.sh', 'modelos/issue-tarefa.yml', 'modelos/issue-bug.yml'].map((f) => join(RAIZ, f))].filter((f) => existsSync(f) && !HISTORICO.test(f));
-// Na skill de atualização, um nome antigo só pode aparecer na mesma linha que o nome novo (a instrução de troca)
-const migracao = (f, l) => f.endsWith('/skills/atualizar-projeto/SKILL.md') && /\bLead\b|lead\.md/.test(l);
+const ARQUIVOS_VIVOS = [...todosMd(), ...['scripts/novo-projeto.sh', 'modelos/nova-tarefa.sh', 'modelos/remover-tarefa.sh', 'modelos/issue-tarefa.yml', 'modelos/issue-bug.yml', 'modelos/ci-node.yml', '.github/workflows/verificar.yml'].map((f) => join(RAIZ, f))].filter((f) => existsSync(f) && !HISTORICO.test(f));
+const integracoesRemovidas = /\b(?:metodo|engineering|design|figma):[a-z-]+|\b(?:superpowers|ponytail|reverse-engineer-anything|security-review|rea-agents)\b|\borca skills\b|\bfigma-(?:use|generate-[a-z-]+)\b|(?:^|\s)\/?plugin\s+(?:install|marketplace|add)\b/i;
+const comDependenciasRemovidas = ARQUIVOS_VIVOS.filter((f) => integracoesRemovidas.test(readFileSync(f, 'utf8')));
+checar('018: o fluxo ativo usa só a skill security-audit da Cloudflare', comDependenciasRemovidas.length === 0, comDependenciasRemovidas.map((f) => relative(RAIZ, f)).join(', '));
+checar('018: o método encerrou a distribuição de skills e do seu plugin', !existsSync(join(RAIZ, 'skills')) && !existsSync(join(RAIZ, '.claude-plugin/marketplace.json')));
+checar('018: a skill externa tem uma única instalação documentada', [...ler('README.md').matchAll(/^npx skills add (\S+)/gm)].map(([, url]) => url).join() === 'https://github.com/cloudflare/security-audit-skill');
 const NOMES_ANTIGOS = /\b(integradoras?|trabalhadoras?|coordenadoras?|Back e Dados|Design e Front)\b/i;
-const comNomeAntigo = ARQUIVOS_VIVOS.flatMap((f) => readFileSync(f, 'utf8').split('\n').map((l, i) => (NOMES_ANTIGOS.test(l) && !migracao(f, l) ? `${f.slice(RAIZ.length + 1)}:${i + 1}` : null)).filter(Boolean));
+const comNomeAntigo = ARQUIVOS_VIVOS.flatMap((f) => readFileSync(f, 'utf8').split('\n').map((l, i) => (NOMES_ANTIGOS.test(l) ? `${f.slice(RAIZ.length + 1)}:${i + 1}` : null)).filter(Boolean));
 checar('nomes antigos dos papéis fora do histórico', comNomeAntigo.length === 0, comNomeAntigo.slice(0, 5).join(', '));
 
 // 2) Conteúdo mínimo de cada documento
@@ -107,16 +107,10 @@ checar('README: 7 princípios numerados', principios.length === 7, `achei ${prin
 checar('README: adoção em um projeto novo', readme.includes('## Adotar em um projeto novo'));
 // Seção inteira até o próximo título de nível 2 (os ### de dentro dela continuam incluídos)
 const adocao = readme.slice(readme.indexOf('## Adotar em um projeto novo')).split(/\n## (?!Adotar)/)[0];
-checar('README: adoção instala o plugin', adocao.includes('/plugin install metodo --marketplace ivygabriell/AI-Development') && adocao.includes('/plugin install metodo@metodo-de-desenvolvimento'));
-checar('README: adoção usa /metodo:novo-projeto', adocao.includes('/metodo:novo-projeto'));
 checar('README: adoção diz o que o repositório privado exige', adocao.includes('gh auth setup-git'));
 checar('README: adoção mantém o caminho manual', adocao.includes('scripts/novo-projeto.sh'));
-// Modo Orca (decisão 006, rascunho): instalação e atualização de projetos existentes
-checar('README: adoção instala o Orca e as skills dele', adocao.includes('https://github.com/stablyai/orca') && adocao.includes('orca skills install'));
-checar('README: adoção explica como atualizar um projeto existente', adocao.includes('/metodo:atualizar-projeto'));
-// Back com o Codex e front com o Claude (decisão 007, rascunho): o Codex com as mesmas ferramentas
-for (const termo of ['codex plugin marketplace add', 'codex plugin add', 'codex plugin marketplace upgrade', 'codex mcp list', 'AGENTS.md'])
-  checar(`README: adoção prepara o Codex (${termo})`, adocao.includes(termo));
+checar('README: adoção orienta sobre o Orca', adocao.includes('https://github.com/stablyai/orca'));
+checar('README: adoção explica como atualizar um projeto existente', adocao.includes('### Atualizar um projeto') && adocao.includes('diff preparado'));
 // Decisão 013: Lead no Claude e ferramenta padrão por papel; --agente põe todos numa ferramenta só
 checar('README: adoção explica a ferramenta por papel (Lead no Claude, --agente para uma ferramenta só)', adocao.includes('Ferramenta por papel') && adocao.includes('--agente codex'));
 checar('README: adoção sem o back no Codex e o front no Claude (substituído pela decisão 010)', !adocao.includes('Para dividir o back (Codex) e o front (Claude)'));
@@ -124,7 +118,7 @@ checar('README: adoção sem o back no Codex e o front no Claude (substituído p
 checar('README: adoção instala a skill security-audit pelo repositório oficial, para o Claude Code e o Codex', adocao.includes('https://github.com/cloudflare/security-audit-skill') && adocao.includes('npx skills add https://github.com/cloudflare/security-audit-skill --skill security-audit --global --agent claude-code codex'));
 checar('README: como o repositório cresce', readme.includes('## Como este repositório cresce'));
 for (const arquivo of NUCLEO) checar(`README aponta para ${arquivo}`, readme.includes(arquivo));
-for (const pasta of ['nucleo/', 'cenarios/', 'casos/', 'licoes/', 'decisoes/', 'modelos/', 'scripts/', 'skills/', 'planos/']) checar(`README cita ${pasta}`, readme.includes(pasta));
+for (const pasta of ['nucleo/', 'cenarios/', 'casos/', 'licoes/', 'decisoes/', 'modelos/', 'scripts/', 'planos/']) checar(`README cita ${pasta}`, readme.includes(pasta));
 
 const fluxo = ler('nucleo/01-fluxo-de-ponta-a-ponta.md');
 for (let fase = 0; fase <= 9; fase += 1) checar(`fluxo: Fase ${fase}`, new RegExp(`^## Fase ${fase}\\b`, 'm').test(fluxo));
@@ -143,9 +137,9 @@ for (const p of ['modelos/prompt-lead.md', 'modelos/prompt-lead-orca.md']) checa
 checar('modelo de PR: campo "Gatilhos de aprovação"', ler('modelos/pull_request_template.md').includes('Gatilhos de aprovação:'));
 const sessoesTxt = ler('nucleo/02-sessoes-e-papeis.md');
 checar('sessões: o merge segue os gatilhos (Orca e sessões divididas)', ((sessoesTxt.split('## Ciclo de uma tarefa')[1] || '').split('\n## ')[0]).includes('gatilho') && ((sessoesTxt.split('## Com o Orca')[1] || '').split('\n### ')[0]).includes('gatilho'));
-checar('fluxo: Fase 7 pede a auditoria de segurança antes da primeira publicação, em qualquer modo', ((fluxo.split('## Fase 7')[1] || '').split('## Fase 8')[0]).includes('metodo:auditoria-de-seguranca'));
-checar('fluxo: Fase 2 já usa a security-audit no primeiro mapa de riscos (modo de orientação)', ((fluxo.split('## Fase 2')[1] || '').split('## Fase 3')[0]).includes('metodo:auditoria-de-seguranca') && ((fluxo.split('## Fase 2')[1] || '').split('## Fase 3')[0]).includes('mapa de riscos'));
-checar('prompt da Lead do Orca: auditoria de segurança antes da primeira publicação', ler('modelos/prompt-lead-orca.md').includes('metodo:auditoria-de-seguranca'));
+checar('fluxo: Fase 7 pede a auditoria de segurança antes da primeira publicação, em qualquer modo', ((fluxo.split('## Fase 7')[1] || '').split('## Fase 8')[0]).includes('security-audit'));
+checar('fluxo: Fase 2 já usa a security-audit no primeiro mapa de riscos (modo de orientação)', ((fluxo.split('## Fase 2')[1] || '').split('## Fase 3')[0]).includes('security-audit') && ((fluxo.split('## Fase 2')[1] || '').split('## Fase 3')[0]).includes('mapa de riscos'));
+checar('prompt da Lead do Orca: auditoria de segurança antes da primeira publicação', ler('modelos/prompt-lead-orca.md').includes('security-audit'));
 
 const sessoes = ler('nucleo/02-sessoes-e-papeis.md');
 for (const termo of ['## Quando dividir', '## Quando NÃO dividir', 'Lead', 'Builder', '## Modos de falha'])
@@ -157,7 +151,7 @@ checar('fluxo: Orca como modo de execução na Fase 3', (fluxo.split('## Fase 3'
 checar('fluxo: Fase 9 consulta as conversas do Orca', (fluxo.split('## Fase 9')[1] || '').includes('orca search'));
 checar('git/GitHub/CI: worktrees pelo Orca', ler('nucleo/05-git-github-e-ci.md').includes('orca worktree create'));
 const promptCoord = ler('modelos/prompt-lead-orca.md');
-for (const termo of ['orca skills get orchestration', 'gate-create', 'pode integrar', 'superpowers:verification-before-completion', 'critérios de aceite', 'arquivos permitidos'])
+for (const termo of ['gate-create', 'pode integrar', 'critérios de aceite', 'arquivos permitidos'])
   checar(`prompt da Lead do Orca: ${termo}`, promptCoord.includes(termo));
 // Decisão 013: cada agente usa a ferramenta do seu papel (tabela do DESENVOLVIMENTO.md)
 for (const termo of ['Ferramenta por papel', '--agent claude', '--agent codex', 'contrato da API', 'AGENTS.md', 'retrabalho', 'passagem'])
@@ -166,7 +160,7 @@ checar('prompt da Lead do Orca: não diz que a Lead é sempre Claude', !/sempre 
 const secaoFerramentas = (sessoes.split('### Lead e ferramenta por papel')[1] || '').split('\n### ')[0];
 for (const termo of ['Ferramenta por papel', 'Lead: Claude Code', 'Backend, Security e Ops', '--agent claude', '--agent codex', 'AGENTS.md', 'claude-opus-5-5', 'gpt-6.1-sol', 'contrato da API', 'cota', 'comenta na issue onde parou', 'mesma branch', 'ao menos uma revisão da outra ferramenta', '--agente'])
   checar(`sessões: Lead e ferramenta por papel (${termo})`, secaoFerramentas.includes(termo));
-const regraAntiga = ARQUIVOS_VIVOS.flatMap((f) => readFileSync(f, 'utf8').split('\n').map((l, i) => (/nunca as duas|nunca os dois|Agente principal:|um agente principal|uma ferramenta por projeto/i.test(l) && !migracao(f, l) ? `${f.slice(RAIZ.length + 1)}:${i + 1}` : null)).filter(Boolean));
+const regraAntiga = ARQUIVOS_VIVOS.flatMap((f) => readFileSync(f, 'utf8').split('\n').map((l, i) => (/nunca as duas|nunca os dois|Agente principal:|um agente principal|uma ferramenta por projeto/i.test(l) ? `${f.slice(RAIZ.length + 1)}:${i + 1}` : null)).filter(Boolean));
 checar('regra de um agente principal fora do histórico (decisão 013)', regraAntiga.length === 0, regraAntiga.slice(0, 5).join(', '));
 const issueModelo = ler('modelos/issue-tarefa.yml');
 checar('issue: campos "Plano e passo" e "Ferramenta" (a issue basta numa passagem)', issueModelo.includes('label: Plano e passo') && issueModelo.includes('label: Ferramenta'));
@@ -177,7 +171,7 @@ checar('decisão 007 substituída pela 010', ler('decisoes/007-back-com-codex-e-
 checar('decisão 008: a ferramenta por tema substituída pela 010', ler('decisoes/008-agentes-especialistas.md').includes('decisão 010'));
 
 // Agentes especialistas (decisão 008, rascunho): cada harness tem as 10 partes, o modelo da sua ferramenta e as regras fixas
-const HARNESS_PARTES = ['## 1. Missão', '## 2. Quando é chamado', '## 3. O que lê', '## 4. O que pode e o que não pode', '## 5. Skills', '## 6. Checklist do tema', '## 7. Formato da resposta', '## 8. Quando sobe a decisão', '## 9. Memória do tema', '## 10. Economia'];
+const HARNESS_PARTES = ['## 1. Missão', '## 2. Quando é chamado', '## 3. O que lê', '## 4. O que pode e o que não pode', '## 5. Procedimentos do tema', '## 6. Checklist do tema', '## 7. Formato da resposta', '## 8. Quando sobe a decisão', '## 9. Memória do tema', '## 10. Economia'];
 // Decisão 010: a ferramenta é a do projeto (Agente principal), então todo harness serve às duas
 const HARNESSES = ['lead', 'architect', 'backend', 'frontend', 'designer', 'security', 'product', 'ops'];
 // O que cada harness precisa dizer, além das regras comuns
@@ -186,8 +180,8 @@ const HARNESS_PROPRIO = {
   architect: ['contrato da API', 'portão', 'processo/referencias/architect.md', '**Onde trabalha:** na sua worktree `architect`, filha da worktree principal'],
   'backend': ['worker-start', '--parent', '--worktree new-child', 'contrato da API'],
   'frontend': ['worker-start', '--parent', '--worktree new-child', 'design system'],
-  designer: ['processo/telas/', 'tokens.json', 'use_figma', 'design system', 'não tem Builders', 'nunca escreve código', 'do token à tela', 'processo/telas/design-system.md', 'metodo:design-system-do-projeto', 'metodo:telas-e-fluxos', 'metodo:registro-das-telas'],
-  security: ['mapa de riscos', 'entrega a correção', 'aprovar com ressalva', 'metodo:auditoria-de-seguranca', 'modo de orientação', '**Onde trabalha:** na sua worktree `security`, filha da worktree principal', 'MCP `rea`', '`security-audit`', '~/security-audit-skill/', 'antes da primeira publicação'],
+  designer: ['processo/telas/', 'tokens.json', 'use_figma', 'design system', 'não tem Builders', 'nunca escreve código', 'do token à tela', 'processo/telas/design-system.md'],
+  security: ['mapa de riscos', 'entrega a correção', 'aprovar com ressalva', 'modo de orientação', '**Onde trabalha:** na sua worktree `security`, filha da worktree principal', '`security-audit`', '~/security-audit-skill/', 'antes da primeira publicação'],
   product: ['critérios de aceite'],
   ops: ['worker-start', '--parent', 'portão', 'merge_ready', 'a mudança do CI é uma tarefa da sua Builder'],
 };
@@ -209,7 +203,7 @@ function checarHarness(nome) {
   checar(`agentes: existe ${arquivo}`, texto.length > 0);
   checar(`agentes/${nome}: as 10 partes em ordem`, partesEmOrdem(texto));
   checar(`agentes/${nome}: sem selo de rascunho (decisão 011)`, !texto.includes('**Maturidade:**'));
-  for (const termo of ['**Ferramenta:**', '**Esforço:**', '## O harness manda', 'superpowers:verification-before-completion', 'Como pesquisa', `processo/referencias/${nome}.md`])
+  for (const termo of ['**Ferramenta:**', '**Esforço:**', '## O harness manda', 'Como pesquisa', `processo/referencias/${nome}.md`])
     checar(`agentes/${nome}: ${termo}`, texto.includes(termo));
   const cabecalho = texto.split('\n## ')[0];
   checar(`agentes/${nome}: a ferramenta é a do papel (Ferramenta por papel), com o modelo de cada uma`, cabecalho.includes('Ferramenta por papel') && cabecalho.includes('claude-opus-5-5') && cabecalho.includes('gpt-6.1-sol'));
@@ -249,70 +243,17 @@ for (const termo of ['processo/agentes/', '--parent', 'O harness manda', '9 sess
   checar(`sessões: com agentes especialistas (${termo})`, subsecaoEsp.includes(termo));
 checar('fluxo: modo com agentes especialistas na Fase 3', (fluxo.split('## Fase 3')[1] || '').split('## Fase 4')[0].includes('especialistas'));
 checar('prompt da Lead do Orca: aponta para o harness da Lead no modo com especialistas', promptCoord.includes('lead.md'));
-const inicioEsp = ler('skills/novo-projeto/SKILL.md');
-checar('skills/novo-projeto: na Fase 3 copia os harnesses sem rodar o novo-projeto.sh de novo (que recusaria)', inicioEsp.includes('modelos/agentes/') && inicioEsp.includes('_modelo-harness.md') && !inicioEsp.includes('novo-projeto.sh" . --especialistas') && inicioEsp.includes('Nested worker depth'));
-const atualizarEsp = ler('skills/atualizar-projeto/SKILL.md');
-checar('skills/atualizar-projeto: copia os harnesses que faltam (processo/agentes/)', atualizarEsp.includes('processo/agentes/'));
-checar('skills/atualizar-projeto: pergunta se o projeto usa o modo e acrescenta a linha do DESENVOLVIMENTO.md (Nested worker depth)', atualizarEsp.includes('Pergunte se o projeto usa o modo com especialistas') && atualizarEsp.includes('Nested worker depth'));
-checar('skills/consultar: aponta para o modo com especialistas', ler('skills/consultar/SKILL.md').includes('Com agentes especialistas'));
 for (const termo of ['modelos/agentes/', '--especialistas', 'Nested worker depth'])
   checar(`README: modo com agentes especialistas (${termo})`, readme.includes(termo));
 
-// Skills por agente (decisão 009, rascunho): cada especialista que constrói tem as suas, e as Builders dele as usam
-const SKILLS_DO_AGENTE = {
-  'backend': ['api-conforme-contrato', 'migracao-sem-parada', 'transacoes-e-consultas', 'trabalho-em-segundo-plano'],
-  'frontend': ['formularios-e-erros', 'desempenho-na-tela', 'estados-da-tela'],
-  designer: ['design-system-do-projeto', 'telas-e-fluxos', 'registro-das-telas'],
-  ops: ['publicacao-gradual', 'metas-e-alertas', 'ci-seguro'],
-  security: ['autenticacao-e-sessao', 'controle-de-acesso', 'entrada-nao-confiavel', 'incidente-com-dados-pessoais', 'auditoria-de-seguranca'],
-  architect: ['contrato-de-api', 'analise-de-falhas', 'migracao-de-sistema'],
-  product: ['necessidades-e-riscos', 'descoberta-continua'],
-  lead: ['validacao-final', 'metricas-de-entrega'],
-};
-for (const [agente, nomes] of Object.entries(SKILLS_DO_AGENTE)) {
-  const base = ler(`modelos/referencias/${agente}.md`);
-  checar(`referências: existe modelos/referencias/${agente}.md`, base.length > 0);
-  checar(`referências/${agente}: data da leitura e fontes com link, sem selo de rascunho`, base.includes('**Leitura feita em:**') && !base.includes('**Maturidade:**') && (base.match(/https:\/\//g) || []).length >= 5);
-  const harness = ler(`modelos/agentes/${agente}.md`);
-  const parteSkills = (harness.split('## 5. Skills')[1] || '').split('\n## ')[0];
-  const parteLe = (harness.split('## 3. O que lê')[1] || '').split('\n## ')[0];
-  checar(`agentes/${agente}: a pesquisa passa pela base do método (modelos/referencias/${agente}.md)`, parteLe.includes(`modelos/referencias/${agente}.md`));
-  checar(`agentes/${agente}: as Builders usam as skills do especialista`, parteSkills.includes('Builders usam'));
-  for (const nome of nomes) {
-    checar(`agentes/${agente}: parte 5 cita metodo:${nome}`, parteSkills.includes(`metodo:${nome}`));
-    const texto = ler(`skills/${nome}/SKILL.md`);
-    checar(`skills/${nome}: existe`, texto.length > 0);
-    checar(`skills/${nome}: description começa por "Use quando"`, /^description:\s*Use quando/m.test(texto));
-    checar(`skills/${nome}: sem selo de rascunho (decisão 011)`, !texto.includes('**Maturidade:**'));
-    for (const termo of ['**Quem usa:**', '## Checklist', '## Adaptar ao tamanho do projeto', `modelos/referencias/${agente}.md`])
-      checar(`skills/${nome}: ${termo}`, texto.includes(termo));
-    checar(`skills/${nome}: cada passo com a fonte (pelo menos 3 links)`, (texto.match(/\]\(https:\/\//g) || []).length >= 3);
-  }
-}
-for (const agente of Object.keys(SKILLS_DO_AGENTE))
-  checar(`skills/consultar: aponta para a base de ${agente}`, ler('skills/consultar/SKILL.md').includes(`modelos/referencias/${agente}.md`));
-// As skills do Security também servem a quem corrige: o back e o front pedem as delas na especificação
-for (const agente of ['backend', 'frontend'])
-  checar(`agentes/${agente}: parte 5 aponta para as skills do Security`, ((ler(`modelos/agentes/${agente}.md`).split('## 5. Skills')[1] || '').split('\n## ')[0]).includes('metodo:entrada-nao-confiavel'));
-// Decisão da pessoa (2026-10-29): o erro de campo aparece ao avançar ou enviar, como no GOV.UK
-const formularios = ler('skills/formularios-e-erros/SKILL.md');
-checar('skills/formularios-e-erros: valida ao avançar ou enviar, não ao sair do campo (GOV.UK)', formularios.includes('ao avançar ou enviar') && formularios.includes('design-system.service.gov.uk/patterns/validation'));
-
-const skills = ler('nucleo/03-skills-e-testes.md');
-checar('skills e testes: o mapa cita a auditoria de segurança (security-audit e metodo:auditoria-de-seguranca)', ['`security-audit`', '`metodo:auditoria-de-seguranca`'].every((t) => (skills.split('## Mapa de skills')[1] || '').split('\n## ')[0].includes(t)));
-// Auditoria completa (decisões 010 e 011): a skill do método diz como rodar a security-audit dentro do fluxo
-const auditoria = ler('skills/auditoria-de-seguranca/SKILL.md');
-for (const termo of ['security-audit', 'portão', '~/security-audit-skill/', 'confirmed', 'needs_validation', 'rejected', 'quick', 'standard', 'budget', 'sandbox', 'escopo', 'validate-findings.cjs', 'processo/seguranca.md', 'aviso de segurança privado'])
-  checar(`skills/auditoria-de-seguranca: ${termo}`, auditoria.includes(termo));
-for (const termo of ['## Desde o primeiro mapa de riscos', 'Fase 2', 'modo de orientação', 'revisão de PR', 'Fase 7'])
-  checar(`skills/auditoria-de-seguranca: usada desde a primeira auditoria (${termo})`, auditoria.includes(termo));
-checar('agentes/seguranca: usa a security-audit desde o primeiro mapa de riscos', ler('modelos/agentes/security.md').includes('desde o primeiro mapa de riscos'));
-checar('referências/seguranca: aprendizados da security-audit', ler('modelos/referencias/security.md').includes('## Auditoria completa (security-audit da Cloudflare)'));
-for (const termo of ['## Mapa de skills', '## Testes: micro e macro', 'micro', 'macro', 'RED', 'verification-before-completion', '## Verificação no navegador'])
-  checar(`skills e testes: ${termo}`, skills.includes(termo));
+const testes = ler('nucleo/03-skills-e-testes.md');
+for (const termo of ['## security-audit', 'Cloudflare', 'modo de orientação', 'Fase 2', 'Fase 7', 'escopo', 'processo/seguranca.md', '## Testes: micro e macro', '## Verificação no navegador'])
+  checar('testes e auditoria: ' + termo, testes.toLowerCase().includes(termo.toLowerCase()));
+checar('Security: usa a security-audit desde o primeiro mapa de riscos', ler('modelos/agentes/security.md').includes('desde o primeiro mapa de riscos'));
+checar('referências do Security: aprendizados da security-audit', ler('modelos/referencias/security.md').includes('## Auditoria completa (security-audit da Cloudflare)'));
 
 const refs = ler('nucleo/04-referencias-e-engenharia-reversa.md');
-for (const termo of ['## Quando usar a engenharia reversa', 'reverse-engineer-anything', 'Não copie', 'título exato', 'curl', '## Passo a passo para um site público', '## Limites legais e éticos', 'observação', 'inferência'])
+for (const termo of ['## Quando usar a engenharia reversa', 'Não copie', 'título exato', 'curl', '## Passo a passo para um site público', '## Limites legais e éticos', 'observação', 'inferência'])
   checar(`referências: ${termo}`, refs.includes(termo));
 
 const git = ler('nucleo/05-git-github-e-ci.md');
@@ -339,7 +280,7 @@ const indiceLicoes = spawnSync('node', [join(RAIZ, 'scripts/gerar-indice-licoes.
 checar('licoes/_indice.md está atualizado (gerar-indice-licoes.mjs --check)', indiceLicoes.status === 0, (indiceLicoes.stdout + indiceLicoes.stderr).trim().slice(0, 140));
 
 const MATURIDADES = ['rascunho', 'testado em 1 projeto', 'estável'];
-const SECOES_CENARIO = ['## Quando usar', '## O que muda no fluxo', '## Skills úteis', '## Checklist', '## Caso de referência'];
+const SECOES_CENARIO = ['## Quando usar', '## O que muda no fluxo', '## Checklist', '## Caso de referência'];
 const CAMPOS_CENARIO = ['**Micro:**', '**Macro:**', '**Explorar:**', '**Aceite típico:**', '**CI:**', '**Riscos:**'];
 const arquivosCenario = listar('cenarios');
 checar('cenários: pelo menos 8', arquivosCenario.length >= 8, `achei ${arquivosCenario.length}`);
@@ -395,7 +336,7 @@ for (const id of ['aconteceu', 'esperado', 'reproduzir', 'onde', 'evidencia'])
   checar(`issue de bug: campo obrigatório ${id}`, bugForm.split('  - type:').some((b) => b.includes(`id: ${id}\n`) && b.includes('required: true')));
 checar('issue de bug: rótulo bug e a triagem da Lead', bugForm.includes('labels: ["bug"]') && bugForm.includes('Lead'));
 const cicloBug = (ler('nucleo/02-sessoes-e-papeis.md').split('## Ciclo de um bug')[1] || '').split('\n## ')[0];
-for (const termo of ['issue de bug', 'incidente', 'gatilho', 'superpowers:systematic-debugging', 'causa raiz', 'falha por causa do bug', 'fora do escopo', 'issue nova', 'revisão cruzada', 'comportamento combinado', 'Correção urgente', 'reverter', 'lição'])
+for (const termo of ['issue de bug', 'incidente', 'gatilho', 'causa raiz', 'falha por causa do bug', 'fora do escopo', 'issue nova', 'revisão cruzada', 'comportamento combinado', 'Correção urgente', 'reverter', 'lição'])
   checar(`sessões: ciclo de um bug (${termo})`, cicloBug.includes(termo));
 checar('ciclo de um bug: a Lead não passa um bug à frente do que a pessoa priorizou', cicloBug.includes('prioridade já aprovada') && !cicloBug.includes('sem perguntar'));
 for (const id of ['arquivos_permitidos', 'arquivos_proibidos', 'ferramenta'])
@@ -405,13 +346,11 @@ checar('prompt da Builder: bug fora do escopo vira issue nova', ler('modelos/pro
 checar('CLAUDE.md do projeto: bug fora do escopo vira issue nova', ler('modelos/CLAUDE-projeto.md').includes('fora do escopo'));
 checar('agentes/lead: faz a triagem dos bugs', ler('modelos/agentes/lead.md').includes('triagem dos bugs'));
 checar('decisão 014: aceita sem caso real', ler('decisoes/014-fluxo-de-correcao-de-bugs.md').includes('sem caso real'));
-checar('atualizar-projeto: copia o formulário de bug', ler('skills/atualizar-projeto/SKILL.md').includes('.github/ISSUE_TEMPLATE/bug.yml'));
 // Revisão final (Codex) da 4.0.0: o que ainda contradizia a decisão 013
 checar('agentes/lead: merge sem gatilho não vai mais à pessoa (parte 8)', !ler('modelos/agentes/lead.md').includes('sempre por um portão: merge,'));
 checar('CLAUDE.md do projeto: integrar PR sem gatilho não pede confirmação', !ler('modelos/CLAUDE-projeto.md').includes('push, abrir ou integrar PR, deploy') && ler('modelos/CLAUDE-projeto.md').includes('gatilho'));
 checar('AGENTS.md do projeto: "nunca integre" vale para quem não é a Lead', ler('modelos/AGENTS-projeto.md').includes('**Se você não é a Lead, nunca integre**'));
-checar('atualizar-projeto: resolve com a pessoa as cláusulas herdadas de uma ferramenta só (nunca as duas)', ler('skills/atualizar-projeto/SKILL.md').includes('nunca as duas'));
-for (const p of ['modelos/agentes/architect.md', 'skills/contrato-de-api/SKILL.md', 'modelos/prompt-lead-orca.md'])
+for (const p of ['modelos/agentes/architect.md', 'modelos/prompt-lead-orca.md'])
   checar(`${p}: mudança aditiva no contrato fica com a Lead; a que quebra, com a pessoa`, ler(p).includes('aditiva') && ler(p).includes('quebra'));
 checar('README: a apresentação não fala mais em uma ferramenta por projeto', !ler('README.md').includes('uma ferramenta por projeto') && ler('README.md').split('\n')[2].includes('decisoes/013-lead-e-builders-com-codex-e-claude.md'));
 const issueReq = ler('modelos/issue-tarefa.yml').split('  - type:');
@@ -443,15 +382,11 @@ for (const form of ['modelos/issue-tarefa.yml', 'modelos/issue-bug.yml'])
 checar('modelo de PR: requisitos atendidos e telas conferidas', ler('modelos/pull_request_template.md').includes('Requisitos atendidos') && ler('modelos/pull_request_template.md').includes('processo/telas/'));
 for (const p of ['modelos/CLAUDE-projeto.md', 'modelos/AGENTS-projeto.md'])
   checar(`${p}: nenhuma tela codada sem estar aprovada em processo/telas/; mudança começa no Figma`, ler(p).includes('processo/telas/') && ler(p).includes('Figma'));
-checar('atualizar-projeto: acrescenta processo/requisitos.md, processo/telas/ e a linha Telas:', ['processo/requisitos.md', 'processo/telas/', 'Telas:'].every((t) => ler('skills/atualizar-projeto/SKILL.md').includes(t)));
 checar('README: instala o MCP do Figma no Codex', ler('README.md').includes('codex mcp add figma --url https://mcp.figma.com/mcp'));
 for (const c of ['site-estatico', 'aplicacao-web-full-stack', 'aplicativo-mobile'])
   checar(`cenário ${c}: identidade e telas aprovadas em processo/telas/ antes do código`, ler(`cenarios/${c}.md`).includes('processo/telas/'));
 checar('decisão 015: aceita sem caso real', ler('decisoes/015-requisitos-e-telas-antes-do-codigo.md').includes('sem caso real'));
 // Revisão do Codex da 5.0.0
-const atualizar015 = ler('skills/atualizar-projeto/SKILL.md');
-checar('atualizar-projeto: copia requisitos e telas só o que falta, cada um por si', atualizar015.includes('cada um só se faltar'));
-checar('atualizar-projeto: acrescenta o campo de requisitos aos formulários e ao PR que o projeto já tem', atualizar015.includes('id: requisitos') && atualizar015.includes('Requisitos atendidos'));
 for (const p of ['modelos/prompt-lead.md', 'modelos/prompt-lead-orca.md', 'modelos/prompt-builder.md'])
   checar(`${p}: requisitos e telas aprovadas (decisão 015)`, ler(p).includes('processo/requisitos.md') && ler(p).includes('processo/telas/'));
 checar('sessões: a especificação da tarefa leva os requisitos e as telas', (sessoes.split('**Ciclo de uma tarefa:**')[1] || '').slice(0, 600).includes('requisitos (R-xx)'));
@@ -464,12 +399,10 @@ const designerTxt = ler('modelos/agentes/designer.md');
 const frontendTxt = ler('modelos/agentes/frontend.md');
 checar('017: o Designer cria identidade e telas; o Frontend só lê o Figma e constrói', designerTxt.includes('identidade') && !frontendTxt.includes('Criar a identidade e as telas no Figma') && frontendTxt.includes('Designer') && !/use_figma/.test(frontendTxt.split('## 4.')[1].split('## 5.')[0].split('Não pode:')[0]));
 checar('017: o Designer não integra, não tem Builders e não codifica', /nunca integra/i.test(designerTxt) && designerTxt.includes('não tem Builders') && designerTxt.includes('nunca escreve código'));
-const telasSkill = ler('skills/telas-e-fluxos/SKILL.md');
-const identidadeSkill = ler('skills/design-system-do-projeto/SKILL.md');
 const fluxo01 = ler('nucleo/01-fluxo-de-ponta-a-ponta.md');
-checar('017: o Designer sempre pede referências à pessoa (pela Lead) antes de criar, e não cria sem elas', designerTxt.includes('Sempre pede referências antes de criar') && designerTxt.includes('não começa a identidade sem as referências') && identidadeSkill.includes('Peça as referências') && fluxo01.includes('referências da pessoa'));
+checar('017: o Designer sempre pede referências à pessoa (pela Lead) antes de criar, e não cria sem elas', designerTxt.includes('Sempre pede referências antes de criar') && designerTxt.includes('não começa a identidade sem as referências') && fluxo01.includes('referências da pessoa'));
 checar('017: ordem referências → identidade → telas nos formatos desejados', designerTxt.includes('referências → identidade → telas') && fluxo01.includes('referências → identidade → telas') && designerTxt.includes('formatos'));
-checar('017: mobile-first quando há celular (Designer, skill de telas e núcleo 01)', /mobile-first/i.test(designerTxt) && /mobile-first/i.test(telasSkill) && /mobile-first/i.test(fluxo01) && /mobile-first/i.test(harnessFront));
+checar('017: mobile-first quando há celular (Designer, skill de telas e núcleo 01)', /mobile-first/i.test(designerTxt) && /mobile-first/i.test(fluxo01) && /mobile-first/i.test(harnessFront));
 checar('017: núcleo 02 lista o Designer na tabela dos agentes', ler('nucleo/02-sessoes-e-papeis.md').includes('| Designer |'));
 checar('VERSION: 3.0.0 ou maior (um agente principal por projeto, decisão 010)', versao.split('.').map(Number).reduce((acc, n, i) => acc || (n !== [3, 0, 0][i] ? (n > [3, 0, 0][i] ? 'maior' : 'menor') : ''), '') !== 'menor', versao);
 
@@ -499,7 +432,7 @@ for (const script of ['modelos/nova-tarefa.sh', 'modelos/remover-tarefa.sh', 'sc
   }
 }
 const form = ler('modelos/issue-tarefa.yml');
-for (const id of ['objetivo', 'criterios', 'arquivos_permitidos', 'arquivos_proibidos', 'skills', 'testes_micro', 'testes_macro'])
+for (const id of ['objetivo', 'criterios', 'arquivos_permitidos', 'arquivos_proibidos', 'testes_micro', 'testes_macro'])
   checar(`formulário de tarefa tem ${id}`, new RegExp(`id:\\s*${id}\\b`).test(form));
 const ci = ler('modelos/ci-node.yml');
 for (const termo of ['actions/checkout@v4', 'actions/setup-node@v4', 'npm ci', 'permissions:', 'concurrency:'])
@@ -513,10 +446,9 @@ const prTemplate = ler('modelos/pull_request_template.md');
 for (const termo of ['## Testes macro executados', '## Validação da Lead'])
   checar(`modelo de PR: ${termo}`, prTemplate.includes(termo));
 const promptTrab = ler('modelos/prompt-builder.md');
-checar('prompt da Builder exige skills (nomes exatos) e proíbe merge', promptTrab.includes('superpowers:test-driven-development') && promptTrab.includes('superpowers:verification-before-completion') && /NÃO faça merge/.test(promptTrab));
+checar('prompt da Builder exige TDD e proíbe merge', promptTrab.includes('TDD: escreva o teste primeiro') && /NÃO faça merge/.test(promptTrab));
 const promptInt = ler('modelos/prompt-lead.md');
 checar('prompt da Lead exige o navegador', /navegador/i.test(promptInt));
-checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('superpowers:verification-before-completion') && promptInt.includes('superpowers:finishing-a-development-branch'));
 
 // 3b) Os scripts funcionam de verdade (em repositórios temporários)
 {
@@ -601,8 +533,9 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     checar('novo-projeto.sh: memória anota agente e retrabalho por tarefa', memProj.includes('retrabalho'));
     // AGENTS.md do projeto: o Codex lê este arquivo, não o CLAUDE.md (decisão 007)
     const agentsProj = existsSync(join(alvo, 'AGENTS.md')) ? readFileSync(join(alvo, 'AGENTS.md'), 'utf8') : '';
+    checar('novo-projeto.sh: gera instruções sem as integrações removidas', [dev, agentsProj].every((doc) => !integracoesRemovidas.test(doc)) && !existsSync(join(alvo, '.claude-plugin')));
     checar('novo-projeto.sh: AGENTS.md carimba a versão do método', agentsProj.includes(`Versão do método: ${versao}`));
-    for (const termo of ['CLAUDE.md', 'processo/DESENVOLVIMENTO.md', 'processo/memoria-do-projeto.md', 'superpowers:test-driven-development', 'superpowers:verification-before-completion', 'orca orchestration ask'])
+    for (const termo of ['CLAUDE.md', 'processo/DESENVOLVIMENTO.md', 'processo/memoria-do-projeto.md', 'escreva o teste antes do código', 'orca orchestration ask'])
       checar(`novo-projeto.sh: AGENTS.md cita ${termo}`, agentsProj.includes(termo));
     checar('novo-projeto.sh: cria processo/requisitos.md, processo/telas/ e a linha Telas:', existsSync(join(alvo, 'processo/requisitos.md')) && existsSync(join(alvo, 'processo/telas')) && dev.includes('Telas:'));
     checar('novo-projeto.sh: AGENTS.md diz que a ferramenta vem do papel (Ferramenta por papel, prompt da Lead)', agentsProj.includes('Ferramenta por papel') && agentsProj.includes('prompt-lead-orca.md'));
@@ -635,10 +568,11 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
     checar('novo-projeto.sh marca o cenário rascunho no DESENVOLVIMENTO.md', dev.includes('- api-backend (rascunho: ainda não testado)'));
     // CLAUDE.md do projeto: toda sessão já nasce com o contexto; nunca sobrescreve um que já exista
     const claudeProj = existsSync(join(alvo, 'CLAUDE.md')) ? readFileSync(join(alvo, 'CLAUDE.md'), 'utf8') : '';
+    checar('novo-projeto.sh: CLAUDE.md gerado sem as integrações removidas', !integracoesRemovidas.test(claudeProj));
     checar('novo-projeto.sh: CLAUDE.md carimba a versão do método', claudeProj.includes(`Versão do método: ${versao}`));
     checar('novo-projeto.sh: CLAUDE.md importa o DESENVOLVIMENTO.md e a memória', claudeProj.includes('@processo/DESENVOLVIMENTO.md') && claudeProj.includes('@processo/memoria-do-projeto.md'));
-    checar('novo-projeto.sh: CLAUDE.md manda consultar o método pela skill metodo:consultar', claudeProj.includes('metodo:consultar'));
-    checar('novo-projeto.sh: CLAUDE.md explica o modo Orca e a atualização do projeto', claudeProj.includes('Orca') && claudeProj.includes('/metodo:atualizar-projeto'));
+    checar('novo-projeto.sh: o projeto consulta a cópia local do método', [claudeProj, agentsProj].every((doc) => doc.includes('cópia local de AI Development')) && dev.includes('Cópia local do método:'));
+    checar('novo-projeto.sh: CLAUDE.md explica o modo Orca e a atualização do projeto', claudeProj.includes('Orca') && claudeProj.includes('CHANGELOG.md'));
     checar('novo-projeto.sh: CLAUDE.md diz que a ferramenta vem do papel (--agent claude ou --agent codex)', claudeProj.includes('Ferramenta por papel') && claudeProj.includes('--agent claude') && claudeProj.includes('--agent codex') && claudeProj.includes('AGENTS.md') && !/sempre Claude/i.test(claudeProj));
     checar('novo-projeto.sh: CLAUDE.md sem marcadores nem caminhos de pasta', claudeProj.length > 0 && !claudeProj.includes('{{') && !claudeProj.includes(RAIZ));
     const alvo_com_claude = join(base, 'projeto-com-claude');
@@ -702,55 +636,11 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
   }
 }
 
+// Decisão 011: o que foi promovido não volta a ser rascunho; o selo de maturidade é dos cenários
 {
-  // Plugin metodo: catálogo e skills (o repositório inteiro é o plugin)
-  let catalogo = null;
-  try {
-    catalogo = JSON.parse(ler('.claude-plugin/marketplace.json'));
-  } catch {
-    catalogo = null;
-  }
-  checar('plugin: marketplace.json é JSON válido', catalogo !== null);
-  const entrada = catalogo?.plugins?.find((p) => p.name === 'metodo');
-  checar('plugin: marketplace metodo-de-desenvolvimento com dono', catalogo?.name === 'metodo-de-desenvolvimento' && Boolean(catalogo?.owner?.name));
-  checar('plugin: entrada metodo com source "./" e sem version', entrada?.source === './' && entrada?.version === undefined);
-  const pastasSkill = existsSync(join(RAIZ, 'skills')) ? readdirSync(join(RAIZ, 'skills')).filter((n) => existsSync(join(RAIZ, 'skills', n, 'SKILL.md'))) : [];
-  checar('plugin: skills novo-projeto, consultar e atualizar-projeto', ['novo-projeto', 'consultar', 'atualizar-projeto'].every((n) => pastasSkill.includes(n)), pastasSkill.join(', '));
-  for (const pasta of pastasSkill) {
-    const texto = ler(`skills/${pasta}/SKILL.md`);
-    const cabecalho = (texto.match(/^---\n([\s\S]*?)\n---\n/) || [])[1] || '';
-    checar(`skills/${pasta}: name igual ao nome da pasta`, new RegExp(`^name:\\s*${pasta}\\s*$`, 'm').test(cabecalho));
-    checar(`skills/${pasta}: description no cabeçalho`, /^description:\s*\S.{20,}$/m.test(cabecalho));
-    const citados = [...texto.matchAll(/\$\{CLAUDE_PLUGIN_ROOT\}\/([^\s`"'<>)*]+)/g)].map((m) => m[1]);
-    checar(`skills/${pasta}: cita arquivos do método por \${CLAUDE_PLUGIN_ROOT}`, citados.length >= 2, `citados: ${citados.length}`);
-    checar(`skills/${pasta}: diz onde achar o método sem \${CLAUDE_PLUGIN_ROOT} (Codex)`, texto.includes('dois níveis acima'));
-    for (const caminho of citados) checar(`skills/${pasta}: caminho citado existe (${caminho})`, existsSync(join(RAIZ, caminho)));
-  }
-  const inicio = ler('skills/novo-projeto/SKILL.md');
-  checar('skills/novo-projeto: sem selo de rascunho (decisão 011)', !inicio.includes('**Maturidade:**'));
-  for (const termo of ['superpowers:brainstorming', 'gh repo create', '.DS_Store', 'Pode criar?', 'bash "${CLAUDE_PLUGIN_ROOT}/scripts/novo-projeto.sh"', 'orca repo add'])
-    checar(`skills/novo-projeto: ${termo}`, inicio.includes(termo));
-  const atualizar = ler('skills/atualizar-projeto/SKILL.md');
-  checar('skills/atualizar-projeto: sem selo de rascunho (decisão 011)', !atualizar.includes('**Maturidade:**'));
-  for (const termo of ['${CLAUDE_PLUGIN_ROOT}/CHANGELOG.md', 'Versão do método', 'Pode atualizar?', 'orca repo add', 'bash "${CLAUDE_PLUGIN_ROOT}/scripts/novo-projeto.sh"', 'nunca apague'])
-    checar(`skills/atualizar-projeto: ${termo}`, atualizar.includes(termo));
-  checar('skills/atualizar-projeto: cria o AGENTS.md que falta', atualizar.includes('AGENTS.md'));
-  checar('skills/novo-projeto: explica a ferramenta por papel e passa --agente só para uma ferramenta só', inicio.includes('Ferramenta por papel') && inicio.includes('--agente <claude|codex>') && !inicio.includes('Back e front com agentes diferentes'));
-  checar('skills/consultar: aponta para a ferramenta por papel', ler('skills/consultar/SKILL.md').includes('Lead e ferramenta por papel') && !ler('skills/consultar/SKILL.md').includes('Back e front com agentes diferentes'));
-  // Decisão 013: projetos 3.x passam para a Lead e a ferramenta por papel, com os harnesses renomeados
-  checar('skills/atualizar-projeto: troca a linha Agente principal pela linha Lead e a tabela Ferramenta por papel', atualizar.includes('Agente principal:') && atualizar.includes('Lead:') && atualizar.includes('Ferramenta por papel') && atualizar.includes('--agente'));
-  for (const [antigo, novo] of [['integradora', 'lead'], ['arquitetura', 'architect'], ['back-e-dados', 'backend'], ['design-e-front', 'frontend'], ['seguranca', 'security'], ['produto', 'product'], ['devops', 'ops']])
-    checar(`skills/atualizar-projeto: renomeia processo/agentes/${antigo}.md para ${novo}.md`, atualizar.includes(`| \`${antigo}.md\` | \`${novo}.md\` |`));
-  checar('skills/atualizar-projeto: renomeia com git mv, sem perder a personalização, e lista a diferença', atualizar.includes('git mv') && atualizar.includes('personaliza'));
-  checar('skills/atualizar-projeto: acrescenta a seção Aprovações', atualizar.includes('## Aprovações'));
-  checar('skills/atualizar-projeto: o git diff permite só as remoções das duas exceções', (atualizar.split('## Passo 4')[1] || '').includes('Agente principal:') && (atualizar.split('## Passo 4')[1] || '').includes('renomeados'));
-}
-
-// Decisão 011: o que foi promovido não volta a ser rascunho; só os cenários e o que entrou depois sem caso real (o ponytail, decisão 012) levam o selo
-{
-  const ativos = todosMd().map((a) => relative(RAIZ, a)).filter((n) => /^(README\.md|modelos\/|nucleo\/|skills\/)/.test(n));
+  const ativos = todosMd().map((a) => relative(RAIZ, a)).filter((n) => /^(README\.md|modelos\/|nucleo\/)/.test(n));
   for (const nome of ativos) {
-    const linhas = ler(nome).split('\n').filter((l) => /rascunho/i.test(l) && !/cen[aá]rio|selo de maturidade|rascunho do aviso|ponytail/i.test(l));
+    const linhas = ler(nome).split('\n').filter((l) => /rascunho/i.test(l) && !/cen[aá]rio|selo de maturidade|rascunho do aviso/i.test(l));
     checar(`${nome}: sem marca de rascunho fora dos cenários (decisão 011)`, linhas.length === 0, (linhas[0] || '').slice(0, 120));
   }
   const np = ler('scripts/novo-projeto.sh');
@@ -758,111 +648,20 @@ checar('prompt da Lead cita as skills pelo nome exato', promptInt.includes('supe
 }
 
 
-// Decisão 012: revalidação de lacunas. Nada fica solto: toda skill do mapa do 03 tem um agente que a usa,
-// ou está na lista das que servem só aos modos sem especialistas; os agentes leem as lições; os cenários
-// apontam para as skills dos agentes; o REA e a security-audit têm dono; o ponytail entra com regras.
-{
-  const mapa = (skills.split('## Mapa de skills')[1] || '').split('\n## ')[0];
-  const foraDosAgentes = (skills.split('## Skills fora dos agentes')[1] || '').split('\n## ')[0];
-  checar('skills e testes: seção "Skills fora dos agentes", com o motivo de cada uma', foraDosAgentes.length > 200);
-  const harnessesTexto = HARNESSES.map((n) => ler(`modelos/agentes/${n}.md`)).join('\n');
-  const doMapa = new Set([...mapa.matchAll(/`((?:superpowers|engineering|design|metodo):[a-z-]+|security-audit|reverse-engineer-anything)`/g)].map((m) => m[1]));
-  for (const skill of doMapa)
-    checar(`mapa de skills: ${skill} tem um agente que a usa ou está em "Skills fora dos agentes"`, harnessesTexto.includes(skill) || foraDosAgentes.includes(skill));
-  for (const skill of ['design:design-system', 'design:user-research', 'design:research-synthesis'])
-    checar(`mapa de skills: cita ${skill}, que um agente usa`, mapa.includes(skill));
-  for (const skill of ['superpowers:using-superpowers', 'superpowers:writing-skills'])
-    checar(`skills e testes: diz por que ${skill} fica fora dos agentes`, foraDosAgentes.includes(skill));
-  for (const nome of HARNESSES)
-    checar(`agentes/${nome}: lê as lições do método (licoes/_indice.md)`, ler(`modelos/agentes/${nome}.md`).includes('licoes/_indice.md'));
-  checar('agentes/_modelo-harness: manda ler as lições do método', modeloHarness.includes('licoes/_indice.md'));
-  const parte5 = (n) => (ler(`modelos/agentes/${n}.md`).split('## 5. Skills')[1] || '').split('\n## ')[0];
-  const exige = {
-    lead: ['metodo:auditoria-de-seguranca', 'engineering:testing-strategy', 'engineering:documentation', 'superpowers:diagnosing-superpowers', '/ponytail-audit', '/ponytail-debt'],
-    'backend': ['/ponytail-review', 'superpowers:requesting-code-review', 'superpowers:receiving-code-review', 'ponytail'],
-    'frontend': ['/ponytail-review', 'superpowers:requesting-code-review', 'superpowers:receiving-code-review', 'design:design-handoff', 'reverse-engineer-anything', 'ponytail'],
-    designer: ['design:design-system', 'design:accessibility-review', 'design:design-critique', 'design:ux-copy', 'design:design-handoff', 'superpowers:brainstorming', 'figma-use'],
-    ops: ['/ponytail-review', 'superpowers:requesting-code-review', 'engineering:documentation', 'superpowers:receiving-code-review', 'ponytail'],
-    architect: ['reverse-engineer-anything'],
-    security: ['reverse-engineer-anything'],
-  };
-  for (const [nome, termos] of Object.entries(exige))
-    for (const termo of termos) checar(`agentes/${nome}: parte 5 cita ${termo}`, parte5(nome).includes(termo));
-  checar('agentes/devops: recebe do Security os needs_validation de infraestrutura', ler('modelos/agentes/ops.md').includes('needs_validation'));
-  checar('agentes/design-e-front: estuda referência pelo prompt de auditoria de referência', ler('modelos/agentes/frontend.md').includes('prompt-auditoria-de-referencia.md'));
-  checar('skills/auditoria-de-seguranca: o artefato publicado com o REA', auditoria.includes('reverse-engineer-anything') && auditoria.includes('artefato publicado'));
-  for (const nome of listar('cenarios'))
-    checar(`cenarios/${nome}: "Skills úteis" aponta para as skills dos agentes (metodo:)`, ((ler(`cenarios/${nome}`).split('## Skills úteis')[1] || '').split('\n## ')[0]).includes('`metodo:'));
-  for (const prompt of ['modelos/prompt-lead.md', 'modelos/prompt-builder.md'])
-    checar(`${prompt}: vale para as duas ferramentas (Ferramenta por papel)`, ler(prompt).includes('Codex') && ler(prompt).includes('Ferramenta por papel'));
-  for (const skill of ['design:design-system', 'design:user-research', 'design:research-synthesis', 'superpowers:writing-skills', '/ponytail-review'])
-    checar(`README: lista de skills cita ${skill}`, readme.includes(skill));
-  // Removidas do método por decisão da pessoa (decisão 012): repetiam o Superpowers ou o ponytail, ou não tinham papel
-  const ativosTexto = todosMd().map((a) => relative(RAIZ, a)).filter((n) => /^(README\.md|CLAUDE\.md|modelos\/|nucleo\/|skills\/|cenarios\/)/.test(n));
-  for (const skill of ['engineering:debug', 'engineering:code-review', 'engineering:tech-debt', 'engineering:standup'])
-  {
-    const usa = (n) => ler(n).split('\n').some((l) => l.includes(skill) && !l.includes('Saíram do método'));
-    checar(`método não usa mais ${skill} (decisão 012; só a nota "Saíram do método" do README pode citá-la)`, ativosTexto.every((n) => !usa(n)), ativosTexto.find(usa) || '');
-  }
-  checar('agentes/Lead: a Fase 8 confere dependências, infraestrutura e documentação (o que a tech-debt cobria)', ler('modelos/agentes/lead.md').includes('dependências desatualizadas'));
-  checar('CLAUDE.md do método: superpowers:writing-skills ao criar ou mudar skill do plugin', ler('CLAUDE.md').includes('superpowers:writing-skills'));
-  // Ponytail (rascunho): instalação oficial e as regras de convivência com o método
-  for (const termo of ['https://github.com/DietrichGebert/ponytail', '/plugin marketplace add DietrichGebert/ponytail', 'codex plugin marketplace add DietrichGebert/ponytail'])
-    checar(`README: adoção instala o ponytail (${termo})`, adocao.includes(termo));
-  const ponySec = (sessoes + skills);
-  checar('skills e testes: seção do ponytail com as regras de convivência', skills.includes('## Ponytail (rascunho)') && /TDD do método/.test(skills.split('## Ponytail (rascunho)')[1] || '') && (skills.split('## Ponytail (rascunho)')[1] || '').includes('shortcut:') && (skills.split('## Ponytail (rascunho)')[1] || '').includes('ultra'));
-  // O ponytail é sobretudo economia de tokens no Claude; no Codex (modelos de raciocínio) pode encarecer, então é medido antes
-  const ponySecao = skills.split('## Ponytail (rascunho)')[1] || '';
-  for (const termo of ['tokens', 'custo', 'Codex', 'mais caro', '~/.config/ponytail/band/', 'SubagentStart', '/hooks', 'benchmarks/results'])
-    checar(`skills e testes: seção do ponytail cobre custo e o Codex (${termo})`, ponySecao.includes(termo));
-  checar('skills/auditoria-de-seguranca: desliga o ponytail durante a auditoria completa (subagentes)', auditoria.includes('/ponytail off'));
-  // Uso seguro do ponytail no tempo (pedido da pessoa): o nível vale por pasta, nunca se muda o padrão global,
-  // a auditoria roda numa worktree própria, o Codex declara o uso sob demanda e a atualização é deliberada
-  for (const termo of ['vale por pasta', '/ponytail default', 'versão conferida', '5.3.3', 'atualização automática', 'Antes de atualizar'])
-    checar(`skills e testes: uso seguro do ponytail no tempo (${termo})`, ponySecao.includes(termo));
-  checar('skills/auditoria-de-seguranca: roda numa worktree própria, para o /ponytail off não afetar outra sessão', auditoria.includes('worktree própria') && auditoria.includes('git worktree add --detach'));
-  // Convivência com as outras skills: pedido vago passa pelo brainstorming; o que uma skill do método exige conta como pedido;
-  // o veredito de segurança é do Security
-  for (const termo of ['Pedido vago', 'superpowers:brainstorming', 'conta como pedido', 'veredito do Security'])
-    checar(`skills e testes: convivência do ponytail com as outras skills (${termo})`, ponySecao.includes(termo));
-  for (const modelo of ['modelos/CLAUDE-projeto.md', 'modelos/AGENTS-projeto.md'])
-    checar(`${modelo}: o que as skills do método exigem conta como pedido para o ponytail`, ler(modelo).includes('conta como pedido'));
-  checar('modelos/AGENTS-projeto.md: o Codex não carrega o ponytail sozinho', ler('modelos/AGENTS-projeto.md').includes('não carregue a skill `ponytail` por conta própria'));
-  for (const modelo of ['modelos/CLAUDE-projeto.md', 'modelos/AGENTS-projeto.md'])
-    checar(`${modelo}: nunca muda o padrão global do ponytail (/ponytail default)`, ler(modelo).includes('/ponytail default'));
-  checar('decisão 012: o que observar no primeiro projeto Codex inclui se o ponytail carregou sozinho', ler('decisoes/012-revalidacao-de-lacunas-e-ponytail.md').includes('carregou sozinho'));
-  checar('agentes/Lead: anota na memória se o ponytail carregou sozinho no Codex', ler('modelos/agentes/lead.md').includes('carregou sozinho'));
-  checar('agentes/Lead: lê o consumo por tarefa no quadro do ponytail', ler('modelos/agentes/lead.md').includes('~/.config/ponytail/band/'));
-  checar('modelos/AGENTS-projeto.md: no Codex, o ponytail fica só sob demanda até medir', ler('modelos/AGENTS-projeto.md').includes('sob demanda'));
-  for (const modelo of ['modelos/CLAUDE-projeto.md', 'modelos/AGENTS-projeto.md'])
-    checar(`${modelo}: diz que o TDD do método vale sobre o ponytail`, ler(modelo).includes('ponytail') && ler(modelo).includes('TDD do método'));
-  void ponySec;
-}
+for (const nome of HARNESSES)
+  checar('agentes/' + nome + ': lê as lições do método', ler('modelos/agentes/' + nome + '.md').includes('licoes/_indice.md'));
+checar('modelo do harness: lê as lições do método', modeloHarness.includes('licoes/_indice.md'));
+checar('Ops: recebe do Security os needs_validation de infraestrutura', ler('modelos/agentes/ops.md').includes('needs_validation'));
+checar('Designer: usa o roteiro de estudo de referência', ler('modelos/agentes/designer.md').includes('04-referencias-e-engenharia-reversa.md'));
+for (const prompt of ['modelos/prompt-lead.md', 'modelos/prompt-builder.md'])
+  checar(prompt + ': vale para as duas ferramentas', ler(prompt).includes('Codex') && ler(prompt).includes('Ferramenta por papel'));
 
 // 4) Consistência geral
-const SKILLS_VALIDAS = new Set([
-  ...['brainstorming', 'writing-plans', 'executing-plans', 'subagent-driven-development', 'test-driven-development', 'systematic-debugging', 'verification-before-completion', 'requesting-code-review', 'receiving-code-review', 'finishing-a-development-branch', 'using-git-worktrees', 'dispatching-parallel-agents', 'writing-skills', 'using-superpowers', 'diagnosing-superpowers'].map((n) => `superpowers:${n}`),
-  ...['architecture', 'code-review', 'debug', 'deploy-checklist', 'documentation', 'incident-response', 'standup', 'system-design', 'tech-debt', 'testing-strategy'].map((n) => `engineering:${n}`),
-  ...['accessibility-review', 'design-critique', 'design-handoff', 'design-system', 'research-synthesis', 'user-research', 'ux-copy'].map((n) => `design:${n}`),
-]);
-// As skills do próprio plugin: toda citação metodo:<nome> precisa ter skills/<nome>/SKILL.md
-const SKILLS_METODO = new Set(existsSync(join(RAIZ, 'skills')) ? readdirSync(join(RAIZ, 'skills')).filter((n) => existsSync(join(RAIZ, 'skills', n, 'SKILL.md'))) : []);
-// Todo plugin cujas skills o método cita, e o REA, precisam estar na instalação do README
-for (const prefixo of new Set([...SKILLS_VALIDAS].map((s) => s.split(':')[0])))
-  checar(`README: adoção instala o plugin ${prefixo}`, adocao.includes(`${prefixo}@`));
-checar('README: adoção instala o REA (reverse-engineer-anything)', adocao.includes('npx rea-agents setup'));
-for (const repo of ['https://github.com/obra/superpowers', 'https://github.com/anthropics/knowledge-work-plugins', 'https://github.com/morluto/rea'])
-  checar(`README: adoção aponta para o repositório oficial ${repo}`, adocao.includes(repo));
-checar('README: adoção ensina a conferir a instalação', adocao.includes('node --version') && adocao.includes('claude mcp list'));
 const arquivosTexto = [...todosMd(), ...['modelos/issue-tarefa.yml', 'modelos/issue-bug.yml', 'modelos/ci-node.yml', '.github/workflows/verificar.yml'].map((a) => join(RAIZ, a))].filter(existsSync);
 for (const arquivo of arquivosTexto) {
   const texto = readFileSync(arquivo, 'utf8');
   const nome = relative(RAIZ, arquivo);
 
-  for (const [, skill] of texto.matchAll(/`?((?:superpowers|engineering|design):[a-z-]+)`?/g))
-    checar(`${nome}: skill existente (${skill})`, SKILLS_VALIDAS.has(skill));
-  for (const [, skill] of texto.matchAll(/(?<![\w/.-])metodo:([a-z][a-z-]*[a-z])/g))
-    checar(`${nome}: skill do plugin existente (metodo:${skill})`, SKILLS_METODO.has(skill));
 
   checar(`${nome}: sem pendências (TODO, TBD, XXX)`, !/(?<![\p{L}\p{N}_])(TODO|TBD|XXX|FIXME)(?![\p{L}\p{N}_])/u.test(texto));
 
@@ -880,7 +679,7 @@ for (const arquivo of arquivosTexto) {
 
 // Decisão 016: o processo mora em processo/; fora do histórico, nenhum caminho antigo
 const CAMINHO_ANTIGO = /\bdocs\/(DESENVOLVIMENTO|memoria-do-projeto|requisitos|telas|agentes|referencias|seguranca|contrato-api|arquitetura|specs?)\b|(?<!processo\/)\bscripts\/(nova|remover)-tarefa/;
-const comCaminhoAntigo = ARQUIVOS_VIVOS.flatMap((f) => readFileSync(f, 'utf8').split('\n').map((l, i) => (CAMINHO_ANTIGO.test(l) && !(f.endsWith('/skills/atualizar-projeto/SKILL.md') && l.includes('processo/')) ? `${f.slice(RAIZ.length + 1)}:${i + 1}` : null)).filter(Boolean));
+const comCaminhoAntigo = ARQUIVOS_VIVOS.flatMap((f) => readFileSync(f, 'utf8').split('\n').map((l, i) => (CAMINHO_ANTIGO.test(l) ? `${f.slice(RAIZ.length + 1)}:${i + 1}` : null)).filter(Boolean));
 checar('016: nenhum caminho antigo (docs/…, scripts/nova-tarefa) fora do histórico', comCaminhoAntigo.length === 0, comCaminhoAntigo.slice(0, 5).join(', '));
 const comDuplo = ARQUIVOS_VIVOS.filter((f) => readFileSync(f, 'utf8').includes('processo/processo'));
 checar('016: nenhum processo/processo', comDuplo.length === 0, comDuplo.slice(0, 3).join(', '));
@@ -888,12 +687,6 @@ checar('016: o prefixo de branch docs/ continua em nucleo/05', ler('nucleo/05-gi
 checar('016: nova-tarefa.sh ainda aceita o tipo docs', ler('modelos/nova-tarefa.sh').includes('feat|fix|chore|docs'));
 checar('016: VERSION é 6.0.0 ou maior', Number(versao.split('.')[0]) >= 6, versao);
 checar('016: decisão 016 existe e o CHANGELOG tem a 6.0.0', existsSync(join(RAIZ, 'decisoes/016-processo-fora-da-raiz.md')) && ler('CHANGELOG.md').includes('## 6.0.0'));
-const atualizar016 = ler('skills/atualizar-projeto/SKILL.md');
-checar('016: a skill atualizar-projeto migra docs/ e scripts/ para processo/', ['git mv', 'processo/scripts/', 'só os itens listados', 'processo/DESENVOLVIMENTO.md', 'docs/DESENVOLVIMENTO.md'].every((t) => atualizar016.includes(t)));
-checar('016: a migração também move docs/spec.md', atualizar016.includes('`docs/spec.md`'));
-checar('016: a referência lê os cenários também do docs/DESENVOLVIMENTO.md (projeto 5.x)', atualizar016.split('\n').some((l) => l.includes('Cenários aplicados') && l.includes('docs/DESENVOLVIMENTO.md')));
-checar('016: a conferência do diff admite a troca de caminhos da migração (Exceção 3)', (atualizar016.split('Aplique o plano.')[1] || '').split('\n')[0].includes('Exceção 3'));
-
 // Resultado
 if (falhas.length) {
   console.log(`✗ ${falhas.length} de ${total} verificações falharam:\n`);
