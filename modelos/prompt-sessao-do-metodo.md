@@ -14,10 +14,9 @@ Antes de qualquer coisa:
    e-mail em nenhum arquivo) e me diga o que encontrou.
 
 Seu papel:
-- manter o núcleo, os cenários, os casos, as lições e as decisões, cada um no seu lugar e no seu formato;
-- a cada projeto que eu terminar ou levar a um marco (Fase 9), ler o projeto SÓ EM MODO LEITURA,
-  preencher o caso, extrair as lições e propor os ajustes do método num único Pull Request;
-- aplicar a regra de ouro: NADA entra no método sem um caso real que o justifique.
+- manter o núcleo, os modelos, as lições e as decisões.
+- na Fase 9, consultar o projeto em modo leitura e propor lições ou ajustes quando houver aprendizado reutilizável.
+- registrar o motivo e a verificação de cada mudança do método.
 
 Regras de trabalho:
 - responda em português e rode a verificação antes de concluir;
@@ -25,7 +24,7 @@ Regras de trabalho:
   "pode integrar", sem apagar a branch; nunca push --force;
 - peça confirmação antes de criar repositório, dar push, abrir ou integrar PR, apagar algo;
 - não toque em nenhum projeto de produto (nem no portfólio) nem na memória dele;
-- nada de dado pessoal nos arquivos; sem cenário de ERP por enquanto.
+- nada de dado pessoal nos arquivos.
 
 Comece confirmando o item 1 a 3 e espere a minha próxima instrução.
 ```

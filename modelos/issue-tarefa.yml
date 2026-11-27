@@ -7,7 +7,14 @@ body:
   - type: markdown
     attributes:
       value: |
-        A sessão **Lead** abre esta tarefa; uma sessão **Builder** a executa e **não** integra na `main`.
+        A Lead classifica o impacto e integra na `main`. Quando a tarefa for delegada, a Builder executa.
+  - type: input
+    id: impacto
+    attributes:
+      label: Impacto e motivo
+      description: Básico, Padrão ou Profundo. Indique quem pode ser afetado, por quê e qual portão se aplica.
+    validations:
+      required: true
   - type: textarea
     id: objetivo
     attributes:
@@ -19,7 +26,7 @@ body:
     id: requisitos
     attributes:
       label: Requisitos (R-xx)
-      description: Os IDs de processo/requisitos.md, como "R-03, R-04". Sem requisito, a tarefa não entra (requisito novo passa pela pessoa).
+      description: Cite os IDs de processo/requisitos.md ou informe "sem R-xx aplicável". Requisito novo passa pela pessoa.
     validations:
       required: true
   - type: textarea
@@ -46,24 +53,22 @@ body:
   - type: textarea
     id: testes_micro
     attributes:
-      label: Testes micro esperados (TDD)
-      description: Os testes pequenos que devem ser escritos antes do código.
+      label: Verificação do ajuste (micro)
+      description: Informe a evidência esperada. Para mudança de comportamento ou correção de bug, escreva o teste antes do código.
     validations:
       required: true
   - type: textarea
     id: testes_macro
     attributes:
       label: Testes macro esperados
-      description: Suíte completa, build, tipos, desempenho e as áreas que não podem regredir.
+      description: Indique o CI obrigatório e as verificações de regressão proporcionais à trilha.
     validations:
       required: true
   - type: input
     id: plano
     attributes:
       label: Plano e passo
-      description: Link para o plano e o passo que esta tarefa cobre (ou "sem plano" e o motivo, numa tarefa delimitada). Numa passagem entre ferramentas, a issue precisa bastar sozinha.
-    validations:
-      required: true
+      description: Quando houver plano, informe o link e o passo. Para trabalho simples, registre o aceite e as verificações na issue.
   - type: input
     id: ferramenta
     attributes:

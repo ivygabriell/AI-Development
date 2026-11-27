@@ -25,5 +25,5 @@ jobs:
         run: |
           git config --global user.name "ci"
           git config --global user.email "ci@exemplo.com"
-      - name: Verificar documentação, links, lições, cenários e scripts
+      - name: Verificar documentação, links, modelos e scripts
         run: node scripts/verificar.mjs

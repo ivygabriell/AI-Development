@@ -4,4 +4,4 @@
 - **Causa:** o servidor ficou com o grafo de módulos antigo.
 - **Regra:** depois de **apagar ou renomear** arquivos, reinicie o servidor (`astro dev stop` e subir de novo) antes de concluir que o código está errado.
 
-**Caso de origem:** [Portfólio pessoal (2026-10)](../casos/2026-10-portfolio-pessoal.md)
+**Origem:** Portfólio pessoal (2026-10)

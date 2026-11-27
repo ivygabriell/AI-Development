@@ -4,4 +4,4 @@
 - **Causa:** o teste verificava a animação que existia, não a que foi pedida.
 - **Regra:** critérios de aceite escritos a partir da **referência**; a integradora **explora no navegador** e compara com o pedido (princípio 2).
 
-**Caso de origem:** [Portfólio pessoal (2026-10)](../casos/2026-10-portfolio-pessoal.md)
+**Origem:** Portfólio pessoal (2026-10)

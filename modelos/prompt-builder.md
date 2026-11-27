@@ -11,10 +11,12 @@ Antes de qualquer coisa, leia o documento de desenvolvimento do projeto e siga:
   à aprovada em processo/telas/ (o frame no Figma, pelo MCP do Figma); tela que não está lá, ou diferente dela,
   não se coda: pergunte à Lead;
 - só mexa nos arquivos permitidos pela issue; os proibidos e os congelados ficam intocados;
+- siga a trilha de impacto da issue e avise a Lead antes de seguir se o alcance ou o risco aumentar;
 - bug fora do escopo da sua tarefa: abra uma issue nova com o formulário de bug e siga a sua tarefa;
-- TDD: escreva o teste primeiro e veja-o falhar pelo motivo certo; commits pequenos;
-- ao terminar, rode a suíte completa, a checagem de tipos e o build com os testes dele (testes macro);
-- traga a main para a sua branch (git fetch origin && git merge origin/main), rode tudo de novo,
+- TDD: escreva o teste primeiro e veja-o falhar pelo motivo certo quando mudar comportamento ou corrigir bug.
+  No Básico sem alteração de comportamento, registre a verificação direta do aceite.
+- ao terminar, rode as verificações da trilha, em commits pequenos.
+- traga a main para a sua branch (git fetch origin && git merge origin/main), repita as verificações afetadas,
   envie a branch e abra o PR com o modelo, escrevendo "Closes #N";
 - NÃO faça merge na main e NÃO use push --force. Só a sessão Lead integra;
 - dúvidas vão para a sessão Lead (comente na issue), não para a pessoa;
@@ -23,4 +25,4 @@ Antes de qualquer coisa, leia o documento de desenvolvimento do projeto e siga:
 Responda em português.
 ```
 
-O que a Builder devolve: o PR com os testes micro (que falharam antes), os macro verdes, o checklist do modelo preenchido e as decisões que desviaram do pedido, cada uma com o motivo e o custo se estiver errada.
+A Builder devolve o PR com a trilha, a evidência de aceite, os testes aplicáveis e os desvios relevantes.

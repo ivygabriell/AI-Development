@@ -4,4 +4,4 @@
 - **Causa:** o Git só remove o que conhece; o resto fica.
 - **Regra:** depois do `worktree remove`, confira `git worktree list` e olhe o que sobrou na pasta antes de apagá-la (só depois de a branch estar integrada e enviada), e rode `git worktree prune`.
 
-**Caso de origem:** [Portfólio pessoal (2026-10)](../casos/2026-10-portfolio-pessoal.md)
+**Origem:** Portfólio pessoal (2026-10)

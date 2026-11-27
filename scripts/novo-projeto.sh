@@ -1,27 +1,24 @@
 #!/usr/bin/env bash
 # Prepara um projeto novo com os modelos do método.
-# Uso: scripts/novo-projeto.sh <pasta-do-projeto> [--agente claude|codex] [--especialistas] [cenario ...]
+# Uso: scripts/novo-projeto.sh <pasta-do-projeto> [--agente claude|codex] [--especialistas]
 #   <pasta-do-projeto>  pasta que já existe (de preferência um repositório Git novo)
 #   --agente            põe todos os papéis, inclusive a Lead, numa ferramenta só: claude ou codex (decisão 013);
 #                       sem ele, a Lead e Product, Architect, Frontend e Designer ficam no Claude Code, e Backend, Security e Ops no Codex
 #   --especialistas     modo com agentes especialistas: copia os harnesses para processo/agentes/
-#   cenario             um ou mais nomes de arquivos em cenarios/ (sem .md), por exemplo: site-estatico api-backend
 # Copia: formulário de tarefa, modelo de PR, CI, scripts de worktree, e cria CLAUDE.md, AGENTS.md (para o Codex),
 # processo/DESENVOLVIMENTO.md e processo/memoria-do-projeto.md carimbados com a versão do método. Nunca sobrescreve arquivos existentes.
-# Avisa no stderr (sem interromper) quando um cenário escolhido é rascunho.
 # Se o projeto já tem CLAUDE.md ou AGENTS.md, não os toca: só avisa.
 set -euo pipefail
 
 raiz="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-uso="Uso: scripts/novo-projeto.sh <pasta-do-projeto> [--agente claude|codex] [--especialistas] [cenario ...]"
+uso="Uso: scripts/novo-projeto.sh <pasta-do-projeto> [--agente claude|codex] [--especialistas]"
 
 if [[ $# -lt 1 ]]; then
   echo "$uso" >&2
-  echo "Cenários disponíveis: $(cd "$raiz/cenarios" && ls *.md | grep -v -E '^(README|_modelo-cenario)\.md$' | sed 's/\.md$//' | tr '\n' ' ')" >&2
   exit 1
 fi
 
-# As opções podem vir em qualquer posição; o primeiro argumento que sobra é a pasta, os outros são cenários
+# As opções podem vir em qualquer posição. O único argumento posicional é a pasta.
 especialistas=0
 agente=""
 restantes=()
@@ -52,25 +49,17 @@ case "$agente" in
     exit 1
     ;;
 esac
-if [[ ${#restantes[@]} -lt 1 ]]; then
+if [[ ${#restantes[@]} -ne 1 ]]; then
   echo "$uso" >&2
   exit 1
 fi
 alvo="${restantes[0]}"
-cenarios=("${restantes[@]:1}")
 
 if [[ ! -d "$alvo" ]]; then
   echo "A pasta $alvo não existe. Crie o repositório do projeto primeiro." >&2
   exit 1
 fi
 alvo="$(cd "$alvo" && pwd)"
-
-for c in "${cenarios[@]+"${cenarios[@]}"}"; do
-  if [[ ! -f "$raiz/cenarios/$c.md" ]]; then
-    echo "Cenário inexistente: $c (veja a pasta cenarios/)." >&2
-    exit 1
-  fi
-done
 
 versao="$(tr -d '[:space:]' < "$raiz/VERSION")"
 
@@ -134,22 +123,6 @@ else
   sed -e "s|{{VERSAO}}|$versao|g" "$raiz/modelos/AGENTS-projeto.md" > "$alvo/AGENTS.md"
 fi
 
-# Cada cenário leva a sua maturidade; rascunho gera aviso, mas não interrompe
-lista_cenarios="Nenhum cenário escolhido ainda (veja a pasta cenarios/ do repositório do método)."
-if [[ ${#cenarios[@]} -gt 0 ]]; then
-  linhas=()
-  for c in "${cenarios[@]}"; do
-    maturidade="$(sed -n 's/^\*\*Maturidade:\*\*[[:space:]]*//p' "$raiz/cenarios/$c.md" | head -n 1)"
-    if [[ "$maturidade" == "rascunho" ]]; then
-      echo "AVISO: o cenário $c é rascunho (nunca testado em projeto real); trate como hipótese, não como regra." >&2
-      linhas+=("- $c (rascunho: ainda não testado)")
-    else
-      linhas+=("- $c ($maturidade)")
-    fi
-  done
-  lista_cenarios="$(printf -- '%s\n' "${linhas[@]}")"
-fi
-
 linha_especialistas=""
 if [[ $especialistas -eq 1 ]]; then
   linha_especialistas="- Com agentes especialistas: cada agente lê primeiro o seu harness em \`processo/agentes/\` e atua dentro dele. A Lead coordena os especialistas, e cada especialista abre as suas Builders. Exige no Orca: Settings → Orchestration → Nested worker depth = 2."
@@ -176,17 +149,15 @@ cat > "$alvo/processo/DESENVOLVIMENTO.md" <<DOC
 Versão do método: $versao
 Lead: $lead
 Telas: (link do arquivo do Figma; registro em processo/telas/; "sem interface" se não houver)
-Cenários aplicados:
-$lista_cenarios
 
-Os detalhes de cada fase, os cenários, os casos e as lições ficam no repositório do método (privado). Este documento registra só o que vale **neste projeto**: ajuste-o à medida que decidir.
+Consulte o núcleo e os modelos na cópia local do método. Este documento registra o que vale neste projeto.
 
 ## Regras que valem aqui
 
 1. **Alvo antes de construir.** Entender, escrever de volta, desenhar e só então construir.
 2. **Uma mudança, uma branch.** Nunca commit direto na \`main\`; tudo entra por Pull Request com o CI verde.
-3. **Teste primeiro, em duas camadas.** Micro (TDD, visto falhar antes do código) e macro (suíte completa, build, exploração).
-4. **Quem constrói não valida.** A sessão Lead refaz os testes e explora o resultado antes de integrar.
+3. **Teste primeiro nas mudanças de comportamento e correções de bugs.** Toda tarefa tem evidência e passa pelo CI obrigatório.
+4. **A Lead valida antes de integrar.** A trilha define o alcance e quando a revisão precisa ser independente.
 5. **As branches integradas ficam no GitHub.** Integre com \`gh pr merge N --merge\`, sem \`--delete-branch\`.
 6. **A pessoa decide o que tem impacto grande** (seção Aprovações, abaixo); o resto a Lead decide e registra.
 
@@ -199,9 +170,17 @@ Cada sessão usa a ferramenta do seu papel; a Builder usa a do papel de quem a a
 $tabela_papeis
 ## Aprovações
 
-Uma decisão é da pessoa quando aciona pelo menos um gatilho: muda **o que** será construído; é difícil ou impossível de desfazer; atinge usuários reais; custa dinheiro ou muita cota; aceita um risco de segurança ou de dados pessoais; muda as regras do jogo (harness, método, a Lead, a tabela Ferramenta por papel). Sem gatilho, a Lead decide e registra na issue ou na memória; na dúvida, sobe para a pessoa. Um PR dentro do plano aprovado, com CI verde, validação sem achado crítico nem importante, só nos arquivos permitidos e sem gatilho, a Lead integra sozinha. A Lead escreve um resumo por marco do que aprovou sozinha. A tabela completa está no núcleo 01 do método ("Portões de aprovação"); anote aqui o que a pessoa mudar:
+Uma decisão é da pessoa quando aciona pelo menos um gatilho. Ela muda **o que** será construído, é difícil ou impossível de desfazer, atinge usuários reais, custa dinheiro ou muita cota, aceita um risco de segurança ou de dados pessoais ou muda as regras do jogo. Sem gatilho, a Lead decide e registra. Na dúvida, sobe para a pessoa. Para integrar, confira escopo, CI e validação. Se o merge publicar em produção, obtenha a autorização antes dele. Consulte "Portões de aprovação" no núcleo 01 e registre aqui as decisões específicas deste projeto.
 
 - (nenhum ajuste ainda)
+
+## Impacto da tarefa
+
+- **Básico** para ajuste local e reversível com aceite curto, evidência focada e CI verde.
+- **Padrão** para mudança de comportamento ou efeito compartilhado com escopo conhecido, teste e revisão independente.
+- **Profundo** para vulnerabilidade, efeito alto em produção, ação difícil de desfazer ou risco relevante a dados, acesso ou disponibilidade. Registre os riscos, como conter ou recuperar e as aprovações aplicáveis.
+
+A Lead registra a trilha, o motivo, a verificação e o portão aplicável na issue ou no PR. Se o alcance mudar, reclassifica antes de seguir. Consulte "Impacto da tarefa" no núcleo 01.
 
 ## Comandos do projeto
 
@@ -217,7 +196,7 @@ Uma decisão é da pessoa quando aciona pelo menos um gatilho: muda **o que** se
 - Tarefas: issues com o formulário de tarefa (\`.github/ISSUE_TEMPLATE/tarefa.yml\`). Bugs: o formulário de bug (\`.github/ISSUE_TEMPLATE/bug.yml\`) e o "Ciclo de um bug" do método.
 - Worktrees: \`processo/scripts/nova-tarefa.sh <tipo> <slug>\` e \`processo/scripts/remover-tarefa.sh <tipo> <slug>\`.
 - Com o Orca: a Lead distribui as tarefas aos agentes (\`orca orchestration worker-start\`); o Orca cria e remove as worktrees, e os scripts acima ficam para quem trabalha sem ele. Prompt: \`modelos/prompt-lead-orca.md\` do método.
-- Ferramentas: cada papel usa a sua (seção Ferramenta por papel, acima). O Claude Code lê o \`CLAUDE.md\`; o Codex lê o \`AGENTS.md\`, que manda ler o \`CLAUDE.md\`. Todo PR recebe ao menos uma revisão da outra ferramenta. Quando a cota acaba no meio da tarefa, a Builder faz commit, envia a branch e comenta na issue onde parou; outra Builder, na outra ferramenta, continua na mesma branch. Com back e front em tarefas paralelas, o contrato da API é aprovado antes de qualquer tarefa de construção.
+- Ferramentas: consulte a tabela por papel. O Claude Code lê o \`CLAUDE.md\`. O Codex lê o \`AGENTS.md\`, que orienta a leitura do \`CLAUDE.md\`. Em projetos com duas ferramentas, faça revisão cruzada no Padrão e no Profundo. Quando a cota acaba, registre commit, branch e ponto de retomada na issue. Com back e front em tarefas paralelas, aprove o contrato da API antes da construção.
 ${linha_especialistas:+$linha_especialistas
 }- Para trazer este projeto à versão mais nova do método: compare a versão com o CHANGELOG.md da cópia local e proponha os ajustes numa branch.
 - Requisitos: \`processo/requisitos.md\` (fichas R-xx com o peso). Com interface, a identidade e todas as telas são aprovadas no Figma e registradas em \`processo/telas/\` antes do plano; o código segue a versão registrada.

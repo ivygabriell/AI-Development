@@ -4,4 +4,4 @@
 - **Causa:** a conta do gradiente foi feita de cabeça.
 - **Regra:** meça antes de fixar um limiar e registre a decisão ("o limiar é 200 porque o valor real é 214 e o antigo era 150").
 
-**Caso de origem:** [Portfólio pessoal (2026-10)](../casos/2026-10-portfolio-pessoal.md)
+**Origem:** Portfólio pessoal (2026-10)

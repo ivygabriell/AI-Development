@@ -1,6 +1,6 @@
 # 02 · Sessões e papéis
 
-Como dividir o trabalho entre sessões do Claude Code e do Codex sem perder qualidade. A ideia central: **separar quem constrói de quem valida**. Uma sessão **Lead** define, valida e integra; uma ou mais sessões **Builders** constroem tarefas isoladas.
+Uma sessão **Lead** define, valida e integra. Sessões **Builders** constroem tarefas isoladas quando o trabalho pede divisão. A [trilha de impacto](01-fluxo-de-ponta-a-ponta.md#impacto-da-tarefa) determina a profundidade da validação.
 
 ## Quando dividir
 
@@ -15,7 +15,7 @@ Sinais de que dividir ajuda: a mesma sessão está construindo e conferindo o pr
 
 ## Quando NÃO dividir
 
-- Tarefas pequenas (um texto, uma cor, uma linha): a Lead faz direto, numa branch, no mesmo fluxo.
+- Tarefa Básico: a Lead pode fazer direto em uma branch e conferir o resultado em uma passagem separada.
 - Tarefas que **mexem nos mesmos arquivos**: rode em sequência numa sessão só.
 - Projeto sem testes nem CI: monte isso primeiro; dividir sem rede de segurança multiplica os erros.
 - Conta com limite apertado de uso: o paralelo esgota o limite mais rápido.
@@ -26,36 +26,36 @@ Sinais de que dividir ajuda: a mesma sessão está construindo e conferindo o pr
 | | Lead (principal) | Builder (uma por tarefa) |
 |---|---|---|
 | Missão | Definir, validar e integrar | Construir uma tarefa |
-| Escreve código | Quase nunca (correções pequenas da própria validação) | Sim, só nos arquivos permitidos |
+| Escreve código | Ajustes básicos e correções pequenas da própria validação | Sim, só nos arquivos permitidos |
 | Cria tarefas e critérios de aceite | Sim | Não: segue a issue |
 | Branch e PR | Coordena e mantém | Uma branch e um PR por tarefa |
-| Testes | Refaz tudo e **explora** (micro e macro) | TDD (micro) e a suíte completa (macro) antes do PR |
+| Testes | Valida o aceite e explora conforme a trilha | Executa e registra as verificações da trilha |
 | Merge na `main` | **Só ela integra** | **Nunca** |
 | Fala com a pessoa | Sim; reúne todas as dúvidas num lugar só | Não; sobe a dúvida para a Lead |
 
 ## Ciclo de uma tarefa
 
-1. A Lead abre a issue com o formulário de tarefa: objetivo, critérios de aceite, arquivos permitidos e proibidos, testes micro e macro.
-2. A Builder cria a worktree com o script (`nova-tarefa.sh`): branch a partir da `main` do remoto e uma porta própria para o servidor.
-3. A Builder desenvolve com TDD e commits pequenos.
-4. Antes do PR, traz a `main` para a branch, roda os testes macro, envia a branch e abre o PR (`Closes #N`).
-5. O CI roda sozinho. A Lead **valida** (checklist em [03](03-skills-e-testes.md) e no [prompt da Lead](../modelos/prompt-lead.md)).
-6. A Lead confere os gatilhos de aprovação ([01](01-fluxo-de-ponta-a-ponta.md), "Portões de aprovação"): sem gatilho, integra e registra no resumo por marco; com gatilho, só com o "pode integrar" da pessoa. Depois confere a `main` e o CI. **A branch fica no GitHub** como histórico consultável. A Builder remove a worktree.
+1. A Lead classifica o impacto e registra o aceite e a verificação. No Básico, pode usar o próprio PR como registro. Ao delegar, registra a tarefa na issue com os arquivos permitidos e proibidos.
+2. A Lead ou a Builder trabalha em branch própria. Quando há Builder em sessão separada, ela cria a worktree com `nova-tarefa.sh`.
+3. Quem constrói usa TDD para mudança de comportamento ou correção de bug e registra as verificações da trilha.
+4. Antes do PR, atualiza a branch com a `main`, repete as verificações afetadas e abre o PR com `Closes #N` quando houver issue.
+5. A Lead valida conforme a trilha e confere o CI. Veja [Testes e auditoria](03-skills-e-testes.md) e o [prompt da Lead](../modelos/prompt-lead.md).
+6. A Lead confere os gatilhos de aprovação. Sem gatilho, integra e registra no resumo por marco. Com gatilho, espera o "pode integrar" da pessoa. Quando o merge publica automaticamente, resolve também o portão da publicação antes de integrar. Depois, confere a `main` e o CI. A branch fica no GitHub. Se houver worktree de tarefa, a Builder remove conforme a regra do método.
 
 ## Ciclo de um bug
 
 Um bug é um comportamento que diverge do combinado (critério de aceite, contrato, referência). Ele segue o ciclo da tarefa, com estes passos a mais ([decisão 014](../decisoes/014-fluxo-de-correcao-de-bugs.md)):
 
 1. **Registro.** Quem acha (a pessoa, uma Builder, um especialista, o monitoramento) abre uma **issue de bug** com o [formulário de bug](../modelos/issue-bug.yml): o que aconteceu, o que era esperado, os passos para reproduzir, onde e a evidência, sem dado pessoal de usuário.
-2. **Triagem pela Lead**, pelos gatilhos de aprovação ([01](01-fluxo-de-ponta-a-ponta.md), "Portões de aprovação"):
-   - **Incidente** (produção fora do ar, dados de usuários, segurança): aciona o gatilho "atinge usuários reais" e vai para a pessoa na hora, com um resumo do impacto e da contenção.
-   - **Bug comum:** a Lead encaixa o bug na fila dentro da **prioridade já aprovada** pela pessoa (o bug do que está sendo construído vem antes do trabalho novo do mesmo tema) e o entrega ao especialista do tema (Backend, Frontend, Designer ou Ops). Passar um bug à frente do que a pessoa priorizou é gatilho e vai para ela.
+2. **Triagem pela Lead** pelo [impacto e os portões](01-fluxo-de-ponta-a-ponta.md#impacto-da-tarefa):
+   - **Incidente** (produção fora do ar, dados de usuários, segurança): segue o Profundo e vai para a pessoa na hora, com o impacto e a contenção.
+   - **Bug comum:** use no mínimo o Padrão para regressões de comportamento. A Lead encaixa na prioridade já aprovada e encaminha ao responsável pelo tema. Mudança da prioridade combinada vai à pessoa.
    - **Antes de entregar**, a Lead completa a issue como numa tarefa: arquivos permitidos e proibidos, plano e passo (ou "sem plano" e o motivo) e a ferramenta. Com isso a Builder trabalha sem deduzir permissões, e uma passagem por cota encontra tudo na issue.
    - **Não é bug** (é pedido novo): vira tarefa, e mudar o que será construído é da pessoa.
 3. **Dono.** O especialista abre a Builder na ferramenta do seu papel, com o nome de sempre (`Backend Builder #31 · login-expira · Codex`) e a branch `fix/31-login-expira`.
 4. **Correção**: reproduzir; achar a **causa raiz**, não o sintoma; escrever um teste que **falha por causa do bug**; a correção mínima; a suíte inteira. O teste fica para sempre, e o mesmo bug não volta.
 5. **Bug achado no meio de outra tarefa:** dentro do escopo da tarefa, a Builder corrige ali; **fora do escopo**, abre uma **issue nova** de bug e segue a tarefa dela, sem crescer.
-6. **Validação e merge:** a **revisão cruzada** da outra ferramenta e a Lead conferindo que o bug sumiu (os passos para reproduzir já não reproduzem). A correção que não muda o **comportamento combinado** a Lead integra sozinha e registra; a que muda o comportamento, mexe em dados ou precisa ir à produção é da pessoa.
+6. **Validação e merge:** a Lead confere o comportamento combinado e repete os passos que reproduziam o bug. A revisão cruzada segue a trilha. A Lead integra sem gatilho. A publicação segue o portão da pessoa.
 7. **Aprendizado (Fases 8 e 9):** se a causa foi o processo (uma regra que faltou, uma verificação que não existia), o bug vira **lição** do método.
 
 **Correção urgente** (incidente em produção): a pessoa decide entre **reverter** a última publicação, quase sempre o mais rápido e seguro, e corrigir à frente. A correção à frente segue o mesmo ciclo, só com prioridade: o teste que reproduz o bug continua vindo antes da correção, e a publicação continua sendo um portão da pessoa. Depois, a retrospectiva do incidente vai para a memória do projeto.
@@ -109,14 +109,14 @@ O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, 
 | Portão humano: a sessão para e espera no chat | A Lead cria um portão (`orca orchestration gate-create`) e só o resolve (`gate-resolve`) com a resposta da pessoa |
 | `remover-tarefa.sh` remove a worktree | A Lead libera o agente (`worker-release`) e o Orca remove a worktree (`orca worktree rm`) |
 
-**O que não muda:** quem constrói não valida (a Lead refaz os testes e abre o navegador); os agentes **nunca** integram e terminam com o PR aberto e o CI verde; uma tarefa, uma branch, um PR; o que aciona um gatilho de aprovação (deploy, o irreversível, o merge com gatilho) só com a aprovação da pessoa; a issue continua sendo o registro da tarefa. A Lead não escreve código.
+**Responsabilidades no Orca:** a Lead classifica o impacto, delega quando necessário, valida a entrega e integra. Builders terminam com PR e CI verde. Uma tarefa delegada tem issue e worktree próprias. Deploy, ação irreversível e merge com gatilho exigem a autorização da pessoa.
 
 **Cada agente usa a ferramenta do seu papel** (seção "Lead e ferramenta por papel", abaixo): Claude Code ou Codex. O Orca também abre outros agentes (Cursor e outros), mas eles não leem o `CLAUDE.md` nem o `AGENTS.md` do projeto.
 
 **Ciclo de uma tarefa:**
 
-1. A Lead abre a issue com o formulário de tarefa e cria a tarefa no Orca com a especificação padrão do [prompt da Lead](../modelos/prompt-lead-orca.md) (objetivo, requisitos (R-xx) e, com interface, as telas aprovadas em `processo/telas/`, critérios de aceite, arquivos permitidos e proibidos, testes micro e macro, `Closes #N`).
-2. O agente constrói com TDD, traz a `main`, roda os testes macro, envia a branch, abre o PR e avisa o fim (`worker_done`). Dúvidas vão para a Lead com `ask`.
+1. Para delegar, a Lead abre a issue e cria a tarefa no Orca com a especificação padrão do [prompt da Lead](../modelos/prompt-lead-orca.md) (trilha e motivo, objetivo, requisitos (R-xx), telas em `processo/telas/` quando aplicáveis, aceite, arquivos permitidos e proibidos e verificações, `Closes #N`).
+2. O agente constrói, atualiza a branch com a `main`, roda as verificações da trilha, envia a branch, abre o PR e avisa o fim (`worker_done`). Dúvidas ou mudança de alcance vão para a Lead com `ask`.
 3. A Lead valida o PR (checklist do [03](03-skills-e-testes.md)) e confere os gatilhos de aprovação. Sem gatilho, integra com `gh pr merge N --merge` e registra no resumo por marco; com gatilho, cria o portão do merge e pergunta à pessoa.
 4. Com o "pode integrar" (quando havia gatilho), resolve o portão e integra; em qualquer caso, confere a `main` e o CI e libera o agente.
 
@@ -140,10 +140,10 @@ O projeto usa **o Claude Code e o Codex juntos**, para dividir o consumo entre a
 | Codex | `--agent codex --model gpt-6.1-sol` | `AGENTS.md`, que manda ler o `CLAUDE.md`, o `processo/DESENVOLVIMENTO.md` e a memória |
 
 - **Uma ferramenta só continua possível:** `novo-projeto.sh --agente <claude|codex>` põe todos os papéis, inclusive a Lead, na mesma ferramenta. Mudar a tabela depois é uma decisão da pessoa, anotada na memória do projeto.
-- **Os mesmos princípios nas duas.** TDD visto falhar, testes micro e macro, verificação antes de dizer "pronto", uma tarefa por branch e por PR, só a Lead integra, dúvidas sobem com `ask`. Os dois ambientes usam os arquivos de instruções do projeto.
+- **Os mesmos princípios nas duas.** Use as verificações da trilha, com TDD para mudança de comportamento ou bug. Uma tarefa por branch e PR. Só a Lead integra. Dúvidas sobem com `ask`.
 - **A Builder usa a ferramenta padrão do papel de quem a abre.** Se a **cota** dessa ferramenta estiver apertada, o especialista abre a Builder na outra e registra a escolha no campo "Ferramenta" da issue e no nome da Builder (`Backend Builder #12 · login · Claude`).
 - **Passagem quando a cota acaba no meio da tarefa:** a Builder faz commit, envia a branch e **comenta na issue onde parou** e qual é o próximo passo. O especialista abre outra Builder, na outra ferramenta, na **mesma branch**, e ela continua a partir do comentário e do campo "Plano e passo" da issue. O estado vive no Git e na issue, nunca só na conversa.
-- **Revisão cruzada:** todo PR recebe **ao menos uma revisão da outra ferramenta**. Com uma ferramenta só (`--agente`), a revisão cruzada não se aplica; a revisão independente da Lead continua. O PR feito no Codex já passa pela Lead, no Claude; o PR feito no Claude recebe a revisão de um agente Codex: o Security nos PRs sensíveis e, nos outros, uma sessão Codex de revisão aberta pela Lead.
+- **Revisão cruzada:** no Padrão e no Profundo, quando o projeto usa as duas ferramentas, o PR recebe **ao menos uma revisão da outra ferramenta**. Com uma ferramenta só, use outra sessão para a revisão independente. No Básico, a revisão focada da Lead basta.
 - **A Lead Codex** (só com `--agente codex`) usa o mesmo [prompt da Lead](../modelos/prompt-lead-orca.md) ou o mesmo harness e valida no navegador com um navegador automatizado ([03](03-skills-e-testes.md)).
 - **Contrato primeiro, quando back e front correm em paralelo.** Antes da primeira tarefa de construção, uma tarefa fecha o **contrato da API** num arquivo do repositório (`processo/contrato-api.md`, ou o formato que a stack pedir, como OpenAPI), e a pessoa aprova num portão. Depois, o contrato só muda por uma tarefa própria: a mudança que quebra quem usa passa por um portão da pessoa; a aditiva (um campo novo opcional), pela Lead. Cada lado tem a sua pasta (por exemplo, `back/` e `front/`, decididas na Fase 2), e os **arquivos comuns** (CI, dependências da raiz, contrato, memória do projeto) têm um dono só, nunca duas tarefas ao mesmo tempo, nem de ferramentas diferentes.
 - **Medição.** A memória do projeto anota, por tarefa, a ferramenta, as passagens, se houve retrabalho e por quê, e o consumo; a Fase 9 compara as duas ferramentas.
@@ -152,29 +152,29 @@ O projeto usa **o Claude Code e o Codex juntos**, para dividir o consumo entre a
 
 ### Com agentes especialistas
 
-A Lead deixa de carregar tudo sozinha: ao lado dela trabalham **agentes especialistas por tema**, cada um com um **harness** escrito com a pessoa ([decisão 008](../decisoes/008-agentes-especialistas.md), aprovada sem caso real). O modelo continua o de Lead e Builders, com uma camada no meio: as Builders passam a ser abertas e coordenadas pelo especialista do tema.
+A Lead chama especialistas conforme a tarefa. Cada papel tem um harness que define as entradas, a abordagem, a verificação e a entrega esperada. Backend, Frontend e Ops podem abrir Builders no modo com especialistas. [Decisão sobre os harnesses](../decisoes/020-harnesses-agent-skills.md)
 
 Cada agente usa a **ferramenta do seu papel** (Claude Code ou Codex, seção acima).
 
 | Agente | Tema | Builders | Presença |
 |---|---|---|---|
 | Lead | coordenação, validação final (QA) e integração | não; coordena os especialistas | sempre |
-| Architect | estrutura, contrato da API, dados, confiabilidade, observabilidade, custo | não | sempre |
-| Backend | regras de negócio, APIs, autenticação, banco de dados | até 2 | sempre |
-| Frontend | a interface construída a partir das telas aprovadas e o design system do código | até 2 | sempre que há interface |
+| Architect | estrutura, contrato da API, dados, confiabilidade, observabilidade, custo | não | quando houver decisão técnica ou mudança de contrato |
+| Backend | regras de negócio, APIs, autenticação, banco de dados | até 2 | em tarefa de API, regra de negócio ou dados |
+| Frontend | interface construída a partir das telas aprovadas e do design system | até 2 | em tarefa de interface |
 | Designer | UI e UX: identidade, design system e todas as telas no Figma (Fase 2, antes do código), registro em `processo/telas/`; não escreve código | não | sob demanda (Fases 1 e 2, tela nova) |
-| Security | mapa de riscos no começo, revisão dos PRs sensíveis e auditoria completa antes da primeira publicação, com a `security-audit` desde o primeiro mapa | não; entrega a correção ao dono da pasta | sempre |
+| Security | mapa de riscos, revisão sensível e auditoria com a `security-audit` | não | quando houver desenho inicial, risco sensível ou auditoria autorizada |
 | Product | requisitos (fichas R-xx com o peso, em `processo/requisitos.md`), pesquisa com usuários, critérios de aceite | não | sob demanda (Fases 0 a 2) |
 | Ops | deploy, CI/CD, nuvem, monitoramento; dono do CI enquanto ativo | 1 por vez | sob demanda |
 
-- **Harnesses:** os modelos ficam em [`modelos/agentes/`](../modelos/agentes/) e vão para `processo/agentes/` do projeto com `novo-projeto.sh --especialistas`. Cada um tem as mesmas 10 partes (missão, quando é chamado, o que lê, o que pode e o que não pode, procedimentos do tema, checklist, formato da resposta, quando sobe a decisão, memória, economia), as referências escolhidas pela pessoa e o passo a passo "Como pesquisa".
-- **O harness manda:** o agente pode consultar o que precisar (referências, web, método), mas atua dentro do harness. Ordem de precedência: o harness, o que o projeto decidiu, o método, o que foi consultado. Se acha o harness errado ou incompleto, não desvia: para e sobe a questão.
+- **Harnesses:** o gerador com `--especialistas` copia os modelos de [`modelos/agentes/`](../modelos/agentes/) para `processo/agentes/`. O cabeçalho descreve a missão e o gatilho. As seções definem entradas, abordagem, verificação, formato da resposta, regras e composição.
+- **Composição:** a Lead aciona as revisões especializadas e reúne pareceres. As personas recomendam outras revisões à Lead. O escopo e os portões do projeto governam o uso de skills e personas.
 - **Modelos:** os da ferramenta de cada papel (`claude-opus-5-5` no Claude Code, `gpt-6.1-sol` no Codex); o esforço varia por papel e vai em todo `worker-start` (`--agent <agente> --model <modelo> --effort`).
 - **No Orca:** a Lead abre os especialistas; cada especialista abre as suas Builders com `worker-start --worktree new-child`, e o Orca as pendura nele (`--parent`). A dúvida da Builder (`ask`) chega ao especialista; só sobe para a Lead o que ele não pode decidir. **Exige o ajuste Settings → Orchestration → Nested worker depth = 2** (o padrão é 1; testado no Orca 1.4.241). Nem mais nem menos: com 2, uma Builder não abre agentes próprios.
 - **Worktrees e visibilidade:** a pessoa vê cada agente no Orca, na sua worktree. Cada especialista abre numa worktree com o nome do tema, **filha da worktree principal** (`worker-start --worktree new-child --name <tema>`, da pasta principal); cada Builder, numa worktree por issue, filha da do especialista (`backend-12-login`, branch `backend/12-login`). **Nome da Builder:** `<Papel> Builder #<issue> · <resumo> · <ferramenta>` no `--display-name` (por exemplo, `Backend Builder #12 · login · Codex`): o papel diz quem responde por ela, a issue é a identidade única (leva à issue, à branch e ao PR), o resumo dá o assunto e a ferramenta diz que cota ela gasta. O mesmo nome vai no título do PR e nos comentários da issue; o especialista aparece só com o nome do papel (`--display-name Backend`). Sem o Orca, a branch segue o `nova-tarefa.sh` (`feat/12-login`) e o nome vai na issue e no PR. Quem só coordena ou revisa lê a worktree do trabalho; numa worktree, só a dona da tarefa escreve. Testado no Orca 1.4.241.
-- **Limite:** no máximo 9 sessões ao mesmo tempo (a Lead, os 4 fixos e até 2 Builders de Backend e 2 de Frontend); Product, Designer e Ops abrem e fecham com a fase deles. Product, Designer e Ops (e a Builder do Ops) contam dentro das 9: quando um deles abre, a Lead segura uma Builder até caber. Neste modo, isso substitui o limite de "1 Lead e até 3 agentes" do modo Orca.
+- **Limite:** no máximo 9 sessões ao mesmo tempo. A Lead, especialistas, Builders e revisores contam dentro das 9. Neste modo, isso substitui o limite de "1 Lead e até 3 agentes" do modo Orca.
 - **Arquivos comuns mudam de dono:** o contrato da API passa para o Architect, e o CI passa para o Ops enquanto ele está ativo; a Lead fica com as dependências da raiz, a memória do projeto e o CI quando não há Ops. Os especialistas que só coordenam mandam as notas da memória e das referências à Lead (`orca orchestration send --type status`), e ela grava.
-- **O que não muda:** só a Lead integra e só ela fala com a pessoa e resolve os portões; quem constrói não valida; uma tarefa, uma branch, um PR.
+- **Integração:** só a Lead integra, fala com a pessoa e resolve portões. Padrão e Profundo têm revisão independente. O Básico tem verificação focada.
 
 **O que observar no primeiro projeto:** se as dúvidas pararam no especialista; quantas sessões a cota aguentou; se dois especialistas cruzaram arquivos; se o Security achou o que a Lead não acharia; se o ida e volta custou mais do que economizou; se cada agente, nas duas ferramentas, leu e seguiu o harness; o consumo por tarefa e por ferramenta.
 

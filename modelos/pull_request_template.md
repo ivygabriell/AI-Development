@@ -4,37 +4,19 @@
 ## Por quê
 <!-- O pedido ou o problema que originou a mudança. "Closes #N" quando houver issue. -->
 
-Requisitos atendidos: R-xx, R-yy (de `processo/requisitos.md`)
+Requisitos atendidos: <!-- R-xx de `processo/requisitos.md`, quando aplicável. -->
 
-## Como testei
-- [ ] Os testes novos (micro) falharam antes e passam agora
-- [ ] A suíte completa, os tipos e o build passam
-- [ ] Conferi no navegador (ou no ambiente real), nos tamanhos e idiomas que importam
-- [ ] A verificação automática (CI) do GitHub está verde
+Impacto e motivo: <!-- Básico, Padrão ou Profundo, com a razão. -->
 
-## Testes macro executados
-<!-- Builder: marque o que rodou, com o resultado. A Lead refaz tudo. -->
-- [ ] Suíte completa, tipos e build, todos verdes
-- [ ] Trouxe a `main` para a branch antes do PR e rodei tudo de novo
-- [ ] Sem regressão nas outras áreas
+## Aceite e evidências
+<!-- Básico: anote o aceite curto e a verificação focada. Quando houver mudança visual, inclua o antes e depois e cite o frame aprovado em `processo/telas/`. -->
+<!-- Padrão: indique testes, regressões exploradas e revisão independente. -->
+<!-- Profundo: registre também os riscos, a contenção ou recuperação e os sinais a acompanhar se publicar. Use canal privado para evidência sensível. -->
 
-## Capturas
-<!-- Antes e depois, quando a mudança for visual. -->
-
-- [ ] Com interface: a tela construída confere com a captura aprovada em `processo/telas/` (nome do frame: ...)
-
-## Riscos e pendências
-<!-- O que pode quebrar, o que ficou para depois. -->
-
-- [ ] Não publiquei dados pessoais (e-mail da conta, telefone etc.) fora dos arquivos de conteúdo
+- [ ] CI obrigatório verde.
 
 ## Validação da Lead
 
-Gatilhos de aprovação: nenhum | <quais> (com gatilho, só integra com o "pode integrar" da pessoa)
+Gatilhos de aprovação: <!-- Nenhum ou liste quais, com o registro da decisão. Se o merge publicar, obtenha a autorização antes. -->
 
-<!-- Só a sessão Lead preenche e integra na `main`. CI verde não basta. -->
-- [ ] Li a issue e conferi o resultado contra os critérios de aceite (e a referência, se houver)
-- [ ] Refiz os testes na branch
-- [ ] Explorei no navegador (micro): cada elemento alterado, hover, foco e teclado
-- [ ] Explorei no navegador (macro): a página inteira, no desktop, no tablet e no celular, em todos os idiomas, e com movimento reduzido
-- [ ] Rodei tudo de novo na `main` depois do merge e o CI da `main` ficou verde
+<!-- A Lead registra o que conferiu conforme a trilha e integra quando os portões estiverem resolvidos. -->

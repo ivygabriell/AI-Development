@@ -62,6 +62,11 @@ body:
     id: arquivos_permitidos
     attributes:
       label: Arquivos que a correção PODE tocar (a Lead preenche antes de entregar)
+  - type: input
+    id: impacto
+    attributes:
+      label: Impacto e motivo (a Lead preenche)
+      description: Indique a trilha, quem é afetado e o portão aplicável. Registre dados sensíveis em canal privado.
   - type: textarea
     id: arquivos_proibidos
     attributes:
