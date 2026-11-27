@@ -4,4 +4,4 @@
 - **Causa:** a CLI trata o que não reconhece como prompt.
 - **Regra:** na dúvida, `--help` primeiro; nunca invente um subcomando.
 
-**Caso de origem:** [Portfólio pessoal (2026-10)](../casos/2026-10-portfolio-pessoal.md)
+**Origem:** Portfólio pessoal (2026-10)

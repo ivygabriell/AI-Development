@@ -2,7 +2,7 @@
 
 **Data:** 2026-10-15
 **Status:** aceita
-**Caso de origem:** [Repositório do método (2026-10)](../casos/2026-10-repositorio-do-metodo.md)
+**Caso de origem:** Repositório do método (2026-10)
 
 ## Contexto
 
@@ -40,7 +40,7 @@ Atualizar o método naquele computador: `/plugin marketplace update metodo-de-de
 
 ### O fluxo de `/metodo:novo-projeto <o que você quer> [cenário]`
 
-1. **Conferências, só leitura.** Para e explica se: a pasta atual não está vazia (ignora `.DS_Store` e uma pasta `.git` sem commits), o `git` não roda, o `gh` não está autenticado ou as skills do Superpowers não estão disponíveis. Lê a `VERSION`, o [01](../nucleo/01-fluxo-de-ponta-a-ponta.md) e o [índice de cenários](../cenarios/README.md) na cópia do método.
+1. **Conferências, só leitura.** Para e explica se: a pasta atual não está vazia (ignora `.DS_Store` e uma pasta `.git` sem commits), o `git` não roda, o `gh` não está autenticado ou as skills do Superpowers não estão disponíveis. Lê a `VERSION`, o [01](../nucleo/01-fluxo-de-ponta-a-ponta.md) e o índice de cenários na cópia do método.
 2. **Entender o mínimo.** Classifica o pedido em voz alta (projeto novo é *arquitetural*), propõe o cenário com o selo de maturidade e pergunta, uma coisa por vez, só o que faltar: nome do repositório e visibilidade (padrão: privado).
 3. **Uma confirmação para as ações externas.** Mostra o plano (pasta, nome, visibilidade, cenário, versão do método) e espera o "pode".
 4. **Preparação mecânica.** `git init -b main`, `README.md` e `.gitignore`; `novo-projeto.sh . <cenário>`; confere o e-mail do Git e só avisa se não for `noreply`; se o repositório for privado, registra no `CLAUDE.md` que a `main` fica sem proteção ([lição 019](../licoes/019-protecao-da-main-indisponivel-em-repositorio-privado.md)); primeiro commit; `gh repo create --source . --push`; espera o primeiro CI; se for público, ativa a proteção da `main`. Qualquer falha para a skill com a explicação; ela nunca apaga, força ou contorna nada.

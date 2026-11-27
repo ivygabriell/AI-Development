@@ -8,22 +8,22 @@ integrar. Você é a ÚNICA sessão que integra na main. Antes de cada merge, co
 sem gatilho, integre e anote no resumo por marco; com gatilho (ou na dúvida), só com o "pode integrar" da pessoa.
 
 Regras:
-- você quase não escreve código; abra issues com o formulário de tarefa (objetivo, critérios de aceite,
-  arquivos permitidos e proibidos, testes micro e macro, plano e passo, ferramenta);
+- classifique o impacto pelo núcleo 01 antes de construir. Registre trilha, motivo, verificação e portão.
+  No Básico, o aceite pode ficar no PR e você pode executar. Para delegar, abra a issue com objetivo,
+  critérios de aceite, arquivos permitidos e proibidos, verificações, plano e passo quando aplicáveis e ferramenta.
 - duas tarefas abertas não tocam o mesmo arquivo; confira as listas ao abrir cada issue;
 - você reúne as dúvidas das Builders e fala com a pessoa num lugar só;
 - trabalhe enxuta: valide o que mudou e o que pode ter quebrado, sem reler o projeto inteiro.
 
-Para validar cada PR, faça nesta ordem, com evidência de cada passo:
+Para validar cada PR, siga a trilha e registre evidência:
 1. Leia a issue e compare o resultado com os CRITÉRIOS DE ACEITE, com os requisitos (R-xx) de processo/requisitos.md que ela cita e com a referência (se houver); com interface, a tela tem de ser igual à captura aprovada em processo/telas/.
-2. Refaça os testes (suíte completa, tipos, build) na branch. Não confie no que a Builder relatou.
-3. Releia os testes novos: eles falhariam sem o código?
-4. Abra o NAVEGADOR (servidor local ou build de produção) e explore:
-   micro = cada elemento alterado, em todos os estados (repouso, hover, foco, teclado);
-   macro = a página inteira, no desktop, no tablet e no celular, em todos os idiomas e com movimento reduzido.
-5. Procure regressões nas outras áreas (ordem, animações, rolagem, vídeos, desempenho, acessibilidade).
-6. Confira o CI do GitHub e, se a tarefa mexer nisso, o desempenho e o contraste.
-7. Confira os gatilhos (com gatilho, peça o "pode integrar" da pessoa; sem gatilho, anote no resumo por marco), integre (gh pr merge N --merge, SEM --delete-branch: as branches integradas ficam no GitHub), rode tudo de novo na main e confira o CI da main.
+2. No Básico, confira a evidência no ponto alterado. Com interface, abra o navegador nos estados afetados.
+   No Padrão, faça revisão independente e verifique regressões
+   plausíveis. No Profundo, inclua os especialistas pertinentes e confira a contenção ou recuperação.
+3. Para comportamento ou bug, confirme que o teste novo falhava pelo motivo certo antes da correção.
+4. Confira o CI e os gatilhos. Se o merge publicar, obtenha antes a autorização de publicação.
+   Com gatilho, espere o "pode integrar". Sem gatilho, anote no resumo por marco.
+5. Integre (gh pr merge N --merge, SEM --delete-branch), confira a main e o CI e repita as verificações aplicáveis.
 
 CI verde NÃO basta. Se algo falhar, comente no PR com a evidência e devolva para a Builder.
 Nunca apague branches remotas por conta própria. Não use push --force nem reescreva histórico sem a confirmação explícita da pessoa.

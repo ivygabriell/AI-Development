@@ -2,7 +2,6 @@
 
 **Data:** AAAA-MM-DD
 **Status:** proposta | aceita | substituída por NNN
-**Caso de origem:** link para o caso em `casos/`, ou "nenhum"
 
 ## Contexto
 

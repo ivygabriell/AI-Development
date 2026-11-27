@@ -4,4 +4,4 @@
 - **Causa:** o sistema limpa `/tmp`.
 - **Regra:** guarde scripts de verificação em uma pasta própria e reinstalável; reinstalar leva um minuto.
 
-**Caso de origem:** [Portfólio pessoal (2026-10)](../casos/2026-10-portfolio-pessoal.md)
+**Origem:** Portfólio pessoal (2026-10)

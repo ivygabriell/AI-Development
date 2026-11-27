@@ -1,14 +1,16 @@
 # 03 · Testes e auditoria de segurança
 
+Escolha a [trilha por impacto](01-fluxo-de-ponta-a-ponta.md#impacto-da-tarefa) antes de escolher as skills e o alcance da verificação. Quando o [Agent Skills do Addy Osmani](https://github.com/addyosmani/agent-skills) estiver disponível, use as skills aplicáveis ao trabalho daquela etapa. A trilha Básico usa evidência focada. Revisão em cinco eixos, especialistas e auditoria entram conforme os riscos e os portões do método.
+
 ## security-audit
 
-A [security-audit da Cloudflare](https://github.com/cloudflare/security-audit-skill) é a única skill usada pelo método. O Security conduz o trabalho no modo com especialistas. Nos outros modos, a Lead assume esse papel.
+A [security-audit da Cloudflare](https://github.com/cloudflare/security-audit-skill) é a referência para orientação e auditoria de segurança. O Security conduz o trabalho no modo com especialistas. Nos outros modos, a Lead assume esse papel.
 
 | Momento | Uso | Resultado |
 |---|---|---|
 | Fase 2, primeiro mapa de riscos | Modo de orientação. Identifique quem usa, as fronteiras de confiança, as superfícies de entrada e os controles. | Mapa em `processo/seguranca.md` e critérios de aceite das tarefas. |
-| Revisão de PR sensível | Modo de orientação. Avalie fronteira, impacto demonstrado e a correção necessária. | Veredito da revisão e achados que precisam de correção. |
-| Fase 7, antes da primeira publicação e após mudança grande | Auditoria completa após a aprovação do perfil, do escopo e do orçamento, ou dispensa registrada. | Relatório fora do repositório e triagem no mapa de riscos. |
+| Revisão de PR sensível ou correção de vulnerabilidade | Revisão focada nas fronteiras e nos controles afetados. | Veredito da revisão e achados que precisam de correção. |
+| Fase 7, antes da primeira publicação e após mudança relevante de exposição ou controles | Auditoria completa após a aprovação do perfil, do escopo e do orçamento, ou dispensa registrada. | Relatório fora do repositório e triagem no mapa de riscos. |
 
 Para a auditoria completa, use o [procedimento oficial da Cloudflare](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md). A Lead submete motivo, perfil, escopo e limite ao portão da pessoa. Registre o commit auditado, valide o relatório e a cobertura e guarde a saída fora do repositório. Achados confirmados críticos ou altos bloqueiam a publicação. Resultados que dependem de evidência adicional entram como `needs_validation` no mapa de riscos. Registre achados e evidências sensíveis em canais privados, sem incluir o valor de segredos.
 
@@ -16,17 +18,16 @@ Na auditoria, limite-se ao código autorizado. Qualquer execução de código do
 
 ## Testes: micro e macro
 
-Duas camadas com responsabilidades diferentes. Nenhuma sessão pula testes.
+Duas camadas de verificação, dimensionadas pela trilha. O CI obrigatório do projeto continua valendo em todas elas.
 
-- **micro** = o menor pedaço que mudou: uma função, um componente, um estado (hover, foco, erro), uma regra de CSS. O teste é escrito **antes** do código.
-- **macro** = o projeto e a página inteiros: a suíte completa, o build, a checagem de tipos, o desempenho e as outras seções (regressão).
+- **Micro** verifica o menor ponto alterado. Faça TDD quando mudar comportamento ou corrigir um bug. Num ajuste básico exclusivamente visual, de texto ou documentação, verifique diretamente o antes e o depois.
+- **Macro** verifica regressões através da suíte, do build, da checagem de tipos e da exploração do que o ajuste pode afetar.
 
-| Camada | Builder | Lead |
+| Trilha | Quem executa | Lead |
 |---|---|---|
-| micro | TDD: escreve o teste, vê falhar, faz passar | Relê os testes novos (eles falhariam sem o código?) e **explora** cada elemento alterado no navegador, em todos os estados |
-| macro | Antes do PR: suíte completa, tipos, build e testes do build, tudo verde | Refaz tudo na branch **e na `main`**; confere o CI; **explora** a página inteira, as outras seções, idiomas, telas e acessibilidade |
-
-A Builder entrega com os macro verdes, e a Lead não confia nisso: refaz.
+| Básico | Verifica o aceite e os efeitos imediatos. Registra evidência e confere o CI. | Confere o diff, a evidência e os estados afetados. |
+| Padrão | TDD conforme a mudança, suíte e verificações aplicáveis do projeto. | Valida com contexto independente, confere o teste e explora as regressões plausíveis. |
+| Profundo | Verifica caminhos normais e de falha, com cobertura dos riscos registrados. | Valida com revisão independente e especialistas pertinentes. Em publicação de alto impacto, confere a recuperação e o resultado após publicar. |
 
 ## TDD na prática
 
@@ -51,13 +52,13 @@ Testes que não verificam uma funcionalidade, mas **protegem uma decisão**:
 
 ## Verificação no navegador
 
-Testes verdes não substituem **olhar**. A Lead abre o resultado de verdade:
+Quando a mudança aparece no navegador, a Lead confere o resultado de verdade. No Básico, veja o elemento e seus estados afetados. No Padrão e no Profundo, amplie a exploração conforme o alcance. Use os itens pertinentes:
 
 - **Servidor local ou build de produção** (o build mostra o que vai ao ar; use `npm run build` e `npm run preview`).
 - **Medir com um navegador automatizado**, não só olhar: com `puppeteer-core` e o Chrome instalado dá para emular o celular, rolar a página, passar o mouse, ler estilos calculados e amostrar valores ao longo do tempo (por exemplo, a opacidade de um elemento a cada 200 ms para provar uma animação).
 - **Capturas de tela** nos estados que importam (repouso, hover, rolagem, celular).
 - **Lighthouse** (`npx lighthouse URL --only-categories=performance,accessibility --chrome-flags="--headless=new"`); fixe metas, por exemplo desempenho ≥ 95 e acessibilidade ≥ 98.
-- **Matriz mínima:** desktop, tablet e celular; todos os idiomas; **movimento reduzido** ligado (tudo continua visível, nada anima); sem erros no console; sem rolagem horizontal.
+- **Matriz de verificação:** inclua os tamanhos de tela, idiomas, estados e preferências que podem sofrer regressão. Em mudança que atravessa a interface, cubra desktop, tablet, celular, idiomas e movimento reduzido, quando oferecidos pelo produto.
 
 Exemplo de amostragem de uma animação:
 
@@ -73,12 +74,10 @@ for (let i = 0; i < 10; i++) {
 
 ## Definição de pronto
 
-Uma tarefa está pronta quando **todas** estas afirmações forem verdadeiras, cada uma com evidência na tela:
+Uma tarefa está pronta quando o aceite tem evidência, a Lead fez a validação da trilha e o CI obrigatório está verde. Registre o resultado na issue ou no PR.
 
-1. Os critérios de aceite da issue estão atendidos e conferidos contra a referência.
-2. Os testes micro existem, falharam antes e passam agora.
-3. A suíte completa, os tipos e o build estão verdes; o CI do GitHub está verde.
-4. A página foi explorada no navegador na matriz mínima.
-5. Não há regressão nas outras áreas.
-6. A documentação afetada foi atualizada.
-7. Cada decisão que desviou do plano está registrada.
+1. **Básico:** o antes e o depois comprovam o ajuste e foram conferidos nos estados afetados.
+2. **Padrão:** os testes novos de comportamento ou de bug falham antes e passam depois. As verificações do projeto e a revisão independente cobrem o alcance.
+3. **Profundo:** as evidências cobrem os riscos levantados e os portões da ação foram atendidos. Para publicação de alto impacto, a validação inclui os sinais combinados após publicar.
+
+Atualize a documentação afetada e registre os desvios relevantes. Achados críticos ou importantes bloqueiam a integração. Achados de segurança confirmados críticos ou altos bloqueiam a publicação.

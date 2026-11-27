@@ -2,7 +2,7 @@
 
 **Data:** 2026-10-13
 **Status:** aceita
-**Caso de origem:** [Portfólio pessoal (2026-10)](../casos/2026-10-portfolio-pessoal.md)
+**Caso de origem:** Portfólio pessoal (2026-10)
 
 ## Contexto
 

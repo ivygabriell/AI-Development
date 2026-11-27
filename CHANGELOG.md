@@ -2,6 +2,16 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 9.0.0 (2026-11-26)
+
+O fluxo passa a ter três trilhas por impacto, com a profundidade da validação definida antes de construir. [Decisão 019](decisoes/019-fluxo-por-impacto.md)
+
+- Básico usa aceite curto e evidência focada. Padrão usa testes e revisão independente. Profundo acrescenta análise de risco, especialistas pertinentes e contenção ou recuperação.
+- A pessoa continua autorizando publicações. Se o merge publica automaticamente, a autorização vem antes do merge.
+- O Agent Skills do Addy apoia as etapas pertinentes. A `security-audit` da Cloudflare segue o portão de auditoria.
+- Os oito harnesses adotam o formato de persona do Addy. O README mostra o fluxo de impacto e a passagem entre os papéis em Mermaid. [Decisão 020](decisoes/020-harnesses-agent-skills.md)
+- As pastas de casos e cenários saem do método. A retrospectiva fica na memória do projeto. O gerador recebe a pasta de destino e as opções de agente e especialistas.
+
 ## 8.0.0 (2026-11-26)
 
 Primeira etapa da reformulação do método. A [decisão 018](decisoes/018-reduzir-skills-e-plugins.md) mantém a `security-audit` da Cloudflare como única skill do fluxo ativo.
@@ -228,14 +238,14 @@ Modo de execução com o Orca, aprovado pela pessoa **sem caso real** (exceção
 
 ## 2.2.0 (2026-10-14)
 
-- **Caso novo:** [Repositório do método (2026-10)](casos/2026-10-repositorio-do-metodo.md), marco da publicação no GitHub e do primeiro PR.
+- **Caso novo:** Repositório do método (2026-10), marco da publicação no GitHub e do primeiro PR.
 - **Lição 019:** [proteção da `main` indisponível em repositório privado](licoes/019-protecao-da-main-indisponivel-em-repositorio-privado.md) (HTTP 403 numa conta gratuita).
 - [05 · Git, GitHub e CI](nucleo/05-git-github-e-ci.md) e o README avisam que a proteção da `main` depende do plano e dizem o que fazer sem ela.
 - `CLAUDE.md`: a `main` deste repositório fica sem proteção no GitHub, por decisão da pessoa; a regra vale pela disciplina da sessão.
 
 ## 2.1.0 (2026-10-14)
 
-- `scripts/novo-projeto.sh` avisa no stderr quando um cenário escolhido tem maturidade `rascunho` (sem interromper o script) e o `docs/DESENVOLVIMENTO.md` gerado marca a maturidade de cada cenário. Assim um rascunho não é tratado como regra comprovada ([decisão 004](decisoes/004-repositorio-do-metodo-em-camadas.md), caso do [portfólio pessoal](casos/2026-10-portfolio-pessoal.md)).
+- `scripts/novo-projeto.sh` avisa no stderr quando um cenário escolhido tem maturidade `rascunho` (sem interromper o script) e o `docs/DESENVOLVIMENTO.md` gerado marca a maturidade de cada cenário. Assim um rascunho não é tratado como regra comprovada ([decisão 004](decisoes/004-repositorio-do-metodo-em-camadas.md), caso do portfólio pessoal).
 - `scripts/verificar.mjs` cobre o aviso e a marcação de maturidade.
 
 ## 2.0.0 (2026-10-14)

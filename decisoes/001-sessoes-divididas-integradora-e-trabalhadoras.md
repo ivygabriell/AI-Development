@@ -2,7 +2,7 @@
 
 **Data:** 2026-10-13
 **Status:** aceita. Os nomes mudaram pela [decisão 013](013-lead-e-builders-com-codex-e-claude.md) (2026-11-17): a integradora é a Lead, e as trabalhadoras são as Builders.
-**Caso de origem:** [Portfólio pessoal (2026-10)](../casos/2026-10-portfolio-pessoal.md)
+**Caso de origem:** Portfólio pessoal (2026-10)
 
 ## Contexto
 

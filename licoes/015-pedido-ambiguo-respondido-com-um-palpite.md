@@ -4,4 +4,4 @@
 - **Causa:** a ambiguidade foi resolvida por suposição.
 - **Regra:** quando há duas leituras plausíveis, **mostre as duas** (um croqui em texto) e peça a escolha antes de mexer; se a pessoa mandar uma imagem com marcações, trate as marcações como especificação.
 
-**Caso de origem:** [Portfólio pessoal (2026-10)](../casos/2026-10-portfolio-pessoal.md)
+**Origem:** Portfólio pessoal (2026-10)
