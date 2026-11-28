@@ -17,7 +17,7 @@ const checar = (nome, ok, detalhe = '') => {
 const ler = (arquivo) => (existsSync(join(RAIZ, arquivo)) ? readFileSync(join(RAIZ, arquivo), 'utf8') : '');
 const todosMd = (dir = RAIZ) =>
   readdirSync(dir).flatMap((nome) => {
-    if (nome === '.git' || nome === 'node_modules' || nome === '.superpowers') return []; // .superpowers: rascunho local dos planos, fora do Git
+    if (nome === '.git' || nome === 'node_modules') return [];
     const caminho = join(dir, nome);
     return statSync(caminho).isDirectory() ? todosMd(caminho) : caminho.endsWith('.md') ? [caminho] : [];
   });
@@ -43,10 +43,8 @@ const OBRIGATORIOS = [
   '.github/workflows/verificar.yml',
   '.github/pull_request_template.md',
   ...NUCLEO,
-  'licoes/_indice.md',
   'decisoes/_modelo-decisao.md',
   'scripts/verificar.mjs',
-  'scripts/gerar-indice-licoes.mjs',
   'scripts/novo-projeto.sh',
   'modelos/issue-tarefa.yml',
   'modelos/issue-bug.yml',
@@ -58,6 +56,7 @@ const OBRIGATORIOS = [
   'decisoes/018-reduzir-skills-e-plugins.md',
   'decisoes/019-fluxo-por-impacto.md',
   'decisoes/020-harnesses-agent-skills.md',
+  'decisoes/021-agent-skills-como-base.md',
   'modelos/pull_request_template.md',
   'modelos/ci-node.yml',
   'modelos/nova-tarefa.sh',
@@ -85,13 +84,14 @@ for (const arquivo of OBRIGATORIOS) checar(`existe ${arquivo}`, existsSync(join(
 const ANTIGOS = ['integradora', 'arquitetura', 'back-e-dados', 'design-e-front', 'seguranca', 'produto', 'devops'].flatMap((n) => [`modelos/agentes/${n}.md`, `modelos/referencias/${n}.md`]).concat(['modelos/prompt-sessao-integradora.md', 'modelos/prompt-sessao-trabalhadora.md', 'modelos/prompt-coordenadora-orca.md']);
 for (const arquivo of ANTIGOS) checar(`nome antigo não existe: ${arquivo}`, !existsSync(join(RAIZ, arquivo)));
 // Decisão 013: fora do histórico, os papéis só têm os nomes novos (Lead, Builders, Architect, Backend, Frontend...)
-const HISTORICO = /\/(planos|licoes|decisoes|\.superpowers)\/|\/CHANGELOG\.md$/;
+const HISTORICO = /\/(planos|decisoes)\/|\/CHANGELOG\.md$/;
 const ARQUIVOS_VIVOS = [...todosMd(), ...['scripts/novo-projeto.sh', 'modelos/nova-tarefa.sh', 'modelos/remover-tarefa.sh', 'modelos/issue-tarefa.yml', 'modelos/issue-bug.yml', 'modelos/ci-node.yml', '.github/workflows/verificar.yml'].map((f) => join(RAIZ, f))].filter((f) => existsSync(f) && !HISTORICO.test(f));
 const integracoesRemovidas = /\b(?:metodo|engineering|design|figma):[a-z-]+|\b(?:superpowers|ponytail|reverse-engineer-anything|security-review|rea-agents)\b|\borca skills\b|\bfigma-(?:use|generate-[a-z-]+)\b|(?:^|\s)\/?plugin\s+(?:install|marketplace|add)\b/i;
 const comDependenciasRemovidas = ARQUIVOS_VIVOS.filter((f) => integracoesRemovidas.test(readFileSync(f, 'utf8')));
 checar('018: o fluxo ativo não reintroduz as integrações removidas', comDependenciasRemovidas.length === 0, comDependenciasRemovidas.map((f) => relative(RAIZ, f)).join(', '));
 checar('018: o método encerrou a distribuição de skills e do seu plugin', !existsSync(join(RAIZ, 'skills')) && !existsSync(join(RAIZ, '.claude-plugin/marketplace.json')));
-checar('018: a Cloudflare mantém uma instalação documentada', [...ler('README.md').matchAll(/^[ \t]*npx skills add (\S+)/gm)].map(([, url]) => url).join() === 'https://github.com/cloudflare/security-audit-skill');
+const foraDoAddy = ARQUIVOS_VIVOS.filter((f) => /\bsecurity-audit\b|npx\s+skills\s+add\s+(?!https:\/\/github\.com\/addyosmani\/agent-skills\b|addyosmani\/agent-skills\b)/i.test(readFileSync(f, 'utf8')));
+checar('Agent Skills: o fluxo ativo usa o Addy como pacote de skills', foraDoAddy.length === 0, foraDoAddy.map((f) => relative(RAIZ, f)).join(', '));
 const NOMES_ANTIGOS = /\b(integradoras?|trabalhadoras?|coordenadoras?|Back e Dados|Design e Front)\b/i;
 const comNomeAntigo = ARQUIVOS_VIVOS.flatMap((f) => readFileSync(f, 'utf8').split('\n').map((l, i) => (NOMES_ANTIGOS.test(l) ? `${f.slice(RAIZ.length + 1)}:${i + 1}` : null)).filter(Boolean));
 checar('nomes antigos dos papéis fora do histórico', comNomeAntigo.length === 0, comNomeAntigo.slice(0, 5).join(', '));
@@ -115,13 +115,14 @@ checar('README: adoção explica como atualizar um projeto existente', adocao.in
 // Decisão 013: Lead no Claude e ferramenta padrão por papel; --agente põe todos numa ferramenta só
 checar('README: adoção explica a ferramenta por papel (Lead no Claude, --agente para uma ferramenta só)', adocao.includes('Ferramenta por papel') && adocao.includes('--agente codex'));
 checar('README: adoção sem o back no Codex e o front no Claude (substituído pela decisão 010)', !adocao.includes('Para dividir o back (Codex) e o front (Claude)'));
-// security-audit da Cloudflare (decisão 010, rascunho): instalada para a ferramenta do projeto, usada pelo Security
-checar('README: adoção instala a skill security-audit pelo repositório oficial, para o Claude Code e o Codex', adocao.includes('https://github.com/cloudflare/security-audit-skill') && adocao.includes('npx skills add https://github.com/cloudflare/security-audit-skill --skill security-audit --global --agent claude-code codex'));
 checar('README: como o repositório cresce', readme.includes('## Como este repositório cresce'));
 for (const arquivo of NUCLEO) checar(`README aponta para ${arquivo}`, readme.includes(arquivo));
-for (const pasta of ['nucleo/', 'licoes/', 'decisoes/', 'modelos/', 'scripts/', 'planos/']) checar(`README cita ${pasta}`, readme.includes(pasta));
+for (const pasta of ['nucleo/', 'decisoes/', 'modelos/', 'scripts/', 'planos/']) checar(`README cita ${pasta}`, readme.includes(pasta));
 
 const fluxo = ler('nucleo/01-fluxo-de-ponta-a-ponta.md');
+const cicloAddy = (fluxo.split('## Ciclo do Agent Skills')[1] || '').split('\n## ')[0];
+for (const skill of ['spec-driven-development', 'planning-and-task-breakdown', 'incremental-implementation', 'test-driven-development', 'code-review-and-quality', 'git-workflow-and-versioning', 'shipping-and-launch'])
+  checar(`fluxo: o ciclo do Agent Skills usa ${skill}`, cicloAddy.includes(`\`${skill}\``));
 for (let fase = 0; fase <= 9; fase += 1) checar(`fluxo: Fase ${fase}`, new RegExp(`^## Fase ${fase}\\b`, 'm').test(fluxo));
 checar('fluxo: Fase 9 é o fechamento (retrospectiva)', /^## Fase 9 · Fechamento/m.test(fluxo));
 checar('fluxo: classificação spike/delimitada/arquitetural', /spike/i.test(fluxo) && /delimitada/i.test(fluxo) && /arquitetural/i.test(fluxo));
@@ -138,14 +139,18 @@ for (const g of GATILHOS) checar(`fluxo: gatilho de aprovação da pessoa (${g})
 for (const termo of ['na dúvida, sobe para a pessoa', 'Fica com a pessoa', 'Passa para a Lead', 'resumo por marco', 'Aprovações', 'nenhum gatilho'])
   checar(`fluxo: aprovações por gatilho (${termo})`, portoes.toLowerCase().includes(termo.toLowerCase()));
 const lead = ler('modelos/agentes/lead.md');
-checar('agentes/lead: confere os gatilhos antes de cada merge, integra sozinha só sem gatilho e escreve o resumo por marco', lead.includes('gatilhos') && lead.includes('resumo por marco') && lead.toLowerCase().includes("sem gatilho") && !lead.includes('depois do "pode integrar" da pessoa.'));
-for (const p of ['modelos/prompt-lead.md', 'modelos/prompt-lead-orca.md']) checar(`${p}: integra pelos gatilhos (sem gatilho, a Lead integra; com gatilho, só com a pessoa)`, ler(p).includes('gatilho') && ler(p).includes('resumo por marco'));
+const integracao = (fluxo.split('## Integração direta')[1] || '').split('\n## ')[0];
+for (const termo of ['Básico', 'Padrão', 'Profundo', '**Bloqueada:**', '**Aguarda aprovação:**', '**Integração direta:**', 'autorização de publicação antes do merge'])
+  checar(`fluxo: integração direta cobre ${termo}`, integracao.includes(termo));
+checar('agentes/lead: confere o SHA e os gatilhos antes de integrar', ['gatilhos', 'resumo por marco', '--match-head-commit'].every((termo) => lead.includes(termo)));
+for (const p of ['modelos/prompt-lead.md', 'modelos/prompt-lead-orca.md']) checar(`${p}: usa critérios, gatilhos e SHA verificado`, ['gatilho', 'resumo por marco', '--match-head-commit'].every((termo) => ler(p).includes(termo)));
 checar('modelo de PR: campo "Gatilhos de aprovação"', ler('modelos/pull_request_template.md').includes('Gatilhos de aprovação:'));
+checar('modelo de PR: registra commit e decisão de integração', ['Commit verificado:', 'Decisão de integração:'].every((termo) => ler('modelos/pull_request_template.md').includes(termo)));
 const sessoesTxt = ler('nucleo/02-sessoes-e-papeis.md');
 checar('sessões: o merge segue os gatilhos (Orca e sessões divididas)', ((sessoesTxt.split('## Ciclo de uma tarefa')[1] || '').split('\n## ')[0]).includes('gatilho') && ((sessoesTxt.split('## Com o Orca')[1] || '').split('\n### ')[0]).includes('gatilho'));
-checar('fluxo: Fase 7 pede a auditoria de segurança antes da primeira publicação, em qualquer modo', ((fluxo.split('## Fase 7')[1] || '').split('## Fase 8')[0]).includes('security-audit'));
-checar('fluxo: Fase 2 já usa a security-audit no primeiro mapa de riscos (modo de orientação)', ((fluxo.split('## Fase 2')[1] || '').split('## Fase 3')[0]).includes('security-audit') && ((fluxo.split('## Fase 2')[1] || '').split('## Fase 3')[0]).includes('mapa de riscos'));
-checar('prompt da Lead do Orca: auditoria de segurança antes da primeira publicação', ler('modelos/prompt-lead-orca.md').includes('security-audit'));
+checar('fluxo: Fase 7 pede a auditoria de segurança antes da primeira publicação, em qualquer modo', ((fluxo.split('## Fase 7')[1] || '').split('## Fase 8')[0]).includes('security-and-hardening'));
+checar('fluxo: Fase 2 modela riscos com security-and-hardening', ((fluxo.split('## Fase 2')[1] || '').split('## Fase 3')[0]).includes('security-and-hardening') && ((fluxo.split('## Fase 2')[1] || '').split('## Fase 3')[0]).includes('mapa de riscos'));
+checar('prompt da Lead do Orca: auditoria de segurança antes da primeira publicação', ler('modelos/prompt-lead-orca.md').includes('security-and-hardening'));
 
 const sessoes = ler('nucleo/02-sessoes-e-papeis.md');
 for (const termo of ['## Quando dividir', '## Quando NÃO dividir', 'Lead', 'Builder', '## Modos de falha'])
@@ -157,7 +162,7 @@ checar('fluxo: Orca como modo de execução na Fase 3', (fluxo.split('## Fase 3'
 checar('fluxo: Fase 9 consulta as conversas do Orca', (fluxo.split('## Fase 9')[1] || '').includes('orca search'));
 checar('git/GitHub/CI: worktrees pelo Orca', ler('nucleo/05-git-github-e-ci.md').includes('orca worktree create'));
 const promptCoord = ler('modelos/prompt-lead-orca.md');
-for (const termo of ['gate-create', 'pode integrar', 'critérios de aceite', 'arquivos permitidos'])
+for (const termo of ['gate-create', 'autorização aplicável', 'critérios de aceite', 'arquivos permitidos'])
   checar(`prompt da Lead do Orca: ${termo}`, promptCoord.includes(termo));
 // Decisão 013: cada agente usa a ferramenta do seu papel (tabela do DESENVOLVIMENTO.md)
 for (const termo of ['Ferramenta por papel', '--agent claude', '--agent codex', 'contrato da API', 'AGENTS.md', 'retrabalho', 'passagem'])
@@ -184,7 +189,7 @@ const HARNESS_PROPRIO = {
   backend: ['worker-start', '--parent', '--worktree new-child', 'contrato da API'],
   frontend: ['worker-start', '--parent', '--worktree new-child', 'design system', 'accessibility-auditor', 'web-performance-auditor'],
   designer: ['processo/telas/', 'tokens.json', 'use_figma', 'design system', 'não tem Builders', 'nunca escreve código', 'do token à tela', 'processo/telas/design-system.md'],
-  security: ['mapa de riscos', 'needs_validation', 'modo de orientação', 'security-auditor', '`security-audit`', 'antes da primeira publicação'],
+  security: ['mapa de riscos', 'needs_validation', 'security-auditor', '`security-and-hardening`', 'antes da primeira publicação'],
   product: ['critérios de aceite', 'entrevista'],
   ops: ['worker-start', '--parent', 'portão', 'merge_ready', 'recuperação'],
   lead: ['gate-create', 'gate-resolve', 'code-reviewer', 'test-engineer', 'Básico', 'Padrão', 'Profundo'],
@@ -242,10 +247,10 @@ for (const termo of ['modelos/agentes/', '--especialistas', 'Nested worker depth
   checar(`README: modo com agentes especialistas (${termo})`, readme.includes(termo));
 
 const testes = ler('nucleo/03-skills-e-testes.md');
-for (const termo of ['## security-audit', 'Cloudflare', 'modo de orientação', 'Fase 2', 'Fase 7', 'escopo', 'processo/seguranca.md', '## Testes: micro e macro', '## Verificação no navegador'])
+for (const termo of ['## Revisão de segurança', 'security-and-hardening', 'security-auditor', 'Fase 2', 'Fase 7', 'escopo', 'processo/seguranca.md', '## Testes: micro e macro', '## Verificação no navegador'])
   checar('testes e auditoria: ' + termo, testes.toLowerCase().includes(termo.toLowerCase()));
-checar('Security: usa a security-audit desde o primeiro mapa de riscos', ler('modelos/agentes/security.md').includes('desde o primeiro mapa de riscos'));
-checar('referências do Security: aprendizados da security-audit', ler('modelos/referencias/security.md').includes('## Auditoria completa (security-audit da Cloudflare)'));
+checar('Security: usa security-and-hardening desde o primeiro mapa de riscos', ler('modelos/agentes/security.md').includes('desde o primeiro mapa de riscos'));
+checar('referências do Security: skill e persona do Addy', ['security-and-hardening', 'security-auditor'].every((p) => ler('modelos/referencias/security.md').includes(p)));
 
 const refs = ler('nucleo/04-referencias-e-engenharia-reversa.md');
 for (const termo of ['## Quando usar a engenharia reversa', 'Não copie', 'título exato', 'curl', '## Passo a passo para um site público', '## Limites legais e éticos', 'observação', 'inferência'])
@@ -260,23 +265,11 @@ for (const arquivo of NUCLEO) {
   checar(`${arquivo}: tem corpo suficiente`, palavras >= 350, `${palavras} palavras`);
 }
 
-// 2b) Lições e decisões
-const arquivosLicao = listar('licoes');
-checar('lições: pelo menos 12 arquivos', arquivosLicao.length >= 12, `achei ${arquivosLicao.length}`);
-arquivosLicao.forEach((nome, i) => {
-  const t = ler(`licoes/${nome}`);
-  checar(`licoes/${nome}: nome NNN-slug`, /^\d{3}-[a-z0-9-]+\.md$/.test(nome));
-  checar(`licoes/${nome}: numeração sequencial`, nome.startsWith(String(i + 1).padStart(3, '0')));
-  checar(`licoes/${nome}: título "# NNN · ..."`, new RegExp(`^# ${nome.slice(0, 3)} · .+`, 'm').test(t));
-  for (const campo of ['**O que aconteceu:**', '**Causa:**', '**Regra:**']) checar(`licoes/${nome}: tem ${campo}`, t.includes(campo));
-});
-const indiceLicoes = spawnSync('node', [join(RAIZ, 'scripts/gerar-indice-licoes.mjs'), '--check'], { encoding: 'utf8' });
-checar('licoes/_indice.md está atualizado (gerar-indice-licoes.mjs --check)', indiceLicoes.status === 0, (indiceLicoes.stdout + indiceLicoes.stderr).trim().slice(0, 140));
-
-for (const pasta of ['casos', 'cenarios'])
+// 2b) Estrutura e decisões
+for (const pasta of ['licoes', 'casos', 'cases', 'cenarios', '.superpowers'])
   checar(`estrutura: pasta ${pasta} removida`, !existsSync(join(RAIZ, pasta)));
-const referenciasRemovidas = ARQUIVOS_VIVOS.filter((f) => /\b(?:casos|cenarios)\/|nada entra sem um caso real|cenários aplicados/i.test(readFileSync(f, 'utf8')));
-checar('estrutura: fluxo ativo sem dependências de casos e cenários', referenciasRemovidas.length === 0, referenciasRemovidas.map((f) => relative(RAIZ, f)).join(', '));
+const referenciasRemovidas = ARQUIVOS_VIVOS.filter((f) => /\b(?:licoes|casos|cases|cenarios)\/|gerar-indice-licoes|nada entra sem um caso real|cenários aplicados/i.test(readFileSync(f, 'utf8')));
+checar('estrutura: fluxo ativo sem dependências das áreas removidas', referenciasRemovidas.length === 0, referenciasRemovidas.map((f) => relative(RAIZ, f)).join(', '));
 
 const arquivosDecisao = listar('decisoes');
 checar('decisões: pelo menos 4 registradas', arquivosDecisao.length >= 4, `achei ${arquivosDecisao.length}`);
@@ -303,7 +296,7 @@ for (const id of ['aconteceu', 'esperado', 'reproduzir', 'onde', 'evidencia'])
   checar(`issue de bug: campo obrigatório ${id}`, bugForm.split('  - type:').some((b) => b.includes(`id: ${id}\n`) && b.includes('required: true')));
 checar('issue de bug: rótulo bug e a triagem da Lead', bugForm.includes('labels: ["bug"]') && bugForm.includes('Lead'));
 const cicloBug = (ler('nucleo/02-sessoes-e-papeis.md').split('## Ciclo de um bug')[1] || '').split('\n## ')[0];
-for (const termo of ['issue de bug', 'incidente', 'gatilho', 'causa raiz', 'falha por causa do bug', 'fora do escopo', 'issue nova', 'revisão cruzada', 'comportamento combinado', 'Correção urgente', 'reverter', 'lição'])
+for (const termo of ['issue de bug', 'incidente', 'gatilho', 'causa raiz', 'falha por causa do bug', 'fora do escopo', 'issue nova', 'revisão cruzada', 'comportamento combinado', 'Correção urgente', 'reverter', 'memória do projeto'])
   checar(`sessões: ciclo de um bug (${termo})`, cicloBug.includes(termo));
 checar('ciclo de um bug: a Lead não passa um bug à frente do que a pessoa priorizou', cicloBug.includes('prioridade já aprovada') && !cicloBug.includes('sem perguntar'));
 for (const id of ['impacto', 'arquivos_permitidos', 'arquivos_proibidos', 'ferramenta'])
@@ -324,6 +317,7 @@ const issueReq = ler('modelos/issue-tarefa.yml').split('  - type:');
 for (const id of ['impacto', 'ferramenta'])
   checar(`issue: campo ${id} obrigatório`, issueReq.some((b) => b.includes(`id: ${id}\n`) && b.includes('required: true')));
 checar('issue: plano pode ficar em branco', issueReq.some((b) => b.includes('id: plano\n') && !b.includes('required: true')));
+checar('issue: dependências podem ser registradas', issueReq.some((b) => b.includes('id: dependencias\n')));
 checar('prompt da Lead: a issue leva o plano e o passo e a ferramenta', ler('modelos/prompt-lead.md').includes('plano e passo') && ler('modelos/prompt-lead.md').includes('ferramenta'));
 checar('fluxo: a Lead fica no Claude Code por padrão (linha Lead: do projeto)', (fluxo.split('## Fase 3')[1] || '').split('## Fase 4')[0].includes('por padrão') && (fluxo.split('## Fase 3')[1] || '').split('## Fase 4')[0].includes('Lead:'));
 checar('README: a Lead abre na ferramenta da linha Lead: do projeto', !ler('README.md').includes('num agente Claude Code: ela distribui'));
@@ -489,6 +483,8 @@ checar('prompt da Lead exige o navegador', /navegador/i.test(promptInt));
     const dev = existsSync(join(alvo, 'processo/DESENVOLVIMENTO.md')) ? readFileSync(join(alvo, 'processo/DESENVOLVIMENTO.md'), 'utf8') : '';
     checar('novo-projeto.sh carimba a versão do método', dev.includes(`Versão do método: ${versao}`));
     checar('novo-projeto.sh ensina o fluxo por impacto no documento gerado', ['## Impacto da tarefa', 'Básico', 'Padrão', 'Profundo'].every((termo) => dev.includes(termo)) && !dev.includes('Cenários aplicados'));
+    checar('novo-projeto.sh registra Agent Skills, spec e plano no projeto gerado', ['## Agent Skills', 'processo/specs/', 'processo/planos/'].every((termo) => dev.includes(termo)));
+    checar('novo-projeto.sh registra integração por trilha e commit', ['## Integração direta', '--match-head-commit', 'autorização de publicação'].every((termo) => dev.includes(termo)));
     checar('novo-projeto.sh: DESENVOLVIMENTO.md explica o modo Orca', dev.includes('Orca'));
     checar('novo-projeto.sh: DESENVOLVIMENTO.md cita o AGENTS.md', dev.includes('AGENTS.md'));
     const linhaPapel = (texto, papel) => (texto.match(new RegExp(`^\\| ${papel} \\| ([^|]+) \\|`, 'm')) || [])[1]?.trim();
@@ -592,9 +588,6 @@ checar('prompt da Lead exige o navegador', /navegador/i.test(promptInt));
   }
 }
 
-for (const nome of HARNESSES)
-  checar('agentes/' + nome + ': lê as lições do método', ler('modelos/agentes/' + nome + '.md').includes('licoes/_indice.md'));
-checar('modelo do harness: lê as lições do método', modeloHarness.includes('licoes/_indice.md'));
 checar('Ops: recebe do Security os needs_validation de infraestrutura', ler('modelos/agentes/ops.md').includes('needs_validation'));
 checar('Designer: usa o roteiro de estudo de referência', ler('modelos/agentes/designer.md').includes('04-referencias-e-engenharia-reversa.md'));
 for (const prompt of ['modelos/prompt-lead.md', 'modelos/prompt-builder.md'])

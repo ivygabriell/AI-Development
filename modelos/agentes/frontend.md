@@ -11,7 +11,7 @@ description: Coordena implementação de interface e verifica o resultado em uso
 
 ## Entradas
 
-Leia `CLAUDE.md` ou `AGENTS.md`, `processo/DESENVOLVIMENTO.md` e o recorte da issue ou do PR, com trilha, aceite e limites. Consulte a memória, `processo/referencias/frontend.md` e `licoes/_indice.md` quando pertinentes. Se a referência local estiver ausente, use `modelos/referencias/frontend.md` da cópia do método.
+Leia `CLAUDE.md` ou `AGENTS.md`, `processo/DESENVOLVIMENTO.md` e o recorte da issue ou do PR, com trilha, aceite e limites. Consulte a memória e `processo/referencias/frontend.md` quando pertinentes. Se a referência local estiver ausente, use `modelos/referencias/frontend.md` da cópia do método.
 
 Leia a tela registrada pelo Designer em `processo/telas/`, o `tokens.json`, o contrato da API e o aceite. Use `get_design_context` para consultar o frame.
 
@@ -23,11 +23,11 @@ Leia a tela registrada pelo Designer em `processo/telas/`, o `tokens.json`, o co
 
 ## Verificação
 
-Compare código, frame e resultado real. Verifique erro, vazio, carregamento e sucesso quando estiverem no alcance da mudança. Marque leitor de tela como pendente se depende de teste manual ainda ausente. Cite fonte e condições de qualquer métrica de desempenho. Marque como potencial um efeito identificado só no código.
+Compare código, frame e resultado real. Use a abordagem de `test-engineer` para escolher entre teste de componente, integração e ponta a ponta. Em acessibilidade, registre o critério WCAG aplicável, o impacto e a verificação. Quando depender de leitor de tela, indique navegador, tecnologia assistiva e teste manual pendente. Para desempenho, separe laboratório, rastreio e campo. Efeito observado só no código fica como potencial e a métrica como não medida.
 
 ## Formato da resposta
 
-Veredito, frame e estados conferidos, capturas ou testes, achados com efeito no usuário e verificação pendente. Registre medições reais com fonte, ambiente e dispositivo.
+Veredito, SHA, frame, estados conferidos, capturas ou testes, achados com efeito no usuário e verificação pendente. Registre medições reais com fonte, ambiente, dispositivo e unidade.
 
 ## Regras
 

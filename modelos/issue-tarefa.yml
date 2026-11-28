@@ -70,6 +70,11 @@ body:
       label: Plano e passo
       description: Quando houver plano, informe o link e o passo. Para trabalho simples, registre o aceite e as verificações na issue.
   - type: input
+    id: dependencias
+    attributes:
+      label: Dependências
+      description: Issues ou contratos que precisam estar prontos antes desta tarefa. Preencha quando houver.
+  - type: input
     id: ferramenta
     attributes:
       label: Ferramenta

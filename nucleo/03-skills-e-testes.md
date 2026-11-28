@@ -2,17 +2,17 @@
 
 Escolha a [trilha por impacto](01-fluxo-de-ponta-a-ponta.md#impacto-da-tarefa) antes de escolher as skills e o alcance da verificação. Quando o [Agent Skills do Addy Osmani](https://github.com/addyosmani/agent-skills) estiver disponível, use as skills aplicáveis ao trabalho daquela etapa. A trilha Básico usa evidência focada. Revisão em cinco eixos, especialistas e auditoria entram conforme os riscos e os portões do método.
 
-## security-audit
+## Revisão de segurança
 
-A [security-audit da Cloudflare](https://github.com/cloudflare/security-audit-skill) é a referência para orientação e auditoria de segurança. O Security conduz o trabalho no modo com especialistas. Nos outros modos, a Lead assume esse papel.
+`security-and-hardening` orienta o mapa de riscos e a revisão. No Claude Code, a Lead pode pedir um parecer independente à persona `security-auditor`. No Codex, uma sessão de revisão recebe o mesmo recorte e usa a skill. O Security conduz o trabalho quando o projeto usa especialistas. [Skill de segurança do Addy](https://github.com/addyosmani/agent-skills/blob/e997ac5b9a74eab332d5e9793bb38a38c8cfdd74/skills/security-and-hardening/SKILL.md)
 
 | Momento | Uso | Resultado |
 |---|---|---|
-| Fase 2, primeiro mapa de riscos | Modo de orientação. Identifique quem usa, as fronteiras de confiança, as superfícies de entrada e os controles. | Mapa em `processo/seguranca.md` e critérios de aceite das tarefas. |
+| Fase 2, primeiro mapa de riscos | Modele quem usa, os dados, as fronteiras de confiança e os controles. | Mapa em `processo/seguranca.md` e critérios de aceite das tarefas. |
 | Revisão de PR sensível ou correção de vulnerabilidade | Revisão focada nas fronteiras e nos controles afetados. | Veredito da revisão e achados que precisam de correção. |
-| Fase 7, antes da primeira publicação e após mudança relevante de exposição ou controles | Auditoria completa após a aprovação do perfil, do escopo e do orçamento, ou dispensa registrada. | Relatório fora do repositório e triagem no mapa de riscos. |
+| Fase 7, antes da primeira publicação e após mudança relevante de exposição ou controles | Revisão de segurança abrangente, com escopo e custo aprovados ou dispensa registrada. | Parecer privado, cobertura declarada e triagem no mapa de riscos. |
 
-Para a auditoria completa, use o [procedimento oficial da Cloudflare](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md). A Lead submete motivo, perfil, escopo e limite ao portão da pessoa. Registre o commit auditado, valide o relatório e a cobertura e guarde a saída fora do repositório. Achados confirmados críticos ou altos bloqueiam a publicação. Resultados que dependem de evidência adicional entram como `needs_validation` no mapa de riscos. Registre achados e evidências sensíveis em canais privados, sem incluir o valor de segredos.
+Na revisão abrangente, a Lead leva motivo, escopo e limite ao portão da pessoa. Registre o commit, a cobertura efetiva, o que ficou pendente e as verificações feitas. Achados confirmados críticos ou altos bloqueiam a publicação até correção. Resultados que dependem de evidência adicional entram como `needs_validation`. Guarde o parecer e evidências sensíveis fora do repositório, em canal privado.
 
 Na auditoria, limite-se ao código autorizado. Qualquer execução de código do projeto exige sandbox sem rede, ambiente sem segredos e limites de recursos. Registre como `needs_validation` o que depender de execução quando essa sandbox estiver indisponível.
 

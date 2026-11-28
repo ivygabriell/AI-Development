@@ -2,6 +2,14 @@
 
 Segue [versionamento semântico](https://semver.org/lang/pt-BR/): **maior** quando a estrutura ou uma regra do núcleo muda de forma incompatível, **menor** quando entra conteúdo novo (cenário, lição, modelo), **correção** para ajustes de texto. Cada versão grande ou média ganha uma tag Git (`v2.0.0`).
 
+## 10.0.0 (2026-11-27)
+
+- O Agent Skills do Addy é a base das práticas em todas as fases. As trilhas de impacto e os portões do AI Development definem a profundidade e a autorização da tarefa.
+- O Security usa `security-and-hardening` e o formato de parecer de `security-auditor`. A revisão abrangente mantém aprovação de escopo e bloqueio de publicação por achados graves confirmados.
+- Saem as lições e a pasta do Superpowers. A retrospectiva continua na memória do projeto. Os casos e cenários continuam fora da estrutura.
+- As issues registram dependências, aceite e resultados de verificação por incremento. [Decisão 021](decisoes/021-agent-skills-como-base.md)
+- Os harnesses registram pareceres e evidências no formato das personas do Addy. A Lead integra direto quando a trilha, o CI no commit e as autorizações permitem. [Decisão 022](decisoes/022-integracao-direta-por-impacto.md)
+
 ## 9.0.0 (2026-11-26)
 
 O fluxo passa a ter três trilhas por impacto, com a profundidade da validação definida antes de construir. [Decisão 019](decisoes/019-fluxo-por-impacto.md)
@@ -239,7 +247,7 @@ Modo de execução com o Orca, aprovado pela pessoa **sem caso real** (exceção
 ## 2.2.0 (2026-10-14)
 
 - **Caso novo:** Repositório do método (2026-10), marco da publicação no GitHub e do primeiro PR.
-- **Lição 019:** [proteção da `main` indisponível em repositório privado](licoes/019-protecao-da-main-indisponivel-em-repositorio-privado.md) (HTTP 403 numa conta gratuita).
+- **Lição 019:** proteção da `main` indisponível em repositório privado (HTTP 403 numa conta gratuita).
 - [05 · Git, GitHub e CI](nucleo/05-git-github-e-ci.md) e o README avisam que a proteção da `main` depende do plano e dizem o que fazer sem ela.
 - `CLAUDE.md`: a `main` deste repositório fica sem proteção no GitHub, por decisão da pessoa; a regra vale pela disciplina da sessão.
 

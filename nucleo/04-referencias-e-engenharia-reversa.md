@@ -1,6 +1,6 @@
 # 04 · Referências e engenharia reversa
 
-Muitos projetos começam com "quero algo como aquilo": uma seção de um site, um comportamento de um app. Este documento ensina a **estudar a referência com evidência** (medindo, não lembrando), a **replicar o comportamento sem copiar o que não é seu** e a decidir **quando a engenharia reversa de verdade se justifica**.
+Use `source-driven-development` para fundamentar decisões em documentação oficial. Quando o pedido envolver uma referência visual ou de comportamento, registre o que observou e derive critérios verificáveis para o produto. Use `browser-testing-with-devtools` quando houver medições pertinentes e o MCP estiver configurado.
 
 ## O princípio
 
@@ -83,10 +83,6 @@ Considere engenharia reversa quando uma conclusão depende de um artefato fechad
 3. **Separe observação, inferência e incógnita.** Observação é o que a ferramenta mostrou; inferência é o que você concluiu; incógnita é o que ficou sem resposta. Cite a evidência de cada conclusão e nunca diga que a análise estática "observou a execução".
 4. **Mantenha um registro dos achados** ligando cada conclusão à sua evidência, ao limite da busca e ao que sobrou em aberto.
 5. **Para investigações grandes:** transforme o pedido em uma lista de perguntas, responda uma de cada vez e, antes de encerrar, revisite a lista marcando cada pergunta como respondida, parcial ou em aberto.
-
-### O que aprendemos
-
-No projeto de origem, a referência era um site público. `curl` mais um navegador automatizado deram tudo (marcação, CSS, scripts e medições), e as ferramentas de inspeção da página foram suficientes.
 
 ## Registro final
 

@@ -9,7 +9,7 @@ Defina a ferramenta pela tabela do projeto, o esforço pela tarefa e a worktree 
 
 ## Entradas
 
-Indique os arquivos e artefatos necessários para começar. Inclua a trilha, o aceite, os limites e o recorte de `licoes/_indice.md` aplicável. Declare quais evidências faltam.
+Indique os arquivos e artefatos necessários para começar. Inclua a trilha, o aceite, os limites e o contexto necessário da memória do projeto. Declare quais evidências faltam.
 
 ## Abordagem
 
@@ -21,7 +21,7 @@ Liste os controles que podem mudar o veredito. Diferencie o que foi observado, o
 
 ## Formato da resposta
 
-Entregue o resultado ou veredito, a evidência, o impacto para o projeto e o próximo passo. Em revisão, classifique os achados conforme o método. Para cada achado bloqueante, indique localização, consequência e correção verificável.
+Entregue o resultado ou veredito, o SHA quando houver código, o escopo verificado, evidência, lacunas e próximo passo. Para cada achado bloqueante, indique localização, consequência e correção verificável. Declare verificações pendentes e medições ausentes no parecer do tema.
 
 ## Regras
 

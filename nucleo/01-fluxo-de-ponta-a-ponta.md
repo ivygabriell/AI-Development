@@ -2,6 +2,25 @@
 
 As dez fases (0 a 9) são a referência da ideia ao fechamento. O impacto da tarefa define a profundidade de cada fase. Antes de construir, defina o alvo e obtenha a aprovação de quem decide. Antes de concluir, mostre a evidência.
 
+## Ciclo do Agent Skills
+
+O [Agent Skills](https://github.com/addyosmani/agent-skills) fornece as práticas de desenvolvimento. A Lead escolhe a trilha e aplica as skills abaixo quando a evidência ou o risco pede. Use as aprovações, os caminhos e os responsáveis deste fluxo ao executar uma skill.
+
+| Fase do AI Development | Prática do Addy | Entrega |
+|---|---|---|
+| 0–1 · Entender e investigar | `interview-me`, `idea-refine`, `context-engineering` e `source-driven-development`, conforme a lacuna | Intenção, estado atual e referências verificadas |
+| 2 · Definir | `spec-driven-development` e, se houver fronteira sensível, `security-and-hardening` | Aceite curto ou spec e riscos, conforme a trilha |
+| 3 · Planejar | `planning-and-task-breakdown` | Issue ou plano com entregas pequenas, dependências e verificações |
+| 4 · Construir | `incremental-implementation` e `test-driven-development` | Um resultado verificável por tarefa, com evidência |
+| 5 · Validar | `code-review-and-quality`; verificações de navegador, segurança ou desempenho conforme o risco | Parecer, resultados dos testes e pendências |
+| 6 · Integrar | `git-workflow-and-versioning` | PR com CI verde e revisão no commit que será integrado |
+| 7 · Publicar | `shipping-and-launch` e, quando pertinente, `observability-and-instrumentation` | Decisão de prontidão, autorização e verificação após deploy |
+| 8–9 · Manter e fechar | `debugging-and-error-recovery` e `documentation-and-adrs` | Regressões cobertas, memória atualizada e decisões relevantes |
+
+- **Projeto novo:** defina os requisitos, aprove o desenho e a spec, planeje e entregue um incremento de cada vez.
+- **Projeto existente:** leia as regras, os testes e o comportamento relevante antes de mudar. Se faltar uma rede de segurança para o trecho afetado, fixe o comportamento atual em um teste de caracterização antes de refatorar. Para bug, registre o comportamento esperado e veja o teste falhar antes da correção.
+- **Ferramentas:** a Lead pode usar as personas no Claude Code para obter pareceres. No Codex, usa as skills em sessões de revisão. Comandos do pacote são úteis quando respeitam os caminhos e portões do projeto. `/build auto` fica restrito ao trecho já aprovado e para em novo gatilho. `/ship` produz um parecer de prontidão. A autorização de publicação vem da pessoa.
+
 ## Classificação do pedido
 
 Classifique a natureza do pedido antes de construir. Um spike termina com uma resposta. Uma mudança delimitada altera algo existente dentro de um limite conhecido. Uma mudança arquitetural reorganiza partes do sistema, introduz um subsistema ou começa um produto. Depois avalie as consequências da mudança para escolher a trilha.
@@ -47,24 +66,24 @@ A Lead classifica antes da implementação e registra na issue ou no PR, em uma 
 - **Ordem** ([decisão 015](../decisoes/015-requisitos-e-telas-antes-do-codigo.md)): **requisitos → identidade → telas → spec**, cada um com o seu portão; sem interface, **requisitos → spec**. Tudo é aprovado antes do plano, e portanto antes de qualquer código, inclusive do back.
 - **Requisitos:** o Product (sem o modo com especialistas, a Lead), no papel de engenheiro de requisitos ou PO, descreve cada requisito numa ficha de `processo/requisitos.md`, pelo [modelo de requisitos](../modelos/modelo-requisitos.md): história, regras de negócio, casos de erro, critérios de aceite, dependências, telas e o peso (valor, esforço, risco), com a prioridade proposta. A pessoa aprova a lista, os pesos e a ordem.
 - **Identidade e todas as telas, no Figma** (com interface): o Designer ([decisão 017](../decisoes/017-agente-designer.md); sem o modo com especialistas, a Lead) começa **pedindo as referências da pessoa** (sites, apps, marcas de que ela gosta, e os formatos desejados: celular, tablet, desktop), sem as quais não cria nada, e segue a ordem **referências → identidade → telas nos formatos desejados**. Cria no Figma, pelo servidor MCP oficial, seguindo o padrão **do token à tela**: 1) tokens (cores, tipografia, espaçamentos, em duas camadas), 2) componentes base com variantes e estados, 3) padrões (formulário, lista, vazio, erro), 4) todas as telas de cada requisito, com os estados (vazio, carregando, erro, sucesso), celular e desktop, e 5) o fluxo navegável. Com celular entre os formatos, vale o **mobile-first**: o celular é desenhado e construído primeiro, e tablet e desktop acrescentam. A identidade (etapas 1 a 3, com logo, ícones e tom de voz) tem o seu portão antes das telas (etapas 4 e 5). A cada aprovação da pessoa, o registro entra no repositório por PR: `processo/telas/` com uma captura por tela e estado, a data e o link do frame, e `processo/telas/tokens.json` com os tokens do Figma, e o catálogo `processo/telas/design-system.md`, que o Frontend transforma no design system do código. O link do arquivo fica na linha `Telas:` do `processo/DESENVOLVIMENTO.md`. Toda mudança de tela começa no Figma; o código segue só a versão registrada. Escrever no Figma exige assento Full: ligar é decisão da pessoa (gatilho de custo); sem ele, a pessoa desenha no Figma e os agentes só leem.
-- **Passos da spec:** proponha 2 ou 3 abordagens com a sua recomendação; apresente o desenho em partes e peça aprovação a cada parte; escreva a spec (objetivo, restrições, estrutura, dados, critérios de aceite, o que fica de fora) e faça uma autorrevisão (pendências, contradições, ambiguidade, escopo).
-- **Mapa de riscos de segurança**, no desenho inicial do projeto e quando uma mudança afeta a exposição ou os controles: use a `security-audit` no modo de orientação, pelo [roteiro de segurança](03-skills-e-testes.md#security-audit). Registre em `processo/seguranca.md` os usuários, as fronteiras de confiança e as superfícies afetadas, com critérios de aceite nas issues. No modo com especialistas, quem faz é o Security. Nos outros, a Lead.
+- **Passos da spec:** use `spec-driven-development` quando a trilha exigir uma decisão escrita. Compare abordagens quando houver uma escolha relevante, feche a que foi aprovada e registre objetivo, escopo, limites, comandos de verificação e critérios em `processo/specs/`.
+- **Mapa de riscos de segurança**, no desenho inicial e quando uma mudança afeta exposição ou controles. Use `security-and-hardening` para registrar em `processo/seguranca.md` quem usa, quais fronteiras são afetadas e quais controles viram critérios de aceite. O Security conduz quando acionado, e a Lead assume nos outros modos. [Revisão de segurança](03-skills-e-testes.md#revisão-de-segurança)
 - **Resultado:** `processo/requisitos.md`, a identidade e as telas no Figma registradas em `processo/telas/` (com interface) e a spec versionada, com o mapa de riscos.
 - **Portão:** a pessoa aprova, nesta ordem, os requisitos (com os pesos e a ordem), a identidade e todas as telas (com interface) e a spec escrita.
 
 ## Fase 3 · Plano
 
 - **Profundidade:** o Básico segue com o aceite registrado. No Padrão, a issue basta quando há um único passo verificável. No Profundo, registre a sequência, dependências, verificações e como parar ou recuperar, conforme a ação.
-- **Entrada:** spec aprovada.
-- **Passos:** quebre em tarefas pequenas (2 a 5 minutos por passo), cada uma com os arquivos exatos, o teste primeiro, o comando e o resultado esperado. Liste as restrições globais e o que a revisão final precisa olhar.
-- **Resultado:** plano versionado.
+- **Entrada:** aceite confirmado e spec aprovada quando ela existir.
+- **Passos:** separe em tarefas que entregam um resultado verificável. Cada tarefa indica dependências, arquivos permitidos, aceite e verificação esperada. Quando uma entrega exigir várias camadas, prefira um recorte que funcione de ponta a ponta. Antes de trabalho paralelo de Back e Front, feche o contrato conforme a regra deste método.
+- **Resultado:** uma issue quando ela bastar. Para várias tarefas, plano em `processo/planos/` com sequência, dependências e links das issues. A issue registra o estado de sua tarefa.
 - **Portão:** a pessoa aprova o plano de projeto novo, mudança arquitetural ou trabalho com gatilho. A Lead decide os passos dentro do que já foi aprovado e escolhe entre execução inline, sessões divididas e Orca, com especialistas quando o projeto tiver esse modo. A Lead fica por padrão no Claude Code. A linha `Lead:` e a tabela Ferramenta por papel em `processo/DESENVOLVIMENTO.md` registram a escolha. Veja [Sessões e papéis](02-sessoes-e-papeis.md).
 
 ## Fase 4 · Construir com TDD
 
 - **Entrada:** aceite definido e plano aprovado quando aplicável, em branch própria a partir da `main` atualizada.
-- **Passos:** para mudança de comportamento ou correção de bug, escreva o teste, **veja-o falhar pelo motivo certo** e escreva o mínimo para passar. Em ajuste básico sem comportamento ou bug, use a verificação direta do aceite. Rode as verificações da trilha, faça commits pequenos e registre os desvios relevantes.
-- **Resultado:** commits na branch, suíte verde, ledger de decisões.
+- **Passos:** execute uma tarefa por vez. Para comportamento ou bug, escreva o teste, **veja-o falhar pelo motivo certo** e escreva o mínimo para passar. Para ajuste básico, confira o aceite antes e depois. Rode as verificações da trilha e registre comando, resultado e ponto de retomada antes de seguir.
+- **Resultado:** incremento verificado na branch, com desvio relevante registrado na issue.
 - **Portão:** os testes macro verdes (veja [03](03-skills-e-testes.md)).
 
 ## Fase 5 · Validar
@@ -77,15 +96,41 @@ A Lead classifica antes da implementação e registra na issue ou no PR, em uma 
 ## Fase 6 · Integrar
 
 - **Entrada:** validação concluída.
-- **Passos:** envie a branch, deixe o CI rodar, abra o Pull Request com o modelo, traga a `main` para a branch se ela estiver desatualizada, integre (sem apagar a branch remota), confira a `main` e o CI dela.
+- **Passos:** envie a branch e abra o PR com o modelo. Se a base mudou, atualize a branch e repita as verificações afetadas. Confirme CI e portões no commit que será integrado. Use commit de merge, preserve a branch remota e verifique a `main` após integrar.
 - **Resultado:** a `main` com a mudança, suítes e CI verdes.
-- **Portão:** os gatilhos de aprovação (abaixo): sem gatilho, a Lead integra e registra; com gatilho, só com o "pode integrar" da pessoa.
+- **Portão:** aplique os [critérios de integração direta](#integração-direta). A Lead integra quando a evidência está completa e o PR está autorizado.
+
+## Integração direta
+
+A Lead pode integrar sem pedir nova validação da pessoa quando o PR atende aos critérios da trilha e nenhuma autorização aplicável está pendente. A decisão se refere ao PR, ao commit revisado e ao efeito de integrá-lo.
+
+### Critérios comuns de aceite
+
+1. **Escopo.** O PR resolve o aceite registrado, toca os arquivos permitidos e informa a trilha. O efeito do merge, inclusive eventual publicação, foi conferido.
+2. **Evidência.** As verificações esperadas da trilha passaram. O PR aponta o commit, o resultado e as evidências. Revisões exigidas pelo projeto ou pela trilha cobrem o mesmo estado da mudança.
+3. **Estado do PR.** O PR está aberto, fora de rascunho, sem conflito e com as regras da branch atendidas. O CI esperado está presente e verde para o commit atual. Check ausente, pendente ou falho precisa ser resolvido.
+4. **Achados.** Críticos e importantes estão resolvidos. Evidência indispensável em falta bloqueia o merge. Achados menores podem virar pendências registradas.
+5. **Autorização.** A Lead confere os [gatilhos](#portões-de-aprovação). Uma autorização anterior serve quando identifica a mudança, abrange a integração e seus efeitos e mantém válidas as condições registradas. Aprovar spec, plano ou revisão técnica por si só autoriza apenas a ação indicada.
+
+| Trilha | Quando integrar direto | Exemplos |
+|---|---|---|
+| **Básico** | Escopo aprovado, alteração reversível, verificação focada da Lead e todos os critérios comuns. | Correção de texto, ajuste visual local ou documentação interna. |
+| **Padrão** | Escopo aprovado e reversível, testes proporcionais e revisão independente. Em projeto com duas ferramentas, inclua a revisão cruzada. | Correção que restaura comportamento combinado, refatoração interna protegida por testes ou campo opcional compatível dentro do contrato aprovado. |
+| **Profundo** | Verificação independente especializada, contenção ou recuperação prevista e autorização explícita para integrar a mudança com os efeitos identificados. A Lead usa a autorização já registrada e válida. | Correção de permissão em PR cujo escopo, controles e integração a pessoa já autorizou. |
+
+### Resultado da verificação
+
+- **Bloqueada:** falta critério técnico, o PR mudou ou há achado bloqueante. Corrija e reavalie.
+- **Aguarda aprovação:** os critérios técnicos foram atendidos e falta autorização para a ação ou confirmação de que uma autorização se aplica. A Lead apresenta impacto e evidência à pessoa.
+- **Integração direta:** critérios cumpridos e autorizações resolvidas. A Lead integra o commit verificado, confere a `main` e registra no PR e no resumo por marco.
+
+Ao mudar o commit ou a base, confirme de novo as verificações e revisões afetadas. Se mudar escopo, risco ou efeito da ação, reclassifique e confira a autorização. Deploy automático exige autorização de publicação antes do merge, inclusive no Básico. Para o repositório do próprio método, a aprovação da pessoa por PR segue a regra do `CLAUDE.md`.
 
 ## Fase 7 · Publicar
 
 - **Entrada:** `main` verde.
 - **Passos:** confirme a versão e o alvo da publicação. Para ajuste básico, verifique o ponto alterado após publicar e saiba como voltar. Amplie a verificação conforme o risco: configuração, endereço público, indexação, desempenho, acessibilidade, monitoramento e recuperação. Se houver dados fictícios de exemplo, **uma trava automática** impede a publicação enquanto eles existirem.
-- **Auditoria de segurança, antes da primeira publicação** e após mudança relevante de exposição ou controles (login novo, API pública nova, troca de infraestrutura): o Security, ou a Lead, propõe a auditoria completa com a `security-audit` da Cloudflare pelo [roteiro de segurança](03-skills-e-testes.md#security-audit). A pessoa aprova o escopo ou a dispensa, registrada na memória. Achado confirmado crítico ou alto segura a publicação até ser corrigido.
+- **Revisão de segurança abrangente:** antes da primeira publicação e após mudança relevante de exposição ou controles, o Security ou a Lead propõe o escopo com `security-and-hardening`. A pessoa aprova a revisão ou registra a dispensa. Achado confirmado crítico ou alto bloqueia a publicação até correção. [Roteiro de segurança](03-skills-e-testes.md#revisão-de-segurança)
 - **Resultado:** o produto no ar.
 - **Portão:** a pessoa autoriza a publicação. Se publicar for efeito do merge, esse portão vem antes de integrar. No Profundo, registre também o que observar após publicar e quando interromper ou reverter.
 
@@ -100,9 +145,9 @@ Ao fim de um projeto, ou de um marco grande, o método aprende com ele. É o que
 
 - **Passos:**
   1. A Lead revê issues e PRs e registra na memória do projeto o que funcionou, o que falhou e as medidas disponíveis. No Orca, pode consultar conversas com `orca search` (só leitura, com a autorização da pessoa).
-  2. Transforme aprendizados reutilizáveis em [lições](../licoes/_indice.md) e, quando couber, em teste ou ajuste do fluxo. Registre mudanças de regra em [decisões](../decisoes/_modelo-decisao.md).
+  2. Incorpore aprendizados reutilizáveis em verificações, critérios de aceite ou ajustes do fluxo. Registre mudanças de regra em [decisões](../decisoes/_modelo-decisao.md).
   3. Quando houver alteração no método, leve-a por PR com `node scripts/verificar.mjs` verde e a justificativa registrada.
-- **Resultado:** memória atualizada. Lições ou mudanças no método entram quando houver algo a aproveitar.
+- **Resultado:** memória atualizada. Se o aprendizado se aplicar ao método, a Lead propõe o ajuste no núcleo.
 - **Portão:** a pessoa aprova o PR do método, quando houver.
 
 ## Portões de aprovação
@@ -120,7 +165,7 @@ Sem gatilho, decide a Lead e registra na issue, no PR ou na memória do projeto.
 
 | Fica com a pessoa | Passa para a Lead |
 |---|---|
-| Entendimento ainda ambíguo, requisitos novos (com pesos e ordem), spec e plano formais | Integrar um PR na `main` com aceite definido, dentro do escopo aprovado, CI verde, validação sem achado crítico nem importante, só arquivos permitidos e nenhum gatilho |
+| Entendimento ainda ambíguo, requisitos novos (com pesos e ordem), spec e plano formais | Integrar um PR que atenda à [integração direta](#integração-direta), com nenhum gatilho pendente |
 | A identidade e todas as telas (Figma e `processo/telas/`); tela ou requisito novo no meio do projeto | Ajuste pequeno numa tela aprovada, que não muda fluxo, conteúdo nem identidade (espaço, alinhamento, quebra de texto), feito no Figma primeiro e registrado |
 | Mudança de escopo ou de critério de aceite já aprovado | Aceite curto e passos da tarefa dentro do escopo |
 | Contrato da API que **quebra** quem usa; migração que apaga ou transforma dados | Mudança **aditiva** no contrato (um campo novo opcional) |
@@ -131,5 +176,5 @@ Sem gatilho, decide a Lead e registra na issue, no PR ou na memória do projeto.
 
 - **Resumo por marco:** a Lead lista o que aprovou sozinha, com os links para as issues e os PRs. A pessoa lê quando quiser e pode reverter qualquer item.
 - **Parâmetros por projeto:** a tabela vai para a seção "Aprovações" do `processo/DESENVOLVIMENTO.md`. Quando a pessoa disser "isso a Lead pode decidir daqui para frente" (ou o contrário), a mudança fica anotada ali e na memória.
-- O pedido da pessoa é sempre por escrito e **antes** da ação. Uma aprovação vale **para aquela mudança**; aprovar uma coisa não autoriza a seguinte.
+- A autorização da pessoa é escrita e anterior à ação. Registre o escopo e os efeitos que ela abrange. Peça nova autorização se a próxima ação ficar fora dessa cobertura.
 - **No repositório do método** nada disso muda: a pessoa aprova cada PR, como manda o `CLAUDE.md` dele.

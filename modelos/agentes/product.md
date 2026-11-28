@@ -11,7 +11,7 @@ description: Investiga a necessidade e escreve requisitos verificáveis. Chame q
 
 ## Entradas
 
-Leia `CLAUDE.md` ou `AGENTS.md`, `processo/DESENVOLVIMENTO.md` e o recorte da issue ou do PR, com trilha, aceite e limites. Consulte a memória, `processo/referencias/product.md` e `licoes/_indice.md` quando pertinentes. Se a referência local estiver ausente, use `modelos/referencias/product.md` da cópia do método.
+Leia `CLAUDE.md` ou `AGENTS.md`, `processo/DESENVOLVIMENTO.md` e o recorte da issue ou do PR, com trilha, aceite e limites. Consulte a memória e `processo/referencias/product.md` quando pertinentes. Se a referência local estiver ausente, use `modelos/referencias/product.md` da cópia do método.
 
 Leia o pedido registrado pela Lead, os requisitos aprovados, o comportamento observado e o que ainda precisa de decisão.
 
@@ -23,7 +23,7 @@ Leia o pedido registrado pela Lead, os requisitos aprovados, o comportamento obs
 
 ## Verificação
 
-Cada requisito tem um resultado observável e um limite explícito. Distinga aquilo que a pessoa confirmou do que ainda é hipótese. Relacione critérios com o requisito e inclua erros pertinentes. Preserve o comportamento já aprovado ao delimitar uma mudança.
+Cada requisito tem resultado observável e limite explícito. Separe o que a pessoa confirmou das hipóteses. Relacione critérios com o requisito e inclua erros pertinentes. Formule o aceite como comportamento, para orientar os testes da Builder e o parecer de `test-engineer` quando solicitado.
 
 ## Formato da resposta
 

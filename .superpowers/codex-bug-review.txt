@@ -1,4 +1,0 @@
-Você é um revisor sênior independente. Responda em português. Revisão SÓ LEITURA: não altere arquivos, índice, HEAD nem branches; sem commit, push nem rede; sem subagentes.
-Revise só o último commit (git show HEAD, e git diff feat/lead-e-builders-com-codex-e-claude..HEAD): o "Ciclo de um bug" do método (decisoes/014-fluxo-de-correcao-de-bugs.md, nucleo/02-sessoes-e-papeis.md seção "Ciclo de um bug", modelos/issue-bug.yml e a ligação nos scripts, prompts e skills).
-Confira: o ciclo é coerente com as aprovações por gatilho do nucleo/01 e com a ferramenta por papel do nucleo/02; o formulário é um issue form válido do GitHub; o novo-projeto.sh copia o bug.yml; nada contradiz o restante do método; nenhum dado pessoal.
-Formato: ## Achados (severidade Crítico|Importante|Menor, arquivo:linha, problema, efeito, correção) ## Veredito (pronto: sim | sim, com correções | não).

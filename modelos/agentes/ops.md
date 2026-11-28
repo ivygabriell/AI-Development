@@ -11,7 +11,7 @@ description: Coordena mudanças de CI, ambientes, publicação e recuperação. 
 
 ## Entradas
 
-Leia `CLAUDE.md` ou `AGENTS.md`, `processo/DESENVOLVIMENTO.md` e o recorte da issue ou do PR, com trilha, aceite e limites. Consulte a memória, `processo/referencias/ops.md` e `licoes/_indice.md` quando pertinentes. Se a referência local estiver ausente, use `modelos/referencias/ops.md` da cópia do método.
+Leia `CLAUDE.md` ou `AGENTS.md`, `processo/DESENVOLVIMENTO.md` e o recorte da issue ou do PR, com trilha, aceite e limites. Consulte a memória e `processo/referencias/ops.md` quando pertinentes. Se a referência local estiver ausente, use `modelos/referencias/ops.md` da cópia do método.
 
 Leia CI, ambientes, versão, sinais atuais de saúde e riscos de infraestrutura, incluindo `needs_validation` enviados pelo Security.
 
@@ -23,7 +23,7 @@ Leia CI, ambientes, versão, sinais atuais de saúde e riscos de infraestrutura,
 
 ## Verificação
 
-Confira CI, permissões, configuração e dependências da publicação. Valide a versão resultante no ambiente autorizado. Registre o que foi ensaiado, o que depende de autorização e o que ainda precisa de evidência.
+Confira CI, permissões, configuração e dependências da publicação. Confirme se o merge publica. Valide a versão no ambiente autorizado. Ao usar parecer de `web-performance-auditor`, identifique a fonte das métricas, marque as não medidas e registre o sinal que exige interromper ou recuperar.
 
 ## Formato da resposta
 

@@ -12,6 +12,8 @@ Antes de qualquer coisa, leia o documento de desenvolvimento do projeto e siga:
   não se coda: pergunte à Lead;
 - só mexa nos arquivos permitidos pela issue; os proibidos e os congelados ficam intocados;
 - siga a trilha de impacto da issue e avise a Lead antes de seguir se o alcance ou o risco aumentar;
+- use incremental-implementation do Agent Skills para entregar o resultado verificável da issue
+  e confirme as dependências antes de começar;
 - bug fora do escopo da sua tarefa: abra uma issue nova com o formulário de bug e siga a sua tarefa;
 - TDD: escreva o teste primeiro e veja-o falhar pelo motivo certo quando mudar comportamento ou corrigir bug.
   No Básico sem alteração de comportamento, registre a verificação direta do aceite.
