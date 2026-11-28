@@ -14,8 +14,8 @@ Antes de qualquer coisa:
    e-mail em nenhum arquivo) e me diga o que encontrou.
 
 Seu papel:
-- manter o núcleo, os modelos, as lições e as decisões.
-- na Fase 9, consultar o projeto em modo leitura e propor lições ou ajustes quando houver aprendizado reutilizável.
+- manter o núcleo, os modelos e as decisões.
+- na Fase 9, consultar o projeto em modo leitura e propor ajustes verificáveis quando houver aprendizado reutilizável.
 - registrar o motivo e a verificação de cada mudança do método.
 
 Regras de trabalho:

@@ -40,7 +40,7 @@ Sinais de que dividir ajuda: a mesma sessão está construindo e conferindo o pr
 3. Quem constrói usa TDD para mudança de comportamento ou correção de bug e registra as verificações da trilha.
 4. Antes do PR, atualiza a branch com a `main`, repete as verificações afetadas e abre o PR com `Closes #N` quando houver issue.
 5. A Lead valida conforme a trilha e confere o CI. Veja [Testes e auditoria](03-skills-e-testes.md) e o [prompt da Lead](../modelos/prompt-lead.md).
-6. A Lead confere os gatilhos de aprovação. Sem gatilho, integra e registra no resumo por marco. Com gatilho, espera o "pode integrar" da pessoa. Quando o merge publica automaticamente, resolve também o portão da publicação antes de integrar. Depois, confere a `main` e o CI. A branch fica no GitHub. Se houver worktree de tarefa, a Builder remove conforme a regra do método.
+6. A Lead aplica os [critérios de integração direta](01-fluxo-de-ponta-a-ponta.md#integração-direta) e confere os gatilhos pendentes. Quando o merge publica automaticamente, a autorização de publicação vem antes. Registre a decisão e, após integrar, confira a `main` e o CI. Preserve a branch remota e siga a regra de remoção da worktree.
 
 ## Ciclo de um bug
 
@@ -56,7 +56,7 @@ Um bug é um comportamento que diverge do combinado (critério de aceite, contra
 4. **Correção**: reproduzir; achar a **causa raiz**, não o sintoma; escrever um teste que **falha por causa do bug**; a correção mínima; a suíte inteira. O teste fica para sempre, e o mesmo bug não volta.
 5. **Bug achado no meio de outra tarefa:** dentro do escopo da tarefa, a Builder corrige ali; **fora do escopo**, abre uma **issue nova** de bug e segue a tarefa dela, sem crescer.
 6. **Validação e merge:** a Lead confere o comportamento combinado e repete os passos que reproduziam o bug. A revisão cruzada segue a trilha. A Lead integra sem gatilho. A publicação segue o portão da pessoa.
-7. **Aprendizado (Fases 8 e 9):** se a causa foi o processo (uma regra que faltou, uma verificação que não existia), o bug vira **lição** do método.
+7. **Aprendizado (Fases 8 e 9):** se a causa foi o processo (uma regra que faltou, uma verificação que não existia), registre a causa na memória do projeto e proponha a verificação que previne a regressão.
 
 **Correção urgente** (incidente em produção): a pessoa decide entre **reverter** a última publicação, quase sempre o mais rápido e seguro, e corrigir à frente. A correção à frente segue o mesmo ciclo, só com prioridade: o teste que reproduz o bug continua vindo antes da correção, e a publicação continua sendo um portão da pessoa. Depois, a retrospectiva do incidente vai para a memória do projeto.
 
@@ -117,8 +117,8 @@ O [Orca](https://github.com/stablyai/orca) coordena vários agentes de código, 
 
 1. Para delegar, a Lead abre a issue e cria a tarefa no Orca com a especificação padrão do [prompt da Lead](../modelos/prompt-lead-orca.md) (trilha e motivo, objetivo, requisitos (R-xx), telas em `processo/telas/` quando aplicáveis, aceite, arquivos permitidos e proibidos e verificações, `Closes #N`).
 2. O agente constrói, atualiza a branch com a `main`, roda as verificações da trilha, envia a branch, abre o PR e avisa o fim (`worker_done`). Dúvidas ou mudança de alcance vão para a Lead com `ask`.
-3. A Lead valida o PR (checklist do [03](03-skills-e-testes.md)) e confere os gatilhos de aprovação. Sem gatilho, integra com `gh pr merge N --merge` e registra no resumo por marco; com gatilho, cria o portão do merge e pergunta à pessoa.
-4. Com o "pode integrar" (quando havia gatilho), resolve o portão e integra; em qualquer caso, confere a `main` e o CI e libera o agente.
+3. A Lead aplica os critérios de integração direta e verifica os gatilhos. Cria portão para autorização aplicável pendente. Registra decisões diretas no resumo por marco.
+4. Com a evidência completa e os portões resolvidos, integra o SHA verificado, confere a `main` e o CI e libera o agente.
 
 **Limite inicial:** 1 Lead e até 3 agentes ao mesmo tempo. O painel e os avisos do Orca facilitam acompanhar; o número sobe ou desce com o caso.
 
@@ -163,7 +163,7 @@ Cada agente usa a **ferramenta do seu papel** (Claude Code ou Codex, seção aci
 | Backend | regras de negócio, APIs, autenticação, banco de dados | até 2 | em tarefa de API, regra de negócio ou dados |
 | Frontend | interface construída a partir das telas aprovadas e do design system | até 2 | em tarefa de interface |
 | Designer | UI e UX: identidade, design system e todas as telas no Figma (Fase 2, antes do código), registro em `processo/telas/`; não escreve código | não | sob demanda (Fases 1 e 2, tela nova) |
-| Security | mapa de riscos, revisão sensível e auditoria com a `security-audit` | não | quando houver desenho inicial, risco sensível ou auditoria autorizada |
+| Security | mapa de riscos e revisão com `security-and-hardening` | não | quando houver desenho inicial, risco sensível ou revisão abrangente autorizada |
 | Product | requisitos (fichas R-xx com o peso, em `processo/requisitos.md`), pesquisa com usuários, critérios de aceite | não | sob demanda (Fases 0 a 2) |
 | Ops | deploy, CI/CD, nuvem, monitoramento; dono do CI enquanto ativo | 1 por vez | sob demanda |
 

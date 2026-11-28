@@ -17,6 +17,12 @@ Impacto e motivo: <!-- Básico, Padrão ou Profundo, com a razão. -->
 
 ## Validação da Lead
 
-Gatilhos de aprovação: <!-- Nenhum ou liste quais, com o registro da decisão. Se o merge publicar, obtenha a autorização antes. -->
+Commit verificado: <!-- SHA do PR com evidência e revisão correspondentes. -->
 
-<!-- A Lead registra o que conferiu conforme a trilha e integra quando os portões estiverem resolvidos. -->
+Gatilhos de aprovação: <!-- Nenhum pendente ou indique o gatilho, a ação e o registro da autorização. Se o merge publicar, confira a autorização de publicação. -->
+
+- [ ] Escopo, arquivos permitidos e efeito do merge conferidos.
+- [ ] Verificações da trilha e CI esperado verdes no commit verificado.
+- [ ] Revisão aplicável registrada, com achados bloqueantes resolvidos.
+
+Decisão de integração: <!-- Integração direta, aguarda aprovação ou bloqueada. Registre o motivo e a evidência. -->

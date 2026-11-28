@@ -158,7 +158,7 @@ Consulte o núcleo e os modelos na cópia local do método. Este documento regis
 2. **Uma mudança, uma branch.** Nunca commit direto na \`main\`; tudo entra por Pull Request com o CI verde.
 3. **Teste primeiro nas mudanças de comportamento e correções de bugs.** Toda tarefa tem evidência e passa pelo CI obrigatório.
 4. **A Lead valida antes de integrar.** A trilha define o alcance e quando a revisão precisa ser independente.
-5. **As branches integradas ficam no GitHub.** Integre com \`gh pr merge N --merge\`, sem \`--delete-branch\`.
+5. **As branches integradas ficam no GitHub.** A Lead integra com \`gh pr merge N --merge --match-head-commit <SHA-verificado>\`, sem \`--delete-branch\`.
 6. **A pessoa decide o que tem impacto grande** (seção Aprovações, abaixo); o resto a Lead decide e registra.
 
 ## Ferramenta por papel
@@ -174,6 +174,10 @@ Uma decisão é da pessoa quando aciona pelo menos um gatilho. Ela muda **o que*
 
 - (nenhum ajuste ainda)
 
+## Integração direta
+
+A Lead integra o PR com aceite no escopo, CI e revisões da trilha no SHA verificado, regras da branch atendidas e autorizações resolvidas. No Básico, use verificação focada. No Padrão, use revisão independente e, quando houver duas ferramentas, revisão cruzada. No Profundo, use revisão especializada, recuperação prevista e autorização escrita que cubra a integração. Um merge que publica exige autorização de publicação. Consulte os critérios completos no núcleo 01.
+
 ## Impacto da tarefa
 
 - **Básico** para ajuste local e reversível com aceite curto, evidência focada e CI verde.
@@ -181,6 +185,10 @@ Uma decisão é da pessoa quando aciona pelo menos um gatilho. Ela muda **o que*
 - **Profundo** para vulnerabilidade, efeito alto em produção, ação difícil de desfazer ou risco relevante a dados, acesso ou disponibilidade. Registre os riscos, como conter ou recuperar e as aprovações aplicáveis.
 
 A Lead registra a trilha, o motivo, a verificação e o portão aplicável na issue ou no PR. Se o alcance mudar, reclassifica antes de seguir. Consulte "Impacto da tarefa" no núcleo 01.
+
+## Agent Skills
+
+Use o ciclo do núcleo 01. Registre a spec em \`processo/specs/\` quando a trilha exigir. Se houver várias tarefas, use \`processo/planos/\` para a sequência e as dependências. A issue guarda o aceite e a evidência da tarefa. Antes de seguir para a próxima, registre o comando e o resultado da verificação.
 
 ## Comandos do projeto
 

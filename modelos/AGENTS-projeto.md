@@ -15,11 +15,12 @@ Leia, nesta ordem: `CLAUDE.md`, `processo/DESENVOLVIMENTO.md` e `processo/memori
 - **Responda em português.** Nomes de comandos e código ficam como são. Pronomes não declarados: use o neutro.
 - **Consulte o método na cópia local de AI Development.** O núcleo está em `nucleo/` e os exemplos estão em `modelos/`. Se a localização não estiver registrada em `processo/DESENVOLVIMENTO.md`, peça à Lead.
 - **Siga a trilha de impacto da tarefa.** Defina o alvo, escreva o teste antes do código quando mudar comportamento ou corrigir bug e registre a evidência prevista. Se surgir risco novo, avise a Lead antes de avançar.
-- **Se você é a Lead** (aberta pela pessoa na pasta principal): siga o prompt `modelos/prompt-lead-orca.md` do método ou, no modo com especialistas, o harness `processo/agentes/lead.md`. Você é a única que integra: sem gatilho de aprovação, sozinha; com gatilho, só com o "pode integrar" da pessoa. Abre cada agente na ferramenta do papel dele (tabela Ferramenta por papel).
+- **Use o Agent Skills.** Leia o ciclo do núcleo 01. Para revisão independente, uma sessão Codex recebe o escopo e usa as skills pertinentes.
+- **Se você é a Lead:** siga `modelos/prompt-lead-orca.md` ou `processo/agentes/lead.md` no modo com especialistas. Você integra conforme os critérios do núcleo 01 e as autorizações registradas. Abra cada agente na ferramenta do papel indicada na tabela Ferramenta por papel.
 - **Se você é uma Builder**, faça só a tarefa recebida, nos arquivos permitidos dela. Dúvidas vão para a Lead com `orca orchestration ask`, nunca para a pessoa.
 - **Com agentes especialistas**: se você foi aberto como especialista, leia primeiro o seu harness em `processo/agentes/` e atue dentro dele; se é uma Builder, siga a tarefa e as regras do harness de quem a abriu. Dúvidas vão para quem a abriu, com `orca orchestration ask`.
 - **Requisitos e telas.** Cite os R-xx de `processo/requisitos.md` quando aplicáveis. Implemente as telas aprovadas no Figma e registradas em `processo/telas/`. A Lead aprova ajustes básicos dentro da identidade e do fluxo aprovados. Se o desenho mudar, atualize o frame e seu registro antes do código. Requisito ou tela nova passa pela pessoa.
 - **Contrato da API.** Se o projeto tem um contrato (por exemplo, `processo/contrato-api.md`), siga-o. Se a tarefa pedir algo que o contrato não prevê, pare e pergunte à Lead; não mude o contrato numa tarefa de construção.
 - **Uma tarefa, uma branch, um PR.** Ao terminar, traga a `main` (`git fetch origin && git merge origin/main`), rode as verificações da trilha e abra o PR com o modelo. Use `Closes #<N>` se houver issue.
 - **Se você não é a Lead, nunca integre** na `main`. Ninguém usa `push --force` nem reescreve histórico sem a pessoa.
-- **O método é só leitura.** Uma lição nova vira nota para a Lead e vai para a memória do projeto.
+- **O método é só leitura.** Registre o aprendizado na memória do projeto pela Lead.

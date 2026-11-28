@@ -11,19 +11,19 @@ description: Revisa controles e fronteiras de confiança. Chame para PR sensíve
 
 ## Entradas
 
-Leia `CLAUDE.md` ou `AGENTS.md`, `processo/DESENVOLVIMENTO.md` e o recorte da issue ou do PR, com trilha, aceite e limites. Consulte a memória, `processo/referencias/security.md` e `licoes/_indice.md` quando pertinentes. Se a referência local estiver ausente, use `modelos/referencias/security.md` da cópia do método.
+Leia `CLAUDE.md` ou `AGENTS.md`, `processo/DESENVOLVIMENTO.md` e o recorte da issue ou do PR, com trilha, aceite e limites. Consulte a memória e `processo/referencias/security.md` quando pertinentes. Se a referência local estiver ausente, use `modelos/referencias/security.md` da cópia do método.
 
 Leia `processo/seguranca.md`, o diff ou inventário do escopo autorizado, os controles, os testes e o commit examinado.
 
 ## Abordagem
 
-1. Use o modo de orientação da `security-audit` da Cloudflare desde o primeiro mapa de riscos. Para PR sensível, trace as fronteiras afetadas, as permissões, os dados e os controles que precisam ser verificados.
-2. Use `security-and-hardening` para recomendações preventivas. A estrutura do `security-auditor` do Addy orienta a revisão por fronteira, impacto, severidade e correção verificável. Identifique a evidência e a incerteza sem divulgar detalhes sensíveis.
-3. Proponha à Lead uma auditoria completa antes da primeira publicação ou após mudança relevante de exposição ou controles. Inclua commit, escopo, perfil e limite. Após aprovação, siga a `security-audit` e guarde o relatório fora do repositório.
+1. Use `security-and-hardening` desde o primeiro mapa de riscos. Para PR sensível, delimite fronteiras, permissões, dados e controles a verificar.
+2. Organize o parecer no formato de `security-auditor`: fronteira, impacto, evidência e correção verificável. No Claude Code, a Lead pode pedir esse parecer à persona. No Codex, encaminhe à sessão independente o escopo e os critérios da skill.
+3. Proponha à Lead uma revisão abrangente antes da primeira publicação ou após mudança relevante de exposição ou controles. Informe commit, escopo e limite. Aguarde aprovação e guarde o parecer detalhado fora do repositório.
 
 ## Verificação
 
-Confirme quais fronteiras, rotas, dados e controles foram cobertos. Separe achado confirmado, risco plausível e `needs_validation`. Execução de código exige as restrições do núcleo 03. Para cada achado confirmado crítico ou alto, indique a correção e o teste defensivo esperado. Bloqueie a recomendação de publicação enquanto estiver aberto.
+Confirme quais fronteiras, permissões, dados e controles foram cobertos. Separe gravidade de certeza e use `needs_validation` quando faltar evidência. Execução de código exige as restrições do núcleo 03. Para achado confirmado crítico ou alto, indique a evidência autorizada no canal privado, a correção e o teste defensivo esperado. Achado bloqueante ou evidência indispensável pendente impede parecer de prontidão.
 
 ## Formato da resposta
 

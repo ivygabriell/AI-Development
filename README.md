@@ -37,6 +37,10 @@ flowchart TB
 
 A Lead reclassifica se a investigação ampliar o alcance. Se o merge publica em produção, a pessoa autoriza a publicação **antes do merge**, inclusive no Básico. [Critérios, fases e portões](nucleo/01-fluxo-de-ponta-a-ponta.md)
 
+### Quando a Lead integra direto
+
+Um ajuste Básico no escopo pode passar com evidência focada. No Padrão, uma correção ou refatoração reversível pode seguir com testes e revisão independente. No Profundo, a Lead usa uma autorização escrita que já cubra a integração e seus efeitos. Em todas as trilhas, aceite, CI, revisão aplicável e portões precisam estar resolvidos no commit verificado. [Critérios de integração direta](nucleo/01-fluxo-de-ponta-a-ponta.md#integração-direta)
+
 ## Agentes e harnesses
 
 A Lead pode executar o Básico em uma sessão. Quando há delegação, o especialista recebe a tarefa, o alcance e a evidência esperada. Abre Builder quando o papel coordena implementação. Para revisão, a Lead escolhe a persona ou a sessão adequada e reúne os pareceres.
@@ -90,24 +94,26 @@ sequenceDiagram
 
 Os arquivos em `modelos/agentes/` usam missão e gatilho no cabeçalho, seguidos por entradas, abordagem, verificação, formato da resposta, regras e composição. Cada papel seleciona as skills pertinentes. A arquitetura aceita a ferramenta por papel ou uma ferramenta para todas as sessões. [Modelo de harness](modelos/agentes/_modelo-harness.md) · [Sessões e papéis](nucleo/02-sessoes-e-papeis.md) · [Decisão sobre ferramentas](decisoes/013-lead-e-builders-com-codex-e-claude.md)
 
-### Agent Skills e Cloudflare
+### Agent Skills
 
 | Onde | Como o método usa |
 |---|---|
 | **Claude Code** | Skills e, quando a Lead solicitar, personas de revisão como `code-reviewer`, `test-engineer` e `accessibility-auditor`. |
 | **Codex** | As mesmas skills. A revisão independente usa outra sessão com o harness e as skills pertinentes. |
-| **Segurança** | O formato do `security-auditor` orienta pareceres. A `security-audit` da Cloudflare é a referência da auditoria completa, com escopo e aprovação próprios. |
+| **Segurança** | Use `security-and-hardening` para riscos e controles. A revisão abrangente tem escopo e aprovação próprios. |
 
 [Personas do Agent Skills](https://github.com/addyosmani/agent-skills/blob/e997ac5b9a74eab332d5e9793bb38a38c8cfdd74/docs/agents.md) · [Guia do Codex](https://github.com/addyosmani/agent-skills/blob/e997ac5b9a74eab332d5e9793bb38a38c8cfdd74/docs/codex-setup.md) · [Testes e auditoria](nucleo/03-skills-e-testes.md)
+
+Veja as regras das cinco personas e onde cada uma entrou nos harnesses. [Auditoria das personas](planos/2026-11-27-personas-e-integracao.md)
+
+### Uma tarefa por vez
+
+Em projeto novo, feche requisitos, desenho e spec. Em projeto existente, comece pelo comportamento e pelas verificações que já existem. Planeje apenas o necessário para entregar o próximo resultado verificável. Registre o aceite, as dependências e a evidência na issue. Trabalho com várias tarefas ganha um plano em `processo/planos/`. [Ciclo e skills por fase](nucleo/01-fluxo-de-ponta-a-ponta.md#ciclo-do-agent-skills)
 
 ## Adotar em um projeto novo
 
 1. Instale Git, Node.js, GitHub CLI e o agente escolhido. Como o método está em um repositório privado, rode `gh auth login` e `gh auth setup-git` para acessar a cópia local.
-2. Instale o Agent Skills na ferramenta escolhida com o [guia oficial](https://github.com/addyosmani/agent-skills#quick-start). Para auditoria, instale a skill oficial da Cloudflare.
-
-   ```bash
-   npx skills add https://github.com/cloudflare/security-audit-skill --skill security-audit --global --agent claude-code codex -y
-   ```
+2. Instale o Agent Skills na ferramenta escolhida. [Guia de instalação](https://github.com/addyosmani/agent-skills#quick-start)
 
 3. Prepare um repositório Git para o produto. Da cópia local do método, gere os modelos.
 
@@ -145,7 +151,7 @@ Compare [VERSION](VERSION) e [CHANGELOG](CHANGELOG.md). Gere os modelos numa pas
 |---|---|
 | [`nucleo/`](nucleo/) | [Fluxo](nucleo/01-fluxo-de-ponta-a-ponta.md), [sessões](nucleo/02-sessoes-e-papeis.md), [testes](nucleo/03-skills-e-testes.md), [referências](nucleo/04-referencias-e-engenharia-reversa.md) e [Git e CI](nucleo/05-git-github-e-ci.md) |
 | [`modelos/`](modelos/) | Harnesses, formulários, prompts e arquivos de projeto |
-| [`licoes/`](licoes/_indice.md) e [`decisoes/`](decisoes/) | Aprendizados reutilizáveis e mudanças de regra |
+| [`decisoes/`](decisoes/) | Mudanças de regra e suas justificativas |
 | [`planos/`](planos/) e [`scripts/`](scripts/) | Planos de mudança, gerador de projetos e verificador |
 
-A retrospectiva fica na memória do projeto. Quando houver aprendizado reutilizável, registre a lição ou decisão e leve a alteração do método por PR. Use `node scripts/verificar.mjs` antes de abrir o PR. [Instruções da sessão do método](CLAUDE.md)
+A retrospectiva fica na memória do projeto. Quando houver aprendizado reutilizável, registre a mudança de regra em uma decisão e leve a alteração do método por PR. Use `node scripts/verificar.mjs` antes de abrir o PR. [Instruções da sessão do método](CLAUDE.md)

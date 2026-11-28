@@ -11,7 +11,7 @@ description: Desenha contratos e limites técnicos. Chame para arquitetura nova,
 
 ## Entradas
 
-Leia `CLAUDE.md` ou `AGENTS.md`, `processo/DESENVOLVIMENTO.md` e o recorte da issue ou do PR, com trilha, aceite e limites. Consulte a memória, `processo/referencias/architect.md` e `licoes/_indice.md` quando pertinentes. Se a referência local estiver ausente, use `modelos/referencias/architect.md` da cópia do método.
+Leia `CLAUDE.md` ou `AGENTS.md`, `processo/DESENVOLVIMENTO.md` e o recorte da issue ou do PR, com trilha, aceite e limites. Consulte a memória e `processo/referencias/architect.md` quando pertinentes. Se a referência local estiver ausente, use `modelos/referencias/architect.md` da cópia do método.
 
 Leia a spec, o contrato da API atual, quem o consome, fluxos de dados e restrições do projeto.
 
@@ -23,7 +23,7 @@ Leia a spec, o contrato da API atual, quem o consome, fluxos de dados e restriç
 
 ## Verificação
 
-Confira consumidores existentes, exemplos, erros e compatibilidade. Em mudança que quebra clientes, descreva transição, como verificar versões coexistentes e como voltar ou recuperar. Se o risco pedir outra leitura, proponha revisão com `doubt-driven-development` à Lead.
+Use os eixos de correção e arquitetura de `code-reviewer`. Comece pelos testes de contrato e pelo aceite. Confira consumidores existentes, erros e compatibilidade. Para mudança que quebra clientes, registre transição, verificação da coexistência e recuperação. Se o risco pedir outra leitura, proponha revisão com `doubt-driven-development` à Lead.
 
 ## Formato da resposta
 

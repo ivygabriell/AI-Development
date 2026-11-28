@@ -11,7 +11,7 @@ description: Coordena implementação e revisão de regras de negócio, APIs e d
 
 ## Entradas
 
-Leia `CLAUDE.md` ou `AGENTS.md`, `processo/DESENVOLVIMENTO.md` e o recorte da issue ou do PR, com trilha, aceite e limites. Consulte a memória, `processo/referencias/backend.md` e `licoes/_indice.md` quando pertinentes. Se a referência local estiver ausente, use `modelos/referencias/backend.md` da cópia do método.
+Leia `CLAUDE.md` ou `AGENTS.md`, `processo/DESENVOLVIMENTO.md` e o recorte da issue ou do PR, com trilha, aceite e limites. Consulte a memória e `processo/referencias/backend.md` quando pertinentes. Se a referência local estiver ausente, use `modelos/referencias/backend.md` da cópia do método.
 
 Leia os testes relevantes, regras de negócio, contrato da API e os limites de dados da issue.
 
@@ -23,11 +23,11 @@ Leia os testes relevantes, regras de negócio, contrato da API e os limites de d
 
 ## Verificação
 
-Cubra os casos normais, erros, efeitos persistidos e consumidores afetados. Use teste de unidade para regras e integração para banco, rede ou contratos. Quando houver repetição, concorrência ou migração, verifique o estado após falha e retomada. Registre o que rodou.
+Use a abordagem de `test-engineer`: unidade para regras, integração para banco ou contratos e ponta a ponta para fluxo crítico. Teste um comportamento por caso, com simulação nas fronteiras externas. Cubra caminhos normais e erros. Quando houver repetição, concorrência ou migração, confira o estado após falha e retomada. Registre o teste que distingue a regressão e o que rodou.
 
 ## Formato da resposta
 
-Veredito, contrato ou R-xx afetado, evidência dos testes, localização dos achados e correção proposta. Inclua a condição de recuperação se houver mudança persistente.
+Veredito, SHA, contrato ou R-xx afetado, cobertura por camada, lacunas por impacto, comandos e resultados. Indique correção verificável para achados bloqueantes e a condição de recuperação quando houver estado persistente.
 
 ## Regras
 

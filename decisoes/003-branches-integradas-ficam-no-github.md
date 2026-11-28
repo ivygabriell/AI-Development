@@ -16,4 +16,4 @@ Depois de um merge, a branch remota foi apagada por hábito, sem pedido. A pesso
 
 - O histórico das tarefas fica consultável.
 - A lista de branches cresce; é aceitável e filtrável.
-- Lição [017](../licoes/017-apagar-a-branch-remota-por-habito.md); atualizados o fluxo, as sessões, o git, o prompt da integradora e o script de remoção.
+- Lição 017; atualizados o fluxo, as sessões, o git, o prompt da integradora e o script de remoção.

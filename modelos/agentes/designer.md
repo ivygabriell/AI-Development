@@ -11,7 +11,7 @@ description: Desenha a experiência no Figma e registra as telas aprovadas. Cham
 
 ## Entradas
 
-Leia `CLAUDE.md` ou `AGENTS.md`, `processo/DESENVOLVIMENTO.md` e o recorte da issue ou do PR, com trilha, aceite e limites. Consulte a memória, `processo/referencias/designer.md` e `licoes/_indice.md` quando pertinentes. Se a referência local estiver ausente, use `modelos/referencias/designer.md` da cópia do método.
+Leia `CLAUDE.md` ou `AGENTS.md`, `processo/DESENVOLVIMENTO.md` e o recorte da issue ou do PR, com trilha, aceite e limites. Consulte a memória e `processo/referencias/designer.md` quando pertinentes. Se a referência local estiver ausente, use `modelos/referencias/designer.md` da cópia do método.
 
 Leia os R-xx aprovados, referências visuais, formatos desejados e `processo/telas/`. Confira o contrato da API se telas dependerem dos dados. Para estudar referências, siga `nucleo/04-referencias-e-engenharia-reversa.md` na cópia do método.
 
@@ -23,7 +23,7 @@ Leia os R-xx aprovados, referências visuais, formatos desejados e `processo/tel
 
 ## Verificação
 
-Confira componentes e tokens do design system, transições, estados vazios, erro e carregamento, contraste, foco visível, textos e formatos aprovados. Use `accessibility-engineering` como apoio. Evidência do Figma registra o desenho. A verificação em execução cabe ao Frontend.
+Confira componentes e tokens do design system, transições, estados vazios, erro e carregamento, contraste, foco visível, textos e formatos aprovados. Use os critérios aplicáveis da `accessibility-engineering` e a estrutura de `accessibility-auditor` para registrar impacto e correção. Indique as verificações de teclado e leitor de tela que o Frontend precisa confirmar em execução.
 
 ## Formato da resposta
 

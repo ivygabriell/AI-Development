@@ -1,5 +1,7 @@
 # 05 · Git, GitHub e CI
 
+Use `git-workflow-and-versioning` para organizar branches e commits e `ci-cd-and-automation` para configurar ou revisar o pipeline. O fluxo abaixo define quem integra e quais portões resolvem a ação.
+
 A infraestrutura que sustenta o método: branches, Pull Requests, verificação automática, proteção da `main`, etiquetas e worktrees. Os comandos usam o `git` e o GitHub CLI (`gh`, já autenticado com `gh auth login`).
 
 ## Branches e commits
@@ -13,11 +15,11 @@ A infraestrutura que sustenta o método: branches, Pull Requests, verificação 
 
 1. Branch enviada, CI rodando sozinho.
 2. `gh pr create --base main --head <branch> --title "..." --body-file corpo.md` (use o modelo em [modelos](../modelos/pull_request_template.md)).
-3. Com o CI verde e a validação feita, `gh pr merge N --merge` (sem `--delete-branch`: as branches integradas ficam no GitHub como histórico consultável). Escolhemos o commit de merge porque ele **registra o PR no histórico**.
+3. Aplique os [critérios de integração direta](01-fluxo-de-ponta-a-ponta.md#integração-direta). Quando o PR estiver pronto, a Lead usa `gh pr merge N --merge --match-head-commit <SHA-verificado>`. Preserve a branch remota para manter o histórico.
 4. Atualize a `main` local (`git switch main && git pull --ff-only && git fetch --prune`) e rode as suítes de novo **na `main`**.
 5. Acompanhe o CI da `main`: `gh run list --branch main --limit 1`.
 
-Antes de integrar, confirme o estado: `gh pr view N --json state,mergeable,mergeStateStatus,statusCheckRollup`. Logo depois de criar um PR o GitHub pode responder `UNKNOWN`; espere alguns segundos.
+Antes de integrar, confira `gh pr view N --json state,isDraft,headRefOid,mergeable,mergeStateStatus,statusCheckRollup`. Compare os checks com os esperados pelo projeto e com o SHA revisado. Estado `UNKNOWN` pede nova consulta. A Lead usa a proteção da branch e a fila de merge quando configuradas. [Comando de merge e opções](https://cli.github.com/manual/gh_pr_merge)
 
 ## Verificação automática (CI)
 
@@ -53,7 +55,7 @@ Para outras stacks, troque os passos (o resto fica igual):
 
 Ative **depois** do primeiro CI verde (o check precisa existir para ser exigido). Exige PR, o check verde e a branch em dia; bloqueia push forçado e exclusão; deixa o administrador contornar numa emergência.
 
-**Disponibilidade:** a proteção depende do plano. Num repositório **privado** de uma conta gratuita, o GitHub recusa o comando abaixo com HTTP 403 (*"Upgrade to GitHub Pro or make this repository public to enable this feature."*). Confira a visibilidade antes (`gh repo view --json visibility`). Se a proteção não estiver disponível, a pessoa escolhe entre plano pago, repositório público ou seguir sem proteção; no último caso, registre no `CLAUDE.md` ou no `processo/DESENVOLVIMENTO.md` que a regra "nunca commit direto na `main`" vale só pela disciplina das sessões ([lição 019](../licoes/019-protecao-da-main-indisponivel-em-repositorio-privado.md)).
+**Disponibilidade:** a proteção depende do plano. Num repositório **privado** de uma conta gratuita, o GitHub recusa o comando abaixo com HTTP 403 (*"Upgrade to GitHub Pro or make this repository public to enable this feature."*). Confira a visibilidade antes (`gh repo view --json visibility`). Se a proteção não estiver disponível, a pessoa escolhe entre plano pago, repositório público ou seguir sem proteção; no último caso, registre no `CLAUDE.md` ou no `processo/DESENVOLVIMENTO.md` que a regra "nunca commit direto na `main`" vale só pela disciplina das sessões.
 
 ```bash
 cat > protecao.json <<'EOF'

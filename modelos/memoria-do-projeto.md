@@ -1,6 +1,6 @@
 # Memória do projeto
 
-A memória do projeto é o que a próxima sessão precisa saber para não recomeçar do zero. Guarde no mecanismo de memória do Claude Code ou em um `CLAUDE.md` na raiz. **Regra:** guarde o que não dá para descobrir lendo o código ou o histórico (decisões, preferências, pendências, lições), e nunca dados sensíveis.
+A memória do projeto é o que a próxima sessão precisa saber para não recomeçar do zero. Guarde em `processo/memoria-do-projeto.md`. **Regra:** guarde o que não dá para descobrir lendo o código ou o histórico (decisões, preferências, pendências e aprendizados), e nunca dados sensíveis.
 
 ## O que guardar
 
@@ -11,7 +11,7 @@ A memória do projeto é o que a próxima sessão precisa saber para não recome
 | **Decisões do projeto** | Público-alvo, estrutura aprovada, paleta, o que não pode mudar, o que ficou de fora e por quê |
 | **Estado** | O que está integrado, o que está em andamento, o endereço do repositório, os comandos de teste |
 | **Pendências** | Lista curta e viva, com a decisão que cada uma espera |
-| **Lições** | Regras que vieram de um erro (por exemplo, "achar a seção pelo título exato") |
+| **Aprendizados** | O que mudou no aceite ou na verificação do projeto após uma regressão |
 | **Tarefas e retrabalho** | Por tarefa: a issue, o especialista (no modo com especialistas), a ferramenta (Claude Code ou Codex), as passagens entre ferramentas, se houve retrabalho e por quê, e o consumo. É a medida dos modos na Fase 9 |
 | **Referências** | Onde estão a spec, o plano, o painel de tarefas e a referência estudada |
 
